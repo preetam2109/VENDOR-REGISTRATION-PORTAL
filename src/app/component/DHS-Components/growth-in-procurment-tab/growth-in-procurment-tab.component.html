@@ -1,0 +1,44 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+  <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+    <strong style="text-align: center;">Growth in Procurement </strong>
+    <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="home()" *ngIf="isLoggedIn">
+  </h1>
+  </div>
+   
+  <div class="container-fluid">
+    <mat-tab-group
+      [(selectedIndex)]="selectedTabIndex"
+      (selectedTabChange)="selectedTabValue($event)"
+    >
+    <mat-tab
+      label="Orders against Annual Indent in F.Y"
+      [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
+    >
+      <ng-template matTabContent>
+        <app-growth-in-procurment-two
+          *ngIf="selectedTabIndex === 0"
+        ></app-growth-in-procurment-two>
+      </ng-template>
+    </mat-tab>
+      <mat-tab
+        label="Orders in F.Y"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+      >
+        <ng-template matTabContent>
+          <app-growth-in-procurment *ngIf="selectedTabIndex === 1"></app-growth-in-procurment>
+        </ng-template>
+      </mat-tab>
+      
+      <mat-tab
+        label="Annual Indent vs Orders"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
+             >
+        <ng-template matTabContent>
+          <app-directorate-aidetails
+            *ngIf="selectedTabIndex === 2"
+          ></app-directorate-aidetails>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  

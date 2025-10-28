@@ -1,0 +1,632 @@
+
+<div class="container-fluid p-2"  [style.min-height]="!workdetails || workdetails.length === 0 ? '100vh' : null"  >
+    <div class="row justify-content-center">
+        <!-- <label for="items" class="form-label">Select Distric</label> -->
+        <ngx-select-dropdown class="leftside" id="worK_ID" [(ngModel)]="items" #itemsModel="ngModel" [config]="config"
+            [options]="workfill" placeholder="Select Works" bindLabel="searchname" bindValue="worK_ID"
+            placeholder="Select Distric" name="searchname" (change)="onGetDistrictsSelect($event)"
+            style=" text-align: left;">
+            <!-- required -->
+        </ngx-select-dropdown>
+    </div>
+</div>
+
+
+<!-- <div id="chart">
+    <apx-chart
+      *ngIf="chartOptions.series.length > 0"  
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xaxis"
+      [colors]="chartOptions.colors"
+      [title]="chartOptions.title"
+      [tooltip]="chartOptions.tooltip"
+      [legend]="chartOptions.legend"
+    ></apx-chart>
+  </div> -->
+  
+
+
+<!-- *ngIf="ProjectTimelinedata.length > 0" -->
+<!-- <div class="container-fluid p-2" *ngIf="ProjectTimelinedata.length > 0">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 mb-2 border rounded">
+            <div class="chart-container">
+                <div id="chart">
+                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                        [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"
+                        [tooltip]="chartOptions.tooltip" [plotOptions]="chartOptions.plotOptions">
+                    </apx-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+  
+  
+  
+
+<ng-container *ngFor="let detail of workdetails">
+    <!-- <div class="container-fluid p-2" *ngIf="ProjectTimelinedata.length > 0"> -->
+    <div class="container-fluid p-2" >
+        <div class="row p-3">
+            <div class="col-12 col-md-11 mb-2 border rounded  card">
+                <div class="chart-container">
+                    <!-- <div class=" card shadow"> -->
+                    <apx-chart class="" style="colors: #000" *ngIf="chartOptions.series.length > 0"  [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                    [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"[title]="chartOptions.title"
+                            [stroke]="chartOptions.stroke"[legend]="chartOptions.legend" 
+                            [tooltip]="chartOptions.tooltip" [plotOptions]="chartOptions.plotOptions">
+                        </apx-chart>
+                        <!-- <apx-chart
+      *ngIf="chartOptions.series.length > 0"  
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xaxis"
+      [colors]="chartOptions.colors"
+      [title]="chartOptions.title"
+      [tooltip]="chartOptions.tooltip"
+      [legend]="chartOptions.legend"
+    ></apx-chart> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+                 <div class="col-12 col-md-1 mb-2 card  border rounded">
+                    <span class="d-flex  flex-row-reverse p-2 ">
+                        <button class="btn btn-light btn-sm btn-outline-secondary align-items-center" (click)="exportAsPDF()">
+                            <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                        </button>
+                    </span>
+                    
+                </div>
+        </div>
+
+    </div>
+    <!-- <span class="d-flex  flex-row-reverse p-2 ">
+        <button class="btn btn-light btn-sm btn-outline-secondary align-items-center" (click)="exportAsPDF()">
+            <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+        </button>
+    </span> -->
+    <div id="workdetails">
+
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <!-- Work Details -->
+                    <!-- <div class="col-12 text-center font-weight-bold  py-1">
+                    Works Abstract Report
+                    Administrative Approvals
+                </div> -->
+                    <div class="row border mb-0 mt-0">
+                        <div class="col-12 border text-center font-weight-bold  py-1 text-white" style="background: #000;">
+                            <strong>Basic Details</strong>
+                        </div>
+                        <div class="col-12 col-md-8 border p-2 d-flex">
+                            <strong>Work Name:</strong>
+                            <span class="ml-2">{{detail.work}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Work Code:</strong>
+                            <span class="ml-2">{{detail.work_id}}</span>
+                        </div>
+                        <div class="col-12 col-md-5 border p-2 d-flex">
+                            <strong>Type of Work:</strong>
+                            <span class="ml-2">{{detail.type_name}}</span>
+                        </div>
+                        <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Grant:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.grantname}}</span>
+                        </div>
+                        <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Head No:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.grantNo}}</span>
+                        </div>
+                        <div class="col-6 col-md-3 border p-2 d-flex flex-row">
+                            <strong>District:</strong>
+                            <span class="ml-2">{{detail.dbStart_Name_En}}</span>
+                        </div>
+                        <div class="col-6 col-md-5 border p-2 d-flex flex-row">
+                            <strong>Block:</strong>
+                            <span class="ml-2">{{detail.blockname}}</span>
+                        </div>
+                        <div class="col-6 col-md-3 border p-2 d-flex flex-row">
+                            <strong>Division:</strong>
+                            <span class="ml-2">{{detail.divName_En}}</span>
+                        </div>
+                      <div class="col-6 col-md-4 border p-2 d-flex flex-row">
+                        <strong class="mt-0" *ngIf="roleName != 'Infrastructure_Public'">AS Letter Number:</strong>
+                        <a type="link" class="btn-link" (click)="onButtonClick2(0,detail.work_id)" style="cursor: pointer;"><span class="ml-2 mt-0 pt-0 h6" style="font-size:14px;" *ngIf="roleName != 'Infrastructure_Public'">{{detail.letterNo}}</span></a>
+                        <!-- <button type="link" class="btn btn-link" (click)="onButtonClick2(0,detail.work_id)"><span class="ml-2">{{detail.letterNo}}</span></button> -->
+                        <!-- <a class="link" type="link" (click)="onButtonClick2(0,detail.work_id)">  <span class="ml-2"> {{detail.letterNo}}</span></a> -->
+                        </div>
+                        <div class="col-6 col-md-5 border p-2 d-flex flex-row">
+                            <strong>Fund Head:</strong><span class="ml-2">{{detail.head}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong> Approver:</strong>
+                            <span class="ml-2">{{detail.approver}}</span>
+                        </div>
+                        <div class="col-6 col-md-4 border p-2 d-flex flex-row">
+                            <strong>AS Amount (in Lacs)</strong><span class="ml-2">{{detail.aaamt}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-5 border p-2 d-flex flex-row">
+                            <strong>AS Date:</strong>
+                            <span class="ml-2">{{detail.aaDate}}</span>
+                        </div>
+
+                        <div class="col-6 col-md-3 border p-2 d-flex flex-row">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">TS Date:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.tsDate}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-4 border p-2 d-flex flex-row">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">TS Amount (in Lacs):</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.tsamt}}</span>
+                        </div>
+                        <!-- <div class="col-12 col-md-3 border p-2 d-flex">
+                        <strong>DivisionId:</strong>
+                        <span class="ml-2">{{detail.divisionid}}</span>
+                    </div> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tender/Acceptance Details -->
+
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-2">
+                        <div class="col-12 text-center font-weight-bold  py-1 bg-primary  text-white">
+
+                            <strong> Tender/Acceptance Details </strong>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong> NIT Ref No:</strong>
+                            <span class="ml-2">{{detail.tenderReference}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>NIT Issued Date:</strong>
+                            <span class="ml-2">{{detail.dateOfIssueNIT}}</span>
+                        </div>
+                        <div class="col-12 col-md-5 border p-2 d-flex flex-row">
+                            <strong>Acceptance Letter Date:</strong>
+                            <span class="ml-2">{{detail.acceptLetterDT}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">PAC:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.pac}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Contract Amount (in Lacs):</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.totalAmountOfContract}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex flex-row">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Sanction:</strong> <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.sanctionDetail}}</span>
+                        </div>
+                        <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Sanction Rate:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.sanctionRate | percent}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Contract Amount (in Lacs):</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.totalAmountOfContract}}</span>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contractor Details -->
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-2">
+                        <div class="col-12 text-center font-weight-bold  py-1 text-light" style="background-color: #4B0082 ;">
+                            <strong> Contractor Details </strong>
+                            <!-- bg-primary text-white -->
+                        </div>
+                        <div class="col-12 col-md-8 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Contractor ID:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.cid}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Class:</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.class}}</span>
+                            
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Contractor:</strong>
+                            <span class="ml-2">{{detail.contractorNAme}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Mobile No:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.mobNo}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Registration Type:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.regType}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Class:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.class}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--    Work Order Details-->
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-1">
+                        <div class="col-12 text-center font-weight-bold  py-1 text-white " style="background-color: #FF8C00;">
+                            <strong>Work Order Details</strong>
+
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Work Order Ref No:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.workorderRefNoGovt}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Agreement Ref No:</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.agreementRefNo}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Work Order Date:</strong>
+                            <span class="ml-2">{{detail.wrokOrderDT}}</span>
+                        </div>
+
+
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Time Allowed (In Month):</strong>
+                            <span class="ml-2">{{detail.timeAllowed}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Due Date Of Completion:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.actualDueDT}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-4 border p-2 d-flex ">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Year of Agreement:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.yearofAgreement}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex ">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Agreement No:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.agreementNo}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex ">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Agreement Ref No:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.agreementRefNo}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">PG Required:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.pgReq}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <!-- <strong>Sub Engineer:</strong> -->
+                            <!-- <span class="ml-2">{{detail.subengname}}</span> -->
+                        </div>
+
+                        <!-- <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong>Desig:</strong>
+                            <span class="ml-2">{{detail.desig}}</span>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <!-- Financial Progress -->
+        <div class="container-fluid p-2" *ngIf="roleName != 'Infrastructure_Public'">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-1">
+                        <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #FF4500;">
+                            <strong>Financial Progress</strong>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Expenditure Amount (In Lacs):</strong>
+                            <span class="ml-2">{{detail.expd}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Final Bill Paid:</strong>
+                            <span class="ml-2">{{detail.fBill}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Unpaid Bill Amount (In Lacs):</strong>
+                            <span class="ml-2">{{detail.expPending}}</span>
+                        </div>
+                        <!-- <ng-container *ngFor="let BillData of WorkBillStatusData">
+
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Bill No:</strong>
+                            <span class="ml-2">{{BillData.billno}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>AGR Bill Status:</strong>
+                            <span class="ml-2">{{BillData.agrbillstatus}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Measurement DT:</strong>
+                            <span class="ml-2">{{BillData.mesurementDT}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Bill date:</strong>
+                            <span class="ml-2">{{BillData.billdate}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Gross Paid:</strong>
+                            <span class="ml-2">{{BillData.grossPaid}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Cheque No:</strong>
+                            <span class="ml-2">{{BillData.chequeNo}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Days Since Measurement:</strong>
+                            <span class="ml-2">{{BillData.daysSinceMeasurement}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Bill Status:</strong>
+                            <span class="ml-2">{{BillData.billStatus}}</span>
+                        </div>
+                        <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong>Bill MB No:</strong>
+                            <span class="ml-2">{{BillData.billmbno}}</span>
+                        </div>
+                        <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong>MB No.:</strong>
+                            <span class="ml-2">{{BillData.mbno}}</span>
+                        </div>
+                    </ng-container> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- bill information -->
+        <div class="container-fluid p-2"  *ngIf="dataSource.data != null">
+        <!-- <div class="container-fluid p-2"  *ngIf="dataSource.data.length > 0"> -->
+            <div class="card shadow" *ngIf="roleName != 'Infrastructure_Public'">
+                <div class="card-body">
+                    <div class="row border mb-2">
+                        <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #127c23;">
+                            <strong>Bill-wise Payment  Status</strong>
+                        </div>
+                     
+                            <!-- <div class="row card shadow card-body "> -->
+                              <div class="d-flex justify-content-between align-items-center mb-2 mt-2">
+                                <!-- <div class="filter-field flex-grow-1">
+                                  <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                                </div> -->
+                                <div class="export-menu-container p-1">
+                                  <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                                    [matMenuTriggerFor]="exportMenu">Export</button>
+                                  <mat-menu #exportMenu="matMenu">
+                                    <button mat-menu-item
+                                      (click)="exporter.exportTable('xlsx', { fileName: 'BillWisePayment', sheet: 'BillWisePayment', Props: { Author: 'cgmsc' }})">Excel</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                    <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                                    <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                  </mat-menu>
+                                </div>
+                              </div>
+                        
+                              <div class="table-responsive ">
+                                <table class="table table-bordered table-striped border rounded" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+                                <!-- <table class="table table-bordered table-striped border rounded " mat-table matTableExporter [dataSource]="dataSource"
+                                  #exporter="matTableExporter" matSort> -->
+                                  <!-- <ng-container matColumnDef="sno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                                  </ng-container> -->
+                                  <ng-container matColumnDef="billno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill No</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.billno}}</td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="agrbillstatus">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>AGR Bill Status</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.agrbillstatus}} </td>
+                                  </ng-container>
+                                 
+                                
+                                  <ng-container matColumnDef="mesurementDT">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Measurement DT</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.mesurementDT}} </td>
+                                  </ng-container>
+                                 
+                                  <ng-container matColumnDef="billdate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill date</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.billdate}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="grossPaid">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Gross Paid(in Lacs)</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.grossPaid}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="chequeDT">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cheque DT</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.chequeDT}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="chequeNo">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cheque No</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.chequeNo}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="daysSinceMeasurement">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Days Since Measurement</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.daysSinceMeasurement}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="billStatus">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Status</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.billStatus}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="billmbno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill MB No</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.billmbno}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="mbno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>MB No</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.mbno}} </td>
+                                  </ng-container>
+                                  <!-- <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef>Download AS</th>
+                                    <td mat-cell *matCellDef="let element">
+                                      <span class="d-flex  flex-row-reverse p-2 ">
+                                        <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                                          (click)="onButtonClick2(0,element.work_id)">
+                                          <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                                        </button>
+                                      </span>
+                                    </td>
+                                  </ng-container> -->
+                                
+                                  <tr mat-header-row
+                                  *matHeaderRowDef="['billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeDT','chequeNo','daysSinceMeasurement','billStatus','billmbno','mbno']">
+                                  </tr>
+                                  <!-- Data Rows -->
+                                  <tr mat-row
+                                    *matRowDef="let row; columns: ['billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeDT','chequeNo','daysSinceMeasurement','billStatus','billmbno','mbno']">
+                                  </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                                <!-- <mat-paginator  [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator> -->
+                              </div>
+                            <!-- </div> -->
+                        
+                        
+                       
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- Physical Progress  -->
+         <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-1">
+                        <div class="col-12 text-center font-weight-bold  py-1 text-light" style="background-color: #00008B;">
+                            <strong>Physical Progress</strong>
+
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Main Progress</strong>
+                            <span class="ml-2">{{detail.dashName}}</span>
+                        </div>
+                        <div class="col-12 col-md-5 border p-2 d-flex">
+                            <strong>Progress Group:</strong>
+                            <span class="ml-2">{{detail.groupName}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>Progress Level:</strong>
+                            <span class="ml-2">{{detail.lProgress}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Last Progress Date:</strong>
+                            <span class="ml-2">{{detail.pdate}}</span>
+                        </div>
+                        <div class="col-12 col-md-5 border p-2 d-flex">
+                            <strong>Progress Remarks:</strong>
+                            <span class="ml-2">{{detail.pRemarks}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Delay Remarks:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.remarks}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Sub Engineer:</strong>
+                            <span class="ml-2">{{detail.subengname}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-5 border p-2 d-flex">
+                            <strong>Designation:</strong>
+                            <span class="ml-2">{{detail.desig}}</span>
+                        </div>
+                        <!-- <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>Desig:</strong>
+                            <span class="ml-2">{{detail.desig}}</span>
+                        </div> -->
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Entered By:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{ detail.progressEnterby }}</span>
+                        </div>
+                        <div class="col-12 col-md-9 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Entry Date/Time:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{ detail.progressEntryTime | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Expected Completion Date(If Running):</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.expCompDT | date: 'dd-MM-yyyy' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row  mb-0">
+                        <div class="col-12 text-center font-weight-bold  py-1 text-light " style="background-color: #00008B;">
+                            <strong>Current Progress Image</strong>
+
+                        </div>
+                        <!-- <div class="col-12 text-center font-weight-bold pl-2 pr-2 ">
+                            <img class="border" [src]="'data:image/jpeg;base64,' + base64Data" width="100%"
+                                alt="Image">
+        
+                        </div> -->
+                        <div id="carouselExampleControls" class="carousel slide pt-2 mt-2" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <!-- <img class="d-block w-100" src="..." alt="First slide"> -->
+                                    <img class="border" [src]="'data:image/jpeg;base64,' + base64Data" width="100%" height="450px"
+                                                alt="Image">
+                                </div>
+                                <div class="carousel-item">
+                                    <!-- <img class="d-block w-100" src="E:\Emis_Dashboard_27-06-24-master\src\assets\images\doctor-s-hand-holding-pills.jpg" alt="Second slide"> -->
+                                    <!-- <img class="border" [src]="'data:image/jpeg;base64,' + base64Data" width="100%"  href="#carouselExampleControls" -->
+                                    <!-- alt="Image"> -->
+                                </div>
+                                <div class="carousel-item">
+                                    <!-- <img class="d-block w-100" src="E:\Emis_Dashboard_27-06-24-master\src\assets\images\cg-govt.png" alt="Third slide"> -->
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev"  data-bs-target="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" data-bs-target="#carouselExampleControls"  role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        
+    </div>
+</ng-container>
+
+
+
+  <!-- <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+                      [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"[legend]="chartOptions.legend" 
+                      [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+                      [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"  
+                       ></apx-chart> 
+                       <apx-chart
+                        [series]="chartOptions.series"
+                        [chart]="chartOptions.chart"
+                        [dataLabels]="chartOptions.dataLabels"
+                        [xaxis]="chartOptions.xaxis"
+                        [tooltip]="chartOptions.tooltip"
+                        [plotOptions]="chartOptions.plotOptions">
+                      </apx-chart>-->

@@ -1,0 +1,32 @@
+
+
+
+
+<div class="category-selector" *ngIf="role === 'SEC1' || role === 'DHS' || role === 'CME' || role === 'Collector' || role === 'DME1' || role === 'HR' ">
+  <h1 style="color: maroon;">Verticals of CGMSC</h1>
+
+  <div class="row">
+    <ng-container *ngFor="let category of categories">
+      <ng-container *ngIf="shouldDisplayCategory(category)">
+        <div class="col-md-4" (click)="selectCategory(category)">
+          <div class="card category-card" [ngClass]="{ 'selected': selectedCategory === category }">
+            <img class="card-img-top" [src]="getImageForCategory(category)" alt="Category image">
+            <div class="card-body">
+              <h5 class="card-title">
+                {{ category === 'DrugsConsumables' 
+                    ? 'Drugs & Consumables' 
+                    : (category === 'EquipmentReagent' 
+                        ? 'Equipment & Reagents' 
+                        : (category === 'Admin' 
+                            ? 'Admin / HR' 
+                            : 'Infrastructure')) 
+                }}
+              </h5>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
