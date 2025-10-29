@@ -39,26 +39,28 @@ export class GenerateRegistrationComponent {
     this.form2 = this.fb.group({ review: ['', Validators.required] });
   }
 
+  
+
+
   generate() {
     try {
       this.api.RegisterVendor(sessionStorage.getItem('facilityid')).subscribe({
-        next: (res: any) => {
-          // Handle success response
-          this.toastr.success('Vendor registration generated successfully!', 'Success');
+        next: (res: string) => {
           console.log('Response:', res);
+          this.toastr.success(`Vendor registration generated successfully! Registration No: ${res}`, 'Success');
         },
         error: (err) => {
-          // Handle API error
           console.error('API Error:', err);
           this.toastr.error('Failed to generate vendor registration. Please try again.', 'Error');
         }
       });
     } catch (error) {
-      // Handle unexpected runtime errors
       console.error('Unexpected Error:', error);
       this.toastr.error('Something went wrong. Please contact support.', 'Error');
     }
   }
+  
+  
 
 
    // example submit: call API, on success advance the stepper
