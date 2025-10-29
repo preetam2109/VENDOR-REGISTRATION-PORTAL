@@ -102,4 +102,39 @@
 
 
 
+
+
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  mat-drawer-container,
+  mat-drawer-content,
+  mat-drawer {
+    height: 100vh !important;
+    min-height: 100vh;
+  }
+  
+  .main-container {
+    height: calc(100vh - 64px) !important; /* adjust if toolbar height changes */
+  }
+  
+  .content-area {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 64px);
+    background-color: #f8f9fa;
+  }
+  
+  .footer {
+    margin-top: auto;
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+    color: #555;
+    font-size: 0.9rem;
+  }
+  
   

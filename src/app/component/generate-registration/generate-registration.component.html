@@ -1,0 +1,74 @@
+<div class="container mt-2 text-center">
+
+  <app-stepper #stepper [steps]="steps" [(current)]="currentStep"></app-stepper>
+</div>
+
+<div class="mt-4">
+  <ng-container [ngSwitch]="currentStep">
+    <form *ngSwitchCase="0" [formGroup]="form1" (ngSubmit)="submitStep1()">
+ 
+      <button class="btn btn-primary" type="submit">Submit Step 1</button>
+    </form>
+
+    <form *ngSwitchCase="1" [formGroup]="form2" (ngSubmit)="submitStep2()">
+      <button class="btn btn-primary" type="submit">Submit Step 2</button>
+    </form>
+
+ 
+  </ng-container>
+</div>
+
+
+
+<!-- show the form for current step -->
+<!-- <div class="mt-4">
+  <ng-container [ngSwitch]="currentStep">
+    <app-step-one *ngSwitchCase="0" (completed)="onStepComplete()"></app-step-one>
+    <app-step-two *ngSwitchCase="1" (completed)="onStepComplete()"></app-step-two>
+    <app-step-three *ngSwitchCase="2" (completed)="onStepComplete()"></app-step-three>
+    <app-step-four *ngSwitchCase="3" (completed)="onAllDone()"></app-step-four>
+  </ng-container>
+</div> -->
+
+
+
+
+<!-- <title>Vendor Registration</title> -->
+<div class="container mt-5">
+  <div class="card p-4">
+    <h4 class="text-center mb-4 fw-bold">Vendor Registration</h4>
+
+    <!-- Generate Button -->
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-success" (click)="generate()">
+        <i class="bi bi-plus-circle"></i> Generate
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle">
+        <thead>
+          <tr>
+            <th>Registration No</th>
+            <th>Registration Date</th>
+            <th>Status</th>
+            <th>Approved Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CGMSCeR00008</td>
+            <td>16-10-2025</td>
+            <td><span class="status-incomplete">Incomplete</span></td>
+            <td><span class="approved-status">-</span></td>
+            <td><span class="delete-link">Delete</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
