@@ -1714,21 +1714,25 @@ RegisterVendor(supplierId: any) {
 
 
 getVendorDetails(supplierId:any) {
+  debugger
   return this.http.get(`${this.VREGAPI}/Registration/vendorDetail?supplierId=${supplierId}`);
 }
 
-updateVendor(vendor: any) {
-  const params = new HttpParams()
-    .set('authMobileNo', vendor.authmobileno)
-    .set('authEmail', vendor.authemail)
-    .set('authName', vendor.authname)
-    .set('authSigName', vendor.authsigname)
-    .set('authSigMobileNo', vendor.authsigmobileno)
-    .set('authSigEmailId', vendor.authsigemailid)
-    .set('vregId', vendor.supplierid);
+updateVendor(params: any, formData: FormData) {
+  debugger
+  let httpParams = new HttpParams()
+    .set('authMobileNo', params.authMobileNo)
+    .set('authEmail', params.authEmail)
+    .set('authName', params.authName)
+    .set('authSigName', params.authSigName)
+    .set('authSigMobileNo', params.authSigMobileNo)
+    .set('authSigEmailId', params.authSigEmailId)
+    .set('pancardno', params.pancardno)
+    .set('vregId', params.vregId);
 
-  return this.http.put(`${this.VREGAPI}/Registration/vendorUpdate`, {}, { params, responseType: 'text' });
+  return this.http.put(`${this.VREGAPI}/Registration/vendorUpdate`, formData, { params: httpParams , responseType: 'text' } );
 }
+
 
 
 
