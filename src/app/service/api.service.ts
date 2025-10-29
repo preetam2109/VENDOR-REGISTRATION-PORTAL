@@ -127,6 +127,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
+  private VREGAPI = 'https://dpdmis.in/VREGAPI/api';
   // private CGMSCHO_API2 = 'http://141.148.193.157/CGMSCHO_API2/api';
   private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
  
@@ -1700,61 +1701,17 @@ DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:an
 }
 
 
-// oac code test 
+
+// Vendor Registration services
+
+RegisterVendor(supplierId: any) {
+  return this.http.post(`${this.VREGAPI}/Registration/RegisterVendor?supplierId=${supplierId}`, {}); // Empty object if no body required
+}
+
+
 
 private token: string = '';
 
-// async initToken(): Promise<void> {
-//   // debugger;
-//   if (this.token) {
-//     // Agar token already hai to dobara fetch nahi karna
-//     return;
-//   }
-
-//   try {
-//     const response = await fetch('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token'); // 👈 apna API URL
-//     if (!response.ok) {
-//       throw new Error('HTTP error! status:' + response.status);
-//     }
-
-//     const data = await response.json();
-//     this.token = data.access_token;
-//     console.log('App Token Initialized:', this.token);
-//   } catch (error) {
-//     console.error('Error fetching token:', error);
-//   }
-// }
-
-
-// async initToken(): Promise<void> {
-//   try {
-//     const res: any = await this.http
-//       .get('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token')   // 👈 yaha aapka token API
-//       .toPromise();
-
-//     this.token = res.access_token;
-//     console.log('Token initialized:', this.token);
-//   } catch (error) {
-//     console.error('Error fetching token', error);
-//   }
-// }
-
-// getToken$() {
-//   return this.tokenSubject.asObservable(); // subscribe karne ke liye
-// }
-
-// getTokenSync(): string | null {
-//   return this.tokenSubject.value; // agar abhi tak aa gaya hai to direct
-// }
-// getToken(): string {
-
-//   console.log('get token:', this.token);
-//   return this.token;
-// }
-
-// getToken(): string | null {
-//   return this.token;
-// }
 
 
 

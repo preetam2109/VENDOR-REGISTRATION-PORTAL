@@ -91,11 +91,13 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
 import { NearExpiryBatchwiseComponent } from "./component/near-expiry-batchwise/near-expiry-batchwise.component";
 import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/near-expiry-itemwise.component";
+// import { Stepper } from './component/stepper/stepper';
 
 
 
 @NgModule({ declarations: [
         AppComponent,
+        // Stepper,
         // InputComponent,
         // AutocompleteComponent,
         MenubarComponent,
