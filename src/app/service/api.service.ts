@@ -1705,8 +1705,22 @@ DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:an
 // Vendor Registration services
 
 RegisterVendor(supplierId: any) {
-  return this.http.post(`${this.VREGAPI}/Registration/RegisterVendor?supplierId=${supplierId}`, {}); // Empty object if no body required
+  return this.http.post(
+    `${this.VREGAPI}/Registration/RegisterVendor?supplierId=${supplierId}`,
+    {}, // empty body
+    { responseType: 'text' } // correct position (third argument)
+  );
 }
+
+
+getVendorDetails() {
+  return this.http.get(`${this.VREGAPI}/Registration/GetVendorDetails`);
+}
+
+saveVendorDetails(vendor: any) {
+  return this.http.post(`${this.VREGAPI}/Registration/SaveVendorDetails`, vendor);
+}
+
 
 
 
