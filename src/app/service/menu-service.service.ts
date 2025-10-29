@@ -992,8 +992,13 @@ export class MenuServiceService {
       items: [
         { label: 'Home', route: '/' },
         { label: 'Generate Registration', route: '/generate-registration' },
+
         { label: 'Company Details', route: '/personal-detail' },
-        { label: 'Financial Details', route: '/' },
+        
+
+        
+        { label: 'Financial Details', route: '/FinanceialDetails' },
+
         { label: 'Manufacturing Unit', route: '/' },
         { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
