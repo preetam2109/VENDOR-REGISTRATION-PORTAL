@@ -1,0 +1,39 @@
+<title>Vendor Registration</title>
+<div class="container mt-5">
+  <div class="card p-4">
+    <h4 class="text-center mb-4 fw-bold">Vendor Registration</h4>
+
+    <!-- Generate Button -->
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-success" (click)="generate()">
+        <i class="bi bi-plus-circle"></i> Generate
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle">
+        <thead>
+          <tr>
+            <th>Registration No</th>
+            <th>Registration Date</th>
+            <th>Status</th>
+            <th>Approved Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CGMSCeR00008</td>
+            <td>16-10-2025</td>
+            <td><span class="status-incomplete">Incomplete</span></td>
+            <td><span class="approved-status">-</span></td>
+            <td><span class="delete-link">Delete</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+

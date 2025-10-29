@@ -990,18 +990,19 @@ export class MenuServiceService {
 
     Suppliers: {
       items: [
-        { label: 'Home', route: '/home' },
-        { label: 'Company Details', route: '/home' },
-        { label: 'Financial Details', route: '/home' },
-        { label: 'Manufacturing Unit', route: '/home' },
-        { label: 'Manufacturing Licence', route: '/home' },
+        { label: 'Home', route: '/' },
+        { label: 'Generate Registration', route: '/generate-registration' },
+        { label: 'Company Details', route: '/' },
+        { label: 'Financial Details', route: '/' },
+        { label: 'Manufacturing Unit', route: '/' },
+        { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Import Licence', route: '/home' },
+        { label: 'Import Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Loan Licence', route: '/home' },
+        { label: 'Loan Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Certificate/Affidavit', route: '/home' },
-        { label: 'Declearation', route: '/home' },
+        { label: 'Certificate/Affidavit', route: '/' },
+        { label: 'Declearation', route: '/' },
 
 
       ],
