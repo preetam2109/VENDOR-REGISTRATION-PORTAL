@@ -1,4 +1,4 @@
-<div class="container mt-2 text-center">
+<!-- <div class="container mt-2 text-center">
 
   <app-stepper #stepper [steps]="steps" [(current)]="currentStep"></app-stepper>
 </div>
@@ -16,7 +16,7 @@
 
  
   </ng-container>
-</div>
+</div> -->
 
 
 
@@ -61,7 +61,7 @@
           <tr>
             <td>CGMSCeR00008</td>
             <td>16-10-2025</td>
-            <td><span class="status-incomplete">Incomplete</span></td>
+            <td (click)="onClick()"><span class="status-incomplete">Incomplete</span></td>
             <td><span class="approved-status">-</span></td>
             <td><span class="delete-link">Delete</span></td>
           </tr>
