@@ -1,0 +1,34 @@
+<div class="stepper-card">
+    <div class="steps d-flex align-items-center">
+      <ng-container *ngFor="let s of steps; let i = index">
+        <div class="step-item text-center">
+          <div class="step-row d-flex align-items-center justify-content-center">
+            <!-- left connector (shown between previous and this) -->
+            <div *ngIf="i !== 0" class="connector" [class.completed]="steps[i-1].status === 'completed'"></div>
+  
+            <!-- bubble -->
+            <div class="step-bubble" [ngClass]="s.status">
+              <ng-container *ngIf="s.status === 'completed'">
+                <!-- check icon -->
+                <svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2bb673"/><path d="M7 13.5l2.5 2.5L17 8" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </ng-container>
+              <ng-container *ngIf="s.status === 'active'">
+                <div class="dot-active"></div>
+              </ng-container>
+              <ng-container *ngIf="s.status === 'pending'">
+                <div class="dot-pending"></div>
+              </ng-container>
+            </div>
+  
+            <!-- right connector iteration will render in next loop -->
+          </div>
+  
+          <div class="mt-2">
+            <div class="title" [class.active]="s.status === 'active'">{{s.title}}</div>
+            <div class="subtitle small text-muted">{{ s.subtitle || (s.status === 'completed' ? 'Completed' : (s.status === 'active' ? 'In Progress' : 'Pending')) }}</div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  
