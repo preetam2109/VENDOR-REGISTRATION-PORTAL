@@ -5,11 +5,13 @@ import { ApiService } from 'src/app/service/api.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators,FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { Stepper } from '../stepper/stepper';
+import { Router } from '@angular/router';
+
 // import { StepperComponent } from './stepper/stepper.component';
 @Component({
   selector: 'app-generate-registration',
   standalone: true,
-  imports: [Stepper,CommonModule,FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './generate-registration.component.html',
   styleUrl: './generate-registration.component.css'
 })
@@ -33,8 +35,12 @@ export class GenerateRegistrationComponent {
     
   }
 
+  onClick(){
+    this.router.navigate(['personal-detail'])
 
-  constructor( private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
+  }
+
+  constructor( private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder,private router: Router,){
     this.form1 = this.fb.group({ name: ['', Validators.required] });
     this.form2 = this.fb.group({ review: ['', Validators.required] });
   }

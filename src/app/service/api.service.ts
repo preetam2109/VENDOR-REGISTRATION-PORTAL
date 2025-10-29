@@ -1713,13 +1713,24 @@ RegisterVendor(supplierId: any) {
 }
 
 
-getVendorDetails() {
-  return this.http.get(`${this.VREGAPI}/Registration/GetVendorDetails`);
+getVendorDetails(supplierId:any) {
+  return this.http.get(`${this.VREGAPI}/Registration/vendorDetail?supplierId=${supplierId}`);
 }
 
-saveVendorDetails(vendor: any) {
-  return this.http.post(`${this.VREGAPI}/Registration/SaveVendorDetails`, vendor);
+updateVendor(vendor: any) {
+  const params = new HttpParams()
+    .set('authMobileNo', vendor.authmobileno)
+    .set('authEmail', vendor.authemail)
+    .set('authName', vendor.authname)
+    .set('authSigName', vendor.authsigname)
+    .set('authSigMobileNo', vendor.authsigmobileno)
+    .set('authSigEmailId', vendor.authsigemailid)
+    .set('vregId', vendor.supplierid);
+
+  return this.http.put(`${this.VREGAPI}/Registration/vendorUpdate`, {}, { params, responseType: 'text' });
 }
+
+
 
 
 
