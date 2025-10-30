@@ -150,6 +150,7 @@ import { PoPlanningOracleTabComponent } from './component/ORACLE-DASHBOARD/po-pl
 import { CurrentStockOracleTabComponent } from './component/ORACLE-DASHBOARD/current-stock-oracle-tab/current-stock-oracle-tab.component';
 import { TenderStatusOracleTabComponent } from './component/ORACLE-DASHBOARD/tender-status-oracle-tab/tender-status-oracle-tab.component';
 import { GenerateRegistrationComponent } from './component/generate-registration/generate-registration.component';
+import { PersonalDetailComponent } from './component/VENDER_REG/personal-detail/personal-detail.component';
 import { Registration } from './component/auth/registration/registration';
 import { FinanceialDetails } from './component/financeial-details/financeial-details';
 
@@ -353,6 +354,7 @@ const routes: Routes = [
 
 {path:'generate-registration',component:GenerateRegistrationComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 {path:'FinanceialDetails',component:FinanceialDetails,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
+{path:'personal-detail',component:PersonalDetailComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 
 
 

@@ -5,11 +5,13 @@ import { ApiService } from 'src/app/service/api.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators,FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { Stepper } from '../stepper/stepper';
+import { Router } from '@angular/router';
+
 // import { StepperComponent } from './stepper/stepper.component';
 @Component({
   selector: 'app-generate-registration',
   standalone: true,
-  imports: [Stepper,CommonModule,FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './generate-registration.component.html',
   styleUrl: './generate-registration.component.css'
 })
@@ -33,32 +35,38 @@ export class GenerateRegistrationComponent {
     
   }
 
+  onClick(){
+    this.router.navigate(['personal-detail'])
 
-  constructor( private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
+  }
+
+  constructor( private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder,private router: Router,){
     this.form1 = this.fb.group({ name: ['', Validators.required] });
     this.form2 = this.fb.group({ review: ['', Validators.required] });
   }
 
+  
+
+
   generate() {
     try {
       this.api.RegisterVendor(sessionStorage.getItem('facilityid')).subscribe({
-        next: (res: any) => {
-          // Handle success response
-          this.toastr.success('Vendor registration generated successfully!', 'Success');
+        next: (res: string) => {
           console.log('Response:', res);
+          this.toastr.success(`Vendor registration generated successfully! Registration No: ${res}`, 'Success');
         },
         error: (err) => {
-          // Handle API error
           console.error('API Error:', err);
           this.toastr.error('Failed to generate vendor registration. Please try again.', 'Error');
         }
       });
     } catch (error) {
-      // Handle unexpected runtime errors
       console.error('Unexpected Error:', error);
       this.toastr.error('Something went wrong. Please contact support.', 'Error');
     }
   }
+  
+  
 
 
    // example submit: call API, on success advance the stepper

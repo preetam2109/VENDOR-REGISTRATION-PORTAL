@@ -992,7 +992,7 @@ export class MenuServiceService {
       items: [
         { label: 'Home', route: '/' },
         { label: 'Generate Registration', route: '/generate-registration' },
-        { label: 'Company Details', route: '/' },
+        { label: 'Company Details', route: '/personal-detail' },
         { label: 'Financial Details', route: '/FinanceialDetails' },
         { label: 'Manufacturing Unit', route: '/' },
         { label: 'Manufacturing Licence', route: '/' },
