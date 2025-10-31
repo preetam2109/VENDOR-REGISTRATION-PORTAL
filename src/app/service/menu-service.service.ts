@@ -994,8 +994,9 @@ export class MenuServiceService {
         { label: 'Generate Registration', route: '/generate-registration' },
         { label: 'Company Details', route: '/personal-detail' },
         { label: 'Financial Details', route: '/FinanceialDetails' },
-        { label: 'Manufacturing Unit', route: '/' },
-        { label: 'Manufacturing Licence', route: '/' },
+
+        { label: 'Manufacturing Unit', route: '/manufacturingUnit'},
+        // { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
         { label: 'Import Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
@@ -1112,7 +1113,7 @@ export class MenuServiceService {
     if (!roleMenu) {
       return [];
     }
-debugger
+
     const rolesUsingCategories = ['Collector', 'SEC1', 'DHS', 'CME','DME1'];
 
     if (rolesUsingCategories.includes(role) && roleMenu.categories) {

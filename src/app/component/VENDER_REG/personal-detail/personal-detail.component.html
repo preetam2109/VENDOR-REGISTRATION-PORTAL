@@ -1,9 +1,30 @@
+<!-- 
+   <div class="container mt-2 text-center">
 
+  <app-stepper #stepper [steps]="steps" [(current)]="currentStep"></app-stepper>
+</div>
+
+<div class="mt-4">
+  <ng-container [ngSwitch]="currentStep">
+    <form *ngSwitchCase="0" [formGroup]="form1" (ngSubmit)="submitStep1()">
+ 
+      <button class="btn btn-primary" type="submit">Submit Step 1</button>
+    </form>
+
+    <form *ngSwitchCase="1" [formGroup]="form2" (ngSubmit)="submitStep2()">
+      <button class="btn btn-primary" type="submit">Submit Step 2</button>
+    </form>
+
+ 
+  </ng-container>
+</div>  -->
+  <div class="w-100 " >
+    <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+      <strong style="text-align: center;">Company Personal Details.</strong>
+    </h1>
+    </div>
 <div class="container py-4">
     <div class="card shadow-lg border-0 rounded-3">
-      <div class="card-header bg-dark text-white text-center">
-        <h4 class="mb-0">Company Personal Details</h4>
-      </div>
   
       <div class="card-body">
         <form>
@@ -72,11 +93,22 @@
           </div>
 
           <div class="row mb-4">
-            <div class="col-md-6">
-              <label class="form-label fw-bold">Add PAN Card</label>
-              <input type="email" class="form-control" [(ngModel)]="vendor.authsigemailid" name="authsigemailid">
-            </div>
+              
+              <div class="col-md-6">
+                  <label class="form-label fw-bold">Add PAN Number</label>
+                  <input type="email" class="form-control" [(ngModel)]="vendor.pancardno" name="pancardno">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Upload PAN Card</label>
+                  <input 
+                    type="file" 
+                    class="form-control" 
+                    accept=".jpg,.jpeg,.png,.pdf"
+                    (change)="onFileSelected($event)">
+                </div>
+
           </div>
+          
   
           <div class="text-center">
             <button type="button" class="btn btn-success px-4" (click)="saveVendor()">
