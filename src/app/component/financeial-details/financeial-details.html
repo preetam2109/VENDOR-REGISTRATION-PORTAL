@@ -1,0 +1,296 @@
+<!-- <section class="py-5 pt-0 text-darkk bg-white shadow-lg position-relative announce-colorr">
+    <div class="container-fluid px-2 text-center py-3">
+        <h4 class="mb-4 Heading-font-family">Financial Details</h4>
+    </div>
+</section> -->
+<div class=" card container-fluid text-center" style="background-color: aliceblue;">
+  <h3 class="mb-3 Heading-font-family pt-1">FINANCIAL DETAILS</h3>
+</div>
+<div class="card">
+  <!-- FINANCIAL DETAILS -->
+<div class="pb-5">
+    <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed = !isCollapsed"
+      role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
+      FINANCIAL DETAILS
+      <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+    </h4>
+    <div [collapse]="isCollapsed">
+      <div class="container-fluid p-0 m-0 ">
+        <div class="row justify-content-center g-4 ">
+            <div class="row g-4">
+                <div class="container-fluid ">
+                    <div class="row  p-2">
+                        <div class="col-lg-12 mb-5">
+                            <div class="card shadow-lg p-4 border-0 bg-white rounded ">
+                                <!-- <h4 class="card-title border-bottom border-3 pb-2 text-center"><strong>Chhattisgarh Medical
+                                        Services Corporation Limited</strong></h4> -->
+                                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                    style="height: auto; overflow: hidden; position: relative;">
+    
+    
+    
+                                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                                        <form class="p-2">
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputName">Select Existing Bank Account <span
+                                                            class="text-danger">*</span></label>
+    
+    
+    
+    
+                                                    <ng-select class="form-control" [items]="VendorBankDetail"
+                                                        bindLabel="acno" bindValue="bankaccountid" [(ngModel)]="acno"
+                                                        name="acno" (change)="onselectacno($event)"
+                                                        [placeholder]="'Select Existing Bank Account: '" [searchable]="true"
+                                                        [clearable]="true" [appendTo]="'body'" required>
+                                                    </ng-select>
+                                                </div>
+                                                <div class="form-group col-md-6  pt-3">
+                                                    <label for="inputPassword4">Name In Account: <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" [(ngModel)]="SupplierBankAccDetail.accountname"   [disabled]="!isNewBank"
+                                                    [ngModelOptions]="{standalone: true}"   placeholder="Type your Name In Account" id="inputPassword4">
+                                                    <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('lastName')?.touched || submitted) && FeedbackForm.get('lastName')?.errors?.['required']">
+                                              Last Name is required
+                                            </span>
+                                            [ngClass]="{
+                                                'is-invalid': (FeedbackForm.get('lastName')?.touched || submitted) && FeedbackForm.get('lastName')?.invalid,
+                                                'is-valid': FeedbackForm.get('lastName')?.valid && (FeedbackForm.get('lastName')?.touched || submitted)
+                                              }" [attr.disabled]="!isNewBank ? true : null"-->
+                                                </div>
+                                            </div>
+    
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputEmail4">Bank Name: <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" placeholder="Bank Name:*" 
+                                                    [(ngModel)]="SupplierBankAccDetail.bankname"   [disabled]="!isNewBank"
+                                                    [ngModelOptions]="{standalone: true}"  id="inputEmail4">
+                                                    <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('email')?.touched || submitted) && FeedbackForm.get('email')?.errors?.['required']">
+                                              Email is required
+                                            </span>
+                                            <span class="text-danger" *ngIf="(FeedbackForm.get('email')?.touched || submitted) && FeedbackForm.get('email')?.errors?.['email']">
+                                              Enter a valid email
+                                            </span>
+                                            [ngClass]="{
+                                                'is-invalid': (FeedbackForm.get('email')?.touched || submitted) && FeedbackForm.get('email')?.invalid,
+                                                'is-valid': FeedbackForm.get('email')?.valid && (FeedbackForm.get('email')?.touched || submitted)
+                                              }" -->
+                                                </div>
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputAddress">IFSC Code: <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control"   [disabled]="!isNewBank" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="SupplierBankAccDetail.ifsccode"  placeholder="Type your IFSC Code" id="inputAddress">
+                                                    <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('address')?.touched || submitted) && FeedbackForm.get('address')?.errors?.['required']">
+                                              Address is required
+                                            </span>
+                                            [ngClass]="{
+                                                'is-invalid': (FeedbackForm.get('address')?.touched || submitted) && FeedbackForm.get('address')?.invalid,
+                                                'is-valid': FeedbackForm.get('address')?.valid && (FeedbackForm.get('address')?.touched || submitted)
+                                              }" -->
+                                                </div>
+                                            </div>
+    
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputnumber">Account No: <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control" [disabled]="!isNewBank" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="SupplierBankAccDetail.accountno"    placeholder="Type your Account No" id="inputnumber">
+                                                    <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('mobileNumber')?.touched || submitted) && FeedbackForm.get('mobileNumber')?.errors?.['pattern']">
+                                              Enter 10 digit valid mobile number
+                                            </span>
+                                            <span class="text-danger" *ngIf="(FeedbackForm.get('mobileNumber')?.touched || submitted) && FeedbackForm.get('mobileNumber')?.errors?.['required']">
+                                              Mobile number is required
+                                            </span>
+                                            [ngClass]="{
+                                                'is-invalid': (FeedbackForm.get('mobileNumber')?.touched || submitted) && FeedbackForm.get('mobileNumber')?.invalid,
+                                                'is-valid': FeedbackForm.get('mobileNumber')?.valid && (FeedbackForm.get('mobileNumber')?.touched || submitted)
+                                              }" -->
+                                                </div>
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputAddress">Branch Address: <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" [disabled]="!isNewBank" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="SupplierBankAccDetail.branch"    placeholder="Type your Branch Address" id="inputAddress">
+                                                    <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('city')?.touched || submitted) && FeedbackForm.get('city')?.errors?.['required']">
+                                              City is required
+                                            </span>
+                                            [ngClass]="{
+                                                'is-invalid': (FeedbackForm.get('city')?.touched || submitted) && FeedbackForm.get('city')?.invalid,
+                                                'is-valid': FeedbackForm.get('city')?.valid && (FeedbackForm.get('city')?.touched || submitted)
+                                              }" -->
+                                                </div>
+                                            </div>
+    
+                                            <label for="inputnumber">Upload Document </label>
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputnumber"> Upload Bank Mandate: <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="file" class="form-control" [disabled]="!isNewBank"
+                                                        placeholder="Type your Account No" id="inputnumber">
+                                                    <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('mobileNumber')?.touched || submitted) && FeedbackForm.get('mobileNumber')?.errors?.['pattern']">
+                                                Enter 10 digit valid mobile number
+                                              </span>
+                                              <span class="text-danger" *ngIf="(FeedbackForm.get('mobileNumber')?.touched || submitted) && FeedbackForm.get('mobileNumber')?.errors?.['required']">
+                                                Mobile number is required
+                                              </span>
+                                              [ngClass]="{
+                                                  'is-invalid': (FeedbackForm.get('mobileNumber')?.touched || submitted) && FeedbackForm.get('mobileNumber')?.invalid,
+                                                  'is-valid': FeedbackForm.get('mobileNumber')?.valid && (FeedbackForm.get('mobileNumber')?.touched || submitted)
+                                                }" -->
+                                                </div>
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <button type="button" class="btn btn-primary m-3">Upload</button>
+                                                    <button type="submit" class="btn btn-primary m-3">Download Bank
+                                                        Mandate</button>
+                                                    <!-- <label for="inputAddress">Branch Address: <span class="text-danger">*</span></label>
+                                              <input type="text" class="form-control"
+                                             
+                                                placeholder="Type your Branch Address" id="inputAddress"> -->
+                                                    <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('city')?.touched || submitted) && FeedbackForm.get('city')?.errors?.['required']">
+                                                City is required
+                                              </span>
+                                              [ngClass]="{
+                                                  'is-invalid': (FeedbackForm.get('city')?.touched || submitted) && FeedbackForm.get('city')?.invalid,
+                                                  'is-valid': FeedbackForm.get('city')?.valid && (FeedbackForm.get('city')?.touched || submitted)
+                                                }" -->
+                                                </div>
+                                            </div>
+    
+    
+    
+    
+    
+    
+                                            <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+    
+    
+    
+    
+                                    </div>
+                                </div>
+    
+    
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+  </div>
+
+
+   <!--  ANNUAL TURNOVER CERTIFICATE -->
+   <div class="pb-5">
+    <h4 class="d-flex justify-content-between align-items-center border-bottom p-2"
+      (click)="isCollapsed1 = !isCollapsed1" role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
+     ANNUAL TURNOVER CERTIFICATE
+      <i class="bi" [ngClass]="isCollapsed1 ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+    </h4>
+    <div [collapse]="isCollapsed1">
+      <!-- <div class="card card-body"> -->
+      
+         
+                <div class="container-fluid p-0 m-0 ">
+                  <div class="row justify-content-center g-4 ">
+                      <div class="row g-4">
+                          <div class="container-fluid ">
+                              <div class="row  p-2">
+                                  <div class="col-lg-12 mb-5">
+                                      <div class="card shadow-lg p-4 border-0 bg-white rounded ">
+                                          <!-- <h4 class="card-title border-bottom border-3 pb-2 text-center"><strong>Chhattisgarh Medical
+                                                  Services Corporation Limited</strong></h4> -->
+                                          <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                              style="height: auto; overflow: hidden; position: relative;">
+              
+              
+              
+                                              <div class="mb-3 Fon-family" style="text-align: justify;">
+                                                  <form class="p-2">
+                                                      <div class="row pb-3">
+                                                          <div class="form-group col-md-6 pt-3">
+                                                              <label for="inputName">Select Existing Year <span
+                                                                      class="text-danger">*</span></label>
+              
+              
+              
+              
+                                                              <ng-select class="form-control" [items]="Years"
+                                                                  bindLabel="accyear" bindValue="accyrsetid" [(ngModel)]="accyear"
+                                                                  name="accyear" (change)="Onselectyear($event)"
+                                                                  [placeholder]="'Select Existing Year: '" [searchable]="true"
+                                                                  [clearable]="true" [appendTo]="'body'" required>
+                                                              </ng-select>
+                                                          </div>
+                                                          <div class="form-group col-md-6  pt-3">
+                                                              <label for="inputPassword4">Turn Over Amount(RS).: <span
+                                                                      class="text-danger">*</span></label>
+                                                              <input type="text" class="form-control"   placeholder="Type Turn Over Amount(RS)." id="turnoveran">
+                                                              <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('lastName')?.touched || submitted) && FeedbackForm.get('lastName')?.errors?.['required']">
+                                                        Last Name is required
+                                                      </span>
+                                                      [ngClass]="{
+                                                          'is-invalid': (FeedbackForm.get('lastName')?.touched || submitted) && FeedbackForm.get('lastName')?.invalid,
+                                                          'is-valid': FeedbackForm.get('lastName')?.valid && (FeedbackForm.get('lastName')?.touched || submitted)
+                                                        }" [attr.disabled]="!isNewBank ? true : null"-->
+                                                          </div>
+                                                      </div>
+              
+                                                    
+              
+                                                      <label for="inputnumber">Upload Document</label>
+                                                      <div class="row pb-3">
+                                                          <div class="form-group col-md-6 pt-3">
+                                                              <label for="inputnumber"> Upload Annual Turnover Certificate: <span
+                                                                      class="text-danger">*</span></label>
+                                                              <input type="file" class="form-control" 
+                                                                  placeholder="Type your Account No" id="inputnumber">
+                                                          </div>
+                                                          <div class="form-group col-md-6 pt-3">
+                                                              <button type="button" class="btn btn-primary m-3">Upload</button>
+                                                              <!-- <button type="submit" class="btn btn-primary m-3">Download Bank
+                                                                  Mandate</button> -->
+                                                          </div>
+                                                      </div>
+              
+              
+              
+              
+              
+              
+                                                      <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
+                                                      <button type="submit" class="btn btn-primary">Submit</button>
+                                                  </form>
+              
+              
+              
+              
+                                              </div>
+                                          </div>
+              
+              
+                                      </div>
+              
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+         
+         
+      <!-- </div> -->
+    </div>
+  </div>
+</div>

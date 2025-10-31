@@ -38,6 +38,7 @@
     "lodash-es": "^4.17.21",
     "mat-table-exporter": "^15.0.0",
     "ng-apexcharts": "^1.10.0",
+    "ngx-bootstrap": "^20.0.2",
     "ngx-select-dropdown": "^3.3.2",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",

@@ -1702,6 +1702,7 @@ DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:an
 
 
 
+
 // Vendor Registration services
 
 RegisterVendor(supplierId: any) {
@@ -1718,6 +1719,19 @@ getVendorDetailsID(supplierId:any) {
 getVendorDetails(supplierId:any) {
   
   return this.http.get(`${this.VREGAPI}/Registration/vendorDetail?supplierId=${supplierId}`);
+}
+vendorBankDetail(supplierId:any) {
+  //https://dpdmis.in/VREGAPI/api/Registration/vendorBankDetail?supplierId=1836
+  return this.http.get(`${this.VREGAPI}/Registration/vendorBankDetail?supplierId=${supplierId}`);
+  // return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocDetail?fromDate=${fromDate}&toDate=${toDate}&mcid=${mcid}&yearId=${yearId}&facilityId=${facilityId}`);
+}
+SupplierBankAccDetail(supplierId:any,bankAccId:any) {
+  //https://dpdmis.in/VREGAPI/api/Registration/SupplierBankAccDetail?supID=2185&bankAccId=659
+  return this.http.get(`${this.VREGAPI}/Registration/SupplierBankAccDetail?supID=${supplierId}&bankAccId=${bankAccId}`);
+}
+GETYear() {
+  //https://dpdmis.in/VREGAPI/api/Registration/getYear
+  return this.http.get(`${this.VREGAPI}/Registration/getYear`);
 }
 
 updateVendor(params: any, formData: FormData) {

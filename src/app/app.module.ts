@@ -93,7 +93,7 @@ import { NearExpiryBatchwiseComponent } from "./component/near-expiry-batchwise/
 import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/near-expiry-itemwise.component";
 // import { Stepper } from './component/stepper/stepper';
 
-
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -171,6 +171,7 @@ import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/ne
     imports: [
     NgSelectModule,
     // FormsModule,
+    NgbCollapseModule,
     CommonModule,
     DatePipe,
     MatProgressSpinnerModule,
