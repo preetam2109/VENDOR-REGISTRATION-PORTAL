@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 // import { CollapseModule } from 'src/app/collapse';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { SupplierBankAccDetail_model, vendorBankDetail_model } from 'src/app/Model/VendorRegisDetail';
+import { SupplierBankAccDetail_model, vendorBankDetail_model,UpdateBankDetails_model } from 'src/app/Model/VendorRegisDetail';
 import { ApiService } from 'src/app/service/api.service';
 import { CollapseModule } from 'src/app/collapse';
 // import { CollapseModule } from 'src/app/collapse/collapse.module';
 @Component({
   selector: 'app-financeial-details',
   standalone: true,
-  imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule],
+  imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule],
   templateUrl: './financeial-details.html',
   styleUrl: './financeial-details.css'
 })
@@ -27,6 +27,10 @@ export class FinanceialDetails {
   isEventOpen = false;
   VendorBankDetail: any[] = [];
   SupplierBankAccDetail:any = {};
+  // FeedbackData: FeedbackDTO = new FeedbackDTO();
+  UpdateBankDetailsdata: UpdateBankDetails_model = new UpdateBankDetails_model();
+  // selectedPanFile: File | null = null;
+  selectedFile: File | null = null;
   Years:any;
   acno: any = null;
   accyear: any = null;
@@ -156,6 +160,200 @@ Onselectyear(event: Event): void {
   }
 
       }
+  //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+
+  onSubmit(form: any) {
+    if (form.invalid) {
+      alert("Please fill all required fields.");
+      return;
+    }
+    // VendorRegistrationId: this.UpdateBankDetailsdata.VendorRegistrationId,
+    //       SelectedBankAccountId: this.UpdateBankDetailsdata.SelectedBankAccountId,
+    //       AccountNumber: this.UpdateBankDetailsdata.AccountNumber,
+    //       AccountHolderName: this.UpdateBankDetailsdata.AccountHolderName,
+    //       BankName: this.UpdateBankDetailsdata.BankName,
+    //       BranchName: this.UpdateBankDetailsdata.BranchName,
+    //       IFSCCode: this.UpdateBankDetailsdata.IFSCCode,
+    //       supplierid: this.UpdateBankDetailsdata.supplierid
+    const formData = new FormData();
+    // formData.append('VendorRegistrationId', this.UpdateBankDetailsdata.VendorRegistrationId || '');
+    // // formData.append('SelectedBankAccountId', this.acno.toString());
+    // formData.append('SelectedBankAccountId', this.acno.toString());
+    // formData.append('AccountNumber', this.UpdateBankDetailsdata.AccountNumber || '');
+    // formData.append('AccountHolderName', this.UpdateBankDetailsdata.AccountHolderName || '');
+    // formData.append('BankName', this.UpdateBankDetailsdata.BankName || '');
+    // formData.append('BranchName', this.UpdateBankDetailsdata.BranchName || '');
+    // formData.append('IFSCCode', this.UpdateBankDetailsdata.IFSCCode || '');
+    // formData.append('supplierid', sessionStorage.getItem('facilityid') || '');
+    formData.append('VendorRegistrationId', this.SupplierBankAccDetail.VendorRegistrationId || '');
+    formData.append('SelectedBankAccountId', this.acno.toString());
+    formData.append('AccountNumber', this.SupplierBankAccDetail.accountno || '');
+    formData.append('AccountHolderName', this.SupplierBankAccDetail.accountname || '');
+    formData.append('BankName', this.SupplierBankAccDetail.bankname || '');
+    formData.append('BranchName', this.SupplierBankAccDetail.branch || '');
+    formData.append('IFSCCode', this.SupplierBankAccDetail.ifsccode || '');
+    formData.append('supplierid', sessionStorage.getItem('facilityid') || '');
+    if (this.selectedFile) {
+      formData.append('BankDetailDocument', this.selectedFile);
+    }
+  return;
+    this.api.post('/Registration/UpdateBankDetails',formData).subscribe({
+    // this.api.updateBankDetails('/Registration/UpdateBankDetails',formData).subscribe({
+      next: (res: any) => {
+        alert('Bank details updated successfully!');
+        form.resetForm(); // reset the form
+        this.selectedFile = null;
+      },
+      error: (err: any) => {
+        console.error('Error updating bank details:', err);
+        alert('Failed to update bank details');
+      }
+    });
+  }
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      console.log('Selected PAN card file:', file.name);
+    }
+  }
+
+
+
+  // onFileSelected(event: any) {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     this.selectedFile = file;
+  //   }
+  // }
+  
+
+  // saveVendor() {
+  //   try {
+  //    const  supplierid=sessionStorage.getItem('facilityid');
+  //     const formData = new FormData();
+  
+  //     // Append file if selected
+  //     if (this.selectedPanFile) {
+  //       formData.append('BankDocument', this.selectedPanFile);
+  //     }
+  
+  //     // Append any extra form fields if required in DTO
+  //     // formData.append('SomeField', this.vendor.someValue);
+  
+  //     // Prepare query params based on backend API
+  //     // VendorRegistrationId: string | undefined;
+  //     // SelectedBankAccountId: number| undefined;
+  //     // AccountNumber: string| undefined;
+  //     // AccountHolderName: string| undefined;
+  //     // BankName: string| undefined;
+  //     // BranchName: string| undefined;
+  //     // IFSCCode: string| undefined;
+  //     // supplierid: string| undefined;
+  //     // BankDetailDocument:string| undefined;
+  //     const params = {
+  //       VendorRegistrationId: this.UpdateBankDetailsdata.VendorRegistrationId,
+  //       SelectedBankAccountId: this.UpdateBankDetailsdata.SelectedBankAccountId,
+  //       AccountNumber: this.UpdateBankDetailsdata.AccountNumber,
+  //       AccountHolderName: this.UpdateBankDetailsdata.AccountHolderName,
+  //       BankName: this.UpdateBankDetailsdata.BankName,
+  //       BranchName: this.UpdateBankDetailsdata.BranchName,
+  //       IFSCCode: this.UpdateBankDetailsdata.IFSCCode,
+  //       supplierid: this.UpdateBankDetailsdata.supplierid
+  //       // BankDetailDocument: this.UpdateBankDetailsdata.BankDetailDocument
+  //     };
+  
+  //     // Use updated service method
+  //     this.api.post('/Registration/UpdateBankDetails',params, formData).subscribe({
+  //       next: (res: any) => {
+  //         console.log("Vendor saved:", res);
+  //         this.toastr.success("Vendor details saved successfully!", "Success");
+  //       },
+  //       error: (err: any) => {
+  //         console.error("Error saving vendor:", err);
+  
+  //         if (err.status === 0) {
+  //           this.toastr.error("Unable to connect to the server. Please try again later.", "Network Error");
+  //         } else if (err.status >= 400 && err.status < 500) {
+  //           this.toastr.warning("Invalid vendor data or request issue.", "Validation Error");
+  //         } else if (err.status >= 500) {
+  //           this.toastr.error("Server error occurred. Please contact support.", "Server Error");
+  //         } else {
+  //           this.toastr.error("An unknown error occurred.", "Error");
+  //         }
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Unexpected error:", error);
+  //     this.toastr.error("Something went wrong! Please try again.", "Error");
+  //   }
+  // }
+
+ 
+
+      // OnSubmit() {
+      //   try {
+         
+      //     this.submitted = true;
+      //     this.FeedbackData = this.FeedbackForm.value;
+      //     this.FeedbackData.mobileNumber = this.FeedbackData.mobileNumber.toString();
+      //     // if (this.FeedbackForm.value.captchaInput !== this.captcha) {
+      //     //   this.toastr.error('Invalid Captcha', 'Error');
+      //     //   // this.generateCaptcha(); // refresh captcha
+      //     //   return;
+      //     // }
+      //     if (
+      //       this.FeedbackForm.value.captchaInput.toLowerCase() !==
+      //       this.captcha.toLowerCase()
+      //     ) {
+          
+      //       this.toastr.error('Invalid Captcha', 'Error!', {
+             
+      //         positionClass: 'toast-center' 
+      //       });
+      //       this.generateCaptcha(); 
+      //       return;
+      //     }
+      //     if (this.FeedbackForm.valid) {
+      //       const Feedbackdata = this.FeedbackData; 
+      
+      //       this.Service.post1('Feedback/SubmitFeedbackSimple', Feedbackdata).subscribe(
+      //         (res: any) => {
+      //           this.toastr.success(res.message, 'Success', {
+      //              positionClass: 'toast-center'
+                  
+      //           });
+      //           this.FeedbackForm.reset();
+      //           this.FeedbackForm.markAsPristine();
+      //           this.FeedbackForm.markAsUntouched();
+      //           this.submitted = false;
+      //           // console.log('res:=', res);
+      //         },
+      //         (err: HttpErrorResponse) => {
+      //           // console.error('HTTP Error:', err);
+      //           console.error('Backend Error Message:', err.error);
+           
+      //           // this.toastr.error(err.error?.message || 'Submission failed', 'Error', {
+      //           //   positionClass: 'toast-center'
+      //           // });
+      //         }
+      //       );
+      //     } else {
+           
+      //       this.toastr.error('Something went wrong, please try again!', 'Error!', {
+      //         positionClass: 'toast-center'
+      //       });
+      //     }
+      //   } catch (err: any) {
+      //     console.log('error:=', err.message);
+      //     // throw err;
+      //   }
+      // }
+
+
+
+
+
 
 // toggleEvent() {
 //   this.isEventOpen = !this.isEventOpen;

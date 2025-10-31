@@ -1733,7 +1733,22 @@ GETYear() {
   //https://dpdmis.in/VREGAPI/api/Registration/getYear
   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
 }
-
+public post(url: string, data: any, options?: any) {
+  // debugger;
+  //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+   return this.http.post(this.VREGAPI + url, data, options); 
+  }
+  updateBankDetails(data: FormData) {
+    return this.http.post('https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails', data);
+  }
+  
+// GETYear() {
+//   
+//   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
+// }
+// getVendorDetailsID(supplierId:any) {
+//   return this.http.get(${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId});
+// }
 updateVendor(params: any, formData: FormData) {
   
   let httpParams = new HttpParams()
@@ -1751,7 +1766,7 @@ updateVendor(params: any, formData: FormData) {
 
 
 getLicenceTypes(){
-  debugger
+  // debugger
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
 }
 
