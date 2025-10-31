@@ -19,7 +19,7 @@ import autoTable from 'jspdf-autotable';
 @Component({
   selector: 'app-manufacturing-unit',
   standalone: true,
-  imports: [MatTableExporterModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule],
+  imports: [MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule],
   templateUrl: './manufacturing-unit.html',
   styleUrl: './manufacturing-unit.css'
 })
@@ -27,6 +27,8 @@ export class ManufacturingUnit {
 
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
+  dataSource2!: MatTableDataSource<any[]>;
+  manufacturingLicList: any[] = [];
   unitForm!: FormGroup;
   licenceTypes: any[] = [];
   states: any[] = [];
@@ -34,6 +36,7 @@ export class ManufacturingUnit {
   stateid:any;
   vregid: any;
 
+  selectedPanFile: File | null = null;
 
 
 
@@ -50,8 +53,11 @@ export class ManufacturingUnit {
 
 
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild('sort') sort!: MatSort;
+  @ViewChild('paginator1') paginator1!: MatPaginator;
+  @ViewChild('sort1') sort1!: MatSort;
+
   constructor(private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
     this.dataSource = new MatTableDataSource<any>([]);
   }
@@ -94,7 +100,7 @@ this.licForm = this.fb.group({
   mStartDate: ['', Validators.required],
   mVALIDITYDATE: ['', Validators.required],
 });
-
+this.GetmANUFACLICDetails()
 
 
   }
@@ -144,9 +150,9 @@ this.licForm = this.fb.group({
 
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
-      const VregID = 50;
+      
     
-      this.api.getManufacturingDetails(supplierId, VregID).subscribe((res: any) => {
+      this.api.getManufacturingDetails(supplierId, this.vregid).subscribe((res: any) => {
           console.log('Raw API response:', res);
     
           this.manufacturingList = res.map((item: any, index: number) => ({
@@ -164,6 +170,40 @@ this.licForm = this.fb.group({
           this.dataSource.data = this.manufacturingList;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+    
+          this.spinner.hide();
+          this.cdr.detectChanges();
+        },
+        (error) => {
+          console.error('API error:', error);
+          this.spinner.hide();
+        }
+      );
+      
+    }
+    GetmANUFACLICDetails() {
+debugger
+      this.spinner.show();
+      const supplierId = sessionStorage.getItem('facilityid');
+    
+      this.api.getmANUFACLICDetails(supplierId,this.vregid).subscribe((res: any) => {
+          console.log('Raw API response:', res);
+    
+          this.manufacturingLicList = res.map((item: any, index: number) => ({
+            ...item,
+            sno: index + 1
+          }));
+
+        
+    
+          // console.log('With manuf lic:', this.manufacturingLicList);
+    
+          this.dataSource2.data = this.manufacturingLicList;
+          this.dataSource2.paginator = this.paginator1;
+          this.dataSource2.sort = this.sort1;
+          debugger
+          console.log('With manuf lic datasource :', this.dataSource2);
+
     
           this.spinner.hide();
           this.cdr.detectChanges();
@@ -291,6 +331,14 @@ this.licForm = this.fb.group({
   
   onSubmitLicence() {
     debugger
+
+    const formData = new FormData();
+
+    // Append file if selected
+    if (this.selectedPanFile) {
+      formData.append('PanCardDocument', this.selectedPanFile);
+    }
+
     if (this.licForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;
@@ -316,7 +364,7 @@ this.licForm = this.fb.group({
       };
   
     try {
-      this.api.postManufacturingLic(params).subscribe({
+      this.api.postManufacturingLic(params,formData).subscribe({
         next: (res) => {
           this.toastr.success('Manufacturing Licence saved successfully!');
           console.log('API Response:', res);
@@ -340,6 +388,14 @@ formatDate(dateString: string): string {
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 }
+
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedPanFile = file;
+    console.log('Selected PAN card file:', file.name);
+  }
+}
   
   applyTextFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -347,6 +403,15 @@ formatDate(dateString: string): string {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  applyTextFilterManLic(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource2.paginator) {
+      this.dataSource2.paginator.firstPage();
     }
   }
 
@@ -400,6 +465,10 @@ exportToPDF() {
   });
 
   doc.save('Manufacturing_Unit_List.pdf');
+}
+
+exportToPDFManufacturingLic(){
+
 }
 
   

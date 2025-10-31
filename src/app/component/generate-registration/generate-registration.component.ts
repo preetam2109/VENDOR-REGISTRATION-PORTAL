@@ -29,6 +29,7 @@ export class GenerateRegistrationComponent {
   // form1: FormGroup;
   // form2: FormGroup;
 
+  vregid: any;
   
 
   ngOnInit() {
@@ -56,6 +57,7 @@ export class GenerateRegistrationComponent {
           this.toastr.success(`Vendor registration generated successfully! Registration No: ${res}`, 'Success');
           console.log(JSON.stringify(res))
           sessionStorage.setItem('vregid',res)
+          this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -66,6 +68,25 @@ export class GenerateRegistrationComponent {
       console.error('Unexpected Error:', error);
       this.toastr.error('Something went wrong. Please contact support.', 'Error');
     }
+  }
+
+
+  GetVendorDetailsID(supplierId: any) {
+    this.api.getVendorDetailsID(supplierId).subscribe({
+      next: (res: any) => {
+        if (Array.isArray(res) && res.length > 0) {
+          this.vregid=res[0].vregid;
+          console.log('Vendor vregid:', this.vregid);
+          sessionStorage.setItem('vregid',this.vregid)
+        
+        } else {
+          console.warn('No vendor details found.');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching vendor details:', err);
+      }
+    });
   }
   
   
