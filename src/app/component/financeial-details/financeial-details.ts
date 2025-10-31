@@ -8,8 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { SupplierBankAccDetail_model, vendorBankDetail_model } from 'src/app/Model/VendorRegisDetail';
 import { ApiService } from 'src/app/service/api.service';
+import { CollapseModule } from 'src/app/collapse';
 // import { CollapseModule } from 'src/app/collapse/collapse.module';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
 @Component({
   selector: 'app-financeial-details',
   standalone: true,

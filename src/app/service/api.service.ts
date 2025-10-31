@@ -1786,22 +1786,25 @@ getMasformTypes(){
 
 
 
-postManufacturingLic(data: any): Observable<any> {
+postManufacturingLic(data: any, formData: FormData): Observable<any> {
   debugger
   const params = new HttpParams()
-    .set('mUNITID', data.mUNITID)
-    .set('mFORMID', data.mFORMID)
-    .set('mLICTYPEID', data.mLICTYPEID)
-    .set('mSUPPLIERID', data.mSUPPLIERID)
-    .set('mVregid', data.mVregid)
-    .set('mLICNO', data.mLICNO)
-    .set('mISSUEDATE', data.mISSUEDATE)
-    .set('mStartDate', data.mStartDate)
-    .set('mVALIDITYDATE', data.mVALIDITYDATE);
-
-  return this.http.post(`${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`, {}, { params, responseType: 'text' });
+  .set('mUNITID', data.mUNITID)
+  .set('mFORMID', data.mFORMID)
+  .set('mLICTYPEID', data.mLICTYPEID)
+  .set('mSUPPLIERID', data.mSUPPLIERID)
+  .set('mVregid', data.mVregid)
+  .set('mLICNO', data.mLICNO)
+  .set('mISSUEDATE', data.mISSUEDATE)
+  .set('mStartDate', data.mStartDate)
+  .set('mVALIDITYDATE', data.mVALIDITYDATE);
+  
+  return this.http.post(`${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`,formData,{ params, responseType: 'text' });
 }
 
+getmANUFACLICDetails(supID:any,vregid:any){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MANUFACLICDetails?supID=${supID}&vregid=${vregid}`);
+}
 
 
 
