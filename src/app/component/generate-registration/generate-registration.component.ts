@@ -54,6 +54,8 @@ export class GenerateRegistrationComponent {
         next: (res: string) => {
           console.log('Response:', res);
           this.toastr.success(`Vendor registration generated successfully! Registration No: ${res}`, 'Success');
+          console.log(JSON.stringify(res))
+          sessionStorage.setItem('vregid',res)
         },
         error: (err) => {
           console.error('API Error:', err);

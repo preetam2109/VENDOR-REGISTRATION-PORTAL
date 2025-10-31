@@ -27,7 +27,7 @@ export class RouteGuardService implements CanActivate {
     // Retrieve the user's role from the authentication service
     
     const userRole = this.loginService.getRole().roleName;
-    debugger
+    
 
     // Get the allowed roles from the route data
     const allowedRoles = route.data['allowedRoles'] as string[];
@@ -36,7 +36,7 @@ export class RouteGuardService implements CanActivate {
     console.log('Allowed Roles:', allowedRoles);
 
     // Allow access if the user's role is included in the allowed roles
-    debugger
+    
     if (!allowedRoles || allowedRoles.includes(userRole)) {
       return true;
     } else {

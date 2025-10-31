@@ -125,7 +125,7 @@ export class AppComponent implements OnInit, DoCheck {
 
   }
   private updateMenu() {
-    debugger
+    
     // ;
     // Check if the role has categories or direct items
     const hasCategories = ['SEC1', 'DHS', 'CME'].includes(this.role);
@@ -139,7 +139,7 @@ export class AppComponent implements OnInit, DoCheck {
         this.menuItems = [];
       }
     } else {
-      debugger
+      
       // For roles without categories, fetch items directly
       this.menuItems = this.menuService.getMenuItems(this.role);
     }

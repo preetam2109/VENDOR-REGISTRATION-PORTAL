@@ -1414,7 +1414,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   AIvsIssuance(mcid:any,yrid:any,facid:any){
-    debugger
+    
     return this.http.get<AIvsIssuance[]>(`${this.CGMSCHO_API2}/HO/AIvsIssuance?mcid=${mcid}&facid=${facid}&yrid=${yrid}`);
 
   }
@@ -1711,15 +1711,17 @@ RegisterVendor(supplierId: any) {
     { responseType: 'text' } // correct position (third argument)
   );
 }
-
+getVendorDetailsID(supplierId:any) {
+  return this.http.get(`${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId}`);
+}
 
 getVendorDetails(supplierId:any) {
-  debugger
+  
   return this.http.get(`${this.VREGAPI}/Registration/vendorDetail?supplierId=${supplierId}`);
 }
 
 updateVendor(params: any, formData: FormData) {
-  debugger
+  
   let httpParams = new HttpParams()
     .set('authMobileNo', params.authMobileNo)
     .set('authEmail', params.authEmail)
@@ -1734,7 +1736,57 @@ updateVendor(params: any, formData: FormData) {
 }
 
 
+getLicenceTypes(){
+  debugger
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
+}
 
+
+getStates(){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/masstates`);
+}
+
+postSupplierUnit(data: any): Observable<any> {
+  const params = new HttpParams()
+    .set('mSupplierID', data.mSupplierID)
+    .set('mVregid', data.mVregid)
+    .set('mStateId', data.mStateId)
+    .set('mUNITNAME', data.mUNITNAME)
+    .set('mUNITAddress', data.mUNITAddress)
+    .set('mCity', data.mCity)
+    .set('mUNITINCHARGENAME', data.mUNITINCHARGENAME)
+    .set('mUNITINCHARGEMOB', data.mUNITINCHARGEMOB)
+    .set('mUNITINCHARGEEMAIL', data.mUNITINCHARGEEMAIL)
+    .set('mlictypeid', data.mlictypeid);
+  return this.http.post(`${this.VREGAPI}/Registration/SUPMANUNIT`, {}, { params,responseType:'text' });
+}
+
+
+getManufacturingDetails(supplierId: any, VregID: number) {
+  return this.http.get(`${this.VREGAPI}/Registration/ManufacturingDetails?supplierId=${supplierId}&VregID=${VregID}`);
+}
+
+getMasformTypes(){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASFORMTYPES`);
+}
+
+
+
+postManufacturingLic(data: any): Observable<any> {
+  debugger
+  const params = new HttpParams()
+    .set('mUNITID', data.mUNITID)
+    .set('mFORMID', data.mFORMID)
+    .set('mLICTYPEID', data.mLICTYPEID)
+    .set('mSUPPLIERID', data.mSUPPLIERID)
+    .set('mVregid', data.mVregid)
+    .set('mLICNO', data.mLICNO)
+    .set('mISSUEDATE', data.mISSUEDATE)
+    .set('mStartDate', data.mStartDate)
+    .set('mVALIDITYDATE', data.mVALIDITYDATE);
+
+  return this.http.post(`${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`, {}, { params, responseType: 'text' });
+}
 
 
 

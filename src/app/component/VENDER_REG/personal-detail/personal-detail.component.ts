@@ -13,18 +13,7 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class PersonalDetailComponent {
 
-  // @ViewChild('stepper') stepper!: Stepper;
 
-  // steps = [
-  //   { id:1, title: 'Card Details' },
-  //   { id:2, title: 'Form Review' },
-  //   { id:3, title: 'Authentication' },
-  //   { id:4, title: 'Create Code' }
-  // ];
-  // currentStep = 0;
-
-  // form1: FormGroup;
-  // form2: FormGroup;
 
 
   selectedPanFile: File | null = null;
@@ -34,8 +23,7 @@ export class PersonalDetailComponent {
   
 
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
-    // this.form1 = this.fb.group({ name: ['', Validators.required] });
-    // this.form2 = this.fb.group({ review: ['', Validators.required] });
+   
   }
 
 
@@ -46,7 +34,7 @@ ngOnInit() {
 }
 
 loadVendorDetails() {
-  debugger
+  
   this.api.getVendorDetails(sessionStorage.getItem('facilityid')).subscribe({
     next: (res: any) => {
       if (res && res.length > 0) {
@@ -62,7 +50,7 @@ loadVendorDetails() {
 
 saveVendor() {
 
-  debugger
+  
   try {
     const formData = new FormData();
 
@@ -120,19 +108,5 @@ onFileSelected(event: any) {
   }
 }
  
-  // submitStep1() {
-  //   if (this.form1.invalid) return;
-    
-  //   setTimeout(() => {
-      
-  //     this.stepper.markCurrentCompleteAndNext();
-  //   }, 400); 
-  // }
 
-  // submitStep2() {
-  //   if (this.form2.invalid) return;
-  //   setTimeout(() => {
-  //     this.stepper.markCurrentCompleteAndNext();
-  //   }, 400);
-  // }
 }
