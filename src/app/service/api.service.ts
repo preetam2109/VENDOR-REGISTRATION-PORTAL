@@ -1730,6 +1730,10 @@ GETYear() {
   //https://dpdmis.in/VREGAPI/api/Registration/getYear
   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
 }
+// GETYear() {
+//   //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+//   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
+// }
 
 updateVendor(vendor: any) {
   const params = new HttpParams()
