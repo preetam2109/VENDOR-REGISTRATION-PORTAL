@@ -1791,7 +1791,7 @@ postSupplierUnit(data: any): Observable<any> {
 }
 
 
-getManufacturingDetails(supplierId: any, VregID: number) {
+getManufacturingDetails(supplierId: any, VregID: any) {
   return this.http.get(`${this.VREGAPI}/Registration/ManufacturingDetails?supplierId=${supplierId}&VregID=${VregID}`);
 }
 
@@ -1820,6 +1820,19 @@ postManufacturingLic(data: any, formData: FormData): Observable<any> {
 getmANUFACLICDetails(supID:any,vregid:any){
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/MANUFACLICDetails?supID=${supID}&vregid=${vregid}`);
 }
+
+
+downloadFile(filePath: string, fileName: string): Observable<Blob> {
+  const params = new HttpParams()
+    .set('mFilePath', filePath)
+    .set('mFileName', fileName);
+
+  return this.http.get(`${this.VREGAPI}/Registration/DownloadFileWithName`, {
+    params,
+    responseType: 'blob', // important for file download
+  });
+}
+
 
 
 

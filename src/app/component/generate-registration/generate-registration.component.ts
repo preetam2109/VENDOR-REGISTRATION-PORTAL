@@ -33,6 +33,7 @@ export class GenerateRegistrationComponent {
   
 
   ngOnInit() {
+    this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
     
   }
 
