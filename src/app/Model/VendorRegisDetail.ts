@@ -22,3 +22,32 @@ export interface vendorBankDetail_model {
     ifsccode: string
     defaultacc: boolean
   }
+
+
+  
+  export class UpdateBankDetails_model {
+    VendorRegistrationId: string | undefined;
+    SelectedBankAccountId: number| undefined;
+    AccountNumber: string| undefined;
+    AccountHolderName: string| undefined;
+    BankName: string| undefined;
+    BranchName: string| undefined;
+    IFSCCode: string| undefined;
+    supplierid: string| undefined;
+    BankDetailDocument:string| undefined;
+  }
+//   public string VendorRegistrationId { get; set; }
+//   public int SelectedBankAccountId { get; set; }
+// //  public string PanCardNumber { get; set; }
+
+//   // New bank account details
+//   public string AccountNumber { get; set; }
+//   public string AccountHolderName { get; set; }
+//   public string BankName { get; set; }
+//   public string BranchName { get; set; }
+//   public string IFSCCode { get; set; }
+//   public string supplierid { get; set; }
+
+//   // File uploads
+
+//   public IFormFile BankDetailDocument { get; set; }

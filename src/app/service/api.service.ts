@@ -1414,7 +1414,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   AIvsIssuance(mcid:any,yrid:any,facid:any){
-    debugger
+    
     return this.http.get<AIvsIssuance[]>(`${this.CGMSCHO_API2}/HO/AIvsIssuance?mcid=${mcid}&facid=${facid}&yrid=${yrid}`);
 
   }
@@ -1712,9 +1712,12 @@ RegisterVendor(supplierId: any) {
     { responseType: 'text' } // correct position (third argument)
   );
 }
-
+getVendorDetailsID(supplierId:any) {
+  return this.http.get(`${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId}`);
+}
 
 getVendorDetails(supplierId:any) {
+  
   return this.http.get(`${this.VREGAPI}/Registration/vendorDetail?supplierId=${supplierId}`);
 }
 vendorBankDetail(supplierId:any) {
@@ -1730,25 +1733,89 @@ GETYear() {
   //https://dpdmis.in/VREGAPI/api/Registration/getYear
   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
 }
+public post(url: string, data: any, options?: any) {
+  // debugger;
+  //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+   return this.http.post(this.VREGAPI + url, data, options); 
+  }
+  updateBankDetails(data: FormData) {
+    return this.http.post('https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails', data);
+  }
+  
 // GETYear() {
-//   //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+//   
 //   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
 // }
+// getVendorDetailsID(supplierId:any) {
+//   return this.http.get(${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId});
+// }
+updateVendor(params: any, formData: FormData) {
+  
+  let httpParams = new HttpParams()
+    .set('authMobileNo', params.authMobileNo)
+    .set('authEmail', params.authEmail)
+    .set('authName', params.authName)
+    .set('authSigName', params.authSigName)
+    .set('authSigMobileNo', params.authSigMobileNo)
+    .set('authSigEmailId', params.authSigEmailId)
+    .set('pancardno', params.pancardno)
+    .set('vregId', params.vregId);
 
-updateVendor(vendor: any) {
-  const params = new HttpParams()
-    .set('authMobileNo', vendor.authmobileno)
-    .set('authEmail', vendor.authemail)
-    .set('authName', vendor.authname)
-    .set('authSigName', vendor.authsigname)
-    .set('authSigMobileNo', vendor.authsigmobileno)
-    .set('authSigEmailId', vendor.authsigemailid)
-    .set('vregId', vendor.supplierid);
-
-  return this.http.put(`${this.VREGAPI}/Registration/vendorUpdate`, {}, { params, responseType: 'text' });
+  return this.http.put(`${this.VREGAPI}/Registration/vendorUpdate`, formData, { params: httpParams , responseType: 'text' } );
 }
 
 
+getLicenceTypes(){
+  // debugger
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
+}
+
+
+getStates(){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/masstates`);
+}
+
+postSupplierUnit(data: any): Observable<any> {
+  const params = new HttpParams()
+    .set('mSupplierID', data.mSupplierID)
+    .set('mVregid', data.mVregid)
+    .set('mStateId', data.mStateId)
+    .set('mUNITNAME', data.mUNITNAME)
+    .set('mUNITAddress', data.mUNITAddress)
+    .set('mCity', data.mCity)
+    .set('mUNITINCHARGENAME', data.mUNITINCHARGENAME)
+    .set('mUNITINCHARGEMOB', data.mUNITINCHARGEMOB)
+    .set('mUNITINCHARGEEMAIL', data.mUNITINCHARGEEMAIL)
+    .set('mlictypeid', data.mlictypeid);
+  return this.http.post(`${this.VREGAPI}/Registration/SUPMANUNIT`, {}, { params,responseType:'text' });
+}
+
+
+getManufacturingDetails(supplierId: any, VregID: number) {
+  return this.http.get(`${this.VREGAPI}/Registration/ManufacturingDetails?supplierId=${supplierId}&VregID=${VregID}`);
+}
+
+getMasformTypes(){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASFORMTYPES`);
+}
+
+
+
+postManufacturingLic(data: any): Observable<any> {
+  // debugger
+  const params = new HttpParams()
+    .set('mUNITID', data.mUNITID)
+    .set('mFORMID', data.mFORMID)
+    .set('mLICTYPEID', data.mLICTYPEID)
+    .set('mSUPPLIERID', data.mSUPPLIERID)
+    .set('mVregid', data.mVregid)
+    .set('mLICNO', data.mLICNO)
+    .set('mISSUEDATE', data.mISSUEDATE)
+    .set('mStartDate', data.mStartDate)
+    .set('mVALIDITYDATE', data.mVALIDITYDATE);
+
+  return this.http.post(`${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`, {}, { params, responseType: 'text' });
+}
 
 
 

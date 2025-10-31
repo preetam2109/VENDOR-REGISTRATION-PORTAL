@@ -1,21 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component,  } from '@angular/core';
-import { FormBuilder,FormsModule,} from '@angular/forms';
+import { Component} from '@angular/core';
+import { FormBuilder,FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/service/api.service';
-
-
 @Component({
   selector: 'app-personal-detail',
   standalone: true,
-  imports:[CommonModule,FormsModule,],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './personal-detail.component.html',
   styleUrl: './personal-detail.component.css'
 })
 export class PersonalDetailComponent {
 
 
+
+
+  selectedPanFile: File | null = null;
 
  
 
@@ -33,6 +34,7 @@ ngOnInit() {
 }
 
 loadVendorDetails() {
+  
   this.api.getVendorDetails(sessionStorage.getItem('facilityid')).subscribe({
     next: (res: any) => {
       if (res && res.length > 0) {
@@ -47,9 +49,31 @@ loadVendorDetails() {
 }
 
 saveVendor() {
-  debugger
   try {
-    this.api.updateVendor(this.vendor).subscribe({
+    const formData = new FormData();
+
+    // Append file if selected
+    if (this.selectedPanFile) {
+      formData.append('PanCardDocument', this.selectedPanFile);
+    }
+
+    // Append any extra form fields if required in DTO
+    // formData.append('SomeField', this.vendor.someValue);
+
+    // Prepare query params based on backend API
+    const params = {
+      authMobileNo: this.vendor.authmobileno,
+      authEmail: this.vendor.authemail,
+      authName: this.vendor.authname,
+      authSigName: this.vendor.authsigname,
+      authSigMobileNo: this.vendor.authsigmobileno,
+      authSigEmailId: this.vendor.authsigemailid,
+      pancardno: this.vendor.pancardno,
+      vregId: this.vendor.supplierid
+    };
+
+    // Use updated service method
+    this.api.updateVendor(params, formData).subscribe({
       next: (res: any) => {
         console.log("Vendor saved:", res);
         this.toastr.success("Vendor details saved successfully!", "Success");
@@ -74,5 +98,13 @@ saveVendor() {
   }
 }
 
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedPanFile = file;
+    console.log('Selected PAN card file:', file.name);
+  }
+}
+ 
 
 }

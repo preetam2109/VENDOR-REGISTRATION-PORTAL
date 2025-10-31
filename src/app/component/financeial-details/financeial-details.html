@@ -30,7 +30,7 @@
     
     
                                     <div class="mb-3 Fon-family" style="text-align: justify;">
-                                        <form class="p-2">
+                                        <form class="p-2" #bankForm="ngForm" (ngSubmit)="onSubmit(bankForm)">
                                             <div class="row pb-3">
                                                 <div class="form-group col-md-6 pt-3">
                                                     <label for="inputName">Select Existing Bank Account <span
@@ -131,8 +131,9 @@
                                                 <div class="form-group col-md-6 pt-3">
                                                     <label for="inputnumber"> Upload Bank Mandate: <span
                                                             class="text-danger">*</span></label>
-                                                    <input type="file" class="form-control" [disabled]="!isNewBank"
-                                                        placeholder="Type your Account No" id="inputnumber">
+                                                    <input type="file" class="form-control" [disabled]="!isNewBank" (change)="onFileSelected($event)"
+                                                    name="bankmandatefile"
+                                                        placeholder="Type your Account No" id="files">
                                                     <!-- <span class="text-danger" *ngIf="(FeedbackForm.get('mobileNumber')?.touched || submitted) && FeedbackForm.get('mobileNumber')?.errors?.['pattern']">
                                                 Enter 10 digit valid mobile number
                                               </span>
