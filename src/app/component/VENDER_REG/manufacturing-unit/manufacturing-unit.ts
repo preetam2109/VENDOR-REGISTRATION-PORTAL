@@ -60,6 +60,7 @@ export class ManufacturingUnit {
 
   constructor(private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
     this.dataSource = new MatTableDataSource<any>([]);
+    this.dataSource2 = new MatTableDataSource<any>([]);
   }
 
   ngOnInit() {
@@ -152,7 +153,7 @@ this.GetmANUFACLICDetails()
       const supplierId = sessionStorage.getItem('facilityid');
       
     
-      this.api.getManufacturingDetails(supplierId, this.vregid).subscribe((res: any) => {
+      this.api.getManufacturingDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
           console.log('Raw API response:', res);
     
           this.manufacturingList = res.map((item: any, index: number) => ({
@@ -186,7 +187,7 @@ debugger
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
     
-      this.api.getmANUFACLICDetails(supplierId,this.vregid).subscribe((res: any) => {
+      this.api.getmANUFACLICDetails(supplierId,sessionStorage.getItem('vregid')).subscribe((res: any) => {
           console.log('Raw API response:', res);
     
           this.manufacturingLicList = res.map((item: any, index: number) => ({
@@ -201,8 +202,7 @@ debugger
           this.dataSource2.data = this.manufacturingLicList;
           this.dataSource2.paginator = this.paginator1;
           this.dataSource2.sort = this.sort1;
-          debugger
-          console.log('With manuf lic datasource :', this.dataSource2);
+         
 
     
           this.spinner.hide();
@@ -217,7 +217,27 @@ debugger
     }
 
 
-
+    downloadFile(row: any) {
+      debugger  
+      const filePath = row.filepath;
+      const fileName = row.filename;
+    
+      this.api.downloadFile(filePath, fileName).subscribe({
+        next: (fileBlob) => {
+          const url = window.URL.createObjectURL(fileBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName;
+          a.click();
+          window.URL.revokeObjectURL(url);
+        },
+        error: (err) => {
+          console.error('Download failed:', err);
+          this.toastr.error('Failed to download file');
+        }
+      });
+    }
+    
 
 
 
