@@ -36,18 +36,59 @@ export interface vendorBankDetail_model {
     supplierid: string| undefined;
     BankDetailDocument:string| undefined;
   }
-//   public string VendorRegistrationId { get; set; }
-//   public int SelectedBankAccountId { get; set; }
-// //  public string PanCardNumber { get; set; }
+  export class UpdateAnnualTurnover_model {
+    Atid: string | undefined;
+    VregId: string| undefined;
+    SupplierId: string| undefined;
+    AccYrSetId: string| undefined;
+    TurnOverAmt: string| undefined;
+    UDINNO: string| undefined;
+    TurnOverDocument:string| undefined;
+  }
+  export class GetAnnualTurnoverDetail {
+    sno:any
+    slno: number | undefined;
+    atid: number| undefined;
+    accyear: string| undefined;
+    accyrsetid: number| undefined;
+    turnoveramt: number| undefined;
+    filename: string| undefined;
+    ext: string| undefined;
+    filepath: string| undefined;
+    udinno: string| undefined;
 
-//   // New bank account details
-//   public string AccountNumber { get; set; }
-//   public string AccountHolderName { get; set; }
-//   public string BankName { get; set; }
-//   public string BranchName { get; set; }
-//   public string IFSCCode { get; set; }
-//   public string supplierid { get; set; }
-
-//   // File uploads
-
-//   public IFormFile BankDetailDocument { get; set; }
+  }
+  export class BankMandateDetail {
+    sno:any;
+    bankaccountid: number| undefined;
+    supplierid: number| undefined;
+    accountname: string| undefined;
+    accountno: string| undefined;
+    bankname: string| undefined;
+    branch: string| undefined;
+    ifsccode: string| undefined;
+    defaultacc: boolean| undefined;
+  }
+  export class MassuppliergstDetails {
+    sno:any;
+    gstid: number| undefined;
+    gstno: string| undefined;
+    filename: string| undefined;
+    filepath: string| undefined;
+    statename: string| undefined;
+    stateid: number| undefined;
+    vregid: number| undefined;
+  }
+  export class GstReturnDetails {
+    sno:any;
+    retid: number| undefined;
+    gstid: number| undefined;
+    gstno: string| undefined;
+    accyear: string| undefined;
+    gstqtrid: number| undefined;
+    quartername: string| undefined;
+    startmonth: string| undefined;
+    endmonth: string| undefined;
+    filename: string| undefined;
+    filepath: string| undefined;
+  }

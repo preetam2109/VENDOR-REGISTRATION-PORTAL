@@ -1729,18 +1729,79 @@ SupplierBankAccDetail(supplierId:any,bankAccId:any) {
   //https://dpdmis.in/VREGAPI/api/Registration/SupplierBankAccDetail?supID=2185&bankAccId=659
   return this.http.get(`${this.VREGAPI}/Registration/SupplierBankAccDetail?supID=${supplierId}&bankAccId=${bankAccId}`);
 }
+Massupplieraccnos(supplierId:any,vregId:any) {
+  //https://dpdmis.in/VREGAPI/api/Registration/Massupplieraccnos?SuPID=2216&VregID=38
+  return this.http.get(`${this.VREGAPI}/Registration/Massupplieraccnos?SuPID=${supplierId}&VregID=${vregId}`);
+}
+MassuppliergstDetails(supplierId:any,vregId:any) {
+  //https://dpdmis.in/VREGAPI/api/Registration/MassuppliergstDetails?SuPID=1936&VregID=0
+  return this.http.get(`${this.VREGAPI}/Registration/MassuppliergstDetails?SuPID=${supplierId}&VregID=${vregId}`);
+}
 GETYear() {
   //https://dpdmis.in/VREGAPI/api/Registration/getYear
   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
 }
-public post(url: string, data: any, options?: any) {
+GetAnnualTurnover(vregId:any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/GetAnnualTurnover?vregId=50
+  return this.http.get(`${this.VREGAPI}/Registration/GetAnnualTurnover?vregId=${vregId}`);
+}
+GstReturnDetails(mSupplierID:any,vregId:any) {
+
+    //https://dpdmis.in/VREGAPI/api/Registration/GstReturnDetails?mSupplierID=1936&mVregID=50
+  return this.http.get(`${this.VREGAPI}/Registration/GstReturnDetails?mSupplierID=${mSupplierID}&mVregID=${vregId}`);
+  }
+  InsertGSTCertificate(data: any, formData: FormData): Observable<any> {
+//post := https://localhost:7053/api/Registration/c?mVergID=50&msupplierid=1936&mstateID=44&gstno=gdtdhnj
+
+    let params = new HttpParams()
+      .set('mVergID', data.mVergID)
+      .set('msupplierid', data.msupplierid)
+      .set('mstateID', data.mstateID)
+      .set('gstno', data.gstno)
+    return this.http.post(
+      `${this.VREGAPI}/Registration/InsertGSTCertificate`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  GETAccYearSettings() {
+    //https://dpdmis.in/VREGAPI/api/Registration/AccYearSettings
+    return this.http.get(`${this.VREGAPI}/Registration/AccYearSettings`);
+  }
+  MASGSTQUARTER() {
+    //https://dpdmis.in/VREGAPI/api/Registration/MASGSTQUARTER
+    return this.http.get(`${this.VREGAPI}/Registration/MASGSTQUARTER`);
+  }
+  InsertMASGSTRETURNFILES(data: any, formData: FormData): Observable<any> {
+    debugger;
+//post := https://localhost:7053/api/Registration/InsertMASGSTRETURNFILES?mGSTID=468&mVergID=50&mACCYRSETID=546&mGSTQTRID=1&mSupplierID=1936
+
+    let params = new HttpParams()
+      .set('mGSTID', data.mGSTID)
+      .set('mVergID', data.mVergID)
+      .set('mACCYRSETID', data.mACCYRSETID)
+      .set('mGSTQTRID', data.mGSTQTRID)
+      .set('mSupplierID', data.mSupplierID)
+      // .set('mstateID', data.mstateID)
+      // .set('gstno', data.gstno)
+    return this.http.post(
+      `${this.VREGAPI}/Registration/InsertMASGSTRETURNFILES`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  
+
+public post(url: string, data: FormData, options?: any) {
   // debugger;
   //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
    return this.http.post(this.VREGAPI + url, data, options); 
   }
-  updateBankDetails(data: FormData) {
-    return this.http.post('https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails', data);
-  }
+
+  // updateBankDetails(data: FormData) {
+  //   return this.http.post('https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails', data);
+  // }
   
 // GETYear() {
 //   
