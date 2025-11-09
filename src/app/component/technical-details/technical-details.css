@@ -1,0 +1,54 @@
+
+/* 🔹 Remove backdrop completely (no overlay, no click blocker) */
+.modal-backdrop.show {
+    opacity: 0 !important;
+    background-color: transparent !important;
+    pointer-events: none !important; 
+  }
+  
+  /* 🔹 Modal look cleanup */
+  .custom-transparent-modal .modal-content {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  /* 🔹 Iframe scrollable and responsive */
+  .pdf-frame {
+    width: 100%;
+    height: 85vh;
+    border: none;
+    display: block;
+  }
+  
+  /* 🔹 Allow scroll inside modal body */
+  .custom-transparent-modal .modal-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 🔹 Responsive for smaller devices */
+  @media (max-width: 768px) {
+    .pdf-frame {
+      height: 75vh;
+    }
+    .custom-transparent-modal .modal-content {
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+  
+  
+  /* make sure modal is on top */
+  .modal {
+    z-index: 200000 !important;
+  }
+  
+  /* if backdrop still present, make it transparent and non-blocking */
+  .modal-backdrop {
+    z-index: 199999 !important;
+    background-color: transparent !important;
+    opacity: 0 !important;
+    pointer-events: none !important; 
+  }

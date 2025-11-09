@@ -996,6 +996,9 @@ export class MenuServiceService {
         { label: 'Financial Details', route: '/FinanceialDetails' },
 
         { label: 'Manufacturing Unit', route: '/manufacturingUnit'},
+        { label: 'Technical Details', route: '/TechnicalDetails'},
+        { label: 'Compliance Details', route: '/ComplianceDetails'},
+        { label: 'Global Company Prefix', route: '/GlobalCompanyPrefix'},
         // { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
         { label: 'Import Licence', route: '/' },

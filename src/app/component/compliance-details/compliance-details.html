@@ -1,0 +1,484 @@
+<div class=" card container-fluid text-center" style="background-color: aliceblue;">
+    <h3 class="mb-3 Heading-font-family pt-1">COMPLIANCE DETAILS</h3>
+  </div>
+<div class="container-fluid p-0 m-0 py-3">
+    <div class="row justify-content-center g-4 px-3">
+        <div class="col-lg-12 mb-5">
+
+            <!-- DATA Table -->
+            <div class="row justify-content-center g-4 p-3">
+                <!-- Card 1 -->
+                <div class="col-12 col-md-12 p-2">
+                  <div class="" style="padding-bottom: 20px;">
+                    <div class=" card row shadow ">
+                      <div class="d-flex justify-content-between align-items-center m-2">
+                        <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
+                        </div>
+                
+                        <!-- <button type="button" class="btn border rounded mr-1 text-light" style="background-color: rgb(21, 184, 0);"
+                          (click)="onButtonClickAT()"><i class="bi bi-folder-plus"></i></button> -->
+                        <div class="export-menu-container m-2">
+                          <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                            [matMenuTriggerFor]="exportMenu">Export</button>
+                          <mat-menu #exportMenu="matMenu">
+                            <button mat-menu-item
+                              (click)="exporter.exportTable('xlsx', { fileName: 'COMPLIANCED', sheet: 'COMPLIANCED', Props: { Author: 'cgmsc' }})">Excel</button>
+                            <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+                            <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                                       <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                            <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
+                          </mat-menu>
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+                          [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+                
+                          <ng-container matColumnDef="sno">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              {{element.sno}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="licno">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Liance</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.licno}} </td>
+                          </ng-container>
+                
+                          <ng-container matColumnDef="unitname">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.unitname}} </td>
+                          </ng-container>
+                          <!-- '','','','','','','','',
+      '','','','','','','filename','','','filepath','action' -->
+                          <ng-container matColumnDef="whono">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance No</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.whono}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="comid">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance ID</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.comid}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="comname">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance Name</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.comname}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="issuedate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.issuedate}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="startdate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.startdate}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="validitydate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Validity Date</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.validitydate}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="remarks">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.remarks}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="whotype">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Type</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.whotype}} 
+                               
+                            </td>
+                          </ng-container>
+                          <ng-container matColumnDef="whoid">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO ID</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                                <a
+                                (click)="GettypedetailsDetails(element.whoid)"
+
+                                class="whoid-link"
+                                style="cursor: pointer;"
+                              >
+                                {{ element.whoid }}
+                              </a>
+                                <!-- <a
+                                class="link"
+                                mat-button
+                                (click)="openModal(element.whoid)"
+                                (click)="openModal(element.whoid)"
+                                >
+                            </a> -->
+                            </td>
+                          </ng-container>
+                          <ng-container matColumnDef="vregid">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>vreg ID</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="supplierid">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier ID</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.supplierid}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="ext">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>EXT</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="licid">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lic Id</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.licid}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="filename">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              <button
+                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                mat-button
+                                (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
+                                  class="bi bi-filetype-pdf text-danger"></i>
+                                <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i> -->
+                              </button>
+                            </td>
+                          </ng-container>
+                
+                          <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              <span class="d-flex  flex-row-reverse p-2 ">
+                                <button
+                                  class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                  mat-button (click)="onButtonClick(element.atid)">
+                                  <i class="bi bi-pencil-square text-primary"></i>
+                                </button>
+                              </span>
+                            </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- END DATA TABLE -->
+            <div class="card shadow-lg p-4 border-0 bg-white rounded ">
+                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                    style="height: auto; overflow: hidden; position: relative;">
+                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                        <form class="p-2" #COMCForm="ngForm" (ngSubmit)="InsertComplianceCertificate1(COMCForm)">
+                            <div class="row pb-3">
+                                <div class="form-group col-md-6 pt-3">
+                                    <label for="inputName">Select Existing License NO<span
+                                            class="text-danger">*</span></label>
+                                    <!-- <ng-select class="form-control" [items]="license"
+                                                    bindLabel="unitname" bindValue="license" [(ngModel)]="unitname"
+                                                    name="unitname" (change)="Onselectlicense($event)"
+                                                    [placeholder]="'Select Existing License : '" [searchable]="true"
+                                                    [clearable]="true" [appendTo]="'body'" required>
+                                                </ng-select> -->
+                                    <ng-select class="form-control" [items]="license" bindValue="licid"
+                                        bindLabel="unitname" [(ngModel)]="selectedLicense" name="unitname"
+                                        (change)="Onselectlicense($event)"
+                                        [placeholder]="'Select Existing License NO : '" [searchable]="true"
+                                        [clearable]="true" [appendTo]="'body'" required>
+
+                                        <!-- 👇 Custom label template -->
+                                        <ng-template ng-option-tmp let-item="item">
+                                            {{ item.licid }} - {{ item.unitname }}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div class="form-group col-md-6  pt-3">
+                                    <label for="inputPassword4">Select Existing Compliance Type: <span
+                                            class="text-danger">*</span></label>
+                                    <ng-select class="form-control" [items]="MAScomplianceType" bindValue="comid"
+                                        bindLabel="comname" [(ngModel)]="comname" name="comname"
+                                        (change)="OnselectlicensecomplianceType($event)"
+                                        [placeholder]="'Select Existing Compliance Type: '" [searchable]="true"
+                                        [clearable]="true" [appendTo]="'body'" required>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="row pb-3">
+                                <div class="form-group col-md-6 pt-3">
+                                    <label for="inputEmail4">Certificate No: <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Type your Certificate No:"
+                                        id="inputEmail4" name="mWHONO"
+                                        [(ngModel)]="mWHONO" #mWHONOe="ngModel" required>
+                                </div>
+                                <div class="form-group col-md-6 pt-3">
+                                    <label for="inputAddress">Approved Section: <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Type your Approved Sections"
+                                        id="inputAddress" name="mRemarks"
+                                        [(ngModel)]="mRemarks" #mRemarkse="ngModel" required>
+                                </div>
+                            </div>
+
+                            <div class="row pb-3">
+                                <div class="form-group col-md-6 pt-3">
+                                    <label for="inputnumber">Start Date: <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" placeholder="Type your Validity Date"
+                                        id="inputnumber" name="mstartdate"
+                                        [(ngModel)]="mstartdate" #mstartdatee="ngModel" required>
+                                </div>
+                                <div class="form-group col-md-6 pt-3">
+                                    <label for="inputAddress">Issue Date: <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" placeholder="Type your Issue Date"
+                                        id="inputAddress" name="ISSUEDATE"
+                                        [(ngModel)]="ISSUEDATE" #ISSUEDATEe="ngModel" required>
+                                </div>
+
+
+                            </div>
+                            <div class="row pb-3">
+                                <div class="form-group col-md-6 pt-3">
+                                    <label for="inputnumber">Validity Date: <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" placeholder="Type your Validity Date"
+                                        id="inputnumber" name="mEXPDate"
+                                        [(ngModel)]="mEXPDate" #mEXPDatee="ngModel" required>
+                                </div>
+                                <div class="form-group col-md-6 pt-3">
+                                    <label for="inputnumber"> Upload Compliance Certificate: <span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" placeholder="Upload Compliance Certificate" accept=".pdf"
+                                        id="inputnumber" name="files" (change)="onFileSelectedCertificate($event)" required>
+                                </div>
+
+                            </div>
+                            <div class="row pb-3">
+                                <div class="form-group col-md-6 pt-3">
+                                    <label for="inputnumber">Select Existing multiple Item Type: <span class="text-danger">*</span></label>
+                                    <!-- [placeholder]="'Select Item Types...'" -->
+                                    
+                                    <!-- <ng-select
+                                    class="form-control"
+                                    [items]="masitemtypes"
+                                    bindLabel="itemtypename"
+                                    bindValue="itemtypeid"
+                                    [(ngModel)]="selecteditemtypeid"
+                                    name="selecteditemtypeid"
+                                    (change)="OnselectItemtype($event)"
+                                    [placeholder]="''"
+                                    [searchable]="true"
+                                    [clearable]="true"
+                                    [appendTo]="'body'"
+                                    [multiple]="true"
+                                    required>
+                                  </ng-select> -->
+                                <ng-select class="form-control" [items]="masitemtypes" bindLabel="itemtypename" bindValue="itemtypeid"
+                                    [(ngModel)]="selecteditemtypeid" name="selecteditemtypeid" (change)="OnselectItemtype($event)"
+                                    [placeholder]="selecteditemtypeid?.length ? '' : 'Select Item Types...'" [searchable]="true" [clearable]="true"
+                                    [appendTo]="'body'" [multiple]="true" [closeOnSelect]="false" [hideSelected]="false" required>
+                                    <ng-template ng-option-tmp let-item="item">
+                                        <input type="checkbox" [checked]="selecteditemtypeid?.includes(item.itemtypeid)"
+                                            (click)="$event.stopPropagation()" (change)="toggleSelection(item.itemtypeid, $event)"
+                                            style="margin-right: 8px;" />
+                                        {{ item.itemtypename }}
+                                    </ng-template>
+                                
+                                </ng-select>
+                                
+                                </div>
+                                
+                                </div>
+                            <div class="d-flex justify-content-center mt-3">
+                                <!-- <button type="button" class="btn btn-primary m-3">Upload</button> -->
+                                <button type="submit" class="btn btn-primary m-3">Submit</button>
+                                <!-- <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTRETURNForm.valid">Submit</button> -->
+
+                            </div>
+                        </form>
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl">
+      <div class="modal-content border-0 shadow-none">
+        <div class="modal-header bg-dark text-white py-2 px-3">
+          <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <iframe
+            [src]="sanitizedPdfUrl"
+            class="pdf-frame"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- data table click de whoid by -->
+<div class="modal fade custom-transparent-modal" id="whoidModal" tabindex="-1" aria-labelledby="whoidModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+      <div class="modal-content border-0 shadow-none">
+        <div class="modal-header bg-dark text-white py-2 px-3">
+          <h5 class="modal-title" id="whoidModalLabel">Compliance Type Details</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-3">
+        <div class="row justify-content-center g-4 p-3">
+            <!-- Card 1 -->
+            <div class="col-12 col-md-12 p-2">
+              <div class="" style="padding-bottom: 20px;">
+                <div class=" card row shadow ">
+                  <div class="d-flex justify-content-between align-items-center m-2">
+                    <div class="filter-field flex-grow-1">
+                      <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
+                    </div>
+            
+                    <!-- <button type="button" class="btn border rounded mr-1 text-light" style="background-color: rgb(21, 184, 0);"
+                      (click)="onButtonClickAT()"><i class="bi bi-folder-plus"></i></button> -->
+                    <div class="export-menu-container m-2">
+                      <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                        [matMenuTriggerFor]="exportMenu">Export</button>
+                      <mat-menu #exportMenu="matMenu">
+                        <button mat-menu-item
+                          (click)="exporter.exportTable('xlsx', { fileName: 'COMTyepDetails', sheet: 'COMTyepDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                        <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+                        <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                                   <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                        <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
+                      </mat-menu>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+                      [dataSource]="dataSource1" #exporter="matTableExporter" matSort #sort1="matSort">
+            
+                      <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                          {{element.sno}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="licno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Liance</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.licno}} </td>
+                      </ng-container>
+            
+                      <ng-container matColumnDef="unitname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.unitname}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="whono">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance No</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whono}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="comid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance ID</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.comid}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="comname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance Name</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.comname}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="issuedate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.issuedate}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="startdate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.startdate}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="validitydate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Validity Date</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.validitydate}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="remarks">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.remarks}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="whotype">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Type</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whotype}} 
+                           
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="whoid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO ID</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whoid}} 
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="vregid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>vreg ID</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="supplierid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier ID</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.supplierid}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="ext">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>EXT</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="licid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lic Id</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.licid}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="filename">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                          <button
+                            class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                            mat-button
+                            (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
+                              class="bi bi-filetype-pdf text-danger"></i>
+                            <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i> -->
+                          </button>
+                        </td>
+                      </ng-container>
+            
+                      <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                          <span class="d-flex  flex-row-reverse p-2 ">
+                            <button
+                              class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                              mat-button (click)="onButtonClick(element.atid)">
+                              <i class="bi bi-pencil-square text-primary"></i>
+                            </button>
+                          </span>
+                        </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      </div>
+      </div>
+    </div>
+  </div>
+
+                                        <!-- <label for="inputnumber">Upload Document </label>
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputnumber"> Upload Compliance Certificate: <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control"
+                                                    placeholder="Upload Compliance Certificate" id="inputnumber">
+                                            </div>
+                                          
+                                        </div> -->
+
+
+
+                                        <!-- <div class="form-group col-md-6 pt-3">
+                                            <button type="button" class="btn btn-primary m-3">Upload</button>
+                                            <button type="submit" class="btn btn-primary m-3">Download Bank Mandate</button>
+                                        </div> -->
