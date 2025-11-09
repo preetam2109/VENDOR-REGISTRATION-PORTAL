@@ -92,3 +92,63 @@ export interface vendorBankDetail_model {
     filename: string| undefined;
     filepath: string| undefined;
   }
+  export class licenseModel  {
+    licid: number| undefined;
+    manfacname: string| undefined;
+    formname: string| undefined;
+    unitname: string| undefined;
+  }
+
+
+  export interface ComplienceCertificateDetails {
+    sno:any;
+    licno: string
+    unitname: string
+    whono: string
+    comid: number
+    comname: string
+    issuedate: string
+    startdate: string
+    validitydate: string
+    remarks: string
+    whotype: string
+    whoid: number
+    vregid: number
+    supplierid: number
+    filename: string
+    ext: string
+    licid: number
+    filepath: string
+  }
+  export interface GetCOMTyepDetails {
+    sno:any;
+    licno: string
+    unitname: string
+    whono: string
+    comid: number
+    comname: string
+    issuedate: string
+    startdate: string
+    validitydate: string
+    remarks: string
+    whotype: string
+    whoid: number
+    vregid: number
+    supplierid: number
+    filename: string
+    ext: string
+    licid: number
+    filepath: string
+  }
+  export interface GetGCPDetails {
+    sno:any;
+    gcpid: number
+    vregid: number
+    gcpno: string
+    issuedate: string
+    startdate: any
+    expdate: string
+    filename: string
+    filepath: string
+    entrydate: string
+  }
