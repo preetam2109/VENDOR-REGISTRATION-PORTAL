@@ -44,9 +44,35 @@ import { MatButtonModule } from '@angular/material/button';
 // import { Stepper } from './component/stepper/stepper';
 
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { Registration } from './component/auth/registration/registration';
 
 @NgModule({ declarations: [
         AppComponent,
+
+        // Stepper,
+        // InputComponent,
+        // AutocompleteComponent,
+        MenubarComponent,
+        HomeComponent,
+        CardComponent,
+        Registration,
+        // SliderComponent,
+        // TableComponent,
+        FormdesignComponent,
+        // PopupComponent,
+        // AssociateComponent,
+        // UserdetailComponent,
+        // FooterComponent,
+        RCDetailReportComponent,
+        ComplaintsComponent,
+        ApexChartComponent,
+        DispatchPendingComponent,
+        ReceiptPendingComponent,
+        InstallationPendingComponent,
+        DHSComponent,
+        DispatchPendingOneComponent,
+        LoginComponent,
+
         LogoutComponent,
     ],
     bootstrap: [AppComponent], 
