@@ -990,7 +990,7 @@ export class MenuServiceService {
 
     Suppliers: {
       items: [
-        { label: 'Home', route: '/' },
+        { label: 'Home', route: '/welcome'},
         { label: 'Generate Registration', route: '/generate-registration' },
         { label: 'Company Details', route: '/personal-detail' },
         { label: 'Financial Details', route: '/FinanceialDetails' },
@@ -998,7 +998,7 @@ export class MenuServiceService {
         { label: 'Manufacturing Unit', route: '/manufacturingUnit'},
         // { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Import Licence', route: '/' },
+        { label: 'Import Licence', route: '/import-Licence' },
         // { label: 'Product Permission', route: '/home' },
         { label: 'Loan Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },

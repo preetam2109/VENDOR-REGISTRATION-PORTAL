@@ -89,7 +89,7 @@ onselectacno(event: any): void {
 }
 // https://dpdmis.in/VREGAPI/api/Registration/SupplierBankAccDetail?supID=1836&bankAccId=1139
 GETSupplierBankAccDetail(sid:any,acno:any) {
-  debugger;
+  ;
   // this.api.SupplierBankAccDetail(sessionStorage.getItem('facilityid'),acno).subscribe({
   this.api.SupplierBankAccDetail(sid,acno).subscribe({
     next: (res: any) => {

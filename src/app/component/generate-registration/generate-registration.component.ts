@@ -1,4 +1,4 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component,ViewChild} from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/service/api.service';
@@ -36,6 +36,8 @@ export class GenerateRegistrationComponent {
     this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
     
   }
+
+ 
 
   onClick(){
     this.router.navigate(['personal-detail'])
@@ -93,20 +95,5 @@ export class GenerateRegistrationComponent {
   
 
 
-   // example submit: call API, on success advance the stepper
-  //  submitStep1() {
-  //   if (this.form1.invalid) return;
-   
-  //   setTimeout(() => {
-      
-  //     this.stepper.markCurrentCompleteAndNext();
-  //   }, 400); 
-  // }
-
-  // submitStep2() {
-  //   if (this.form2.invalid) return;
-  //   setTimeout(() => {
-  //     this.stepper.markCurrentCompleteAndNext();
-  //   }, 400);
-  // }
+  
 }
