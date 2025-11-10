@@ -13,21 +13,32 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MatMenuModule } from "@angular/material/menu";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { CollapseModule } from 'src/app/collapse';
 
 
 
 @Component({
   selector: 'app-manufacturing-unit',
   standalone: true,
-  imports: [MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule],
+  imports: [MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
   templateUrl: './manufacturing-unit.html',
   styleUrl: './manufacturing-unit.css'
 })
 export class ManufacturingUnit {
 
+
+  isCollapsed = false;
+  isCollapsed1 = true;
+  isCollapsed2 = true;
+  isCollapsed3 = true;
+  isEventOpen = false;
+
+
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
+  dataSource3!: MatTableDataSource<any[]>;
   manufacturingLicList: any[] = [];
   unitForm!: FormGroup;
   licenceTypes: any[] = [];
@@ -37,6 +48,7 @@ export class ManufacturingUnit {
   vregid: any;
 
   selectedPanFile: File | null = null;
+  selectedRetFile: File | null = null;
 
 
 
@@ -44,11 +56,16 @@ export class ManufacturingUnit {
 
   unitList: any[] = [];
   formList: any[] = [];
+  filteredFormList: any[] = [];
   // licenceTypes: any[] = [];
   licTypes:any[]=[];
 
 
 
+  retForm!:FormGroup
+  ManLicDdllist:any
+  masRetentionDDL:any
+  retentionList: any[] = [];
 
 
 
@@ -57,10 +74,13 @@ export class ManufacturingUnit {
   @ViewChild('sort') sort!: MatSort;
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
+  @ViewChild('paginator2') paginator2!: MatPaginator;
+  @ViewChild('sort2') sort2!: MatSort;
 
   constructor(private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
+    this.dataSource3 = new MatTableDataSource<any>([]);
   }
 
   ngOnInit() {
@@ -68,7 +88,7 @@ export class ManufacturingUnit {
 
     this.GetLicenceTypes()
     this.GetMassStates()
-debugger
+
     this.unitForm = this.fb.group({
       mSupplierID: [sessionStorage.getItem('facilityid') || '', Validators.required],
       mVregid: [this.vregid, Validators.required],
@@ -87,7 +107,7 @@ debugger
 
 
 // licence
-debugger
+
 this.getMasformTypes()
 
 this.licForm = this.fb.group({
@@ -104,10 +124,27 @@ this.licForm = this.fb.group({
 this.GetmANUFACLICDetails()
 
 
+
+this.GetmMANLICDDL();
+this.GetMasRetentionTypeDDL();
+this.GetPovLicenceDetails();
+this.retForm = this.fb.group({
+  mLICID: ['', Validators.required],
+  mISSUEDATE: ['', Validators.required],
+  mStartDate: ['', Validators.required],
+  mVALIDITYDATE: ['', Validators.required],
+  mVregid: [sessionStorage.getItem('vregid'), Validators.required],
+  mretid: ['', Validators.required],
+  mFormID: ['', Validators.required]
+});
+
+
+
+
   }
 
   getMasformTypes(){
-    debugger
+    
     this.api.getMasformTypes().subscribe((res:any[])=>{
       if (res && res.length > 0) {
         this.formList = res.map(item => ({
@@ -121,6 +158,57 @@ this.GetmANUFACLICDetails()
       }
     }); 
   }
+  onRetentionChange(selected: any) {
+    const retid = selected?.retid ?? selected; // handles both cases
+  
+    console.log('Final RetID:', retid);
+  
+    if (retid == 1) {
+      this.filteredFormList = this.formList.filter(f => f.formid == '7');
+      this.retForm.patchValue({ mFormID: '7' });
+    } 
+    else if (retid == 2) {
+      this.filteredFormList = this.formList.filter(f => f.formid == '3');
+      this.retForm.patchValue({ mFormID: '3' });
+    } 
+    else {
+      this.filteredFormList = [];
+      this.retForm.patchValue({ mFormID: null });
+    }
+  }
+  
+  GetmMANLICDDL(){
+    
+    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),1).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+        this.ManLicDdllist = res.map(item => ({
+          licid: item.licid,
+          manfacname : item.manfacname,
+        }));
+        
+        console.log('manfacname items', res)
+      } else {
+        console.error('No manfacname found or incorrect structure:', res);
+      }
+    }); 
+  }
+  GetMasRetentionTypeDDL(){
+    
+    this.api.getRetentionTypeDDL().subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+        this.masRetentionDDL = res.map(item => ({
+          retid: item.retid,
+          retname : item.retname,
+        }));
+        
+        console.log('retname items', res)
+      } else {
+        console.error('No retname found or incorrect structure:', res);
+      }
+    }); 
+  }
+
+
 
   GetVendorDetailsID(supplierId: any) {
     this.api.getVendorDetailsID(supplierId).subscribe({
@@ -182,8 +270,32 @@ this.GetmANUFACLICDetails()
       );
       
     }
+  GetPovLicenceDetails() {
+      debugger
+      this.spinner.show();
+      const supplierId = sessionStorage.getItem('facilityid');
+      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
+          console.log('Raw API response:', res);
+          this.retentionList = res.map((item: any, index: number) => ({
+            ...item,
+            sno: index + 1
+          }));
+          this.dataSource3.data = this.retentionList;
+          this.dataSource3.paginator = this.paginator;
+          this.dataSource3.sort = this.sort;
+          // console.log('With retention:', this.dataSource2.data);
+          this.spinner.hide();
+          this.cdr.detectChanges();
+        },
+        (error) => {
+          console.error('API error:', error);
+          this.spinner.hide();
+        }
+      );
+      
+    }
     GetmANUFACLICDetails() {
-debugger
+
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
     
@@ -218,7 +330,7 @@ debugger
 
 
     downloadFile(row: any) {
-      debugger  
+        
       const filePath = row.filepath;
       const fileName = row.filename;
     
@@ -250,7 +362,7 @@ debugger
    
   
   GetLicenceTypes(){
-  debugger
+  
     this.api.getLicenceTypes().subscribe((res:any[])=>{
       if (res && res.length > 0) {
         this.licenceTypes = res.map(item => ({
@@ -265,7 +377,7 @@ debugger
     });  
   }
   GetMassStates(){
-  debugger
+  
     this.api.getStates().subscribe((res:any[])=>{
       if (res && res.length > 0) {
         this.states = res.map(item => ({
@@ -280,27 +392,10 @@ debugger
     });  
   }
 
-  // onISelectChange(event: Event): void {
-  //   debugger
-  //   const selectedUser = this.licenceTypes.find((user: { lictypeid: string }) => user.lictypeid === this.lictypeid);
-  //   if (selectedUser) {
-  //     this.lictypeid = selectedUser.lictypeid || null;
-  //   } else {
-  //     console.error('Selected lictypeid not found in the list.');
-  //   }
-  // }
-  // onISelectStatesChange(event: Event): void {
-  //   debugger
-  //   const selectedUser = this.states.find((user: { stateid: string }) => user.stateid === this.stateid);
-  //   if (selectedUser) {
-  //     this.stateid = selectedUser.stateid || null;
-  //   } else {
-  //     console.error('Selected stateid not found in the list.');
-  //   }
-  // }
+
 
   onSubmit() {
-    debugger
+    
     try {
       if (this.unitForm.valid) {
         // Set or override values before sending
@@ -318,6 +413,7 @@ debugger
               positionClass: 'toast-top-right'
             });
             console.log('Response:', res);
+            this.unitForm.reset();
             this.getManufacturingDetails();
           },
           error: (err) => {
@@ -350,7 +446,7 @@ debugger
   // }
   
   onSubmitLicence() {
-    debugger
+    
 
     const formData = new FormData();
 
@@ -388,6 +484,10 @@ debugger
         next: (res) => {
           this.toastr.success('Manufacturing Licence saved successfully!');
           console.log('API Response:', res);
+          this.licForm.reset();
+          this.GetmANUFACLICDetails();
+
+
         },
         error: (err) => {
           console.error('Error:', err);
@@ -399,6 +499,55 @@ debugger
       this.toastr.error('Unexpected error occurred!');
     }
   }
+
+  onSubmitRetention() {
+    
+  
+    const formData = new FormData();
+  
+    // Append file if selected
+    if (this.selectedRetFile) {
+      formData.append('PanCardDocument', this.selectedRetFile);
+    }
+  
+    if (this.retForm.invalid) {
+      this.toastr.warning('Please fill all required fields correctly!');
+      return;
+    }
+  
+    // Patch vregid if needed
+    this.retForm.patchValue({
+      mVregid: this.vregid,
+    });
+  
+    // Format dates to dd-MM-yyyy
+    const params = {
+      ...this.retForm.value,
+      mISSUEDATE: this.formatDate(this.retForm.value.mISSUEDATE),
+      mStartDate: this.formatDate(this.retForm.value.mStartDate),
+      mVALIDITYDATE: this.formatDate(this.retForm.value.mVALIDITYDATE),
+    };
+  
+    try {
+      this.api.postRetentionCertificate(params, formData).subscribe({
+        next: (res) => {
+          this.toastr.success('Retention Certificate saved successfully!');
+          console.log('API Response:', res);
+          this.retForm.reset();
+          this.GetPovLicenceDetails();
+
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          this.toastr.error('Failed to save data!');
+        }
+      });
+    } catch (error) {
+      console.error('Exception:', error);
+      this.toastr.error('Unexpected error occurred!');
+    }
+  }
+  
 
 // Helper function to format date as dd-MM-yyyy
 formatDate(dateString: string): string {
@@ -413,7 +562,14 @@ onFileSelected(event: any) {
   const file = event.target.files[0];
   if (file) {
     this.selectedPanFile = file;
-    console.log('Selected PAN card file:', file.name);
+    console.log('Selected file :', file.name);
+  }
+}
+onFileSelectedRetention(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedRetFile = file;
+    console.log('Selected file :', file.name);
   }
 }
   
@@ -434,62 +590,252 @@ onFileSelected(event: any) {
       this.dataSource2.paginator.firstPage();
     }
   }
+  applyTextFilterRet(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource3.filter = filterValue.trim().toLowerCase();
 
-exportToPDF() {
-  const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
+    if (this.dataSource3.paginator) {
+      this.dataSource3.paginator.firstPage();
+    }
+  }
 
-  const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Unit Name', dataKey: 'unitname' },
-    { title: 'Address', dataKey: 'unitaddress' },
-    { title: 'City', dataKey: 'city' },
-    { title: 'Incharge Name', dataKey: 'unitinchargename' },
-    { title: 'Mobile', dataKey: 'unitinchargemob' },
-    { title: 'Email', dataKey: 'unitinchargeemail' },
-    { title: 'State', dataKey: 'statename' },
-    { title: 'Licence Type', dataKey: 'lictypename' }
-  ];
+  
+  
+  exportToPDF() {
+    debugger;
+    const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
+  
+    // 🕒 Add title and date-time
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('en-GB'); // dd/mm/yyyy
+    const formattedTime = now.toLocaleTimeString();
+  
+    doc.setFontSize(14);
+    doc.text('Manufacturing Unit List', 140, 10, { align: 'center' });
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${formattedDate} ${formattedTime}`, 140, 16, { align: 'center' });
+  
+    // ✅ Fetch data from your table
+    const dataList = this.dataSource?.data || [];
+  
+    if (!dataList.length) {
+      this.toastr.warning('No data available to export!');
+      return;
+    }
+  
+    // ✅ Define columns and rows
+    const columns = [
+      'S.No',
+      'Unit Name',
+      'Address',
+      'City',
+      'Incharge Name',
+      'Mobile',
+      'Email',
+      'State',
+      'Licence Type'
+    ];
+  
+    const rows = dataList.map((row: any, index: number) => [
+      index + 1,
+      row.unitname,
+      row.unitaddress,
+      row.city,
+      row.unitinchargename,
+      row.unitinchargemob,
+      row.unitinchargeemail,
+      row.statename,
+      row.lictypename
+    ]);
+  
+    // 🧾 Create table
+    autoTable(doc, {
+      head: [columns],
+      body: rows,
+      startY: 25,
+      theme: 'grid',
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: 255,
+        fontSize: 10,
+      },
+      styles: {
+        fontSize: 9,
+        cellPadding: 2,
+        textColor: [0, 0, 0],
+      },
+      margin: { top: 20, left: 10, right: 10 },
+    });
+  
+    // 💾 Save file
+    doc.save(`Manufacturing_Unit_List_${formattedDate}.pdf`);
+  }
+  
 
-  // ✅ FIXED: access actual array using .data
-  const rows = this.dataSource.data.map((row: any, index: number) => ({
-    sno: index + 1,
-    unitname: row.unitname,
-    unitaddress: row.unitaddress,
-    city: row.city,
-    unitinchargename: row.unitinchargename,
-    unitinchargemob: row.unitinchargemob,
-    unitinchargeemail: row.unitinchargeemail,
-    statename: row.statename,
-    lictypename: row.lictypename
-  }));
+  exportToPDFManufacturingLic() {
+    debugger;
+    const doc = new jsPDF('l', 'mm', 'a4'); // landscape mode
+  
+    // 🕒 Current date & time
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('en-GB'); // dd/mm/yyyy
+    const formattedTime = now.toLocaleTimeString();
+  
+    // 🏷️ PDF Title
+    doc.setFontSize(14);
+    doc.text('Manufacturing Licence Details', 140, 10, { align: 'center' });
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${formattedDate} ${formattedTime}`, 140, 16, { align: 'center' });
+  
+    // ✅ Fetch your data
+    const dataList = this.manufacturingLicList || [];
+  
+    if (!dataList.length) {
+      this.toastr.warning('No data available to export!');
+      return;
+    }
+  
+    // ✅ Define column headers
+    const columns = [
+      'S.No',
+      'Licence No',
+      'Unit Name',
+      'Address',
+      'City',
+      'Incharge Name',
+      'Mobile',
+      'Email',
+      'Issue Date',
+      'Validity Date',
+      'Licence Type',
+      'State',
+      'Entry Date',
+      'File Name'
+    ];
+  
+    // ✅ Map your data into table rows
+    const rows = dataList.map((row: any, index: number) => [
+      index + 1,
+      row.licno || '',
+      row.unitname || '',
+      row.unitaddress || '',
+      row.city || '',
+      row.unitinchargename || '',
+      row.unitinchargemob || '',
+      row.unitinchargeemail || '',
+      row.issuedate || '',
+      row.validitydate || '',
+      row.lictypename || '',
+      row.statename || '',
+      row.entrydate || '',
+      row.filename || ''
+    ]);
+  
+    // 🧾 Create table in PDF
+    autoTable(doc, {
+      head: [columns],
+      body: rows,
+      startY: 25,
+      theme: 'grid',
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: 255,
+        fontSize: 9,
+      },
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        textColor: [0, 0, 0],
+      },
+      margin: { top: 20, left: 10, right: 10 },
+    });
+  
+    // 💾 Save the file
+    doc.save(`Manufacturing_Licence_List_${formattedDate}.pdf`);
+  }
 
-  autoTable(doc, {
-    head: [columns.map(col => col.title)],
-    body: rows,
-    startY: 20,
-    theme: 'grid',
-    headStyles: { fillColor: [41, 128, 185], textColor: 255, fontSize: 10 },
-    styles: { fontSize: 9, cellPadding: 2, textColor: [0, 0, 0] },
-    columnStyles: {
-      0: { cellWidth: 12 },
-      1: { cellWidth: 35 },
-      2: { cellWidth: 40 },
-      3: { cellWidth: 25 },
-      4: { cellWidth: 35 },
-      5: { cellWidth: 28 },
-      6: { cellWidth: 45 },
-      7: { cellWidth: 30 },
-      8: { cellWidth: 35 }
-    },
-    margin: { top: 20, left: 10, right: 10 }
-  });
 
-  doc.save('Manufacturing_Unit_List.pdf');
-}
 
-exportToPDFManufacturingLic(){
+  
+  
+  exportToPDFRetention() {
+    const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
+  
+    // 🕒 Current Date & Time
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('en-GB'); // DD/MM/YYYY
+    const formattedTime = now.toLocaleTimeString();
+  
+    // 🏷️ PDF Header
+    doc.setFontSize(14);
+    doc.text('Retention Details', 140, 10, { align: 'center' });
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${formattedDate} ${formattedTime}`, 140, 16, { align: 'center' });
+  
+    // ✅ Validate Data
+    const dataList = this.retentionList || [];
+    if (!dataList.length) {
+      this.toastr.warning('No data available to export!');
+      return;
+    }
+  
+    // 🧩 Define Columns
+    const columns = [
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'Licence No', dataKey: 'licno' },
+      { title: 'Unit Name', dataKey: 'unitname' },
+      { title: 'Issue Date', dataKey: 'issuedate' },
+      { title: 'Start Date', dataKey: 'startdate' },
+      { title: 'Expiry Date', dataKey: 'expdate' },
+      { title: 'Retention', dataKey: 'retname' },
+      { title: 'Form Name', dataKey: 'formname' },
+      { title: 'Licence Type', dataKey: 'lictypename' },
+      { title: 'File Name', dataKey: 'filename' }
+    ];
+  
+    // 🗂️ Prepare Data Rows
+    const rows = dataList.map((row: any, index: number) => [
+      index + 1,
+      row.licno || '-',
+      row.unitname || '-',
+      row.issuedate || '-',
+      row.startdate || '-',
+      row.expdate || '-',
+      row.retname || '-',
+      row.formname || '-',
+      row.lictypename || '-',
+      row.filename || '-'
+    ]);
+  
+    // 🧾 Generate AutoTable
+    autoTable(doc, {
+      head: [columns.map(col => col.title)],
+      body: rows, // ✅ Now in correct format
+      startY: 22,
+      theme: 'grid',
+      headStyles: { fillColor: [63, 81, 181], textColor: 255, fontSize: 10 },
+      styles: { fontSize: 9, cellPadding: 2 },
+      alternateRowStyles: { fillColor: [240, 240, 240] },
+      columnStyles: {
+        0: { cellWidth: 10 },  // S.No
+        1: { cellWidth: 25 },  // Licence No
+        2: { cellWidth: 40 },  // Unit Name
+        3: { cellWidth: 25 },  // Issue Date
+        4: { cellWidth: 25 },  // Start Date
+        5: { cellWidth: 25 },  // Expiry Date
+        6: { cellWidth: 30 },  // Retention
+        7: { cellWidth: 35 },  // Form Name
+        8: { cellWidth: 30 },  // Licence Type
+        9: { cellWidth: 35 }   // File Name
+      },
+      margin: { top: 20, left: 10, right: 10 }
+    });
+  
+    // 💾 Save PDF
+    doc.save('Retention_List.pdf');
+  }
+  
 
-}
 
   
 

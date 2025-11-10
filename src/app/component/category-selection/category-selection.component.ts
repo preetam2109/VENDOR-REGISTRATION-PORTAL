@@ -4,11 +4,14 @@ import { BasicAuthenticationService } from 'src/app/service/authentication/basic
 import { HardcodedAuthenticationService } from 'src/app/service/authentication/hardcoded-authentication.service';
 import { MenuServiceService } from 'src/app/service/menu-service.service';
 import { ApiService } from 'src/app/service/api.service';
+import { CommonModule } from '@angular/common';
 // Define the Category type
 type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure' | 'Admin';
 
 @Component({
   selector: 'app-category-selector',
+  standalone:true,
+  imports:[CommonModule],
   templateUrl: './category-selection.component.html',
   styleUrls: ['./category-selection.component.css']
 })

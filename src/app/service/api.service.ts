@@ -2009,6 +2009,9 @@ postSupplierUnit(data: any): Observable<any> {
 getManufacturingDetails(supplierId: any, VregID: any) {
   return this.http.get(`${this.VREGAPI}/Registration/ManufacturingDetails?supplierId=${supplierId}&VregID=${VregID}`);
 }
+getPovLicenceDetails(supplierId: any, VregID: any) {
+  return this.http.get(`${this.VREGAPI}/Registration/PovLicenceDetails?VregID=${VregID}&SupplierID=${supplierId}`);
+}
 
 getMasformTypes(){
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASFORMTYPES`);
@@ -2032,6 +2035,25 @@ postManufacturingLic(data: any, formData: FormData): Observable<any> {
   return this.http.post(`${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`,formData,{ params, responseType: 'text' });
 }
 
+postRetentionCertificate(data: any, formData: FormData): Observable<any> {
+  
+  const params = new HttpParams()
+    .set('mLICID', data.mLICID)
+    .set('mISSUEDATE', data.mISSUEDATE)
+    .set('mStartDate', data.mStartDate)
+    .set('mVALIDITYDATE', data.mVALIDITYDATE)
+    .set('mVregid', data.mVregid)
+    .set('mretid', data.mretid)
+    .set('mFormID', data.mFormID);
+
+  return this.http.post(
+    `${this.VREGAPI}/Registration/MASVREGMANUFACPROVCERTIFICATE`,
+    formData,
+    { params, responseType: 'text' }
+  );
+}
+
+
 getmANUFACLICDetails(supID:any,vregid:any){
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/MANUFACLICDetails?supID=${supID}&vregid=${vregid}`);
 }
@@ -2048,8 +2070,222 @@ downloadFile(filePath: string, fileName: string): Observable<Blob> {
   });
 }
 
+getmMANLICDDL(supID:any,vregid:any,type:any){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MANLICDDL?supID=${supID}&vregid=${vregid}&type=${type}`);
+}
+getRetentionTypeDDL(){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASRENEWALRETENTION`);
+}
 
 
+getMasitemmaincategoryDDL(){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/Masitemmaincategory`);
+}
+getMasitemtypesDDL(catid:any){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/masitemtypes?catid=${catid}`);
+}
+getMasitemGroupDDL(catid:any){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MasitemGroup?catid=${catid}`);
+}
+getMASPHARMACOPOEIA(){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASPHARMACOPOEIA`);
+}
+
+GetMasitems(CategoryID:any,mTypeID:any){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/Masitems?CategoryID=${CategoryID}&mTypeID=${mTypeID}`);
+}
+
+
+// postPPCertificate(data: any, formData: FormData): Observable<any> {
+//   debugger
+//   const params = new HttpParams()
+//     .set('mVergID', data.mVregid)
+//     .set('licID', data.licid);
+
+//   return this.http.post(
+//     `${this.VREGAPI}/Registration/InsertPPCertificate`,
+//     formData,
+//     { params, responseType: 'text' }
+//   );
+// }
+
+postPPCertificate(data: any, formData: FormData): Observable<any> {
+  debugger;
+  const params = new HttpParams()
+    .set('mVergID', data.mVergID)   // ✅ matches API param exactly
+    .set('licID', data.licID);      // ✅ correct key name
+
+  return this.http.post(
+    `${this.VREGAPI}/Registration/InsertPPCertificate`,
+    formData,
+    { params, responseType: 'text' }
+  );
+}
+
+
+insertMasVregPPCItems(vregid: any, items: any[]): Observable<any> {
+  debugger
+  const params = new HttpParams().set('vregid', vregid.toString());
+
+  return this.http.post(
+    `${this.VREGAPI}/Registration/MASVREGPPCITEMS`,
+    items,
+    { params, responseType: 'text' }
+  );
+}
+
+
+
+GetPPCertificate(VregID:any){
+
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/PPCertificate?VregID=${VregID}`);
+}
+PPCertificateItemDetails(VregID:any,mFileID:any){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/PPCertificateItemDetails?VregID=${VregID}&mFileID=${mFileID}`);
+}
+
+
+GetMasimportertype(){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/Masimportertype`);
+}
+
+GetImporterLicenceDetails(VregID:any,SupplierID:any){
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/ImporterLicenceDetails?VregID=${VregID}&SupplierID=${SupplierID}`);
+}
+
+
+postMasimporterdocument(data: any, formData: FormData): Observable<any> {
+  debugger
+  const params = new HttpParams()
+    .set('mLICID', data.mLICID)
+    .set('mImptypeid', data.mImptypeid)
+    .set('mIMPLICNO', data.mIMPLICNO)
+    .set('mISSUEDATE', data.mISSUEDATE)
+    .set('mStartDate', data.mStartDate)
+    .set('mVALIDITYDATE', data.mVALIDITYDATE)
+    .set('mVregid', data.mVregid)
+    
+
+  return this.http.post(
+    `${this.VREGAPI}/Registration/masimporterdocument`,
+    formData,
+    { params, responseType: 'text' }
+  );
+}
+
+
+GetDDlImprtLic(VregID:any){
+  debugger
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/DDlImprtLic?VregID=${VregID}`);
+}
+
+
+masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
+  debugger
+  
+  const params = new HttpParams()
+  .set('mIMPID', data.mIMPID)
+  .set('mISSUEDATE', data.mISSUEDATE)
+  .set('mStartDate', data.mStartDate)
+  .set('mVALIDITYDATE', data.mVALIDITYDATE)
+  .set('mVregid', data.mVregid)
+  
+  
+  return this.http.post(
+    `${this.VREGAPI}/Registration/masimporterProvCertificate`,
+    formData,
+    { params, responseType: 'text' }
+    );
+  }
+  
+  GetImportRetentionDetails(VregID:any){
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/ImportRetentionDetails?VregID=${VregID}`);
+  }
+
+
+
+  InsertMakrketStanding(data: any, formData: FormData): Observable<any> {
+    debugger
+
+// Insert First MSC certificate
+    
+    const params = new HttpParams()
+    .set('mlicid', data.mlicid)
+    .set('mVergID', data.mVregid)
+    .set('ISSUEDATE', data.ISSUEDATE)
+    .set('mstartdate', data.mstartdate)
+    .set('mEXPDate', data.mEXPDate)
+    
+    
+    return this.http.post(
+      `${this.VREGAPI}/Registration/InsertMakrketStanding`,
+      formData,
+      { params, responseType: 'text' }
+      );
+    }
+
+
+    GETMCCFillItems(VregID:any,MCID:any,mItemTypeID:any,mGroupID:any){
+      debugger
+      return this.http.get<any[]>(`${this.VREGAPI}/Registration/MCCFillItems?VregID=${VregID}&MCID=${MCID}&mItemTypeID=${mItemTypeID}&mGroupID=${mGroupID}`);
+    }
+
+   UpdaetMSCMCCFillItems(PPCID: any, MSCID: any, MSCPAGENO: any) {
+  return this.http.put(
+    `${this.VREGAPI}/Registration/UpdaetMSC?PPCID=${PPCID}&MSCID=${MSCID}&MSCPAGENO=${MSCPAGENO}`,
+    {}, // empty body
+    { responseType: 'text' } // options, not body
+  );
+}
+
+
+getmSCDetailsList(mVregID:any,Supplierid:any){
+  debugger
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCDetails?mVregID=${mVregID}&mSupplierid=${Supplierid}`);
+}
+GetMSCCOPItemDetails(VregID:any,mFileID:any,mscCopType:any){
+  debugger
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`);
+}
+
+InsertCOP(data: any, formData: FormData): Observable<any> {
+  debugger
+    const params = new HttpParams()
+  .set('mlicid', data.mlicid)
+  .set('mVergID', data.mVregid)
+  .set('mCopno', data.mCopno)
+  .set('ISSUEDATE', data.ISSUEDATE)
+  .set('mstartdate', data.mstartdate)
+  .set('mEXPDate', data.mEXPDate)
+  
+  
+  return this.http.post(
+    `${this.VREGAPI}/Registration/InsertMakrketStanding`,
+    formData,
+    { params, responseType: 'text' }
+    );
+  }
+
+
+  UpdaetCOPItems(PPCID: any, COPID: any, COPPAGENO: any) {
+    debugger
+    return this.http.put(
+      `${this.VREGAPI}/Registration/UpdaetCOPItems?PPCID=${PPCID}&COPID=${COPID}&COPPAGENO=${COPPAGENO}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
+
+
+  GetCOPDetails(mVregID:any,mSupplierid:any){
+    debugger
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetCOPDetails?mVregID=${mVregID}&mSupplierid=${mSupplierid}`);
+  }
+  // GetMSCCOPItemDetails(VregID:any,mFileID:any,mscCopType:any){
+  //   debugger
+  //   return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`);
+  // }
+  
 
 private token: string = '';
 
