@@ -1,6 +1,6 @@
 
 
-  button[aria-expanded="true"] .bi-chevron-down {
+button[aria-expanded="true"] .bi-chevron-down {
     transform: rotate(180deg);
     transition: transform 0.3s ease;
   }
@@ -181,7 +181,20 @@
   pointer-events: none !important; /* allow clicks / scroll through it */
 }
 
+
+  .whoid-link {
+    color: inherit;           /* Normal text color रहेगा */
+    text-decoration: none;    /* Normal में underline नहीं */
+    cursor: pointer;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+  }
+  
+  .whoid-link:hover {
+    color: #1a5fff;           /* Hover पर blue color */
+    text-decoration: underline; /* Hover पर underline */
+  }
 /* 
+
 :host ::ng-deep .modal-content {
   position: relative;
 }

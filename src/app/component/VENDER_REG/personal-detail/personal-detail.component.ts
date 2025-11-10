@@ -49,8 +49,6 @@ loadVendorDetails() {
 }
 
 saveVendor() {
-
-  
   try {
     const formData = new FormData();
 

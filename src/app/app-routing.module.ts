@@ -15,6 +15,14 @@ import { FinanceialDetails } from './component/financeial-details/financeial-det
 import { ManufacturingUnit } from './component/VENDER_REG/manufacturing-unit/manufacturing-unit';
 import { ManufaturingUnitTabs } from './manufaturing-unit-tabs/manufaturing-unit-tabs';
 import { Retention } from './component/VENDER_REG/retention/retention';
+import { TechnicalDetails } from './component/technical-details/technical-details';
+import { ComplianceDetails } from './component/compliance-details/compliance-details';
+import { GlobalCompanyPrefix } from './component/global-company-prefix/global-company-prefix';
+
+// import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
+// import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
+
+
 
 
 
@@ -39,6 +47,9 @@ const routes: Routes = [
 {path:'generate-registration',component:GenerateRegistrationComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 {path:'FinanceialDetails',component:FinanceialDetails,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 {path:'manufacturingUnit',component:ManufaturingUnitTabs,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
+{path:'TechnicalDetails',component:TechnicalDetails,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
+{path:'ComplianceDetails',component:ComplianceDetails,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
+{path:'GlobalCompanyPrefix',component:GlobalCompanyPrefix,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 {path:'personal-detail',component:PersonalDetailComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 {path:'import-Licence',component:Retention,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 
