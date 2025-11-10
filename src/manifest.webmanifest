@@ -1,6 +1,6 @@
 {
-  "name": "mddashboard",
-  "short_name": "mddashboard",
+  "name": "vedregportal",
+  "short_name": "vedregportal",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
