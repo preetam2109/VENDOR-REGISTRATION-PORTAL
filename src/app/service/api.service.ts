@@ -1704,6 +1704,42 @@ DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:an
 
 
 // Vendor Registration services
+//#region Vendor Registration services for lomesh
+// ---Signup----
+Signup(data: any, formData: FormData): Observable<any> {
+// https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
+// &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
+// mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881
+// &mEMAIL=kaushal.stranger005%40gmail.com&mPwd=Kaushal%40123
+  
+      let params = new HttpParams()
+        .set('mpanno', data.mpanno)
+        .set('mSUPPLIERNAME', data.mSUPPLIERNAME)
+        .set('mADDRESS1', data.mADDRESS1)
+        .set('mADDRESS2', data.mADDRESS2)
+        .set('mADDRESS3', data.mADDRESS3)
+        .set('mCITY', data.mCITY)
+        .set('mCOUNTRYID', data.mCOUNTRYID)
+        .set('mZIP', data.mZIP)
+        .set('mPHONE1', data.mPHONE1)
+        .set('mEMAIL', data.mEMAIL)
+        .set('mPwd', data.mPwd)
+      return this.http.post(
+        `${this.VREGAPI}/Registration/InsertSupplier`,
+        formData,
+        { params, responseType: 'text' }
+      );
+    }
+
+
+// DownloadFileWithName(mFilePath:any,mFileName:any) {
+//   // https://dpdmis.in/VREGAPI/api/Registration/DownloadFileWithName?mFilePath=
+//   // D%3A%5CVendorDocuments%5C50%5CNonConCertificate_235.pdf&mFileName=NonConCertificate_235.pdf
+//   return this.http.get(`${this.VREGAPI}/Registration/DownloadFileWithName?mFilePath=${mFilePath}&mFileName=${mFileName}`);
+// }
+public DownloadFileWithName(url: string) {
+  return this.http.get(this.VREGAPI + url, { responseType: 'blob' });
+}
 
 RegisterVendor(supplierId: any) {
   return this.http.post(
@@ -1796,9 +1832,9 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
 // get item typedetails
     return this.http.get(`${this.VREGAPI}/Registration/GetComplienceCertificate?mVregID=${mVrgeID}&mSupplierid=${mSupplierid}`);
   }
-  GettypedetailsDetails(mVrgeID:any,mWHOTYPEID:any) {
-    //https://dpdmis.in/VREGAPI/api/Registration/GetCOMTyepDetails?VregID=50&mWHOTYPEID=21
-    return this.http.get(`${this.VREGAPI}/Registration/GetCOMTyepDetails?VregID=${mVrgeID}&mWHOTYPEID=${mWHOTYPEID}`);
+  GettypedetailsDetails(mVrgeID:any,mWHOID:any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/GetCOMTyepDetails?VregID=50&mWHOID=20
+    return this.http.get(`${this.VREGAPI}/Registration/GetCOMTyepDetails?VregID=${mVrgeID}&mWHOID=${mWHOID}`);
   }
 
   // ---GCP-----
@@ -1903,6 +1939,7 @@ public post(url: string, data: FormData, options?: any) {
   //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
    return this.http.post(this.VREGAPI + url, data, options); 
   }
+
   public post1(url: string, data: any, options?: any) {
     debugger;
 
@@ -1914,7 +1951,7 @@ public post(url: string, data: FormData, options?: any) {
       ...options
     });
   }
-  
+  //#endregion
 
   // updateBankDetails(data: FormData) {
   //   return this.http.post('https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails', data);

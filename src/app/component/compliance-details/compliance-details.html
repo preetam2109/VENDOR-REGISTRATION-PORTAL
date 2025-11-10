@@ -127,8 +127,10 @@
                               <button
                                 class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
                                 mat-button
-                                (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
+                                (click)="DownloadFileWithName(element.filepath,element.filename)"><i
                                   class="bi bi-filetype-pdf text-danger"></i>
+                                <!-- (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
+                                  class="bi bi-filetype-pdf text-danger"></i> -->
                                 <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i> -->
                               </button>
                             </td>
@@ -301,8 +303,32 @@
 
 
 <!-- Modal -->
+<!-- <div class="modal fade custom-transparent-modal" id="pdfPreviewModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header bg-dark text-white py-2 px-3">
+        <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe
+        *ngIf="pdfPreviewUrl"
+        [src]="pdfPreviewUrl"
+        width="100%"
+        height="90%"
+        style="border: none;"
+      ></iframe>
+        <iframe
+          [src]="sanitizedPdfUrl"
+          class="pdf-frame"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div> -->
 <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
       <div class="modal-content border-0 shadow-none">
         <div class="modal-header bg-dark text-white py-2 px-3">
           <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
@@ -361,71 +387,43 @@
                         <td mat-cell *matCellDef="let element" class="text-center">
                           {{element.sno}} </td>
                       </ng-container>
-                      <ng-container matColumnDef="licno">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Liance</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.licno}} </td>
+                      <!-- 'sno',
+                      'whotypeid',
+                      'whoid',
+                      'whono',
+                      'itemtypeid',
+                      'itemtypename',
+                      'vregid',
+                     
+                      // 'filename',
+                      'action', -->
+                      <ng-container matColumnDef="whotypeid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Type Id</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whotypeid}} </td>
                       </ng-container>
             
-                      <ng-container matColumnDef="unitname">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.unitname}} </td>
+                      <ng-container matColumnDef="whoid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Id</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whoid}} </td>
                       </ng-container>
                       <ng-container matColumnDef="whono">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance No</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO No</th>
                         <td mat-cell *matCellDef="let element" class="text-center"> {{element.whono}} </td>
                       </ng-container>
-                      <ng-container matColumnDef="comid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance ID</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.comid}} </td>
+                      <ng-container matColumnDef="itemtypeid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Type Id</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.itemtypeid}} </td>
                       </ng-container>
-                      <ng-container matColumnDef="comname">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance Name</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.comname}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="issuedate">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.issuedate}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="startdate">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.startdate}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="validitydate">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Validity Date</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.validitydate}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="remarks">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.remarks}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="whotype">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Type</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whotype}} 
-                           
-                        </td>
-                      </ng-container>
-                      <ng-container matColumnDef="whoid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO ID</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whoid}} 
-                        </td>
+                      <ng-container matColumnDef="itemtypename">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Type Name</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.itemtypename}} </td>
                       </ng-container>
                       <ng-container matColumnDef="vregid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>vreg ID</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>VREG Id</th>
                         <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
                       </ng-container>
-                      <ng-container matColumnDef="supplierid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier ID</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.supplierid}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="ext">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>EXT</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="licid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lic Id</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.licid}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="filename">
+                      
+                      <!-- <ng-container matColumnDef="filename">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th>
                         <td mat-cell *matCellDef="let element" class="text-center">
                           <button
@@ -433,10 +431,9 @@
                             mat-button
                             (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
                               class="bi bi-filetype-pdf text-danger"></i>
-                            <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i> -->
                           </button>
                         </td>
-                      </ng-container>
+                      </ng-container> -->
             
                       <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
@@ -444,14 +441,14 @@
                           <span class="d-flex  flex-row-reverse p-2 ">
                             <button
                               class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
-                              mat-button (click)="onButtonClick(element.atid)">
+                              mat-button (click)="onButtonClick(element.vregid)">
                               <i class="bi bi-pencil-square text-primary"></i>
                             </button>
                           </span>
                         </td>
                       </ng-container>
-                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
                     </table>
                     <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
                   </div>

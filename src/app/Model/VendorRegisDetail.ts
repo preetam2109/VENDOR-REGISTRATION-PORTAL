@@ -121,24 +121,13 @@ export interface vendorBankDetail_model {
     filepath: string
   }
   export interface GetCOMTyepDetails {
-    sno:any;
-    licno: string
-    unitname: string
-    whono: string
-    comid: number
-    comname: string
-    issuedate: string
-    startdate: string
-    validitydate: string
-    remarks: string
-    whotype: string
-    whoid: number
-    vregid: number
-    supplierid: number
-    filename: string
-    ext: string
-    licid: number
-    filepath: string
+    sno: any;
+    whotypeid: number;
+    whoid: number;
+    whono: string;
+    itemtypeid: number;
+    itemtypename: string;
+    vregid: number;
   }
   export interface GetGCPDetails {
     sno:any;

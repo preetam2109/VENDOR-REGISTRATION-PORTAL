@@ -94,6 +94,7 @@ import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/ne
 // import { Stepper } from './component/stepper/stepper';
 
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { Registration } from './component/auth/registration/registration';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -103,7 +104,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
         MenubarComponent,
         HomeComponent,
         CardComponent,
-        
+        Registration,
         // SliderComponent,
         // TableComponent,
         FormdesignComponent,
