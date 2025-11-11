@@ -105,6 +105,7 @@ export class AppComponent implements OnInit, DoCheck {
       }
     });
 
+    // this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
 
   }
 
@@ -131,6 +132,14 @@ export class AppComponent implements OnInit, DoCheck {
     this.cdr.detectChanges();
 
   }
+
+
+  
+  
+
+
+
+  
   GetVendorDetailsID(supplierId: any) {
     this.api.getVendorDetailsID(supplierId).subscribe({
       next: (res: any) => {
@@ -141,6 +150,9 @@ export class AppComponent implements OnInit, DoCheck {
         
         } else {
           console.warn('No vendor details found.');
+          alert('⚠️ Please generate vendor registration number.');
+          this.router.navigate(['generate-registration']);
+
         }
       },
       error: (err) => {

@@ -2309,31 +2309,4 @@ InsertCOP(data: any, formData: FormData): Observable<any> {
   // }
   
 
-private token: string = '';
-
-
-
-
-
-
-async initToken(): Promise<void> {
-  try {
-    const res: any = await this.http
-      .get('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token')   // 👈 API endpoint sahi hai?
-      .toPromise();
-
-    const token = res?.access_token;
-    console.log('🔑 Token fetched:', token);
-
-    if (token) {
-      this.tokenSubject.next(token);  // 👈 yahan se update hoga
-    }
-  } catch (error) {
-    console.error('❌ Error fetching token', error);
-  }
-}
-
-getToken$() {
-  return this.tokenSubject.asObservable();
-}
 }

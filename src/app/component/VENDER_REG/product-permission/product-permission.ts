@@ -108,6 +108,8 @@ export class ProductPermission {
 
   }
 
+  
+
 
   filterTable() {
     const text = this.searchText.toLowerCase();

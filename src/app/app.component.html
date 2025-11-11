@@ -37,7 +37,7 @@
           <mat-list-item>
           
             <a *ngIf="isExternalLink(item.route)" [href]="item.route" target="_blank">
-              <button mat-button (click)="drawer.close()">
+              <button  mat-button   (click)="drawer.close()" >
                 <mat-icon>format_list_bulleted</mat-icon> {{ item.label }}
               </button>
             </a>
