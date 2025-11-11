@@ -1702,11 +1702,28 @@ DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:an
 
 
 
-
 // Vendor Registration services
+
 //#region Vendor Registration services for lomesh
+// https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Vender%20Rehistration&mType=OTP
+GETotp(mobile:any){
+  debugger
+
+  // 78188
+  return this.http.get(`${this.VREGAPI}/Sms/SendOtp?mobile=${mobile}&Detail=Vender Rehistration&mType=OTP`);
+}
+GETMASLICENCETYPE() {
+  //https://dpdmis.in/VREGAPI/api/Registration/MASLICENCETYPE
+  return this.http.get(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
+}
+GETSendOtp(mobile:any,Detail:any,mType:any){
+  debugger
+  // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Kaushal&mType=SIGNUP
+  return this.http.get(`${this.VREGAPI}/Sms/SendOtp?mobile=${mobile}&Detail=${Detail}&mType=${mType}`);
+}
 // ---Signup----
 Signup(data: any, formData: FormData): Observable<any> {
+  debugger
 // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
 // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
 // mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881
@@ -1715,6 +1732,7 @@ Signup(data: any, formData: FormData): Observable<any> {
       let params = new HttpParams()
         .set('mpanno', data.mpanno)
         .set('mSUPPLIERNAME', data.mSUPPLIERNAME)
+        .set('mSUPPLIERTYPE', data.mSUPPLIERTYPE)
         .set('mADDRESS1', data.mADDRESS1)
         .set('mADDRESS2', data.mADDRESS2)
         .set('mADDRESS3', data.mADDRESS3)
@@ -1988,6 +2006,10 @@ getLicenceTypes(){
 
 getStates(){
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/masstates`);
+}
+GetCountries(){
+  // https://localhost:7053/api/Registration/GetCountries
+  return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetCountries`);
 }
 
 postSupplierUnit(data: any): Observable<any> {
