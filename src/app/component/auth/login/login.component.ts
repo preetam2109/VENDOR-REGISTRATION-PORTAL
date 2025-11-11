@@ -12,11 +12,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { InsertUserLoginLogmodal } from 'src/app/Model/DashLoginDDL';
-import { Location } from '@angular/common';
-
+import { CommonModule, Location } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 declare var google: any;
 @Component({
   selector: 'app-login',
+  standalone:true,
+  imports:[CommonModule,MatIconModule,FormsModule,NgSelectModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
