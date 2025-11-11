@@ -12,7 +12,6 @@
             <div class="row justify-content-center g-4 ">
               <div class="col-lg-12 mb-5">
                 <div class="row justify-content-center g-4 p-3">
-      
                   <!-- Card 1 -->
                   <div class="col-12 col-md-12 p-2">
                     <div class="" style="padding-bottom: 20px;">
@@ -21,21 +20,21 @@
                           <div class="filter-field flex-grow-1">
                             <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter1($event)">
                           </div>
-      
-                          <button type="button" class="btn border rounded mr-1 text-light"
-                            style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick(0)"><i
+                      
+                           <div class="export-menu-container m-2">
+                            <button type="button" class="btn border rounded text-light" mat-button
+                            style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick(0)">Add <i
                               class="bi bi-folder-plus"></i></button>
-                          <div class="export-menu-container m-2">
-                            <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                             <!--<button type="button" class="btn border rounded btn-outline-secondary" mat-button
                               [matMenuTriggerFor]="exportMenu">Export</button>
                             <mat-menu #exportMenu="matMenu">
                               <button mat-menu-item
                                 (click)="exporter.exportTable('xlsx', { fileName: 'BankMandateDetail', sheet: 'BankMandateDetail', Props: { Author: 'cgmsc' }})">Excel</button>
-                              <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
-                              <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                                          <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
-                              <!-- <button mat-menu-item (click)="exportToPDF1()">PDF</button> -->
-                            </mat-menu>
+                              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                          <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                              <button mat-menu-item (click)="exportToPDF1()">PDF</button>
+                            </mat-menu> -->
                           </div>
                         </div>
       
@@ -270,19 +269,20 @@
                                       <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
                                     </div>
                             
-                                    <button type="button" class="btn border rounded mr-1 text-light" style="background-color: rgb(21, 184, 0);"
-                                      (click)="onButtonClickAT()"><i class="bi bi-folder-plus"></i></button>
+                                    
                                     <div class="export-menu-container m-2">
-                                      <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                                      <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);"
+                                      (click)="onButtonClickAT()">Add <i class="bi bi-folder-plus"></i></button>
+                                      <!-- <button type="button" class="btn border rounded btn-outline-secondary" mat-button
                                         [matMenuTriggerFor]="exportMenu">Export</button>
                                       <mat-menu #exportMenu="matMenu">
                                         <button mat-menu-item
                                           (click)="exporter.exportTable('xlsx', { fileName: 'ANNUALTURNOVER', sheet: 'ANNUALTURNOVER', Props: { Author: 'cgmsc' }})">Excel</button>
-                                        <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
-                                        <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                                                                                   <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
-                                        <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
-                                      </mat-menu>
+                                        <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                        <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                                                   <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                        <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                      </mat-menu> -->
                                     </div>
                                   </div>
                                   <div class="table-responsive">
@@ -313,10 +313,11 @@
                                           <button
                                             class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
                                             mat-button
-                                            (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
+                                            (click)="DownloadFileWithName(element.filepath,element.filename)"><i
                                               class="bi bi-filetype-pdf text-danger"></i>
-                                            <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i> -->
                                           </button>
+                                          
+                                          <!-- (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')" -->
                                         </td>
                                       </ng-container>
                                       <ng-container matColumnDef="accyrsetid">
@@ -497,20 +498,20 @@
                                     (keyup)="applyTextFilter($event)">
                                 </div>
         
-                                <button type="button" class="btn border rounded mr-1 text-light"
-                                  style="background-color: rgb(21, 184, 0);" (click)="onButtonClickGST()"><i
-                                    class="bi bi-folder-plus"></i></button>
                                 <div class="export-menu-container m-2">
-                                  <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                                  <button type="button" class="btn border rounded mr-1 text-light"
+                                    style="background-color: rgb(21, 184, 0);" (click)="onButtonClickGST()">Add <i
+                                      class="bi bi-folder-plus"></i></button>
+                                  <!-- <button type="button" class="btn border rounded btn-outline-secondary" mat-button
                                     [matMenuTriggerFor]="exportMenu">Export</button>
                                   <mat-menu #exportMenu="matMenu">
                                     <button mat-menu-item
                                       (click)="exporter.exportTable('xlsx', { fileName: 'GSTD', sheet: 'GSTD', Props: { Author: 'cgmsc' }})">Excel</button>
-                                    <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
-                                    <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                                                                                                           <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
-                                    <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
-                                  </mat-menu>
+                                    <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                    <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                  </mat-menu> -->
                                 </div>
                               </div>
         
@@ -542,8 +543,10 @@
                                       <button
                                         class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
                                         mat-button
-                                        (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
+                                        (click)="DownloadFileWithName(element.filepath,element.filename)"
+                                       ><i
                                           class="bi bi-filetype-pdf text-danger"></i>
+                                          <!-- (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')" -->
                                       </button>
                                     </td>
                                   </ng-container>
@@ -616,17 +619,13 @@
                               <div class="row pb-3">
                                 <div class="form-group col-md-6 pt-3">
                                   <label for="inputnumber"> Upload GST Certificate: <span class="text-danger">*</span></label>
-        
-        
                                   <input type="file" class="form-control" id="filrs2" name="GSTCertificate" accept=".pdf"
                                     (change)="onFileSelectedanuGSTCertificate($event)" ngModel #GSTCertificateCtrl="ngModel"
                                     required
                                     [ngClass]="{
-                                                                                                                                              'is-invalid': GSTCertificateCtrl.invalid && (GSTCertificateCtrl.touched || GSTForm.submitted),
-                                                                                                                                              'is-valid': GSTCertificateCtrl.valid && (GSTCertificateCtrl.touched || GSTForm.submitted)
-                                                                                                                                            }">
-        
-        
+                                    'is-invalid': GSTCertificateCtrl.invalid && (GSTCertificateCtrl.touched || GSTForm.submitted),
+                                    'is-valid': GSTCertificateCtrl.valid && (GSTCertificateCtrl.touched || GSTForm.submitted)
+                                     }">
                                   <div *ngIf="GSTCertificateCtrl.invalid && (GSTCertificateCtrl.touched || GSTForm.submitted)">
                                     <small class="text-danger">Please upload the GST Certificate (PDF only).</small>
                                   </div>
@@ -672,20 +671,20 @@
                                                                 (keyup)="applyTextFilter($event)">
                                                         </div>
                 
-                                                        <button type="button" class="btn border rounded mr-1 text-light" 
-                                                            style="background-color: rgb(21, 184, 0);" (click)="onButtonClickGSTR()"><i
-                                                                class="bi bi-folder-plus"></i></button>
                                                         <div class="export-menu-container m-2">
-                                                            <button type="button" class="btn border rounded btn-outline-secondary"
+                                                          <button type="button" class="btn border rounded mr-1 text-light" 
+                                                              style="background-color: rgb(21, 184, 0);" (click)="onButtonClickGSTR()">Add <i
+                                                                  class="bi bi-folder-plus"></i></button>
+                                                            <!-- <button type="button" class="btn border rounded btn-outline-secondary"
                                                                 mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                                                             <mat-menu #exportMenu="matMenu">
                                                                 <button mat-menu-item
                                                                     (click)="exporter.exportTable('xlsx', { fileName: 'WorksOrderD', sheet: 'WorksOrderD', Props: { Author: 'cgmsc' }})">Excel</button>
-                                                                <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
-                                                                <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                                                                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
-                                                                <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
-                                                            </mat-menu>
+                                                                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                                                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                                                <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                                            </mat-menu> -->
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive">
@@ -719,8 +718,8 @@
                                                               <td mat-cell *matCellDef="let element" class="text-center">
                                                                 <button
                                                                 class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
-                                                                mat-button (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"
-                                                               ><i class="bi bi-filetype-pdf text-danger" ></i>
+                                                                mat-button 
+                                                                (click)="DownloadFileWithName(element.filepath,element.filename)"><i class="bi bi-filetype-pdf text-danger" ></i>
                                                             </button>
                                                             </td>
                                                             </ng-container>
@@ -770,13 +769,17 @@
                                                           (change)="Onselectgstno($event)"
                                                           [placeholder]="'Select Existing GST NO:'"
                                                           [searchable]="true"
-                                                          [clearable]="true"
-                                                          [appendTo]="'body'"
-                                                          required>
+                                                          [clearable]="true" #gstid="ngModel" [appendTo]="'body'"  required [ngStyle]="{
+                                                            'border': gstid.invalid && (gstid.dirty || gstid.touched) ? '1px solid #dc3545' :
+                                                            gstid.valid && (gstid.dirty || gstid.touched) ? '1px solid #198754' : '',
+                                                            'box-shadow': gstid.invalid && (gstid.dirty || gstid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                            gstid.valid && (gstid.dirty || gstid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                            }">
                                                         </ng-select>
-                                                        <div *ngIf="GSTRETURNForm.submitted && !gstno" class="text-danger small">
-                                                          GST No is required.
-                                                        </div>
+                                                        <div class="text-danger mt-1"
+                                                        *ngIf="(gstid.touched || GSTRETURNForm.submitted) && gstid.errors?.['required']">
+                                                        GST No is required.
+                                                      </div>
                                                       </div>
                                                   
                                                       <!-- Month / Quarter -->
@@ -786,11 +789,17 @@
                                                         bindLabel="quartername" bindValue="gstqtrid" [(ngModel)]="quartername"
                                                         name="quartername" (change)="OnselectMASGSTQUARTER($event)"
                                                         [placeholder]="'Select Existing Month: '" [searchable]="true"
-                                                        [clearable]="true" [appendTo]="'body'" required>
-                                                    </ng-select>
-                                                        <div *ngIf="GSTRETURNForm.submitted && !quartername" class="text-danger small">
-                                                          Month / Quarter is required.
-                                                        </div>
+                                                        [clearable]="true" [appendTo]="'body'" #gstqtrid="ngModel"   required [ngStyle]="{
+                                                          'border': gstqtrid.invalid && (gstqtrid.dirty || gstqtrid.touched) ? '1px solid #dc3545' :
+                                                          gstqtrid.valid && (gstqtrid.dirty || gstqtrid.touched) ? '1px solid #198754' : '',
+                                                          'box-shadow': gstqtrid.invalid && (gstqtrid.dirty || gstqtrid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                          gstqtrid.valid && (gstqtrid.dirty || gstqtrid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                          }">
+                                                      </ng-select>
+                                                      <div class="text-danger mt-1"
+                                                      *ngIf="(gstqtrid.touched || GSTRETURNForm.submitted) && gstqtrid.errors?.['required']">
+                                                      Month / Quarter is required.
+                                                    </div>
                                                       </div>
                                                     </div>
                                                   
@@ -802,11 +811,17 @@
                                                         bindLabel="accyear" bindValue="accyrsetid" [(ngModel)]="accyear"
                                                         name="accyear" (change)="OnselectAccYearSettings($event)"
                                                         [placeholder]="'Select Existing Financial Years: '" [searchable]="true"
-                                                        [clearable]="true" [appendTo]="'body'" required>
-                                                    </ng-select>
-                                                        <div *ngIf="GSTRETURNForm.submitted && !accyear" class="text-danger small">
-                                                          Financial Year is required.
-                                                        </div>
+                                                        [clearable]="true"  #accyrsetid="ngModel" [appendTo]="'body'"  required [ngStyle]="{
+                                                          'border': accyrsetid.invalid && (accyrsetid.dirty || accyrsetid.touched) ? '1px solid #dc3545' :
+                                                          accyrsetid.valid && (accyrsetid.dirty || accyrsetid.touched) ? '1px solid #198754' : '',
+                                                          'box-shadow': accyrsetid.invalid && (accyrsetid.dirty || accyrsetid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                          accyrsetid.valid && (accyrsetid.dirty || accyrsetid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                          }">
+                                                      </ng-select>
+                                                      <div class="text-danger mt-1"
+                                                      *ngIf="(accyrsetid.touched || GSTRETURNForm.submitted) && accyrsetid.errors?.['required']">
+                                                      Financial Year is required.
+                                                    </div>
                                                       </div>
                                                     </div>
                                                   
@@ -817,10 +832,18 @@
                                                             <label for="inputnumber"> Upload GST returns of at least 1 month of last 3 month: <span
                                                                     class="text-danger">*</span></label>
                                                             <input type="file" class="form-control" 
-                                                                placeholder="Type your PDF file" id="inputnumber"
+                                                                placeholder="Type your PDF file" id="inputnumber" name="GSTreturnCertificate"
                                                                 accept=".pdf"
                                                                 (change)="onFileSelectedGSTReturn($event)"
-                                                                required>
+                                                                required
+                                                                ngModel #GSTreturnCertificate="ngModel"
+                                                                [ngClass]="{
+                                                                'is-invalid': GSTreturnCertificate.invalid && (GSTreturnCertificate.touched || GSTRETURNForm.submitted),
+                                                                'is-valid': GSTreturnCertificate.valid && (GSTreturnCertificate.touched || GSTRETURNForm.submitted)
+                                                                 }">
+                                                                  <div *ngIf="GSTreturnCertificate.invalid && (GSTreturnCertificate.touched || GSTRETURNForm.submitted)">
+                                                                    <small class="text-danger">Please upload the GST returns Certificate (PDF only).</small>
+                                                                  </div>
                                                         </div>
                                                         <!-- <div class="form-group col-md-6 pt-3">
                                                             <button type="button" class="btn btn-primary m-3">Upload</button>
@@ -828,25 +851,10 @@
                                                                 Mandate</button>
                                                         </div> -->
                                                     </div>
-                                                    <!-- <div class="row pb-3">
-                                                      <div class="form-group col-md-6 pt-3">
-                                                        <label>Upload GST Return (PDF only, max 100MB): <span class="text-danger">*</span></label>
-                                                        <input
-                                                          type="file"
-                                                          class="form-control"
-                                                          accept=".pdf"
-                                                          (change)="onFileSelectedGSTReturn($event)"
-                                                          required>
-                                                        <div *ngIf="GSTRETURNForm.submitted && !GSTreturnCertificate" class="text-danger small">
-                                                          Please upload a valid PDF file (Max 100MB).
-                                                        </div>
-                                                      </div>
-                                                    </div> -->
                                                       <div class="d-flex justify-content-center mt-3">
                                                         <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTRETURNForm.valid">Submit</button>
                                               
                                                       </div>
-                                                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
                                                   </form>
                                             </div>
                                         </div>

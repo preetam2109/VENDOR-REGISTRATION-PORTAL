@@ -552,6 +552,7 @@ get f() {
       this.AnnualTurnoverForm.reset();
       this.submitted = false;
       this.selectedAnuvFile = null;
+      this.GetAnnualTurnover();
     },
     (err) => {
       this.toastr.error('Submission failed', 'Error');
@@ -566,6 +567,15 @@ applyTextFilter(event: Event) {
 exportToPDF(){
 
 }
+
+onButtonClickAT(){
+  this.onshowAT = true;
+
+ }
+
+//#endregion
+
+//#region GST
 GETMassuppliergstDetails(){
   try{
     //  debugger;
@@ -600,14 +610,6 @@ GETMassuppliergstDetails(){
         // throw err;
       }
 }
-onButtonClickAT(){
-  this.onshowAT = true;
-
- }
-
-//#endregion
-
-//#region GST
 onButtonClickGST(){
  this.onshowGST= true;
 }
@@ -636,6 +638,7 @@ InsertGSTCertificate(GSTForm: NgForm) {
               this.toastr.success(res.message || 'GST Certificate uploaded successfully!', 'Success');
               GSTForm.resetForm();
               this.GSTCertificate = null;
+              this.GETMassuppliergstDetails();
             },
             error: (err: any) => {
               console.error('Error:', err);
@@ -657,6 +660,45 @@ InsertGSTCertificate(GSTForm: NgForm) {
   OnselectStates(event: any) {
     console.log('Selected state:', event);
     this.stateid = event?.stateid;
+  }
+
+  
+  DownloadFileWithName(mFilePath: string, mFileName: string) {
+    debugger;
+  
+    // Encode file path and file name to handle special characters (like spaces, \ etc.)
+    const encodedPath = encodeURIComponent(mFilePath);
+    const encodedName = encodeURIComponent(mFileName);
+  
+    // Build dynamic API URL
+    const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+  
+    this.api.DownloadFileWithName(apiUrl).subscribe({
+      next: (res: Blob) => {
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        this.openmarqModal(url);
+        // Create a temporary link element for download
+        // const a = document.createElement('a');
+        // a.href = url;
+        // a.download = mFileName;
+        // a.click();
+  
+        // // Clean up URL object after use
+        // window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        if (err.status === 0 && err.statusText === 'Unknown Error') {
+          // ✅ Show toaster or alert message
+          this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+        } else if (err.status === 404) {
+          this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+        } else {
+          this.toastr.error('Something went wrong while downloading the file.', 'Error');
+        }
+        console.error('Download error:', err);
+      }
+    });
   }
 //#endregion 
  
@@ -779,6 +821,7 @@ InsertMASGSTRETURNFILES(GSTRETURNForm: NgForm) {
       ({
             next: (res: any) => {
               this.toastr.success(res.message || 'GST Return Certificate uploaded successfully!', 'Success');
+              this.GstReturnDetails();
               GSTRETURNForm.resetForm();
               this.GSTreturnCertificate = null;
             },
@@ -807,7 +850,7 @@ GstReturnDetails(){
               sno: index + 1,
             })
           );
-          console.log('GstReturnDetails=:', this.dispatchData3);
+          // console.log('GstReturnDetails=:', this.dispatchData3);
           this.dataSource3.data = this.dispatchData3;
           this.dataSource3.paginator = this.paginator3;
           this.dataSource3.sort = this.sort3;
