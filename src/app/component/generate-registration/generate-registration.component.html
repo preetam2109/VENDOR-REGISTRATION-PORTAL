@@ -24,16 +24,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>CGMSCeR00008</td>
-            <td>16-10-2025</td>
-            <td (click)="onClick()"><span class="status-incomplete">Incomplete</span></td>
+          <tr *ngFor="let vendor of vendorDetails">
+            <td>{{ vendor.vregno }}</td>
+            <td>{{ vendor.regdate }}</td>
+            <td (click)="onClick(vendor)">
+              <span class="status-incomplete">Incomplete</span>
+            </td>
             <td><span class="approved-status">-</span></td>
-            <td><span class="delete-link">Delete</span></td>
+            <td><span class="delete-link" (click)="deleteVendor(vendor)">Delete</span></td>
           </tr>
         </tbody>
       </table>
     </div>
+    
   </div>
 </div>
 
