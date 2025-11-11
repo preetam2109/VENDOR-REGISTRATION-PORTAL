@@ -49,29 +49,10 @@ import { Registration } from './component/auth/registration/registration';
 @NgModule({ declarations: [
         AppComponent,
 
-        // Stepper,
-        // InputComponent,
-        // AutocompleteComponent,
-        MenubarComponent,
-        HomeComponent,
-        CardComponent,
+        
         Registration,
-        // SliderComponent,
-        // TableComponent,
-        FormdesignComponent,
-        // PopupComponent,
-        // AssociateComponent,
-        // UserdetailComponent,
-        // FooterComponent,
-        RCDetailReportComponent,
-        ComplaintsComponent,
-        ApexChartComponent,
-        DispatchPendingComponent,
-        ReceiptPendingComponent,
-        InstallationPendingComponent,
-        DHSComponent,
-        DispatchPendingOneComponent,
-        LoginComponent,
+        
+        // LoginComponent,
 
         LogoutComponent,
     ],
