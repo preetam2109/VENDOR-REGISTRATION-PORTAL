@@ -1003,10 +1003,10 @@ export class MenuServiceService {
         // { label: 'Product Permission', route: '/home' },
         { label: 'Import Licence', route: '/import-Licence' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Loan Licence', route: '/' },
+        // { label: 'Loan Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Certificate/Affidavit', route: '/' },
-        { label: 'Declearation', route: '/' },
+        // { label: 'Certificate/Affidavit', route: '/' },
+        // { label: 'Declearation', route: '/' },
 
 
       ],

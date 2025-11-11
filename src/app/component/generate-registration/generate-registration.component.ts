@@ -30,7 +30,7 @@ export class GenerateRegistrationComponent {
   // form2: FormGroup;
 
   vregid: any;
-  
+  vendorDetails: any[] = [];
 
   ngOnInit() {
     this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
@@ -39,7 +39,7 @@ export class GenerateRegistrationComponent {
 
  
 
-  onClick(){
+  onClick(vender:any){
     this.router.navigate(['personal-detail'])
 
   }
@@ -74,14 +74,16 @@ export class GenerateRegistrationComponent {
   }
 
 
+  
+
   GetVendorDetailsID(supplierId: any) {
     this.api.getVendorDetailsID(supplierId).subscribe({
       next: (res: any) => {
         if (Array.isArray(res) && res.length > 0) {
-          this.vregid=res[0].vregid;
-          console.log('Vendor vregid:', this.vregid);
-          sessionStorage.setItem('vregid',this.vregid)
-        
+          this.vendorDetails = res;
+          console.log('Vendor Details:', this.vendorDetails);
+          this.vregid = res[0].vregid;
+          sessionStorage.setItem('vregid', this.vregid);
         } else {
           console.warn('No vendor details found.');
         }
@@ -91,6 +93,15 @@ export class GenerateRegistrationComponent {
       }
     });
   }
+  
+  
+  // onClickV(vendor: any) {
+  //   console.log('Clicked Vendor:', vendor);
+  // }
+  deleteVendor(vendor: any) {
+    console.log('Delete Vendor:', vendor);
+  }
+  
   
   
 

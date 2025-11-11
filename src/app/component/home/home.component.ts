@@ -176,6 +176,9 @@ export class HomeComponent {
     'Loan Licence': 'assets/dash-icon/evaluation.png',
     'Certificate/Affidavit': 'assets/dash-icon/check-list.png',
     'Declearation': 'assets/dash-icon/planning.png',
+    'Technical Details': 'assets/dash-icon/statistic_12488647.png',
+    'Compliance Details': 'assets/dash-icon/statistics_4762703.png',
+    'Global Company Prefix': 'assets/dash-icon/office_2415113.png',
 
   };
   constructor(

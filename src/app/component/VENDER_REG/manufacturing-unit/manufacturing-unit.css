@@ -73,3 +73,14 @@
     }
   }
   
+/* Ensure dropdown is visible even inside collapse */
+.collapse {
+    overflow: visible !important;
+  }
+  
+  /* Fix ng-select dropdown position */
+  .ng-dropdown-panel {
+    position: fixed !important;
+    z-index: 9999 !important;
+  }
+  
