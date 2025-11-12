@@ -119,7 +119,7 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="row  pb-3">
+                                        <!-- <div class="row  pb-3">
                                             <div class="form-group col-md-6 pt-3">
                                                 <label for="inputnumber">Upload Statement of capacity of production : <span
                                                         class="text-danger">*</span></label>
@@ -131,7 +131,7 @@
                                                        'is-invalid': TechCertificate4.invalid && TechCertificate4.touched,
                                                        'is-valid': TechCertificate4.valid && TechCertificate4.touched
                                                      }">
-                                                        <!-- Validation Message -->
+                                                        
                                                         <div *ngIf="TechCertificate4.invalid && TechCertificate4.touched">
                                                            <small class="text-danger">
                                                              Please upload the Upload Statement of capacity of production Certificate (PDF).
@@ -142,7 +142,7 @@
                                                 <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(81)">Upload</button>
                                                 <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <label for="inputnumber">Other documents for establishing eligibility of bidder</label>
                                         
                                         <div class="row  pb-3">
@@ -212,7 +212,7 @@
 </div>
 
 <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
       <div class="modal-content border-0 shadow-none">
         <div class="modal-header bg-dark text-white py-2 px-3">
           <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>

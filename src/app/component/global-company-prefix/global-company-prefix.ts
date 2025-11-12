@@ -34,7 +34,7 @@ import { threadCpuUsage } from 'process';
 })
 export class GlobalCompanyPrefix {
   // GetGCPDetails
-
+onshow:boolean=false;
     fileSelected: File | null = null;
     // license:licenseModel[]=[];
     // MAScomplianceType:any[]=[];
@@ -89,6 +89,46 @@ export class GlobalCompanyPrefix {
   onButtonClick(id:any){
   
   }
+  onButtonClick1(){
+    this.onshow= true;
+   }
+  DownloadFileWithName(mFilePath: string, mFileName: string) {
+    // debugger;
+  
+    // Encode file path and file name to handle special characters (like spaces, \ etc.)
+    const encodedPath = encodeURIComponent(mFilePath);
+    const encodedName = encodeURIComponent(mFileName);
+  
+    // Build dynamic API URL
+    const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+  
+    this.api.DownloadFileWithName(apiUrl).subscribe({
+      next: (res: Blob) => {
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        this.openmarqModal(url);
+        // Create a temporary link element for download
+        // const a = document.createElement('a');
+        // a.href = url;
+        // a.download = mFileName;
+        // a.click();
+  
+        // // Clean up URL object after use
+        // window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        if (err.status === 0 && err.statusText === 'Unknown Error') {
+          // ✅ Show toaster or alert message
+          this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+        } else if (err.status === 404) {
+          this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+        } else {
+          this.toastr.error('Something went wrong while downloading the file.', 'Error');
+        }
+        console.error('Download error:', err);
+      }
+    });
+  }
   openmarqModal(pdfUrl: string): void {
     this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
   
@@ -119,7 +159,7 @@ export class GlobalCompanyPrefix {
   }
   
   InsertGCP(GCPForm: NgForm) {
-    debugger
+    // debugger
     const formData = new FormData();
        if (GCPForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
