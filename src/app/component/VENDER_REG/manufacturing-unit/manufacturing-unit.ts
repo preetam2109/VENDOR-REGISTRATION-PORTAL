@@ -73,7 +73,8 @@ export class ManufacturingUnit {
 
   sanitizedPdfUrl!: SafeResourceUrl;
 
-
+  onshowUNIT:boolean=false;
+  onshowLICENCE:boolean=false;
 
 
 
@@ -128,6 +129,7 @@ this.licForm = this.fb.group({
   mISSUEDATE: ['', Validators.required],
   mStartDate: ['', Validators.required],
   mVALIDITYDATE: ['', Validators.required],
+  LicIssuingAuthority: ['', Validators.required],
 });
 this.GetmANUFACLICDetails()
 
@@ -241,7 +243,26 @@ this.retForm = this.fb.group({
     });
   }
   
+  onshowButtonClick(){
+    
+    //  this.isCollapsed = true;
+      // isCollapsed1 = true;
+
+        this.onshowUNIT = true;
+     
   
+    }
+    onshowButtonClickLICENCE() {
+      // debugger;
+      // if (val === 0) {
+        this.onshowLICENCE = true;
+      //   this.isCollapsed1 = false;
+      // } else {
+      //   this.onshowLICENCE = false;
+      // }
+  
+      // console.log('onshowLICENCE:', this.onshowLICENCE);
+    }
 
   getManufacturingDetails() {
 
