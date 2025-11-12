@@ -1,4 +1,8 @@
-<div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
+
+<app-manufacturing-tabs-under></app-manufacturing-tabs-under>
+
+
+<!-- <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
   <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed = !isCollapsed"
     role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
      UNIT
@@ -11,9 +15,7 @@
 
 
     <div class="card shadow rounded bg-light mx-auto mb-5">
-      <!-- <div class="card-header bg-info text-white">
-    <h4 class="text-center mb-0">Manufacturing Details</h4>
-  </div> -->
+    
       <div class="card-body p-3">
         <div class="table-container">
           <div class="d-flex justify-content-between align-items-center mb-3">
@@ -24,19 +26,14 @@
             <div class="export-menu-container ms-2">
               <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick()"
               >Add <i class="bi bi-folder-plus"></i></button>
-              <!-- <button mat-button [matMenuTriggerFor]="exportMenu" class="btn btn-sm btn-secondary">Export</button>
-              <mat-menu #exportMenu="matMenu">
-                <button mat-menu-item
-                  (click)="exporter.exportTable('xlsx', { fileName: 'manufacturingList', sheet: 'manufacturingList', Props: { Author: 'cgmsc' }})">Excel</button>
-                <button mat-menu-item (click)="exportToPDF()">PDF</button>
-              </mat-menu> -->
+             
             </div>
         
           </div>
           <div class="table-responsive">
             <table mat-table [dataSource]="dataSource" matTableExporter
               class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter">
-              <!-- S.No Column -->
+           
               <ng-container matColumnDef="sno">
                 <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
                 <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
@@ -106,7 +103,7 @@
             <form [formGroup]="unitForm" (ngSubmit)="onSubmit()" novalidate>
               <div class="row text-start">
       
-                <!-- Licence Type -->
+               
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Licence Type <span class="text-danger">*</span></label>
                   <div class="select-wrapper" style="position: relative;">
@@ -122,23 +119,7 @@
                   </div>
                 </div>
       
-                <!-- Option 2: Wrapper for clipping (uncomment if needed) -->
-                <!--
-                <div class="select-wrapper" style="position: relative;">
-                  <ng-select class="form-select w-auto"
-                    [items]="licenceTypes"
-                    bindLabel="lictypename"
-                    bindValue="lictypeid"
-                    formControlName="mlictypeid"
-                    [placeholder]="unitForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'"
-                    [searchable]="true"
-                    [clearable]="true"
-                    [appendTo]="'.select-wrapper'">
-                  </ng-select>
-                </div>
-                -->
-      
-                <!-- State -->
+              
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">State <span class="text-danger">*</span></label>
                   <div class="select-wrapper" style="position: relative;">
@@ -153,7 +134,7 @@
                   </div>
                 </div>
       
-                <!-- Unit Name -->
+             
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Unit Name <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" formControlName="mUNITNAME">
@@ -163,7 +144,7 @@
                   </div>
                 </div>
       
-                <!-- Address -->
+             
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Address <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" formControlName="mUNITAddress">
@@ -173,7 +154,7 @@
                   </div>
                 </div>
       
-                <!-- City -->
+             
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">City <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" formControlName="mCity">
@@ -182,7 +163,6 @@
                   </div>
                 </div>
       
-                <!-- Incharge Name -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Incharge Name <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" formControlName="mUNITINCHARGENAME">
@@ -192,7 +172,6 @@
                   </div>
                 </div>
       
-                <!-- Mobile -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Mobile <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" maxlength="10" formControlName="mUNITINCHARGEMOB">
@@ -203,7 +182,6 @@
                   </div>
                 </div>
       
-                <!-- Email -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
                   <input type="email" class="form-control" formControlName="mUNITINCHARGEEMAIL">
@@ -214,7 +192,6 @@
                   </div>
                 </div>
       
-                <!-- Submit -->
                 <div class="text-center mt-4 mb-1">
                   <button type="submit" class="btn btn-primary px-4" [disabled]="unitForm.invalid">
                     Submit
@@ -232,7 +209,7 @@
    
 
   </div>
-</div>
+</div> -->
 
 
 
@@ -241,7 +218,7 @@
 <!-- LIcence page -->
 
 
-<div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
+<!-- <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
   <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed1 = !isCollapsed1"
     role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
      LICENCES
@@ -264,21 +241,9 @@
             <div class="export-menu-container ms-2">
               <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClickLICENCE()"
               >Add <i class="bi bi-folder-plus"></i></button>
-              <!-- <button mat-button [matMenuTriggerFor]="exportMenuLic" class="btn btn-sm btn-secondary">
-                Export
-              </button>
-              <mat-menu #exportMenuLic="matMenu">
-                <button mat-menu-item (click)="exporter.exportTable('xlsx', {
-                fileName: 'manufacturingLicenceList',
-                sheet: 'manufacturingLicenceList',
-                Props: { Author: 'cgmsc' }
-              })">
-                  Excel
-                </button>
-                <button mat-menu-item (click)="exportToPDFManufacturingLic()">PDF</button>
-              </mat-menu> -->
+              
             </div>
-            <!-- <button class="btn bt-sm btn-info">Add</button> -->
+           
 
 
           </div>
@@ -287,85 +252,71 @@
             <table mat-table [dataSource]="dataSource2" matTableExporter
               class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter" matSort
               #sort1="matSort">
-              <!-- S.No -->
               <ng-container matColumnDef="sno">
                 <th mat-header-cell *matHeaderCellDef style="width: 60px;">S.No</th>
                 <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
               </ng-container>
 
-              <!-- Licence No -->
               <ng-container matColumnDef="licno">
                 <th mat-header-cell *matHeaderCellDef>Licence No</th>
                 <td mat-cell *matCellDef="let row">{{ row.licno }}</td>
               </ng-container>
 
-              <!-- Unit Name -->
               <ng-container matColumnDef="unitname">
                 <th mat-header-cell *matHeaderCellDef>Unit Name</th>
                 <td mat-cell *matCellDef="let row">{{ row.unitname }}</td>
               </ng-container>
 
-              <!-- Unit Address -->
               <ng-container matColumnDef="unitaddress">
                 <th mat-header-cell *matHeaderCellDef>Address</th>
                 <td mat-cell *matCellDef="let row">{{ row.unitaddress }}</td>
               </ng-container>
 
-              <!-- City -->
               <ng-container matColumnDef="city">
                 <th mat-header-cell *matHeaderCellDef>City</th>
                 <td mat-cell *matCellDef="let row">{{ row.city }}</td>
               </ng-container>
 
-              <!-- Incharge Name -->
               <ng-container matColumnDef="unitinchargename">
                 <th mat-header-cell *matHeaderCellDef>Incharge Name</th>
                 <td mat-cell *matCellDef="let row">{{ row.unitinchargename }}</td>
               </ng-container>
 
-              <!-- Incharge Mobile -->
               <ng-container matColumnDef="unitinchargemob">
                 <th mat-header-cell *matHeaderCellDef>Mobile</th>
                 <td mat-cell *matCellDef="let row">{{ row.unitinchargemob }}</td>
               </ng-container>
 
-              <!-- Incharge Email -->
               <ng-container matColumnDef="unitinchargeemail">
                 <th mat-header-cell *matHeaderCellDef>Email</th>
                 <td mat-cell *matCellDef="let row">{{ row.unitinchargeemail }}</td>
               </ng-container>
 
-              <!-- Issue Date -->
               <ng-container matColumnDef="issuedate">
                 <th mat-header-cell *matHeaderCellDef>Issue Date</th>
                 <td mat-cell *matCellDef="let row">{{ row.issuedate }}</td>
               </ng-container>
 
-              <!-- Validity Date -->
               <ng-container matColumnDef="validitydate">
                 <th mat-header-cell *matHeaderCellDef>Validity Date</th>
                 <td mat-cell *matCellDef="let row">{{ row.validitydate }}</td>
               </ng-container>
 
-              <!-- Licence Type -->
               <ng-container matColumnDef="lictypename">
                 <th mat-header-cell *matHeaderCellDef>Licence Type</th>
                 <td mat-cell *matCellDef="let row">{{ row.lictypename }}</td>
               </ng-container>
 
-              <!-- State -->
               <ng-container matColumnDef="statename">
                 <th mat-header-cell *matHeaderCellDef>State</th>
                 <td mat-cell *matCellDef="let row">{{ row.statename }}</td>
               </ng-container>
 
-              <!-- Entry Date -->
               <ng-container matColumnDef="entrydate">
                 <th mat-header-cell *matHeaderCellDef>Entry Date</th>
                 <td mat-cell *matCellDef="let row">{{ row.entrydate }}</td>
               </ng-container>
 
-              <!-- File Name -->
               <ng-container matColumnDef="filename">
                 <th mat-header-cell *matHeaderCellDef>File</th>
                 <td mat-cell *matCellDef="let row">
@@ -377,7 +328,6 @@
               </ng-container>
 
 
-              <!-- Header & Row Definition -->
               <tr mat-header-row *matHeaderRowDef="[
               'sno',
               'licno',
@@ -426,7 +376,6 @@
         <div class="mb-3 Fon-family" style="text-align: justify;">
           <form [formGroup]="licForm" (ngSubmit)="onSubmitLicence()">
             <div class="row text-start ">
-              <!-- Unit -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Unit<span class="text-danger">*</span></label>
                 <ng-select class="form-select w-auto" [items]="unitList" bindLabel="unitname" bindValue="unitid"
@@ -435,7 +384,6 @@
                 </ng-select>
               </div>
     
-              <!-- Form Type -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Form Type<span class="text-danger">*</span></label>
                 <ng-select class="form-select w-auto" [items]="formList" bindLabel="formname" bindValue="formid"
@@ -444,7 +392,6 @@
                 </ng-select>
               </div>
     
-              <!-- Licence Type -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Licence Type<span class="text-danger">*</span></label>
                 <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
@@ -453,7 +400,6 @@
                 </ng-select>
               </div>
     
-              <!-- Licence No -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Licence No<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" formControlName="mLICNO" placeholder="Enter Licence Number">
@@ -466,7 +412,6 @@
                 </small>
               </div>
     
-              <!-- Issue Date -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
                 <input type="date" class="form-control" formControlName="mISSUEDATE">
@@ -475,7 +420,6 @@
                 </small>
               </div>
     
-              <!-- Start Date -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
                 <input type="date" class="form-control" formControlName="mStartDate">
@@ -484,7 +428,6 @@
                 </small>
               </div>
     
-              <!-- Validity Date -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">End Date<span class="text-danger">*</span></label>
                 <input type="date" class="form-control" formControlName="mVALIDITYDATE">
@@ -494,7 +437,6 @@
                 </small>
               </div>
 
-              <!-- Validity Date -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Licence Issuing Authority<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" formControlName="LicIssuingAuthority"placeholder="Enter Issuing Authority">
@@ -504,7 +446,6 @@
                 </small>
               </div>
     
-              <!-- Upload Licence -->
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Upload Licence<span class="text-danger">*</span></label>
                 <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)">
@@ -515,7 +456,6 @@
               </div>
     
     
-              <!-- Submit -->
               <div class="col-12 text-center mt-3 mb-1 ">
                 <button type="submit" class="btn btn-primary px-4" [disabled]="!licForm.valid">
                   Submit
@@ -535,14 +475,14 @@
 
 
   </div>
-</div>
+</div> -->
 
 
 <!-- Retention page -->
 
 
 
-<div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
+<!-- <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
   <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed2 = !isCollapsed2"
     role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
     RETENTION/RENEWEVALS
@@ -566,19 +506,7 @@
             <div class="export-menu-container ms-2">
               <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);"
               >Add <i class="bi bi-folder-plus"></i></button>
-              <!-- <button mat-button [matMenuTriggerFor]="exportMenuRet" class="btn btn-sm btn-secondary">
-                Export
-              </button>
-              <mat-menu #exportMenuRet="matMenu">
-                <button mat-menu-item (click)="exporter.exportTable('xlsx', {
-                fileName: 'RetentionList',
-                sheet: 'RetentionList',
-                Props: { Author: 'cgmsc' }
-              })">
-                  Excel
-                </button>
-                <button mat-menu-item (click)="exportToPDFRetention()">PDF</button>
-              </mat-menu> -->
+           
             </div>
           </div>
 
@@ -586,61 +514,51 @@
             <table mat-table [dataSource]="dataSource3" matTableExporter
               class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter" matSort
               #sort3="matSort">
-                <!-- S.No -->
     <ng-container matColumnDef="sno">
       <th mat-header-cell *matHeaderCellDef style="width: 60px;">S.No</th>
       <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
     </ng-container>
 
-    <!-- Licence No -->
     <ng-container matColumnDef="licno">
       <th mat-header-cell *matHeaderCellDef>Licence No</th>
       <td mat-cell *matCellDef="let row">{{ row.licno }}</td>
     </ng-container>
 
-    <!-- Unit Name -->
     <ng-container matColumnDef="unitname">
       <th mat-header-cell *matHeaderCellDef>Unit Name</th>
       <td mat-cell *matCellDef="let row">{{ row.unitname }}</td>
     </ng-container>
 
-    <!-- Issue Date -->
     <ng-container matColumnDef="issuedate">
       <th mat-header-cell *matHeaderCellDef>Issue Date</th>
       <td mat-cell *matCellDef="let row">{{ row.issuedate }}</td>
     </ng-container>
 
-    <!-- Start Date -->
     <ng-container matColumnDef="startdate">
       <th mat-header-cell *matHeaderCellDef>Start Date</th>
       <td mat-cell *matCellDef="let row">{{ row.startdate }}</td>
     </ng-container>
 
-    <!-- Expiry Date -->
     <ng-container matColumnDef="expdate">
       <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
       <td mat-cell *matCellDef="let row">{{ row.expdate }}</td>
     </ng-container>
 
-    <!-- Retention Name -->
     <ng-container matColumnDef="retname">
       <th mat-header-cell *matHeaderCellDef>Retention</th>
       <td mat-cell *matCellDef="let row">{{ row.retname }}</td>
     </ng-container>
 
-    <!-- Form Name -->
     <ng-container matColumnDef="formname">
       <th mat-header-cell *matHeaderCellDef>Form Name</th>
       <td mat-cell *matCellDef="let row">{{ row.formname }}</td>
     </ng-container>
 
-    <!-- Licence Type -->
     <ng-container matColumnDef="lictypename">
       <th mat-header-cell *matHeaderCellDef>Licence Type</th>
       <td mat-cell *matCellDef="let row">{{ row.lictypename }}</td>
     </ng-container>
 
-    <!-- File Name -->
     <ng-container matColumnDef="filename">
       <th mat-header-cell *matHeaderCellDef>File</th>
       <td mat-cell *matCellDef="let row">
@@ -655,7 +573,6 @@
     </ng-container>
 
 
-              <!-- Header & Row Definition -->
               <tr mat-header-row *matHeaderRowDef="[
               'sno',
   'licno',
@@ -692,7 +609,6 @@
 
     <form [formGroup]="retForm" (ngSubmit)="onSubmitRetention()">
       <div class="row text-start ">
-        <!-- Unit -->
         <div class="col-md-6 mb-3">
           <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
           <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
@@ -703,7 +619,6 @@
 
      
 
-        <!-- Retention Type -->
         <div class="col-md-6 mb-3">
           <label class="form-label fw-bold">Retention Type<span class="text-danger">*</span></label>
           <ng-select class="form-select w-auto" [items]="masRetentionDDL" bindLabel="retname" bindValue="retid"
@@ -712,7 +627,6 @@
           </ng-select>
         </div>
 
-           <!-- Form Type -->
            <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Form Type<span class="text-danger">*</span></label>
             <ng-select class="form-select w-auto" [items]="filteredFormList" bindLabel="formname" bindValue="formid"
@@ -722,7 +636,6 @@
           </div>
      
 
-            <!-- Issue Date -->
     <div class="col-md-6 mb-3">
       <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
       <input type="date" class="form-control" formControlName="mISSUEDATE">
@@ -731,7 +644,6 @@
       </small>
     </div>
 
-    <!-- Start Date -->
     <div class="col-md-6 mb-3">
       <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
       <input type="date" class="form-control" formControlName="mStartDate">
@@ -740,7 +652,6 @@
       </small>
     </div>
 
-    <!-- Validity Date -->
     <div class="col-md-6 mb-3">
       <label class="form-label fw-bold">Valid Upto<span class="text-danger">*</span></label>
       <input type="date" class="form-control" formControlName="mVALIDITYDATE">
@@ -749,7 +660,6 @@
       </small>
     </div>
 
-    <!-- Upload File -->
     <div class="col-md-6 mb-3">
       <label class="form-label fw-bold">Upload File<span class="text-danger">*</span></label>
       <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelectedRetention($event)">
@@ -759,7 +669,6 @@
     </div>
 
 
-        <!-- Submit -->
         <div class="col-12 text-center mt-3 mb-1 ">
           <button type="submit" class="btn btn-primary px-4" [disabled]="!retForm.valid">
             Submit
@@ -776,7 +685,6 @@
 
   </div>
 </div>
-<!-- modal -->
 <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-fullscreen">
     <div class="modal-content border-0 shadow-none">
@@ -793,4 +701,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

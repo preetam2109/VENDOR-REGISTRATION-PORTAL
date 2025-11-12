@@ -1983,6 +1983,7 @@ public post(url: string, data: FormData, options?: any) {
 //   return this.http.get(${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId});
 // }
 updateVendor(params: any, formData: FormData) {
+  debugger
   
   let httpParams = new HttpParams()
     .set('authMobileNo', params.authMobileNo)
