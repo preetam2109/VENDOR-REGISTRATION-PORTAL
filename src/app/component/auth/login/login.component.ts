@@ -17,10 +17,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 declare var google: any;
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone:true,
-  imports:[CommonModule,MatIconModule,FormsModule,NgSelectModule],
+  imports:[CommonModule,MatIconModule,FormsModule,NgSelectModule,RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -1085,7 +1086,9 @@ toggleText() {
     };
   }
   
-
+  goToRegistration() {
+    this.router.navigate(['/Registration']);
+  }
 
  
 
