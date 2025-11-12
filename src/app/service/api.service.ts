@@ -1983,6 +1983,7 @@ public post(url: string, data: FormData, options?: any) {
 //   return this.http.get(${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId});
 // }
 updateVendor(params: any, formData: FormData) {
+  debugger
   
   let httpParams = new HttpParams()
     .set('authMobileNo', params.authMobileNo)
@@ -2042,7 +2043,7 @@ getMasformTypes(){
 
 
 postManufacturingLic(data: any, formData: FormData): Observable<any> {
-  debugger
+  // debugger
   const params = new HttpParams()
   .set('mUNITID', data.mUNITID)
   .set('mFORMID', data.mFORMID)
@@ -2052,7 +2053,8 @@ postManufacturingLic(data: any, formData: FormData): Observable<any> {
   .set('mLICNO', data.mLICNO)
   .set('mISSUEDATE', data.mISSUEDATE)
   .set('mStartDate', data.mStartDate)
-  .set('mVALIDITYDATE', data.mVALIDITYDATE);
+  .set('mVALIDITYDATE', data.mVALIDITYDATE)
+  .set('mLicIssuingAuthority', data.mLicIssuingAuthority);
   
   return this.http.post(`${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`,formData,{ params, responseType: 'text' });
 }
@@ -2066,7 +2068,8 @@ postRetentionCertificate(data: any, formData: FormData): Observable<any> {
     .set('mVALIDITYDATE', data.mVALIDITYDATE)
     .set('mVregid', data.mVregid)
     .set('mretid', data.mretid)
-    .set('mFormID', data.mFormID);
+    .set('mFormID', data.mFormID)
+    .set('mProIssuingAuthority', data.mProIssuingAuthority);
 
   return this.http.post(
     `${this.VREGAPI}/Registration/MASVREGMANUFACPROVCERTIFICATE`,
@@ -2186,6 +2189,7 @@ postMasimporterdocument(data: any, formData: FormData): Observable<any> {
     .set('mStartDate', data.mStartDate)
     .set('mVALIDITYDATE', data.mVALIDITYDATE)
     .set('mVregid', data.mVregid)
+    .set('mIMPIssuingAuthority', data.mIMPIssuingAuthority)
     
 
   return this.http.post(
@@ -2203,7 +2207,7 @@ GetDDlImprtLic(VregID:any){
 
 
 masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
-  debugger
+  // debugger
   
   const params = new HttpParams()
   .set('mIMPID', data.mIMPID)
@@ -2211,6 +2215,7 @@ masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
   .set('mStartDate', data.mStartDate)
   .set('mVALIDITYDATE', data.mVALIDITYDATE)
   .set('mVregid', data.mVregid)
+  .set('mIMPRETIssuingAuthority', data.mIMPRETIssuingAuthority)  
   
   
   return this.http.post(

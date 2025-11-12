@@ -39,7 +39,10 @@ export class GenerateRegistrationComponent {
 
  
 
-  onClick(vender:any){
+  onClick(status:any){
+    if(status=='Complete'){
+      return
+    }
     this.router.navigate(['personal-detail'])
 
   }

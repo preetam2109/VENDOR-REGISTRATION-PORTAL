@@ -16,20 +16,17 @@ import autoTable from 'jspdf-autotable';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ManufacturingTabsUnder } from "../manufacturing-tabs-under/manufacturing-tabs-under";
 declare var bootstrap: any;
 
 
-
 @Component({
-  selector: 'app-manufacturing-unit',
-  standalone: true,
-  imports: [MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, ManufacturingTabsUnder],
-  templateUrl: './manufacturing-unit.html',
-  styleUrl: './manufacturing-unit.css'
+  selector: 'app-manufacturing-unit-retention-tab',
+  standalone:true,
+  imports: [MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
+  templateUrl: './manufacturing-unit-retention-tab.html',
+  styleUrl: './manufacturing-unit-retention-tab.css'
 })
-export class ManufacturingUnit {
-
+export class ManufacturingUnitRetentionTab {
 
   isCollapsed = false;
   isCollapsed1 = true;
@@ -76,6 +73,7 @@ export class ManufacturingUnit {
 
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
+  onshowRETE:boolean=false;
 
 
 
@@ -146,7 +144,8 @@ this.retForm = this.fb.group({
   mVALIDITYDATE: ['', Validators.required],
   mVregid: [sessionStorage.getItem('vregid'), Validators.required],
   mretid: ['', Validators.required],
-  mFormID: ['', Validators.required]
+  mFormID: ['', Validators.required],
+  mProIssuingAuthority: ['', Validators.required]
 });
 
 
@@ -249,14 +248,14 @@ this.retForm = this.fb.group({
     //  this.isCollapsed = true;
       // isCollapsed1 = true;
 
-        this.onshowUNIT = true;
+        this.onshowRETE = true;
      
   
     }
     onshowButtonClickLICENCE() {
       // debugger;
       // if (val === 0) {
-        this.onshowLICENCE = true;
+        this.onshowRETE = true;
       //   this.isCollapsed1 = false;
       // } else {
       //   this.onshowLICENCE = false;

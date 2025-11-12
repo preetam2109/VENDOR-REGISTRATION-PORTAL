@@ -14,7 +14,7 @@ import { ApiService } from 'src/app/service/api.service';
 export class PersonalDetailComponent {
 
 
-
+  vregId=sessionStorage.getItem('vregid')
 
   selectedPanFile: File | null = null;
 
@@ -30,6 +30,7 @@ export class PersonalDetailComponent {
   vendor: any = {}; // Holds vendor data
 
 ngOnInit() {
+  this.vregId=sessionStorage.getItem('vregid');
   this.loadVendorDetails();
 }
 
@@ -49,6 +50,7 @@ loadVendorDetails() {
 }
 
 saveVendor() {
+  debugger
   try {
     const formData = new FormData();
 
@@ -69,7 +71,7 @@ saveVendor() {
       authSigMobileNo: this.vendor.authsigmobileno,
       authSigEmailId: this.vendor.authsigemailid,
       pancardno: this.vendor.pancardno,
-      vregId: this.vendor.supplierid
+      vregId: this.vregId
     };
 
     // Use updated service method
