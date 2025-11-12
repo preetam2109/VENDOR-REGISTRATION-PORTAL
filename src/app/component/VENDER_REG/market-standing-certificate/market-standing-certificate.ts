@@ -213,7 +213,7 @@ export class MarketStandingCertificate {
  
  
   onCategorySelectChange(selected: any): void {
-    debugger
+    
     const mcid = selected?.mcid ?? selected;
 
     if (mcid) {
@@ -226,7 +226,7 @@ export class MarketStandingCertificate {
     }
   }
   onmItemTypeIDSelectChange(selected: any): void {
-    debugger
+    
     const mItemTypeID = selected?.itemtypeid ?? selected;
 
     if (mItemTypeID) {
@@ -239,7 +239,7 @@ export class MarketStandingCertificate {
     }
   }
   onGroupSelectChange(selected: any): void {
-    debugger
+    
     const groupid = selected?.groupid ?? selected;
 
     if (groupid) {
@@ -334,7 +334,7 @@ if(!sessionStorage.getItem('mscid')){
 
 
 
-debugger
+
 
 const mscid=sessionStorage.getItem('mscid');
     if (this.selectedItems.length === 0) {
@@ -349,7 +349,7 @@ const mscid=sessionStorage.getItem('mscid');
             console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
             
             this.toastr.success('All items updated successfully!',res);
-            debugger
+            
             this.refreshCheckbox();
             this.selectedItems = []; // Clear all
             this.MCCFillItemsLIst = [];
@@ -578,7 +578,7 @@ GetmSCDetailsList() {
 
 
 exportToPDF() {
-  debugger;
+  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
   
   // 🕒 Add title and timestamp
@@ -646,7 +646,7 @@ exportToPDF() {
   doc.save(`Market_Standing_Certificate_List_${formattedDate}.pdf`);
 }
 exportToPDF2() {
-  debugger;
+  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4 sheet
 
   // 🕒 Title and Timestamp
@@ -730,7 +730,7 @@ exportToPDF2() {
 
 
 OnClickMSCCOPItemDetails(mFileID:any){
-  debugger
+  
   this.spinner.show();
   this.api.GetMSCCOPItemDetails(sessionStorage.getItem('vregid'),mFileID,'MSC').subscribe((res: any) => {
       this.MSCCOPItemList = res.map((item: any, index: number) => ({

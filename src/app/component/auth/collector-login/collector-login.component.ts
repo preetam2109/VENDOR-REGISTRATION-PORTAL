@@ -103,7 +103,7 @@ isPasswordVisible: boolean = false;
   adminLoginDropdown(){
     
     this.api.masddlUser('DC').subscribe((res:any[])=>{
-      console.log(' Admin API dropdown Response:', res);
+      // console.log(' Admin API dropdown Response:', res);
       if (res && res.length > 0) {
         this.adminDropdownList = res.map(item => ({
           emailid: item.emailid, // Adjust key names if needed
@@ -129,7 +129,7 @@ isPasswordVisible: boolean = false;
      
 
 
-        console.log('adminDropdownList :', this.adminDropdownList);
+        // console.log('adminDropdownList :', this.adminDropdownList);
       } else {
         console.error('No emailid found or incorrect structure:', res);
       }
@@ -207,14 +207,14 @@ isPasswordVisible: boolean = false;
     );
   }
   getItemDetails() {
-    console.log('Selected warehouse details:', this.selectedWarehouse);
+    // console.log('Selected warehouse details:', this.selectedWarehouse);
     // You can perform additional logic here if required
   }
 
   handleLogin() {
 
     const captchaValue = this.captchaInput?.nativeElement.value;  // Get value from the input element
-    console.log('Captcha Value:', captchaValue);
+    // console.log('Captcha Value:', captchaValue);
     
     
     
@@ -264,7 +264,7 @@ onUserChange(event: Event): void {
   // const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
   const selectedUser = this.adminDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid); // Find the user object in the list
 
-  console.log('Selected User:', selectedUser); // Log the selected user object properly
+  // console.log('Selected User:', selectedUser); // Log the selected user object properly
 
   if (selectedUser) {
     this.siMobile =selectedUser.siMobile || null;

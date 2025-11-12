@@ -201,7 +201,7 @@ formatDate(dateString: string): string {
 
   onSubmit() {
 
-debugger
+
     const formData = new FormData();
 
     // Append file if selected
@@ -255,7 +255,7 @@ debugger
 
   onSubmit2() {
 
-debugger
+
     const formData = new FormData();
 
     // Append file if selected
@@ -361,7 +361,7 @@ debugger
  
 
   exportToPDF() {
-    debugger;
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -440,7 +440,7 @@ debugger
   
 
   exportToPDF2() {
-    debugger;
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
   
     // 🕒 Header: Title + Timestamp

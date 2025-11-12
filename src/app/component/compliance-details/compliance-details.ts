@@ -145,7 +145,7 @@ export class ComplianceDetails {
     this.onshow= true;
    }
   DownloadFileWithName(mFilePath: string, mFileName: string) {
-    debugger;
+    ;
   
     // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
@@ -186,7 +186,7 @@ export class ComplianceDetails {
 //   DownloadFileWithName(mFilePath:any,mFileName:any) {
 //     // https://dpdmis.in/VREGAPI/api/Registration/DownloadFileWithName?mFilePath=
 //     // D%3A%5CVendorDocuments%5C50%5CNonConCertificate_235.pdf&mFileName=NonConCertificate_235.pdf
-// debugger
+// 
 // this.api.DownloadFileWithName(`/Registration/DownloadFileWithName?mFilePath=Documents\\50\\SUPWHO_31.pdf&mFileName=SUPWHO_31.pdf`)
 //   .subscribe({
 //     next: (res: Blob) => {
@@ -252,7 +252,7 @@ export class ComplianceDetails {
       });
   }
   Onselectlicense(event: any) {
-    // debugger;
+    // ;
     // console.log('Selected license:', event);
     if (event) {
       this.licid = event?.licid;
@@ -262,7 +262,7 @@ export class ComplianceDetails {
     }
   }
   OnselectlicensecomplianceType(event: any) {
-    // debugger;
+    // ;
     console.log('Selected license:', event);
     this.comid = event?.comid;
     console.log('comid:', this.comid);
@@ -321,7 +321,7 @@ export class ComplianceDetails {
   }
 
   InsertComplianceCertificate1(COMCForm: NgForm) {
-    // debugger
+    // 
     this.submitted = true;
     const formData = new FormData();
     if (COMCForm.invalid) {
@@ -394,7 +394,7 @@ export class ComplianceDetails {
     }
   }
   MASVREGWHOITEMTYPE(WHoid: any, COMCForm: NgForm) {
-    debugger;
+    ;
     console.log('whoid=', WHoid);
     console.log('selecteditemtypeid=', this.selecteditemtypeid);
 
@@ -444,7 +444,7 @@ export class ComplianceDetails {
   //
   GetComplienceCertificateDetails() {
     try {
-      //  debugger;
+      //  ;
       this.spinner.show();
       this.api
         .GetComplienceCertificateDetails(
@@ -488,7 +488,7 @@ export class ComplianceDetails {
   GettypedetailsDetails(mWHOID: any) {
     // https://dpdmis.in/VREGAPI/api/Registration/GetCOMTyepDetails?VregID=50&mWHOID=21
     try {
-      debugger;
+      ;
       this.spinner.show();
       this.api
         .GettypedetailsDetails(sessionStorage.getItem('vregid'), mWHOID)

@@ -207,7 +207,7 @@ export class ProductPermission {
     });
   }
   onCategorySelectChange(selected: any): void {
-    debugger
+    
     const mcid = selected?.mcid ?? selected;
 
     if (mcid) {
@@ -262,7 +262,7 @@ export class ProductPermission {
     });
   }
   onItemTypeChange(selected: any): void {
-    debugger
+    
     const itemtypeid = selected?.itemtypeid ?? selected;
 
     if (itemtypeid) {
@@ -273,14 +273,14 @@ export class ProductPermission {
     } else {
       console.error('Selected itemtypeid not found in the list.');
     }
-    // debugger
+    // 
     // this.mTypeID = 
     // const=selectedId?.itemtypeid;
     // const mcid = selectedId?.itemtypeid ?? selected; 
     // console.log('Selected Item Type ID:', selectedId);
   }
   onLicenceTypeChange(selected: any): void {
-    debugger
+    
     const licid = selected?.licid ?? selected;
 
     if (licid) {
@@ -291,7 +291,7 @@ export class ProductPermission {
     } else {
       console.error('Selected itemtypeid not found in the list.');
     }
-    // debugger
+    // 
     // this.mTypeID = 
     // const=selectedId?.itemtypeid;
     // const mcid = selectedId?.itemtypeid ?? selected; 
@@ -355,7 +355,7 @@ export class ProductPermission {
 
   }
 uploadPPCertificate(){
-  debugger;
+  ;
 
     const formData = new FormData();
 
@@ -400,7 +400,7 @@ uploadPPCertificate(){
   
   }
   saveMasVregPPCItems() {
-    debugger;
+    ;
   
     // if (this.productPerForm.invalid) {
     //   this.toastr.warning('Please Select all required fields correctly!');
@@ -624,7 +624,7 @@ if (this.productPerForm.invalid) {
      }
 
   exportToPDF() {
-    debugger;
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -689,7 +689,7 @@ if (this.productPerForm.invalid) {
   
 
   exportToPDFPPItemDetails() {
-    debugger;
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time

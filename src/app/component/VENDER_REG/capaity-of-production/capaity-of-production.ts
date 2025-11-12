@@ -214,7 +214,7 @@ export class CapaityOfProduction {
  
  
   onCategorySelectChange(selected: any): void {
-    debugger
+    
     const mcid = selected?.mcid ?? selected;
 
     if (mcid) {
@@ -227,7 +227,7 @@ export class CapaityOfProduction {
     }
   }
   onmItemTypeIDSelectChange(selected: any): void {
-    debugger
+    
     const mItemTypeID = selected?.itemtypeid ?? selected;
 
     if (mItemTypeID) {
@@ -240,7 +240,7 @@ export class CapaityOfProduction {
     }
   }
   onGroupSelectChange(selected: any): void {
-    debugger
+    
     const groupid = selected?.groupid ?? selected;
 
     if (groupid) {
@@ -278,7 +278,7 @@ export class CapaityOfProduction {
 
 
   onSubmit() {
-debugger
+
 if(!sessionStorage.getItem('COPID')){
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
@@ -335,7 +335,7 @@ if(!sessionStorage.getItem('COPID')){
 
 
 
-debugger
+
 
 const mscid=sessionStorage.getItem('COPID');
     if (this.selectedItems.length === 0) {
@@ -350,7 +350,7 @@ const mscid=sessionStorage.getItem('COPID');
             console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
             
             this.toastr.success('All items updated successfully!',res);
-            debugger
+            
             this.refreshCheckbox();
             this.selectedItems = []; // Clear all
             this.MCCFillItemsLIst = [];
@@ -579,7 +579,7 @@ GetmSCDetailsList() {
 
 
 exportToPDF() {
-  debugger;
+  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
   
   // 🕒 Add title and timestamp
@@ -664,7 +664,7 @@ exportToPDF() {
 }
 
 exportToPDF2() {
-  debugger;
+  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4 sheet
 
   // 🕒 Title and Timestamp
@@ -748,7 +748,7 @@ exportToPDF2() {
 
 
 OnClickMSCCOPItemDetails(mFileID:any){
-  debugger
+  
   this.spinner.show();
   this.api.GetMSCCOPItemDetails(sessionStorage.getItem('vregid'),mFileID,'COP').subscribe((res: any) => {
       this.MSCCOPItemList = res.map((item: any, index: number) => ({

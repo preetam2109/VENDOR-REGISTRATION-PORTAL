@@ -309,7 +309,7 @@ onFileSelectedanudocument(event: any) {
 }
 
   // Onselectyear(selectedYear: any): void {
-  //   // debugger;
+  //   // ;
   //   console.log('Selected Year Object:', selectedYear);
   
   //   if (selectedYear) {
@@ -353,7 +353,7 @@ onFileSelectedanudocument(event: any) {
   }
 
 GETSupplierBankAccDetail(sid:any,acno:any) {
-  // debugger;
+  // ;
   this.api.SupplierBankAccDetail(sessionStorage.getItem('facilityid'),acno).subscribe({
     next: (res: any) => {
       if (res && res.length > 0) {
@@ -377,7 +377,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
   
   onselectacno(event: any): void {
-    // debugger
+    // 
    const bankaccountid= event.bankaccountid
     this.acno=bankaccountid;
     if (bankaccountid === 0) {
@@ -399,7 +399,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
-    // debugger;
+    // ;
     // console.log('bankForm=',bankForm);
     if (bankForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
@@ -437,7 +437,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
  GETBankMandateDetail(){
     try{
-    //  debugger;
+    //  ;
       this.spinner.show();
     this.api.Massupplieraccnos(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
     // this.Service.get('GetDrugTenderList?n=0')
@@ -490,7 +490,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   
 //#region GetAnnualTurnover
 Onselectyear(event: Event): void {
-  // debugger;
+  // ;
   const selectedId = (event.target as HTMLSelectElement).value;
   const selectedYear = this.Years.find((y: { accyrsetid: string; }) => y.accyrsetid == selectedId);
 
@@ -511,7 +511,7 @@ get f() {
 }
  GetAnnualTurnover(){
   try{
-  //  debugger;
+  //  ;
     this.spinner.show();
   this.api.GetAnnualTurnover(sessionStorage.getItem('vregid'))
   // this.Service.get('GetDrugTenderList?n=0')
@@ -545,7 +545,7 @@ get f() {
 }
 
  OnSubmmit(): void {
-  // debugger;
+  // ;
   this.submitted = true;
   console.log('Form Value:', this.AnnualTurnoverForm.value);
   console.log('Form Valid:', this.AnnualTurnoverForm.valid);
@@ -601,7 +601,7 @@ onButtonClickAT(){
 //#region GST
 GETMassuppliergstDetails(){
   try{
-    //  debugger;
+    //  ;
       // this.spinner.show();
     this.api.MassuppliergstDetails(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
     // this.Service.get('GetDrugTenderList?n=0')
@@ -687,7 +687,7 @@ InsertGSTCertificate(GSTForm: NgForm) {
 
   
   DownloadFileWithName(mFilePath: string, mFileName: string) {
-    debugger;
+    ;
   
     // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
@@ -740,7 +740,7 @@ InsertGSTCertificate(GSTForm: NgForm) {
 //  "accyrsetid": 547,
 //     "accyear": "2026-2027"
 OnselectAccYearSettings(selectedaccyrsetid: any): void {
-  // debugger;
+  // ;
   const selectedaccyrset = selectedaccyrsetid.accyrsetid || 0;
 
   console.log('✅ Selected selectedaccyrset:', selectedaccyrset);
@@ -750,7 +750,7 @@ OnselectAccYearSettings(selectedaccyrsetid: any): void {
     // this.gstno = selectedgstqtr.quartername;
   }
 
-  // debugger;
+  // ;
   // const selectedaccyrsetid = (event.target as HTMLSelectElement).value;
   // const selectedaccyrset = this.AccYearSettings.find((y: { accyrsetid: string; }) => y.accyrsetid == selectedaccyrsetid);
 
@@ -759,7 +759,7 @@ OnselectAccYearSettings(selectedaccyrsetid: any): void {
 
 }
 OnselectMASGSTQUARTER(selectedgstqtrid: any): void {
-  // debugger;
+  // ;
   const selectedgstqtr = selectedgstqtrid.gstqtrid || 0;
 
   console.log('✅ Selected OnselectMASGSTQUARTER:', selectedgstqtr);
@@ -772,7 +772,7 @@ OnselectMASGSTQUARTER(selectedgstqtrid: any): void {
  
 }
 Onselectgstno(selectedgstid: any): void {
-  // debugger;
+  // ;
   const selectedgst = selectedgstid.gstid || 0;
 
   console.log('✅ Selected GST Object:', selectedgst);
@@ -861,7 +861,7 @@ InsertMASGSTRETURNFILES(GSTRETURNForm: NgForm) {
  // https://localhost:7053/api/Registration/InsertMASGSTRETURNFILES?mGSTID=468&mVergID=50&mACCYRSETID=546&mGSTQTRID=1&mSupplierID=1936
 GstReturnDetails(){
   try{
-    //  debugger;
+    //  ;
       // this.spinner.show();
     this.api.GstReturnDetails(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
     // this.Service.get('GetDrugTenderList?n=0')

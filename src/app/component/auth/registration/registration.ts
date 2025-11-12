@@ -102,7 +102,7 @@ export class Registration {
 
    
  sendOtp() {
-  debugger
+  
   const mobile = this.registerForm.value.mPHONE1;
 
   if (!mobile || mobile.toString().length !== 10) {
@@ -129,7 +129,7 @@ export class Registration {
 
 
  onSubmit() {
-  debugger
+  
   // const res={message: '78188', apiResponse: ''};
   // this.serverOtp = res?.message || '';
   this.isSubmitting = true;
@@ -181,7 +181,7 @@ export class Registration {
 }
 GETSendOtp(mobile:any,Detail:any,mType:any){
   // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Kaushal&mType=SIGNUP
-  // debugger;
+  // ;
 
   this.api.GETSendOtp(mobile,Detail,mType)
   .subscribe({
@@ -200,7 +200,7 @@ GETSendOtp(mobile:any,Detail:any,mType:any){
 }
 
 // Onselectyear(event: Event): void {
-//   // debugger;
+//   // ;
 //   const selectedId = (event.target as HTMLSelectElement).value;
 //   const selectedYear = this.lictypename.find((y: { lictypeid: string; }) => y.lictypeid == selectedId);
 
