@@ -116,7 +116,7 @@ gstFileModel: any; // just for ngModel binding compatibility
   ];
   dispatchData1: BankMandateDetail[] = [];
   displayedColumns1: string[] = [
-    'sno','accountname','accountno','bankname','branch','ifsccode','defaultacc','action'
+    'sno','accountname','accountno','bankname','branch','ifsccode','defaultacc','filename','action'
   ];
   AccYearSettings: any;
   MASGSTQUARTER: any;
@@ -324,7 +324,7 @@ onFileSelectedanudocument(event: any) {
       },
       error: (err: any) => {
         console.error("Error loading vendor details:", err);
-        alert("Failed to load vendor details");
+        // alert("Failed to load vendor details");
       }
     });
   }
@@ -340,7 +340,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
     },
     error: (err: any) => {
       console.error("Error loading vendor details:", err);
-      alert("Failed to load vendor details");
+      // alert("Failed to load vendor details");
     }
   });
 }
@@ -435,7 +435,8 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
         },
         (error: { message: any; }) => {
           this.spinner.hide();
-          alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+          console.log('Error fetching data:',JSON.stringify(error.message))
+          // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
         }
       );
       }
@@ -509,7 +510,8 @@ get f() {
       },
       (error: { message: any; }) => {
         this.spinner.hide();
-        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+        console.log('Error fetching data:',JSON.stringify(error.message))
+        // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
       }
     );
     }
@@ -598,8 +600,8 @@ GETMassuppliergstDetails(){
           this.spinner.hide();
         },
         (error: { message: any; }) => {
-
-          alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+console.log('Error fetching data:',JSON.stringify(error.message))
+          // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
         }
       );
       }
@@ -858,8 +860,8 @@ GstReturnDetails(){
           this.spinner.hide();
         },
         (error: { message: any; }) => {
-
-          alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+console.log('Error fetching data:',JSON.stringify(error.message))
+          // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
         }
       );
       }

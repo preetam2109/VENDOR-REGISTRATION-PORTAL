@@ -13,8 +13,6 @@
 
                                 <div class="mb-3 Fon-family" style="text-align: justify;">
                                     <form class="p-2">
-                                       
-
                                         <label for="inputnumber">Upload Document </label>
                                         <div class="row pb-3">
                                             <div class="form-group col-md-6 pt-3">
@@ -38,11 +36,13 @@
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
                                                 <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(41)"
-                                               >Upload</button>
-                                                <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
+                                                [disabled]="!NonConvcerCertificate.valid"  >Upload</button>
+                                                <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(41)">Download</button>
                                             </div>
-                                        </div>
-                                        <!-- [ngClass]="{
+                                          </div>
+                                          <!-- <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>  -->
+                                          
+                                          <!-- [ngClass]="{
                                             'is-invalid': (NonConvcerCertificate.touched || bankForm.submitted) && branch.invalid,
                                             'is-valid': NonConvcerCertificate.valid && (branch.touched || bankForm.submitted)
                                           }" -->
@@ -66,8 +66,8 @@
                                                          </div>
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
-                                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(43)">Upload</button>
-                                                <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
+                                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(43)" [disabled]="!TechCertificate1.valid"  >Upload</button>
+                                                <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(43)" >Download</button>
                                             </div>
                                         </div>
                                         <div class="row  pb-3">
@@ -90,8 +90,8 @@
                                                          </div>
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
-                                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(45)">Upload</button>
-                                                <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
+                                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(45)" [disabled]="!TechCertificate2.valid" >Upload</button>
+                                                <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(45)">Download</button>
                                             </div>
                                         </div>
                                         <div class="row  pb-3">
@@ -114,8 +114,8 @@
                                                          </div>
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
-                                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(42)">Upload</button>
-                                                <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
+                                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(42)" [disabled]="!TechCertificate3.valid">Upload</button>
+                                                <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(42)">Download</button>
                                             </div>
                                         </div>
                                         
@@ -165,11 +165,11 @@
                                                          </div>
                                             </div>
                                             <div class="form-group col-md-6 pt-3">
-                                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)">Upload</button>
-                                                <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
+                                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)" [disabled]="!TechCertificate5.valid">Upload</button>
+                                                <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(7)">Download</button>
                                             </div>
                                         </div>
-                                        <div class="row  pb-3">
+                                        <!-- <div class="row  pb-3">
                                             <div class="form-group col-md-6 pt-3">
                                                 <label for="inputnumber">Other Document 2 : <span
                                                         class="text-danger">*</span></label>
@@ -181,20 +181,18 @@
                                                        'is-invalid': TechCertificate6.invalid && TechCertificate6.touched,
                                                        'is-valid': TechCertificate6.valid && TechCertificate6.touched
                                                      }">
-                                                        <!-- Validation Message -->
                                                         <div *ngIf="TechCertificate6.invalid && TechCertificate6.touched">
                                                            <small class="text-danger">
                                                              Please upload the Other Document Certificate (PDF).
                                                            </small>
                                                          </div>
                                             </div>
-                                            <!-- (change)="onFileSelectedCertificate6($event)" -->
                                            
                                             <div class="form-group col-md-6 pt-3">
                                                 <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)">Upload</button>
-                                                <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
+                                                <button type="submit" class="btn btn-primary m-3">Download</button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
                                         <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
                                     </form>
