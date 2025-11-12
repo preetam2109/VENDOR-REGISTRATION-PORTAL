@@ -2052,7 +2052,8 @@ postManufacturingLic(data: any, formData: FormData): Observable<any> {
   .set('mLICNO', data.mLICNO)
   .set('mISSUEDATE', data.mISSUEDATE)
   .set('mStartDate', data.mStartDate)
-  .set('mVALIDITYDATE', data.mVALIDITYDATE);
+  .set('mVALIDITYDATE', data.mVALIDITYDATE)
+  .set('LicIssuingAuthority', data.LicIssuingAuthority);
   
   return this.http.post(`${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`,formData,{ params, responseType: 'text' });
 }

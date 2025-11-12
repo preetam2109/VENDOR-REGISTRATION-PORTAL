@@ -35,6 +35,7 @@ import { MatTabsModule } from '@angular/material/tabs';
   styleUrl: './financeial-details.css'
 })
 export class FinanceialDetails {
+  vregid:any
   // SupplierBankAccDetail: SupplierBankAccDetail_model[] = [];
 
 
@@ -138,6 +139,7 @@ gstFileModel: any; // just for ngModel binding compatibility
 
 
 ngOnInit() {
+  this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
   this.loadVendorBankDetail();
   this.GETAnnualYear();
   this.GETStates();
@@ -147,6 +149,27 @@ ngOnInit() {
   this.GstReturnDetails();
   this.GETMASGSTQUARTER();
   this.GETAccYearSettings();
+}
+
+GetVendorDetailsID(supplierId: any) {
+  this.api.getVendorDetailsID(supplierId).subscribe({
+    next: (res: any) => {
+      if (Array.isArray(res) && res.length > 0) {
+        this.vregid=res[0].vregid;
+        console.log('Vendor vregid:', this.vregid);
+        sessionStorage.setItem('vregid',this.vregid)
+      
+      } else {
+        console.warn('No vendor details found.');
+        alert('⚠️ Please generate vendor registration number.');
+        this.router.navigate(['generate-registration']);
+
+      }
+    },
+    error: (err) => {
+      console.error('Error fetching vendor details:', err);
+    }
+  });
 }
 
 
