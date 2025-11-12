@@ -144,7 +144,8 @@ this.retForm = this.fb.group({
   mVALIDITYDATE: ['', Validators.required],
   mVregid: [sessionStorage.getItem('vregid'), Validators.required],
   mretid: ['', Validators.required],
-  mFormID: ['', Validators.required]
+  mFormID: ['', Validators.required],
+  mProIssuingAuthority: ['', Validators.required]
 });
 
 

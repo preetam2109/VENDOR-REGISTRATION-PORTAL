@@ -300,9 +300,38 @@ export class TechnicalDetails {
         }
       });
     }
-
-    DownloadFileWithName(mFilePath: string, mFileName: string) {
+    clickdetailspdf(mscid: number) {
+      // Ensure data is loaded
+     
+    }
+    
+    DownloadFileWithName(mscid:any) {
+      // debugger;mFilePath: string, mFileName: string ,
+      let mFileName: any;
+      let mFilePath: any;
       // debugger;
+      if (!this.TechnicalDetails || this.TechnicalDetails.length === 0) {
+        console.error("Technical details not loaded yet!");
+        return;
+      }
+    
+      // Find the matching file
+      const file = this.TechnicalDetails.find((f: any) => f.mscid == mscid);
+    
+      if (file) {
+        mFileName= file.filename;
+        mFilePath= file.filepath;
+        console.log("Matched File:", file);
+        console.log("File Name:", file.filename);
+        console.log("File Path:", file.filepath);
+    
+        // ✅ Optionally: download or open the file
+        // If your API provides downloadable links, you can open them directly:
+        // window.open(file.filepath, '_blank'); // ⚠ Only works if it's a valid URL, not local path
+    
+      } else {
+        console.warn(`No file found for fileid: ${mscid}`);
+      }
     
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
