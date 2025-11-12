@@ -21,16 +21,19 @@
                         <!-- <button type="button" class="btn border rounded mr-1 text-light" style="background-color: rgb(21, 184, 0);"
                           (click)="onButtonClickAT()"><i class="bi bi-folder-plus"></i></button> -->
                         <div class="export-menu-container m-2">
-                          <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                          <button type="button" class="btn border rounded mr-1 text-light" 
+                          style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                              class="bi bi-folder-plus"></i></button>
+                          <!-- <button type="button" class="btn border rounded btn-outline-secondary" mat-button
                             [matMenuTriggerFor]="exportMenu">Export</button>
                           <mat-menu #exportMenu="matMenu">
                             <button mat-menu-item
                               (click)="exporter.exportTable('xlsx', { fileName: 'COMPLIANCED', sheet: 'COMPLIANCED', Props: { Author: 'cgmsc' }})">Excel</button>
-                            <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
-                            <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                                                                       <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
-                            <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
-                          </mat-menu>
+                            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                            <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                          </mat-menu> -->
                         </div>
                       </div>
                       <div class="table-responsive">
@@ -79,7 +82,8 @@
                               <button
                                 class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
                                 mat-button
-                                (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
+                                (click)="DownloadFileWithName(element.filepath,element.filename)"
+                              ><i
                                   class="bi bi-filetype-pdf text-danger"></i>
                                 <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i> -->
                               </button>
@@ -108,7 +112,7 @@
                 </div>
             </div>
             <!-- END DATA TABLE -->
-            <div class="card shadow-lg p-4 border-0 bg-white rounded ">
+            <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshow == true">
                 <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
                     style="height: auto; overflow: hidden; position: relative;">
                     <div class="mb-3 Fon-family" style="text-align: justify;">

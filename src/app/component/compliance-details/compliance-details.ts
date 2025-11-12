@@ -65,12 +65,13 @@ export class ComplianceDetails {
   mEXPDate: string = '';
   mRemarks: string = '';
   mWHONO: any;
+  onshow:boolean=false;
   // mWHONO: COMCForm.mWHONO,
   // ISSUEDATE: COMCForm.ISSUEDATE,
   // mstartdate: COMCForm.mstartdate,
   // mEXPDate: COMCForm.mEXPDate,
   // mRemarks: COMCForm.mRemarks
-
+  submitted = false;
   dataSource!: MatTableDataSource<ComplienceCertificateDetails>;
   dataSource1!: MatTableDataSource<GetCOMTyepDetails>;
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -140,7 +141,9 @@ export class ComplianceDetails {
   }
 
   //#region compliance Details
-
+  onButtonClick1(){
+    this.onshow= true;
+   }
   DownloadFileWithName(mFilePath: string, mFileName: string) {
     debugger;
   
@@ -319,6 +322,7 @@ export class ComplianceDetails {
 
   InsertComplianceCertificate1(COMCForm: NgForm) {
     // debugger
+    this.submitted = true;
     const formData = new FormData();
     if (COMCForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
