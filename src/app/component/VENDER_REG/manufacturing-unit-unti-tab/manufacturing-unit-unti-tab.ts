@@ -16,20 +16,17 @@ import autoTable from 'jspdf-autotable';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ManufacturingTabsUnder } from "../manufacturing-tabs-under/manufacturing-tabs-under";
 declare var bootstrap: any;
 
 
-
 @Component({
-  selector: 'app-manufacturing-unit',
-  standalone: true,
-  imports: [MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, ManufacturingTabsUnder],
-  templateUrl: './manufacturing-unit.html',
-  styleUrl: './manufacturing-unit.css'
+  selector: 'app-manufacturing-unit-unti-tab',
+  standalone:true,
+  imports: [MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
+  templateUrl: './manufacturing-unit-unti-tab.html',
+  styleUrl: './manufacturing-unit-unti-tab.css'
 })
-export class ManufacturingUnit {
-
+export class ManufacturingUnitUntiTab {
 
   isCollapsed = false;
   isCollapsed1 = true;

@@ -1,0 +1,30 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+      <!-- <strong style="text-align: center;">CME Lifting Status  </strong> -->
+    </h1>
+    </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="UNIT">
+      <ng-template matTabContent>
+        <app-manufacturing-unit-unti-tab *ngIf="selectedTabIndex === 0"></app-manufacturing-unit-unti-tab>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="LICENCES">
+      <ng-template matTabContent>
+        <app-manufacturing-unit-licence-tab *ngIf="selectedTabIndex === 1"></app-manufacturing-unit-licence-tab>
+      </ng-template>
+    </mat-tab>
+   
+    <mat-tab label="RETENTION/RENEWEVALS">
+      <ng-template matTabContent>
+        <app-manufacturing-unit-retention-tab *ngIf="selectedTabIndex === 2"></app-manufacturing-unit-retention-tab>
+      </ng-template>
+    </mat-tab>
+   
+  </mat-tab-group>
+  
+  </div>
+  

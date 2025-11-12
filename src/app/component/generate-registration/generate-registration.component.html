@@ -19,19 +19,26 @@
             <th>Registration No</th>
             <th>Registration Date</th>
             <th>Status</th>
-            <th>Approved Status</th>
-            <th>Action</th>
+            <!-- <th>Approved Status</th> -->
+            <!-- <th>Action</th> -->
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let vendor of vendorDetails">
             <td>{{ vendor.vregno }}</td>
             <td>{{ vendor.regdate }}</td>
-            <td (click)="onClick(vendor)">
-              <span class="status-incomplete">Incomplete</span>
+            <td (click)="onClick(vendor.status)">
+              <span 
+                [ngClass]="{
+                  'status-complete': vendor.status === 'Complete',
+                  'status-incomplete': vendor.status === 'Incomplete'
+                }">
+                {{ vendor.status }}
+              </span>
             </td>
-            <td><span class="approved-status">-</span></td>
-            <td><span class="delete-link" (click)="deleteVendor(vendor)">Delete</span></td>
+            
+            <!-- <td><span class="approved-status">-</span></td> -->
+            <!-- <td><span class="delete-link" (click)="deleteVendor(vendor)">Delete</span></td> -->
           </tr>
         </tbody>
       </table>
