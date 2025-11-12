@@ -469,7 +469,8 @@ export class ComplianceDetails {
           },
           (error: { message: any }) => {
             this.spinner.hide();
-            alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+            console.log('Error fetching data:',JSON.stringify(error.message))
+            // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
           }
         );
     } catch (err: any) {
@@ -509,7 +510,8 @@ export class ComplianceDetails {
           },
           (error: { message: any }) => {
             this.spinner.hide();
-            alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+            console.log('Error fetching data:',JSON.stringify(error.message))
+            // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
           }
         );
     } catch (err: any) {

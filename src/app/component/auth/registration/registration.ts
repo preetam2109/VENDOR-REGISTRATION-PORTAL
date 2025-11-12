@@ -117,7 +117,7 @@ export class Registration {
         this.serverOtp = res?.message || ''; // assume backend returns { otp: '123456' }
         console.log('serverOtp:=',this.serverOtp);
         console.log('otp:=',res);
-        alert('OTP sent successfully to your mobile');
+        // alert('OTP sent successfully to your mobile');
         this.toastr.success('OTP sent successfully to your mobile', 'Success');
       },
       error: (err:any) => {
@@ -164,7 +164,7 @@ export class Registration {
       console.log('res final submit in rest:=',res);
     
       this.GETSendOtp(this.registerForm.value.mPHONE1,this.registerForm.value.mSUPPLIERNAME,'SIGNUP');
-      alert('Vendor Registered Successfully!');
+      // alert('Vendor Registered Successfully!');
       this.toastr.success('Vendor Registered Successfully!', 'Success');
       this.enteredOtp = '';
       this.isOtpSent = false;

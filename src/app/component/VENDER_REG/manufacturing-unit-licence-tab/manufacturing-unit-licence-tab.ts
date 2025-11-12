@@ -127,7 +127,7 @@ this.licForm = this.fb.group({
   mISSUEDATE: ['', Validators.required],
   mStartDate: ['', Validators.required],
   mVALIDITYDATE: ['', Validators.required],
-  LicIssuingAuthority: ['', Validators.required],
+  mLicIssuingAuthority: ['', Validators.required],
 });
 this.GetmANUFACLICDetails()
 
