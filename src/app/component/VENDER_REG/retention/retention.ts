@@ -94,7 +94,8 @@ export class Retention {
       mISSUEDATE: ['', Validators.required],
       mStartDate: ['', Validators.required],
       mVALIDITYDATE: ['', Validators.required],        
-      mVregid: [this.vregid, Validators.required],        
+      mVregid: [this.vregid, Validators.required],
+      mIMPIssuingAuthority: ['', Validators.required],         
     });
     
 
@@ -107,6 +108,8 @@ export class Retention {
       mStartDate: ['', Validators.required],
       mVALIDITYDATE: ['', Validators.required],        
       mVregid: [this.vregid, Validators.required],        
+      mIMPRETIssuingAuthority: ['', Validators.required],        
+             
     });
 
   }

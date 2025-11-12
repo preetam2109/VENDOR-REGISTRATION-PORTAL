@@ -186,15 +186,16 @@
                                           'box-shadow': licid.invalid && (licid.dirty || licid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
                                           licid.valid && (licid.dirty || licid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
                                           }">
-                                           <div class="text-danger mt-1"
-                                           *ngIf="(licid.touched || COMCForm.submitted) && licid.errors?.['required']">
-                                           Year selection is required.
-                                         </div>
+                                         
                                         <ng-template ng-option-tmp let-item="item">
                                             {{ item.licid }} - {{ item.unitname }}
                                         </ng-template>
                                        
                                     </ng-select>
+                                    <div class="text-danger mt-1"
+                                    *ngIf="(licid.touched || COMCForm.submitted) && licid.errors?.['required']">
+                                    Year selection is required.
+                                  </div>
                                 </div>
                                 <div class="form-group col-md-6  pt-3">
                                     <label for="inputPassword4">Select Existing Compliance Type: <span
@@ -222,7 +223,17 @@
                                     <label for="inputEmail4">Certificate No: <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" placeholder="Type your Certificate No:"
                                         id="inputEmail4" name="mWHONO"
-                                        [(ngModel)]="mWHONO" #mWHONOe="ngModel" required />
+                                        [(ngModel)]="mWHONO"  #mWHONOe="ngModel"
+                                        required
+                                        [ngClass]="{
+                                          'is-invalid': (mWHONOe.touched || COMCForm.submitted) && mWHONOe.invalid,
+                                          'is-valid': mWHONOe.valid && (mWHONOe.touched || COMCForm.submitted)
+                                        }" />
+                                          <div class="text-danger mt-1"
+                                          *ngIf="(mWHONOe.touched || COMCForm.submitted) && mWHONOe.errors?.['required']">
+                                        Certificate No is required.
+                                        </div>
+
                                     <!-- <div class="text-danger mt-1"
                                     *ngIf="(mWHONOe.touched || COMCForm.submitted) && mWHONOe.errors?.['required']">
                                     Certificate No is required.
@@ -237,7 +248,16 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" placeholder="Type your Approved Sections"
                                         id="inputAddress" name="mRemarks"
-                                        [(ngModel)]="mRemarks" #mRemarksew="ngModel" required  />
+                                        [(ngModel)]="mRemarks" #mRemarkss="ngModel"
+                                        required
+                                        [ngClass]="{
+                                          'is-invalid': (mRemarkss.touched || COMCForm.submitted) && mRemarkss.invalid,
+                                          'is-valid': mRemarkss.valid && (mRemarkss.touched || COMCForm.submitted)
+                                        }" />
+                                        <div class="text-danger mt-1"
+                                        *ngIf="(mRemarkss.touched || COMCForm.submitted) && mRemarkss.errors?.['required']">
+                                        Approved Section is required.
+                                      </div>
                                     <!-- <div class="text-danger mt-1"
                                     *ngIf="(mRemarksew.touched || COMCForm.submitted) && mRemarksew.errors?.['required']">
                                     Approved Section is required.
@@ -254,13 +274,29 @@
                                     <label for="inputnumber">Start Date: <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" placeholder="Type your Validity Date"
                                         id="inputnumber" name="mstartdate"
-                                        [(ngModel)]="mstartdate" #mstartdatee="ngModel" required>
+                                        [(ngModel)]="mstartdate"    #mstartdatee="ngModel"  required
+                                        [ngClass]="{
+                                          'is-invalid': (mstartdatee.touched || COMCForm.submitted) && mstartdatee.invalid,
+                                          'is-valid': mstartdatee.valid && (mstartdatee.touched || COMCForm.submitted)
+                                        }">
+                                          <div class="text-danger mt-1"
+                                          *ngIf="(mstartdatee.touched || COMCForm.submitted) && mstartdatee.errors?.['required']">
+                                       Start Date is required.
+                                     </div>
                                 </div>
                                 <div class="form-group col-md-6 pt-3">
                                     <label for="inputAddress">Issue Date: <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" placeholder="Type your Issue Date"
                                         id="inputAddress" name="ISSUEDATE"
-                                        [(ngModel)]="ISSUEDATE" #ISSUEDATEe="ngModel" required  />
+                                        [(ngModel)]="ISSUEDATE"  #ISSUEDATEee="ngModel"  required
+                                        [ngClass]="{
+                                          'is-invalid': (ISSUEDATEee.touched || COMCForm.submitted) && ISSUEDATEee.invalid,
+                                          'is-valid': ISSUEDATEee.valid && (ISSUEDATEee.touched || COMCForm.submitted)
+                                        }" />
+                                           <div class="text-danger mt-1"
+                                           *ngIf="(ISSUEDATEee.touched || COMCForm.submitted) && ISSUEDATEee.errors?.['required']">
+                                           Issue Date is required.
+                                      </div>
                                     <!-- <div class="text-danger mt-1"
                                     *ngIf="(ISSUEDATEe.touched || COMCForm.submitted) && ISSUEDATEe.errors?.['required']">
                                     Issue Date is required.
@@ -278,13 +314,31 @@
                                     <label for="inputnumber">Validity Date: <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" placeholder="Type your Validity Date"
                                         id="inputnumber" name="mEXPDate"
-                                        [(ngModel)]="mEXPDate" #mEXPDatee="ngModel" required>
+                                        [(ngModel)]="mEXPDate" #mEXPDateee="ngModel"  required
+                                        [ngClass]="{
+                                          'is-invalid': (mEXPDateee.touched || COMCForm.submitted) && mEXPDateee.invalid,
+                                          'is-valid': mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted)
+                                        }" />
+                                           <div class="text-danger mt-1"
+                                           *ngIf="(mEXPDateee.touched || COMCForm.submitted) && mEXPDateee.errors?.['required']">
+                                           Validity Date is required.
+                                      </div>
                                 </div>
                                 <div class="form-group col-md-6 pt-3">
                                     <label for="inputnumber"> Upload Compliance Certificate: <span
                                             class="text-danger">*</span></label>
                                     <input type="file" class="form-control" placeholder="Upload Compliance Certificate" accept=".pdf"
-                                        id="inputnumber" name="files" (change)="onFileSelectedCertificate($event)" required>
+                                        id="inputnumber" name="files" (change)="onFileSelectedCertificate($event)"  required
+                                        #files="ngModel"
+                                        ngModel
+                                        [ngClass]="{
+                                          'is-invalid': (files.touched || COMCForm.submitted) && files.invalid,
+                                          'is-valid': files.valid && (files.touched || COMCForm.submitted)
+                                        }">
+                                        <div class="text-danger mt-1"
+                                        *ngIf="(files.touched || COMCForm.submitted) && files.errors?.['required']">
+                                     File upload is required.
+                                   </div>
                                 </div>
 
                             </div>
@@ -312,22 +366,31 @@
                                 <ng-select class="form-control" [items]="masitemtypes" bindLabel="itemtypename" bindValue="itemtypeid"
                                     [(ngModel)]="selecteditemtypeid" name="selecteditemtypeid" (change)="OnselectItemtype($event)"
                                     [placeholder]="selecteditemtypeid?.length ? '' : 'Select Item Types...'" [searchable]="true" [clearable]="true"
-                                    [appendTo]="'body'" [multiple]="true" [closeOnSelect]="false" [hideSelected]="false" required>
+                                    [appendTo]="'body'" [multiple]="true" [closeOnSelect]="false" [hideSelected]="false" 
+                                    #itemtypeidss="ngModel"  required [ngStyle]="{
+                                      'border': itemtypeidss.invalid && (itemtypeidss.dirty || itemtypeidss.touched) ? '1px solid #dc3545' :
+                                      itemtypeidss.valid && (itemtypeidss.dirty || itemtypeidss.touched) ? '1px solid #198754' : '',
+                                      'box-shadow': itemtypeidss.invalid && (itemtypeidss.dirty || itemtypeidss.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                      itemtypeidss.valid && (itemtypeidss.dirty || itemtypeidss.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                      }">
                                     <ng-template ng-option-tmp let-item="item">
                                         <input type="checkbox" [checked]="selecteditemtypeid?.includes(item.itemtypeid)"
                                             (click)="$event.stopPropagation()" (change)="toggleSelection(item.itemtypeid, $event)"
                                             style="margin-right: 8px;" />
                                         {{ item.itemtypename }}
                                     </ng-template>
-                                
                                 </ng-select>
+                                <div class="text-danger mt-1"
+                                *ngIf="(itemtypeidss.touched || COMCForm.submitted) && itemtypeidss.errors?.['required']">
+                                Year selection is required.
+                              </div>
                               </div>
                                 </div>
                                 
                                 </div>
                             <div class="d-flex justify-content-center mt-3">
                                 <!-- <button type="button" class="btn btn-primary m-3">Upload</button> -->
-                                <button type="submit" class="btn btn-primary m-3">Submit</button>
+                                <button type="submit" class="btn btn-primary m-3" [disabled]="COMCForm.invalid">Submit</button>
                                 <!-- <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTRETURNForm.valid">Submit</button> -->
 
                             </div>
