@@ -104,7 +104,8 @@ export class MarketStandingCertificate {
       mVregid: [this.vregid, Validators.required],
       ISSUEDATE: ['', Validators.required],      // Item Group
       mstartdate: ['', Validators.required],   // Licence Type
-      mEXPDate: ['', Validators.required],        // Licence
+      mEXPDate: ['', Validators.required],
+      MSCissuingauthority:['',Validators.required]        // Licence
 
 
     });
@@ -337,10 +338,9 @@ export class MarketStandingCertificate {
   
 
 
-
   onSubmit() {
-
-if(!sessionStorage.getItem('mscid')){
+    debugger;
+  
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;
@@ -367,20 +367,18 @@ if(!sessionStorage.getItem('mscid')){
     };
   
     try {
+      debugger;
       this.api.InsertMakrketStanding(params, formData).subscribe({
         next: (res) => {
+          // Assuming res is the MSC ID (string/number); adjust if it's res.id or similar
+          const mscId = res.toString(); // Coerce to string for sessionStorage
+          sessionStorage.setItem('mscid', mscId);
+  
           this.toastr.success('Market Standing Certificate saved successfully!');
           console.log('API Response:', res);
-          sessionStorage.setItem('mscid',res);
   
-          // Reset form
-          this.marketStandingCForm.reset();
-          this.selectedPanFile = null;
-  
-          // ✅ Hide modal only after success
-          const modalEl = document.getElementById('marketStandingModal');
-          const modal = bootstrap.Modal.getInstance(modalEl);
-          if (modal) modal.hide();
+          // Step 2: Chain to updates using the fresh MSC ID
+          this.performUpdates(mscId);
         },
         error: (err) => {
           console.error('Error:', err);
@@ -391,72 +389,66 @@ if(!sessionStorage.getItem('mscid')){
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }
-
   }
-
-
-
-
-
-const mscid=sessionStorage.getItem('mscid');
+  
+  private performUpdates(mscId: string) {
     if (this.selectedItems.length === 0) {
       this.toastr.warning('No items selected!');
+      // Still reset and hide modal even if no items (after insert)
+      this.finalizeSubmit();
       return;
     }
   
+    let completedUpdates = 0;
+    const totalUpdates = this.selectedItems.length;
+  
     this.selectedItems.forEach(item => {
       if (item.ppcid && item.MSCPAGENO) {
-        this.api.UpdaetMSCMCCFillItems(item.ppcid, mscid, item.MSCPAGENO).subscribe({
+        this.api.UpdaetMSCMCCFillItems(item.ppcid, mscId, item.MSCPAGENO).subscribe({
           next: (res) => {
             console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
+            completedUpdates++;
             
-            this.toastr.success('All items updated successfully!',res);
-            
-            this.refreshCheckbox();
-            this.selectedItems = []; // Clear all
-            this.MCCFillItemsLIst = [];
-
-
-
-
-             // Reset form
-          this.marketStandingCForm.reset();
-          this.selectedPanFile = null;
-  
-          // ✅ Hide modal only after success
-          const modalEl = document.getElementById('marketStandingModal');
-          const modal = bootstrap.Modal.getInstance(modalEl);
-          if (modal) modal.hide();
-       
-
-
-
-
-
-
-
-
+            // Check if all updates are done
+            if (completedUpdates === totalUpdates) {
+              this.toastr.success('All items updated successfully!', res);
+              this.finalizeSubmit();
+            }
           },
           error: (err) => {
             console.error(`❌ Error updating PPCID ${item.ppcid}:`, err);
+            completedUpdates++; // Increment to track progress even on error
+            
+            // Optionally: If you want to stop on first error, add logic here
+            // e.g., if (completedUpdates === totalUpdates) this.finalizeSubmit(); but with error toast
           }
         });
       } else {
         console.warn('⚠️ Missing PPCID or MSCPAGENO for item:', item);
+        completedUpdates++; // Increment for invalid items
+        if (completedUpdates === totalUpdates) {
+          this.toastr.success('All items updated successfully!'); // Or adjust message
+          this.finalizeSubmit();
+        }
       }
     });
-
-
-
-
-
-
-
-
-
-
   }
-
+  
+  private finalizeSubmit() {
+    this.GetmSCDetailsList();
+    this.refreshCheckbox();
+    this.selectedItems = []; // Clear all
+    this.MCCFillItemsLIst = [];
+  
+    // Reset form
+    this.marketStandingCForm.reset();
+    this.selectedPanFile = null;
+  
+    // ✅ Hide modal only after success
+    const modalEl = document.getElementById('marketStandingModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+  }
 
   filterTable() {
     const text = this.searchText.toLowerCase();
@@ -622,7 +614,7 @@ GetmSCDetailsList() {
         ...item,
         sno: index + 1
       }));
-      console.log('With S.No:', this.mSCDetailsList);
+      console.log('IA With S.No:', this.mSCDetailsList);
       this.dataSource.data = this.mSCDetailsList;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

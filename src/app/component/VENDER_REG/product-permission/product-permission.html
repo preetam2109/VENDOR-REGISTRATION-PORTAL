@@ -54,6 +54,32 @@
                   [searchable]="true" [clearable]="true" [appendTo]="'body'" (change)="onLicenceTypeChange($event)">
                 </ng-select>
               </div>
+
+              <!-- Issue Date -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
+          <input type="date" class="form-control" formControlName="mIssueDate">
+        </div>
+
+        <!-- Start Date -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
+          <input type="date" class="form-control" formControlName="mStartDate">
+        </div>
+
+        <!-- Validity Date -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
+          <input type="date" class="form-control" formControlName="mVALIDITYDATE">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="mISSUINGAUTHORITY" placeholder="Enter Issuing Authority">
+          <!-- <small class="text-danger"
+            *ngIf="licForm.get('mIMPIssuingAuthority')?.touched && licForm.get('mIMPIssuingAuthority')?.invalid">
+            issuing authority is required.
+          </small> -->
+        </div>
   
 
               <div class="col-md-6 mb-3">
@@ -328,6 +354,31 @@
                         <th mat-header-cell *matHeaderCellDef>Entry Date</th>
                         <td mat-cell *matCellDef="let row">{{ row.entrydate }}</td>
                       </ng-container>
+
+
+
+                      <ng-container matColumnDef="issuingauthority">
+                        <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
+                        <td mat-cell *matCellDef="let element">{{ element.issuingauthority }}</td>
+                      </ng-container>
+                      <!-- Start Date -->
+                      <ng-container matColumnDef="startdate">
+                        <th mat-header-cell *matHeaderCellDef>Start Date</th>
+                        <td mat-cell *matCellDef="let element">{{ element.startdate }}</td>
+                      </ng-container>
+                      
+                      <!-- Issue Date -->
+                      <ng-container matColumnDef="issuedate">
+                        <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+                        <td mat-cell *matCellDef="let element">{{ element.issuedate }}</td>
+                      </ng-container>
+                      
+                      <!-- Expiry Date -->
+                      <ng-container matColumnDef="validitydate">
+                        <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                        <td mat-cell *matCellDef="let element">{{ element.validitydate }}</td>
+                      </ng-container>
+
                       
                       <ng-container matColumnDef="noofitemppc">
                         <th mat-header-cell *matHeaderCellDef>No. of Items (PPC)</th>

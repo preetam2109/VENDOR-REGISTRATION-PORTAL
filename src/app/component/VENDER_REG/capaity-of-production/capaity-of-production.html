@@ -266,6 +266,11 @@
     <th mat-header-cell *matHeaderCellDef> License ID </th>
     <td mat-cell *matCellDef="let element"> {{ element.licId }} </td>
   </ng-container>
+
+  <ng-container matColumnDef="copissuingauthority">
+    <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
+    <td mat-cell *matCellDef="let element">{{ element.copissuingauthority }}</td>
+  </ng-container>
   
   <!-- filePath -->
   <!-- <ng-container matColumnDef="filePath">
@@ -278,9 +283,9 @@
     <th mat-header-cell *matHeaderCellDef>File</th>
     <td mat-cell *matCellDef="let row">
       <button 
-        *ngIf="row.filename"
+        *ngIf="row.fileName"
         class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
-        (click)="DownloadFileWithName(row.filepath,row.filename)"
+        (click)="DownloadFileWithName(row.filePath,row.fileName)"
       >
       <i
       class="bi bi-filetype-pdf text-danger"></i>
@@ -298,28 +303,28 @@
   <tr mat-header-row *matHeaderRowDef="[
     'sno',
     'licNo',
+    'copissuingauthority',
     'unitName',
     'copNo',
     'issueDate',
     'startDate',
     'validityDate',
-    'copId',
-    'filePath',
-    'cntItems'
+    'cntItems',
+    'filePath'
   ]"></tr>
   
   <!-- Data Rows -->
   <tr mat-row *matRowDef="let row; columns: [
     'sno',
     'licNo',
+    'copissuingauthority',
     'unitName',
     'copNo',
     'issueDate',
     'startDate',
     'validityDate',
-    'copId',
-    'filePath',
-    'cntItems'
+    'cntItems',
+    'filePath'
   ];"></tr>
   
 
@@ -369,6 +374,15 @@
             <input type="text" class="form-control" formControlName="mCopno">
           </div>
 
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="copissuingauthority" placeholder="Enter Issuing Authority">
+            <!-- <small class="text-danger"
+              *ngIf="licForm.get('mIMPIssuingAuthority')?.touched && licForm.get('mIMPIssuingAuthority')?.invalid">
+              issuing authority is required.
+            </small> -->
+          </div>
+
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
               <input type="date" class="form-control" formControlName="ISSUEDATE">
@@ -386,7 +400,7 @@
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Upload Certificate<span class="text-danger">*</span></label>
-              <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)">
+              <input type="file" class="form-control" accept=".pdf" (change)="onFileSelected($event)">
             </div>
 
             <div class="text-center mt-4 mb-1">
@@ -586,3 +600,28 @@
         </button>
       </div>
     </ng-template>
+
+
+
+
+
+
+     
+  <!-- modal -->
+  <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+      <div class="modal-content border-0 shadow-none">
+        <div class="modal-header bg-dark text-white py-2 px-3">
+          <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <iframe
+            [src]="sanitizedPdfUrl"
+            class="pdf-frame"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>

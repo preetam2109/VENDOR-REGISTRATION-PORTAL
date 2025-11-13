@@ -206,7 +206,7 @@
     <th mat-header-cell *matHeaderCellDef>Licence No</th>
     <td mat-cell *matCellDef="let element">{{ element.licno }}</td>
   </ng-container>
-  
+ 
   <!-- Unit Name -->
   <ng-container matColumnDef="unitname">
     <th mat-header-cell *matHeaderCellDef>Unit Name</th>
@@ -251,6 +251,11 @@
                   </button>
                 </td>
               </ng-container>
+
+              <ng-container matColumnDef="mscissuingauthority">
+                <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
+                <td mat-cell *matCellDef="let element">{{ element.mscissuingauthority }}</td>
+              </ng-container>
   
 
   
@@ -261,6 +266,7 @@
 <tr mat-header-row *matHeaderRowDef="[
 'sno',
   'licno',
+  'mscissuingauthority',
   'unitname',
   'issuedate',
   'startdate',
@@ -272,6 +278,7 @@
 <tr mat-row *matRowDef="let row; columns: [
 'sno',
   'licno',
+  'mscissuingauthority',
   'unitname',
   'issuedate',
   'startdate',
@@ -319,6 +326,15 @@
                          [placeholder]="marketStandingCForm.get('licid')?.value ? '' : 'Select Licence'"
                          [searchable]="true" [clearable]="true" [appendTo]="'body'">
               </ng-select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="MSCissuingauthority" placeholder="Enter Issuing Authority">
+              <!-- <small class="text-danger"
+                *ngIf="licForm.get('mIMPIssuingAuthority')?.touched && licForm.get('mIMPIssuingAuthority')?.invalid">
+                issuing authority is required.
+              </small> -->
             </div>
 
             <div class="col-md-6 mb-3">
@@ -538,3 +554,27 @@
         </button>
       </div>
     </ng-template>
+
+
+
+
+
+     
+  <!-- modal -->
+  <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+      <div class="modal-content border-0 shadow-none">
+        <div class="modal-header bg-dark text-white py-2 px-3">
+          <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <iframe
+            [src]="sanitizedPdfUrl"
+            class="pdf-frame"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>

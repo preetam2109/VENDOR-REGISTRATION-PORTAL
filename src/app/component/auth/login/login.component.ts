@@ -167,7 +167,7 @@ browserInfo: any;
      
 
 
-        console.log('adminDropdownList :', this.adminDropdownList);
+        // console.log('adminDropdownList :', this.adminDropdownList);
       } else {
         console.error('No emailid found or incorrect structure:', res);
       }
@@ -210,7 +210,7 @@ browserInfo: any;
     // const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
     const selectedUser = this.cgmsclDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid); // Find the user object in the list
   
-    console.log('Selected User:', selectedUser); // Log the selected user object properly
+    // console.log('Selected User:', selectedUser); // Log the selected user object properly
   
     if (selectedUser) {
       this.siMobile = selectedUser.siMobile || null;
@@ -235,7 +235,7 @@ browserInfo: any;
     // const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
     const selectedUser = this.wHDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid); // Find the user object in the list
   
-    console.log('Selected User:', selectedUser); // Log the selected user object properly
+    // console.log('Selected User:', selectedUser); // Log the selected user object properly
   
     if (selectedUser) {
       this.siMobile = selectedUser.siMobile || null;
@@ -304,7 +304,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
   cgmsclLoginDropdown(){
     
     this.api.masddlUser(0).subscribe((res:any[])=>{
-      console.log('API  CGMSCL dropdown Response:', res);
+      // console.log('API  CGMSCL dropdown Response:', res);
       if (res && res.length > 0) {
         this.cgmsclDropdownList = res.map(item => ({
           emailid: item.emailid, // Adjust key names if needed
@@ -312,7 +312,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
           siMobile: item.siMobile,
           userid: item.userid,
         }));
-        console.log('Processed cgmsclDropdownList:', this.cgmsclDropdownList);
+        // console.log('Processed cgmsclDropdownList:', this.cgmsclDropdownList);
       } else {
         console.error('No emailid found or incorrect structure:', res);
       }
@@ -329,7 +329,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
           userid: item.userid,
           
         }));
-        console.log('wHDropdownList wh:', this.cgmsclDropdownList);
+        // console.log('wHDropdownList wh:', this.cgmsclDropdownList);
       } else {
         console.error('No emailid found or incorrect structure:', res);
       }
@@ -347,7 +347,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
           // Adjust key names if needed
           
         }));
-        console.log('InfraStructureDropdownList:',this.InfraStructureDropdownList);
+        // console.log('InfraStructureDropdownList:',this.InfraStructureDropdownList);
       } else {
         console.error('No emailid found or incorrect structure:', res);
       }
@@ -419,7 +419,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
       // Call the API to verify the OTP
       this.api.VerifyOTPLogin(this.otp, this.userid).subscribe(
         (res: any) => {
-          console.log("Response", res);
+          // console.log("Response", res);
           // Show SweetAlert for successful OTP verification
           Swal.fire({
             title: 'Login Successful!',
@@ -505,7 +505,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
   handleLogin() {
 
     const captchaValue = this.captchaInput?.nativeElement.value;  // Get value from the input element
-    console.log('Captcha Value:', captchaValue);
+    // console.log('Captcha Value:', captchaValue);
     
     
     
@@ -539,6 +539,8 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
   error => {
     this.invalidLogin = true;
     this.errorMessage = 'Invalid Credentials';
+    this.toastr.error('Login Failed', 'Invalid Credentials');
+
     console.error('Login error', error);
   }
 
