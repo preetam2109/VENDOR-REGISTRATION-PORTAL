@@ -104,7 +104,7 @@
                 </ng-container>
   
                 <!-- File Name -->
-                <ng-container matColumnDef="filename">
+                <!-- <ng-container matColumnDef="filename">
                   <th mat-header-cell *matHeaderCellDef>File</th>
                   <td mat-cell *matCellDef="let row">
                     <button *ngIf="row.filename" class="btn btn-link text-decoration-none text-primary p-0"
@@ -112,7 +112,21 @@
                       {{ row.filename }}
                     </button>
                   </td>
-                </ng-container>
+                </ng-container> -->
+
+                <ng-container matColumnDef="filename">
+    <th mat-header-cell *matHeaderCellDef>File</th>
+    <td mat-cell *matCellDef="let row">
+      <button 
+        *ngIf="row.filename"
+        class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+        (click)="DownloadFileWithName(row.filepath,row.filename)"
+      >
+      <i
+      class="bi bi-filetype-pdf text-danger"></i>
+      </button>
+    </td>
+  </ng-container>
   
   
                 <!-- Header & Row Definition -->

@@ -268,9 +268,24 @@
   </ng-container>
   
   <!-- filePath -->
-  <ng-container matColumnDef="filePath">
+  <!-- <ng-container matColumnDef="filePath">
     <th mat-header-cell *matHeaderCellDef> File Path </th>
     <td mat-cell *matCellDef="let element"> {{ element.filePath }} </td>
+  </ng-container> -->
+
+   <!-- File Name -->
+   <ng-container matColumnDef="filePath">
+    <th mat-header-cell *matHeaderCellDef>File</th>
+    <td mat-cell *matCellDef="let row">
+      <button 
+        *ngIf="row.filename"
+        class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+        (click)="DownloadFileWithName(row.filepath,row.filename)"
+      >
+      <i
+      class="bi bi-filetype-pdf text-danger"></i>
+      </button>
+    </td>
   </ng-container>
   
   <!-- cntItems -->
@@ -289,10 +304,6 @@
     'startDate',
     'validityDate',
     'copId',
-    'vRegID',
-    'fileName',
-    'ext',
-    'licId',
     'filePath',
     'cntItems'
   ]"></tr>
@@ -307,10 +318,6 @@
     'startDate',
     'validityDate',
     'copId',
-    'vRegID',
-    'fileName',
-    'ext',
-    'licId',
     'filePath',
     'cntItems'
   ];"></tr>
