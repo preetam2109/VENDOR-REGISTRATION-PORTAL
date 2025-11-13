@@ -84,3 +84,51 @@
     z-index: 9999 !important;
   }
   
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Fixed Centering for Angular Material Table */
+::ng-deep .mat-mdc-header-cell,
+::ng-deep .mat-header-cell {
+  justify-content: center !important;
+  text-align: center !important;
+  /* display: flex !important;  */
+  /* Ensure flex mode */
+}
+
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important; 
+  width: 100% !important; 
+}
+
+::ng-deep .mat-mdc-cell,
+::ng-deep .mat-cell {
+  justify-content: center !important;
+  text-align: center !important;
+  /* display: flex !important; */
+  align-items: center !important;
+}
+
+/* Override Bootstrap table text-align if conflicting */
+::ng-deep .mat-mdc-table .table th,
+::ng-deep .mat-mdc-table .table td {
+  text-align: center !important;
+}
+
+/* Ensure sort icons (if present) don't break centering */
+::ng-deep .mat-sort-header-arrow {
+  margin-left: 0 !important;
+  margin-right: auto !important; 
+}

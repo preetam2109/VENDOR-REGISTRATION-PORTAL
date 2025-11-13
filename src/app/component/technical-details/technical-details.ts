@@ -51,7 +51,7 @@ export class TechnicalDetails {
   }
   //#region InsertTechnicalDetails
   onFileSelect(event: any, fileNo: number): void {
-    debugger;
+    ;
     const file = event.target?.files?.[0] || null;
   
     switch (fileNo) {
@@ -101,7 +101,7 @@ export class TechnicalDetails {
   //   string CapacityOfProd = "81";
 
   InsertTechnicalDetails(mFileTypeid: number) {
-    debugger;
+    ;
     const formData = new FormData();
     let selectedFile: File | null = null;
   
@@ -242,7 +242,7 @@ export class TechnicalDetails {
   // }
 
   // InsertTechnicalDetails(mFileTypeid:any) {
-  //   debugger;
+  //   ;
   //   const formData = new FormData();
   //   // const mFileTypeid=41;
   //   //    if (GSTForm.invalid) {

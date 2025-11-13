@@ -93,7 +93,7 @@ onshow:boolean=false;
     this.onshow= true;
    }
   DownloadFileWithName(mFilePath: string, mFileName: string) {
-    // debugger;
+    // ;
   
     // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
@@ -159,7 +159,7 @@ onshow:boolean=false;
   }
   
   InsertGCP(GCPForm: NgForm) {
-    // debugger
+    // 
     const formData = new FormData();
        if (GCPForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
@@ -233,7 +233,7 @@ onshow:boolean=false;
     // 
     GetGCPDetails(){
         try{
-        //  debugger;
+        //  ;
           this.spinner.show();
         this.api.GetGCPDetails(sessionStorage.getItem('vregid'))
         // this.Service.get('GetDrugTenderList?n=0')

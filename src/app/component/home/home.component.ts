@@ -81,7 +81,7 @@ export class HomeComponent {
   pageName: string = '';
   fullUrl: string = '';
  
-
+  vregid:any;
  
 
  
@@ -215,6 +215,8 @@ this.fullUrl = window.location.href;
  
   ngOnInit() {
     this.spinner.show();
+    this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
+
     
       (this.username = sessionStorage.getItem('authenticatedUser'));
 
@@ -234,6 +236,29 @@ this.fullUrl = window.location.href;
 
       this.InsertUserPageViewLog();
   
+  }
+
+  GetVendorDetailsID(supplierId: any) {
+    this.api.getVendorDetailsID(supplierId).subscribe({
+      next: (res: any) => {
+        if (Array.isArray(res) && res.length > 0) {
+          this.vregid=res[0].vregid;
+          const panno=res[0].pancardno;
+          sessionStorage.setItem('panno',panno)
+          console.log('Vendor vregid:', this.vregid);
+          sessionStorage.setItem('vregid',this.vregid)
+        
+        } else {
+          console.warn('No vendor details found.');
+          alert('⚠️ Please generate vendor registration number.');
+          this.router.navigate(['generate-registration']);
+  
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching vendor details:', err);
+      }
+    });
   }
   
 

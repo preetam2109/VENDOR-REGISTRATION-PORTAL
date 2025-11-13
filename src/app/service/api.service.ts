@@ -1707,7 +1707,7 @@ DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:an
 //#region Vendor Registration services for lomesh
 // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Vender%20Rehistration&mType=OTP
 GETotp(mobile:any){
-  debugger
+  
 
   // 78188
   return this.http.get(`${this.VREGAPI}/Sms/SendOtp?mobile=${mobile}&Detail=Vender Rehistration&mType=OTP`);
@@ -1717,13 +1717,13 @@ GETMASLICENCETYPE() {
   return this.http.get(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
 }
 GETSendOtp(mobile:any,Detail:any,mType:any){
-  debugger
+  
   // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Kaushal&mType=SIGNUP
   return this.http.get(`${this.VREGAPI}/Sms/SendOtp?mobile=${mobile}&Detail=${Detail}&mType=${mType}`);
 }
 // ---Signup----
 Signup(data: any, formData: FormData): Observable<any> {
-  debugger
+  
 // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
 // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
 // mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881
@@ -1899,7 +1899,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
   InsertComplianceCertificate1(data: any, formData: FormData): Observable<any> {
 //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?
 // mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
-debugger;
+;
     let params = new HttpParams()
       .set('mlicid', data.mlicid)
       .set('mWHONO', data.mWHONO)
@@ -1933,7 +1933,7 @@ debugger;
     );
   }
   InsertTechnicalDetails(data: any, formData: FormData): Observable<any> {
-    // debugger;
+    // ;
 //post :=https://localhost:7053/api/Registration/InsertTechnicalDetails?mVergID=50&mFileTypeID=41
 
     let params = new HttpParams()
@@ -1953,13 +1953,13 @@ debugger;
   
 
 public post(url: string, data: FormData, options?: any) {
-  // debugger;
+  // ;
   //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
    return this.http.post(this.VREGAPI + url, data, options); 
   }
 
   public post1(url: string, data: any, options?: any) {
-    debugger;
+    ;
 
     const isFormData = data instanceof FormData;
     const headers = isFormData ? {} : { 'Content-Type': 'application/json' };
@@ -1983,7 +1983,7 @@ public post(url: string, data: FormData, options?: any) {
 //   return this.http.get(${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId});
 // }
 updateVendor(params: any, formData: FormData) {
-  debugger
+  
   
   let httpParams = new HttpParams()
     .set('authMobileNo', params.authMobileNo)
@@ -2000,7 +2000,7 @@ updateVendor(params: any, formData: FormData) {
 
 
 getLicenceTypes(){
-  // debugger
+  // 
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
 }
 
@@ -2122,7 +2122,7 @@ GetMasitems(CategoryID:any,mTypeID:any){
 
 
 // postPPCertificate(data: any, formData: FormData): Observable<any> {
-//   debugger
+//   
 //   const params = new HttpParams()
 //     .set('mVergID', data.mVregid)
 //     .set('licID', data.licid);
@@ -2135,7 +2135,7 @@ GetMasitems(CategoryID:any,mTypeID:any){
 // }
 
 postPPCertificate(data: any, formData: FormData): Observable<any> {
-  debugger;
+  ;
   const params = new HttpParams()
     .set('mVergID', data.mVergID)   // ✅ matches API param exactly
     .set('licID', data.licID);      // ✅ correct key name
@@ -2149,7 +2149,7 @@ postPPCertificate(data: any, formData: FormData): Observable<any> {
 
 
 insertMasVregPPCItems(vregid: any, items: any[]): Observable<any> {
-  debugger
+  
   const params = new HttpParams().set('vregid', vregid.toString());
 
   return this.http.post(
@@ -2180,7 +2180,7 @@ GetImporterLicenceDetails(VregID:any,SupplierID:any){
 
 
 postMasimporterdocument(data: any, formData: FormData): Observable<any> {
-  debugger
+  
   const params = new HttpParams()
     .set('mLICID', data.mLICID)
     .set('mImptypeid', data.mImptypeid)
@@ -2201,7 +2201,7 @@ postMasimporterdocument(data: any, formData: FormData): Observable<any> {
 
 
 GetDDlImprtLic(VregID:any){
-  debugger
+  
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/DDlImprtLic?VregID=${VregID}`);
 }
 
@@ -2232,7 +2232,7 @@ masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
 
 
   InsertMakrketStanding(data: any, formData: FormData): Observable<any> {
-    debugger
+    
 
 // Insert First MSC certificate
     
@@ -2253,7 +2253,7 @@ masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
 
 
     GETMCCFillItems(VregID:any,MCID:any,mItemTypeID:any,mGroupID:any){
-      debugger
+      
       return this.http.get<any[]>(`${this.VREGAPI}/Registration/MCCFillItems?VregID=${VregID}&MCID=${MCID}&mItemTypeID=${mItemTypeID}&mGroupID=${mGroupID}`);
     }
 
@@ -2267,16 +2267,16 @@ masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
 
 
 getmSCDetailsList(mVregID:any,Supplierid:any){
-  debugger
+  
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCDetails?mVregID=${mVregID}&mSupplierid=${Supplierid}`);
 }
 GetMSCCOPItemDetails(VregID:any,mFileID:any,mscCopType:any){
-  debugger
+  
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`);
 }
 
 InsertCOP(data: any, formData: FormData): Observable<any> {
-  debugger
+  
     const params = new HttpParams()
   .set('mlicid', data.mlicid)
   .set('mVergID', data.mVregid)
@@ -2295,7 +2295,7 @@ InsertCOP(data: any, formData: FormData): Observable<any> {
 
 
   UpdaetCOPItems(PPCID: any, COPID: any, COPPAGENO: any) {
-    debugger
+    
     return this.http.put(
       `${this.VREGAPI}/Registration/UpdaetCOPItems?PPCID=${PPCID}&COPID=${COPID}&COPPAGENO=${COPPAGENO}`,
       {}, // empty body
@@ -2305,11 +2305,11 @@ InsertCOP(data: any, formData: FormData): Observable<any> {
 
 
   GetCOPDetails(mVregID:any,mSupplierid:any){
-    debugger
+    
     return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetCOPDetails?mVregID=${mVregID}&mSupplierid=${mSupplierid}`);
   }
   // GetMSCCOPItemDetails(VregID:any,mFileID:any,mscCopType:any){
-  //   debugger
+  //   
   //   return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`);
   // }
   

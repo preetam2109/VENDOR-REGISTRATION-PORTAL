@@ -19,6 +19,7 @@ import { faL } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var bootstrap: any;
 @Component({
   selector: 'app-capaity-of-production',
@@ -81,8 +82,9 @@ export class CapaityOfProduction {
   @ViewChild('sort') sort!: MatSort;
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
+  sanitizedPdfUrl!: SafeResourceUrl;
 
-  constructor(private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
+  constructor(private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
 
@@ -118,6 +120,66 @@ export class CapaityOfProduction {
 
     });
 
+  }
+
+  DownloadFileWithName(mFilePath: string, mFileName: string) {
+   
+  
+    // Encode file path and file name to handle special characters (like spaces, \ etc.)
+    const encodedPath = encodeURIComponent(mFilePath);
+    const encodedName = encodeURIComponent(mFileName);
+  
+    // Build dynamic API URL
+    const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+  
+    this.api.DownloadFileWithName(apiUrl).subscribe({
+      next: (res: Blob) => {
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        this.openmarqModal(url);
+        // Create a temporary link element for download
+        // const a = document.createElement('a');
+        // a.href = url;
+        // a.download = mFileName;
+        // a.click();
+  
+        // // Clean up URL object after use
+        // window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        if (err.status === 0 && err.statusText === 'Unknown Error') {
+          // ✅ Show toaster or alert message
+          this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+        } else if (err.status === 404) {
+          this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+        } else {
+          this.toastr.error('Something went wrong while downloading the file.', 'Error');
+        }
+        console.error('Download error:', err);
+      }
+    });
+  }
+  
+  openmarqModal(pdfUrl: string): void {
+    this.sanitizedPdfUrl =
+      this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+
+    // Remove any leftover backdrops (from previous opens)
+    document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+
+    const modalEl = document.getElementById('pdfModal')!;
+    // ensure modal appended to body so it sits above other layout elements
+    document.body.appendChild(modalEl);
+
+    // Optional: force z-index higher than anything else on page
+    (modalEl as HTMLElement).style.zIndex = '99999';
+
+    const modal = new bootstrap.Modal(modalEl, {
+      backdrop: false, // no backdrop
+      keyboard: true,
+      focus: true,
+    });
+    modal.show();
   }
 
 
@@ -214,7 +276,7 @@ export class CapaityOfProduction {
  
  
   onCategorySelectChange(selected: any): void {
-    debugger
+    
     const mcid = selected?.mcid ?? selected;
 
     if (mcid) {
@@ -227,7 +289,7 @@ export class CapaityOfProduction {
     }
   }
   onmItemTypeIDSelectChange(selected: any): void {
-    debugger
+    
     const mItemTypeID = selected?.itemtypeid ?? selected;
 
     if (mItemTypeID) {
@@ -240,7 +302,7 @@ export class CapaityOfProduction {
     }
   }
   onGroupSelectChange(selected: any): void {
-    debugger
+    
     const groupid = selected?.groupid ?? selected;
 
     if (groupid) {
@@ -278,7 +340,7 @@ export class CapaityOfProduction {
 
 
   onSubmit() {
-debugger
+
 if(!sessionStorage.getItem('COPID')){
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
@@ -335,7 +397,7 @@ if(!sessionStorage.getItem('COPID')){
 
 
 
-debugger
+
 
 const mscid=sessionStorage.getItem('COPID');
     if (this.selectedItems.length === 0) {
@@ -350,7 +412,7 @@ const mscid=sessionStorage.getItem('COPID');
             console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
             
             this.toastr.success('All items updated successfully!',res);
-            debugger
+            
             this.refreshCheckbox();
             this.selectedItems = []; // Clear all
             this.MCCFillItemsLIst = [];
@@ -579,7 +641,7 @@ GetmSCDetailsList() {
 
 
 exportToPDF() {
-  debugger;
+  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
   
   // 🕒 Add title and timestamp
@@ -664,7 +726,7 @@ exportToPDF() {
 }
 
 exportToPDF2() {
-  debugger;
+  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4 sheet
 
   // 🕒 Title and Timestamp
@@ -748,7 +810,7 @@ exportToPDF2() {
 
 
 OnClickMSCCOPItemDetails(mFileID:any){
-  debugger
+  
   this.spinner.show();
   this.api.GetMSCCOPItemDetails(sessionStorage.getItem('vregid'),mFileID,'COP').subscribe((res: any) => {
       this.MSCCOPItemList = res.map((item: any, index: number) => ({
