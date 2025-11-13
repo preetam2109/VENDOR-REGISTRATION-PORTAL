@@ -43,6 +43,7 @@ export class MarketStandingCertificate {
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
+  submitted = false;
   vregid = sessionStorage.getItem('vregid');
   marketStandingCForm!: FormGroup;
   MCCFillItemsForm!: FormGroup;
@@ -105,7 +106,7 @@ export class MarketStandingCertificate {
       ISSUEDATE: ['', Validators.required],      // Item Group
       mstartdate: ['', Validators.required],   // Licence Type
       mEXPDate: ['', Validators.required],        // Licence
-
+      Files: [null, Validators.required],
 
     });
     this.MCCFillItemsForm = this.fb.group({
@@ -339,7 +340,7 @@ export class MarketStandingCertificate {
 
 
   onSubmit() {
-
+    this.submitted = true;
 if(!sessionStorage.getItem('mscid')){
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
@@ -376,7 +377,7 @@ if(!sessionStorage.getItem('mscid')){
           // Reset form
           this.marketStandingCForm.reset();
           this.selectedPanFile = null;
-  
+          this.submitted = false;
           // ✅ Hide modal only after success
           const modalEl = document.getElementById('marketStandingModal');
           const modal = bootstrap.Modal.getInstance(modalEl);
@@ -422,7 +423,7 @@ const mscid=sessionStorage.getItem('mscid');
              // Reset form
           this.marketStandingCForm.reset();
           this.selectedPanFile = null;
-  
+          this.submitted = false;
           // ✅ Hide modal only after success
           const modalEl = document.getElementById('marketStandingModal');
           const modal = bootstrap.Modal.getInstance(modalEl);
@@ -541,6 +542,7 @@ refreshCheckbox(){
 }
 
   onSubmitMCCFillItemsForm() {
+   
     this.api.GETMCCFillItems(this.vregid, this.mcid, 0, 0).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {

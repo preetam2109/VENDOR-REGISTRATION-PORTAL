@@ -79,7 +79,8 @@
                                 {{element.defaultacc}} </td>
                             </ng-container>
                             <ng-container matColumnDef="filename" >
-                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th>
+                              <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th> -->
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
                               <td mat-cell *matCellDef="let element" class="text-center">
                                 <button
                                 class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
@@ -248,7 +249,7 @@
                         </div>
                         <div class="d-flex justify-content-center mt-3">
                           <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
-                          <button type="submit" class="btn btn-primary"  [disabled]="!bankForm.valid">Submit</button>
+                          <button type="submit" class="btn btn-primary"  [disabled]="!bankForm.valid">Save</button>
                         </div>
                       </form>
                     </div>
@@ -317,7 +318,7 @@
                                         <td mat-cell *matCellDef="let element" class="text-center"> {{element.udinno}} </td>
                                       </ng-container>
                                       <ng-container matColumnDef="filename">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
                                         <td mat-cell *matCellDef="let element" class="text-center">
                                           <button
                                             class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
@@ -473,7 +474,7 @@
                                 </div> -->
                         
                                 <div class="d-flex justify-content-center mt-3">
-                                  <button type="submit" class="btn btn-primary mt-3" [disabled]="!AnnualTurnoverForm.valid">Submit</button>
+                                  <button type="submit" class="btn btn-primary mt-3" [disabled]="!AnnualTurnoverForm.valid">Save</button>
                                  
                                 </div>
                               </form>
@@ -547,7 +548,7 @@
                                     <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
                                   </ng-container>
                                   <ng-container matColumnDef="filename">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
                                     <td mat-cell *matCellDef="let element" class="text-center">
                                       <button
                                         class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
@@ -641,7 +642,7 @@
                                 </div>
                               </div>
                               <div class="d-flex justify-content-center mt-3">
-                                <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTForm.valid">Submit</button>
+                                <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTForm.valid">Save</button>
         
                               </div>
                               <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
@@ -723,7 +724,7 @@
                                                               <td mat-cell *matCellDef="let element" class="text-center"> {{element.startmonth}} </td>
                                                             </ng-container>
                                                             <ng-container matColumnDef="filename" >
-                                                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th>
+                                                              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
                                                               <td mat-cell *matCellDef="let element" class="text-center">
                                                                 <button
                                                                 class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
@@ -861,7 +862,7 @@
                                                         </div> -->
                                                     </div>
                                                       <div class="d-flex justify-content-center mt-3">
-                                                        <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTRETURNForm.valid">Submit</button>
+                                                        <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTRETURNForm.valid">Save</button>
                                               
                                                       </div>
                                                   </form>

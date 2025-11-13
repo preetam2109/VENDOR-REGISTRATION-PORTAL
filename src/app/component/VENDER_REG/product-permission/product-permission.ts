@@ -43,6 +43,7 @@ export class ProductPermission {
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
+  submitted = false;
   vregid = sessionStorage.getItem('vregid');
   productPerForm!: FormGroup;
 
@@ -111,7 +112,7 @@ export class ProductPermission {
       mlictypeid: ['', Validators.required],   // Licence Type
       licid: ['', Validators.required],        // Licence
       mVregid: [this.vregid, Validators.required],
-
+      Files: [null, Validators.required],
 
     });
 
@@ -388,14 +389,6 @@ export class ProductPermission {
 
   onSubmit() {
 
-    
-
-    
-
-
-
-
-
     this.api.GetMasitems(this.mcid, this.mTypeID).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {
@@ -470,7 +463,7 @@ uploadPPCertificate(){
   
   }
   saveMasVregPPCItems() {
-    ;
+    
   
     // if (this.productPerForm.invalid) {
     //   this.toastr.warning('Please Select all required fields correctly!');
@@ -516,16 +509,7 @@ uploadPPCertificate(){
     //     this.toastr.error('Failed to insert items!');
     //   }
     // });
-  
-
-
-
-
-
-
-
-
-
+    this.submitted = true;
 if (this.productPerForm.invalid) {
       this.toastr.warning('Please Select all required fields correctly!');
       return;
@@ -620,7 +604,9 @@ if (this.productPerForm.invalid) {
         });
         // optionally refresh list
         // this.getMasItems();
+        this.submitted = false;
         this.GETtPPCertificate()
+
       },
       error: (err) => {
         console.error(err);
