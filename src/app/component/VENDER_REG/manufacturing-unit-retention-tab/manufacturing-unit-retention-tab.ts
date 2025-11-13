@@ -253,7 +253,7 @@ this.retForm = this.fb.group({
   
     }
     onshowButtonClickLICENCE() {
-      // debugger;
+      // ;
       // if (val === 0) {
         this.onshowRETE = true;
       //   this.isCollapsed1 = false;
@@ -300,7 +300,7 @@ this.retForm = this.fb.group({
       
     }
   GetPovLicenceDetails() {
-      debugger
+      
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
       this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
@@ -381,7 +381,7 @@ this.retForm = this.fb.group({
 
 
     DownloadFileWithName(mFilePath: string, mFileName: string) {
-      debugger;
+      ;
     
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
@@ -690,7 +690,7 @@ onFileSelectedRetention(event: any) {
   
   
   exportToPDF() {
-    debugger;
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -761,7 +761,7 @@ onFileSelectedRetention(event: any) {
   
 
   exportToPDFManufacturingLic() {
-    debugger;
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // landscape mode
   
     // 🕒 Current date & time

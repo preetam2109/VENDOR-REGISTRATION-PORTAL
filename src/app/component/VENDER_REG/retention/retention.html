@@ -168,11 +168,20 @@
     <td mat-cell *matCellDef="let element">{{ element.expdate }}</td>
   </ng-container>
   
-  <!-- File Name -->
-  <ng-container matColumnDef="filename">
-    <th mat-header-cell *matHeaderCellDef>File Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.filename }}</td>
-  </ng-container>
+ <!-- File Name -->
+ <ng-container matColumnDef="filename">
+  <th mat-header-cell *matHeaderCellDef>File</th>
+  <td mat-cell *matCellDef="let element">
+    <button 
+      *ngIf="element.filename"
+      class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+      (click)="DownloadFileWithName(element.filepath,element.filename)"
+    >
+    <i
+    class="bi bi-filetype-pdf text-danger"></i>
+    </button>
+  </td>
+</ng-container>
   
   <!-- Supplier ID -->
   <ng-container matColumnDef="supplierid">
@@ -375,9 +384,23 @@
   </ng-container>
   
   <!-- File Name -->
-  <ng-container matColumnDef="fileName">
+  <!-- <ng-container matColumnDef="fileName">
     <th mat-header-cell *matHeaderCellDef>File Name</th>
     <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="fileName">
+    <th mat-header-cell *matHeaderCellDef>File</th>
+    <td mat-cell *matCellDef="let element">
+      <button 
+        *ngIf="element.fileName"
+        class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+        (click)="DownloadFileWithName(element.filePath,element.fileName)"
+      >
+      <i
+      class="bi bi-filetype-pdf text-danger"></i>
+      </button>
+    </td>
   </ng-container>
   
   <!-- File Path -->
@@ -385,6 +408,8 @@
     <th mat-header-cell *matHeaderCellDef>File Path</th>
     <td mat-cell *matCellDef="let element">{{ element.filePath }}</td>
   </ng-container>
+
+  
   
   <!-- Import Type ID -->
   <ng-container matColumnDef="impTypeId">
@@ -395,40 +420,28 @@
   <!-- Header and Row Definitions -->
   <tr mat-header-row *matHeaderRowDef="[
     'sno',
-    'impRetId',
-    'impId',
+    'unitName',
     'impLicNo',
     'impTypeName',
-    'licId',
     'licNo',
-    'unitName',
     'impretIssuingAuthority',
-    'supplierId',
     'startDate',
     'issueDate',
     'expDate',
     'fileName',
-    'filePath',
-    'impTypeId'
   ]"></tr>
   
   <tr mat-row *matRowDef="let row; columns: [
     'sno',
-    'impRetId',
-    'impId',
+    'unitName',
     'impLicNo',
     'impTypeName',
-    'licId',
     'licNo',
-    'unitName',
     'impretIssuingAuthority',
-    'supplierId',
     'startDate',
     'issueDate',
     'expDate',
     'fileName',
-    'filePath',
-    'impTypeId'
   ];"></tr>
   
   
@@ -447,7 +460,24 @@
   
 
 
-
+     <!-- modal -->
+     <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content border-0 shadow-none">
+          <div class="modal-header bg-dark text-white py-2 px-3">
+            <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-0">
+            <iframe
+              [src]="sanitizedPdfUrl"
+              class="pdf-frame"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
   
   
   

@@ -4,6 +4,8 @@ import { FormBuilder,FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/service/api.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+declare var bootstrap: any;
 @Component({
   selector: 'app-personal-detail',
   standalone: true,
@@ -17,22 +19,42 @@ export class PersonalDetailComponent {
   vregId=sessionStorage.getItem('vregid')
 
   selectedPanFile: File | null = null;
+  sanitizedPdfUrl!: SafeResourceUrl;
 
  
+  onshowedit:boolean= false; // Toggle between list and form
+  editMode:any;
+  panno=sessionStorage.getItem('panno');
 
-  
-
-  constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
+  constructor(private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
    
   }
+
+  
 
 
   vendor: any = {}; // Holds vendor data
 
 ngOnInit() {
+  this.panno=sessionStorage.getItem('panno');
+
   this.vregId=sessionStorage.getItem('vregid');
   this.loadVendorDetails();
 }
+
+
+editVendor() {
+  this.onshowedit=true;
+  // Wait a bit for DOM updates, then scroll
+  setTimeout(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
+  }, 300); // 300ms delay ensures table or form is rendered
+}
+
+
 
 loadVendorDetails() {
   
@@ -40,6 +62,7 @@ loadVendorDetails() {
     next: (res: any) => {
       if (res && res.length > 0) {
         this.vendor = res[0]; // since API returns an array
+        console.log('vender',this.vendor)
       }
     },
     error: (err) => {
@@ -50,14 +73,17 @@ loadVendorDetails() {
 }
 
 saveVendor() {
-  debugger
+  
   try {
     const formData = new FormData();
-
+debugger
     // Append file if selected
+    
     if (this.selectedPanFile) {
       formData.append('PanCardDocument', this.selectedPanFile);
     }
+
+    
 
     // Append any extra form fields if required in DTO
     // formData.append('SomeField', this.vendor.someValue);
@@ -108,5 +134,72 @@ onFileSelected(event: any) {
   }
 }
  
+
+
+
+DownloadFileWithName(mFilePath: string, mFileName: string) {
+  ;
+
+  // Encode file path and file name to handle special characters (like spaces, \ etc.)
+  const encodedPath = encodeURIComponent(mFilePath);
+  const encodedName = encodeURIComponent(mFileName);
+
+  // Build dynamic API URL
+  const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+
+  this.api.DownloadFileWithName(apiUrl).subscribe({
+    next: (res: Blob) => {
+      const blob = new Blob([res], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      this.openmarqModal(url);
+      // Create a temporary link element for download
+      // const a = document.createElement('a');
+      // a.href = url;
+      // a.download = mFileName;
+      // a.click();
+
+      // // Clean up URL object after use
+      // window.URL.revokeObjectURL(url);
+    },
+    error: (err) => {
+      if (err.status === 0 && err.statusText === 'Unknown Error') {
+        // ✅ Show toaster or alert message
+        this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+      } else if (err.status === 404) {
+        this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+      } else {
+        this.toastr.error('Something went wrong while downloading the file.', 'Error');
+      }
+      console.error('Download error:', err);
+    }
+  });
+}
+
+openmarqModal(pdfUrl: string): void {
+  this.sanitizedPdfUrl =
+    this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+
+  // Remove any leftover backdrops (from previous opens)
+  document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+
+  const modalEl = document.getElementById('pdfModal')!;
+  // ensure modal appended to body so it sits above other layout elements
+  document.body.appendChild(modalEl);
+
+  // Optional: force z-index higher than anything else on page
+  (modalEl as HTMLElement).style.zIndex = '99999';
+
+  const modal = new bootstrap.Modal(modalEl, {
+    backdrop: false, // no backdrop
+    keyboard: true,
+    focus: true,
+  });
+  modal.show();
+}
+
+
+
+
+
 
 }

@@ -334,17 +334,24 @@
                         <td mat-cell *matCellDef="let row" (click)="PPCErtificateItemDetails(row.fileid)" style="cursor: pointer; color: blue;" >{{ row.noofitemppc }}</td>
                       </ng-container>
                       
-                      <ng-container matColumnDef="filename">
-                        <th mat-header-cell *matHeaderCellDef>File Name</th>
-                        <td mat-cell *matCellDef="let row">
-                          <a [href]="row.filepath" target="_blank" class="text-decoration-none">
-                            {{ row.filename }}
-                          </a>
-                        </td>
-                      </ng-container>
+                      <!-- File Name -->
+      <ng-container matColumnDef="filename">
+        <th mat-header-cell *matHeaderCellDef>File</th>
+        <td mat-cell *matCellDef="let row">
+          <button 
+            *ngIf="row.filename"
+            class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+            (click)="DownloadFileWithName(row.filepath,row.filename)"
+          >
+          <i
+          class="bi bi-filetype-pdf text-danger"></i>
+          </button>
+        </td>
+      </ng-container>
                       
-                      <tr mat-header-row *matHeaderRowDef="['sno','licno','unitname','entrydate','noofitemppc','filename']"></tr>
-                      <tr mat-row *matRowDef="let row; columns: ['sno','licno','unitname','entrydate','noofitemppc','filename'];"></tr>
+            
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                       
                   </table>
                 </div>
@@ -387,10 +394,6 @@
                     
                  
                         <div class="d-flex justify-content-between align-items-center mb-3">
-  
-  
-  
-                          
                           <div class="filter-field flex-grow-1">
                             <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterItemDetail($event)">
                           </div>
@@ -480,10 +483,12 @@
   </ng-container>
   
   <!-- Header Row -->
-  <tr mat-header-row *matHeaderRowDef="['sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper']"></tr>
+  <!-- <tr mat-header-row *matHeaderRowDef="['sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper']"></tr> -->
   
   <!-- Data Rows -->
-  <tr mat-row *matRowDef="let row; columns: ['sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper'];"></tr>
+  <!-- <tr mat-row *matRowDef="let row; columns: ['sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper'];"></tr> -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
   
                         
                           </table>
@@ -526,3 +531,23 @@
   
   
   
+
+
+      <!-- modal -->
+  <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+      <div class="modal-content border-0 shadow-none">
+        <div class="modal-header bg-dark text-white py-2 px-3">
+          <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <iframe
+            [src]="sanitizedPdfUrl"
+            class="pdf-frame"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
