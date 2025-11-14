@@ -43,6 +43,7 @@ export class MarketStandingCertificate {
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
+  submitted = false;
   vregid = sessionStorage.getItem('vregid');
   marketStandingCForm!: FormGroup;
   MCCFillItemsForm!: FormGroup;
@@ -105,8 +106,10 @@ export class MarketStandingCertificate {
       ISSUEDATE: ['', Validators.required],      // Item Group
       mstartdate: ['', Validators.required],   // Licence Type
       mEXPDate: ['', Validators.required],
-      MSCissuingauthority:['',Validators.required]        // Licence
+      MSCissuingauthority:['',Validators.required],        // Licence
 
+             // Licence
+      Files: [null, Validators.required],
 
     });
     this.MCCFillItemsForm = this.fb.group({
@@ -341,6 +344,9 @@ export class MarketStandingCertificate {
   onSubmit() {
     debugger;
   
+    this.submitted = true;
+
+
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;
@@ -379,6 +385,14 @@ export class MarketStandingCertificate {
   
           // Step 2: Chain to updates using the fresh MSC ID
           this.performUpdates(mscId);
+          // Reset form
+          this.marketStandingCForm.reset();
+          this.selectedPanFile = null;
+          this.submitted = false;
+          // ✅ Hide modal only after success
+          const modalEl = document.getElementById('marketStandingModal');
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          if (modal) modal.hide();
         },
         error: (err) => {
           console.error('Error:', err);
@@ -414,6 +428,32 @@ export class MarketStandingCertificate {
               this.toastr.success('All items updated successfully!', res);
               this.finalizeSubmit();
             }
+            this.toastr.success('All items updated successfully!',res);
+            
+            this.refreshCheckbox();
+            this.selectedItems = []; // Clear all
+            this.MCCFillItemsLIst = [];
+
+
+
+
+             // Reset form
+          this.marketStandingCForm.reset();
+          this.selectedPanFile = null;
+          this.submitted = false;
+          // ✅ Hide modal only after success
+          const modalEl = document.getElementById('marketStandingModal');
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          if (modal) modal.hide();
+       
+
+
+
+
+
+
+
+
           },
           error: (err) => {
             console.error(`❌ Error updating PPCID ${item.ppcid}:`, err);
@@ -533,6 +573,7 @@ refreshCheckbox(){
 }
 
   onSubmitMCCFillItemsForm() {
+   
     this.api.GETMCCFillItems(this.vregid, this.mcid, 0, 0).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {

@@ -42,6 +42,9 @@ export class Retention {
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
+  submitted = false;
+  onshowRetentionForm = false;
+  onshowRetentionForm2 = false;
   vregid = sessionStorage.getItem('vregid');
   
   RetentionForm!: FormGroup;
@@ -96,7 +99,8 @@ export class Retention {
       mStartDate: ['', Validators.required],
       mVALIDITYDATE: ['', Validators.required],        
       mVregid: [this.vregid, Validators.required],
-      mIMPIssuingAuthority: ['', Validators.required],         
+      mIMPIssuingAuthority: ['', Validators.required],       
+      Files: [null, Validators.required],  
     });
     
 
@@ -110,11 +114,16 @@ export class Retention {
       mVALIDITYDATE: ['', Validators.required],        
       mVregid: [this.vregid, Validators.required],        
       mIMPRETIssuingAuthority: ['', Validators.required],        
-             
+      Files: [null, Validators.required],    
     });
 
   }
-
+  onshowButtonClick(){
+    this.onshowRetentionForm=true;
+  }
+  onshowButtonClick1(){
+    this.onshowRetentionForm2=true;
+  }
   DownloadFileWithName(mFilePath: string, mFileName: string) {
     ;
   
@@ -265,7 +274,7 @@ formatDate(dateString: string): string {
 
   onSubmit() {
 
-
+   this.submitted = true;
     const formData = new FormData();
 
     // Append file if selected
@@ -302,9 +311,9 @@ formatDate(dateString: string): string {
           this.toastr.success('Importer Licence saved successfully!');
           console.log('API Response:', res);
           this.RetentionForm.reset();
+          this.submitted = false;
           this.GETImporterLicenceDetails();
-
-
+          this.onshowRetentionForm=false;
         },
         error: (err) => {
           console.error('Error:', err);
@@ -319,7 +328,7 @@ formatDate(dateString: string): string {
 
   onSubmit2() {
 
-
+    this.submitted = true;
     const formData = new FormData();
 
     // Append file if selected
@@ -356,9 +365,10 @@ formatDate(dateString: string): string {
           this.toastr.success('Import Certificate saved successfully!');
           console.log('API Response:', res);
           this.RetentionForm2.reset();
+          this.submitted = false;
+
           this.GETImportRetentionDetails();
-
-
+          this.onshowRetentionForm2=false;
         },
         error: (err) => {
           console.error('Error:', err);

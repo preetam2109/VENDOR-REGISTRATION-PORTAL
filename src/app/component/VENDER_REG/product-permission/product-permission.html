@@ -5,37 +5,86 @@
       <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
     </h4>
     <div [collapse]="isCollapsed">
-  
-  
-  
       <form [formGroup]="productPerForm" (ngSubmit)="onSubmit()">
         <div class="row text-start ">
-  
-      
-  
           <!-- category -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
             <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
               formControlName="mcid" [placeholder]="!productPerForm.get('mcid')?.value ? 'Choose Category' : ''"
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onCategorySelectChange($event)">
+              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onCategorySelectChange($event)" 
+              [ngStyle]="{
+                'border': (productPerForm.get('mcid')?.invalid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                  ? '1px solid #dc3545'
+                  : (productPerForm.get('mcid')?.valid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                    ? '1px solid #198754'
+                    : '',
+                'box-shadow': (productPerForm.get('mcid')?.invalid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                  ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                  : (productPerForm.get('mcid')?.valid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                    ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                    : ''
+              }"
+              >
             </ng-select>
+            <div class="text-danger mt-1">
+              <span
+                *ngIf="(productPerForm.get('mcid')?.touched || submitted) && productPerForm.get('mcid')?.errors?.['required']">
+                Category is required.
+              </span>
+          </div>
           </div>
           <!-- ItemType -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
             <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
               formControlName="itemtypeid" [placeholder]="productPerForm.get('itemtypeid')?.value ? '': 'Select Item Type' "
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onItemTypeChange($event)">
+              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onItemTypeChange($event)"  [ngStyle]="{
+                'border': (productPerForm.get('itemtypeid')?.invalid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                  ? '1px solid #dc3545'
+                  : (productPerForm.get('itemtypeid')?.valid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                    ? '1px solid #198754'
+                    : '',
+                'box-shadow': (productPerForm.get('itemtypeid')?.invalid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                  ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                  : (productPerForm.get('itemtypeid')?.valid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                    ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                    : ''
+              }"
+              >
             </ng-select>
+            <div class="text-danger mt-1">
+              <span
+                *ngIf="(productPerForm.get('itemtypeid')?.touched || submitted) && productPerForm.get('itemtypeid')?.errors?.['required']">
+                Item Type is required.
+              </span>
+          </div>
           </div>
           <!-- ItemGroup -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Item Group<span class="text-danger">*</span></label>
             <ng-select class="form-select w-auto" [items]="DDLItemGroup" bindLabel="groupname" bindValue="groupid"
               formControlName="groupid" [placeholder]="productPerForm.get('groupid')?.value ? '': 'Select Item Group' "
-              [searchable]="true" [clearable]="true" [appendTo]="'body'">
+              [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                'border': (productPerForm.get('groupid')?.invalid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                  ? '1px solid #dc3545'
+                  : (productPerForm.get('groupid')?.valid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                    ? '1px solid #198754'
+                    : '',
+                'box-shadow': (productPerForm.get('groupid')?.invalid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                  ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                  : (productPerForm.get('groupid')?.valid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                    ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                    : ''
+              }"
+              >
             </ng-select>
+            <div class="text-danger mt-1">
+              <span
+                *ngIf="(productPerForm.get('groupid')?.touched || submitted) && productPerForm.get('groupid')?.errors?.['required']">
+                Item Group is required.
+              </span>
+          </div>
           </div>
 
               <!-- Licence Type -->
@@ -43,48 +92,177 @@
                 <label class="form-label fw-bold">Licence Type<span class="text-danger">*</span></label>
                 <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
                   formControlName="mlictypeid" [placeholder]="productPerForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'"
-                  [searchable]="true" [clearable]="true" [appendTo]="'body'">
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                    'border': (productPerForm.get('mlictypeid')?.invalid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                      ? '1px solid #dc3545'
+                      : (productPerForm.get('mlictypeid')?.valid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (productPerForm.get('mlictypeid')?.invalid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (productPerForm.get('mlictypeid')?.valid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                  >
                 </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(productPerForm.get('mlictypeid')?.touched || submitted) && productPerForm.get('mlictypeid')?.errors?.['required']">
+                    Licence Type is required.
+                  </span>
+              </div>
               </div>
 
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
                 <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
                   formControlName="licid" [placeholder]="productPerForm.get('licid')?.value ? '' : 'Select Licence'"
-                  [searchable]="true" [clearable]="true" [appendTo]="'body'" (change)="onLicenceTypeChange($event)">
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'" (change)="onLicenceTypeChange($event)"  [ngStyle]="{
+                    'border': (productPerForm.get('licid')?.invalid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                      ? '1px solid #dc3545'
+                      : (productPerForm.get('licid')?.valid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (productPerForm.get('licid')?.invalid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (productPerForm.get('licid')?.valid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                  >
                 </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(productPerForm.get('licid')?.touched || submitted) && productPerForm.get('licid')?.errors?.['required']">
+                    Licence is required.
+                  </span>
+              </div>
               </div>
 
               <!-- Issue Date -->
-        <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-          <input type="date" class="form-control" formControlName="mIssueDate">
-        </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issue Date <span class="text-danger">*</span></label>
+              
+                <input type="date" class="form-control"
+                  formControlName="mIssueDate"
+                  [ngStyle]="{
+                    'border': (productPerForm.get('mIssueDate')?.invalid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
+                      ? '1px solid #dc3545'
+                      : (productPerForm.get('mIssueDate')?.valid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (productPerForm.get('mIssueDate')?.invalid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (productPerForm.get('mIssueDate')?.valid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                />
+              
+                <div class="text-danger mt-1">
+                  <span *ngIf="(productPerForm.get('mIssueDate')?.touched || submitted) && productPerForm.get('mIssueDate')?.errors?.['required']">
+                    Issue Date is required.
+                  </span>
+                </div>
+              </div>
+              
 
         <!-- Start Date -->
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-          <input type="date" class="form-control" formControlName="mStartDate">
+          <label class="form-label fw-bold">Start Date <span class="text-danger">*</span></label>
+        
+          <input type="date" class="form-control"
+            formControlName="mStartDate"
+            [ngStyle]="{
+              'border': (productPerForm.get('mStartDate')?.invalid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
+                ? '1px solid #dc3545'
+                : (productPerForm.get('mStartDate')?.valid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
+                  ? '1px solid #198754'
+                  : '',
+              'box-shadow': (productPerForm.get('mStartDate')?.invalid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
+                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                : (productPerForm.get('mStartDate')?.valid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
+                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                  : ''
+            }"
+          />
+        
+          <div class="text-danger mt-1">
+            <span *ngIf="(productPerForm.get('mStartDate')?.touched || submitted) && productPerForm.get('mStartDate')?.errors?.['required']">
+              Start Date is required.
+            </span>
+          </div>
         </div>
+        
 
         <!-- Validity Date -->
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
-          <input type="date" class="form-control" formControlName="mVALIDITYDATE">
+          <label class="form-label fw-bold">Valid Upto <span class="text-danger">*</span></label>
+        
+          <input type="date" class="form-control"
+            formControlName="mVALIDITYDATE"
+            [ngStyle]="{
+              'border': (productPerForm.get('mVALIDITYDATE')?.invalid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
+                ? '1px solid #dc3545'
+                : (productPerForm.get('mVALIDITYDATE')?.valid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
+                  ? '1px solid #198754'
+                  : '',
+              'box-shadow': (productPerForm.get('mVALIDITYDATE')?.invalid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
+                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                : (productPerForm.get('mVALIDITYDATE')?.valid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
+                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                  : ''
+            }"
+          />
+        
+          <div class="text-danger mt-1">
+            <span *ngIf="(productPerForm.get('mVALIDITYDATE')?.touched || submitted) && productPerForm.get('mVALIDITYDATE')?.errors?.['required']">
+              Validity Date is required.
+            </span>
+          </div>
         </div>
+        
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
-          <input type="text" class="form-control" formControlName="mISSUINGAUTHORITY" placeholder="Enter Issuing Authority">
-          <!-- <small class="text-danger"
-            *ngIf="licForm.get('mIMPIssuingAuthority')?.touched && licForm.get('mIMPIssuingAuthority')?.invalid">
-            issuing authority is required.
-          </small> -->
+          <label class="form-label fw-bold">Issuing Authority <span class="text-danger">*</span></label>
+        
+          <input type="text" class="form-control" placeholder="Enter Issuing Authority"
+            formControlName="mISSUINGAUTHORITY"
+            [ngStyle]="{
+              'border': (productPerForm.get('mISSUINGAUTHORITY')?.invalid && (productPerForm.get('mISSUINGAUTHORITY')?.dirty || productPerForm.get('mISSUINGAUTHORITY')?.touched))
+                ? '1px solid #dc3545'
+                : (productPerForm.get('mISSUINGAUTHORITY')?.valid && (productPerForm.get('mISSUINGAUTHORITY')?.dirty || productPerForm.get('mISSUINGAUTHORITY')?.touched))
+                  ? '1px solid #198754'
+                  : '',
+              'box-shadow': (productPerForm.get('mISSUINGAUTHORITY')?.invalid && (productPerForm.get('mISSUINGAUTHORITY')?.dirty || productPerForm.get('mISSUINGAUTHORITY')?.touched))
+                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                : (productPerForm.get('mISSUINGAUTHORITY')?.valid && (productPerForm.get('mISSUINGAUTHORITY')?.dirty || productPerForm.get('mISSUINGAUTHORITY')?.touched))
+                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                  : ''
+            }"
+          />
+        
+          <div class="text-danger mt-1">
+            <span *ngIf="(productPerForm.get('mISSUINGAUTHORITY')?.touched || submitted) && productPerForm.get('mISSUINGAUTHORITY')?.errors?.['required']">
+              Issuing Authority is required.
+            </span>
+          </div>
         </div>
+        
   
 
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Upload Product Permission<span class="text-danger">*</span></label>
-                <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)">
+                <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)"
+                formControlName="Files" [ngClass]="{
+                  'is-invalid': (productPerForm.get('Files')?.touched || submitted) && productPerForm.get('Files')?.invalid,
+                  'is-valid': productPerForm.get('Files')?.valid && (productPerForm.get('Files')?.touched || submitted)
+                }" />
+        
+        <span class="text-danger"
+        *ngIf="(productPerForm.get('Files')?.touched || submitted) && productPerForm.get('Files')?.errors?.['required']">
+        Please upload the document.
+        </span>
               </div>
             
           <!-- Submit -->

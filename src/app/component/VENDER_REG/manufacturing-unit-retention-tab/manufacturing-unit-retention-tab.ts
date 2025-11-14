@@ -74,6 +74,7 @@ export class ManufacturingUnitRetentionTab {
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
   onshowRETE:boolean=false;
+  submitted:boolean=false;
 
 
 
@@ -145,7 +146,8 @@ this.retForm = this.fb.group({
   mVregid: [sessionStorage.getItem('vregid'), Validators.required],
   mretid: ['', Validators.required],
   mFormID: ['', Validators.required],
-  mProIssuingAuthority: ['', Validators.required]
+  mProIssuingAuthority: ['', Validators.required],
+  Files: [null, Validators.required],
 });
 
 
@@ -590,7 +592,7 @@ this.retForm = this.fb.group({
 
   onSubmitRetention() {
     
-  
+    this.submitted=true;
     const formData = new FormData();
   
     // Append file if selected
@@ -622,8 +624,9 @@ this.retForm = this.fb.group({
           this.toastr.success('Retention Certificate saved successfully!');
           console.log('API Response:', res);
           this.retForm.reset();
+          this.submitted=false;
           this.GetPovLicenceDetails();
-
+          this.onshowRETE=false;
         },
         error: (err) => {
           console.error('Error:', err);

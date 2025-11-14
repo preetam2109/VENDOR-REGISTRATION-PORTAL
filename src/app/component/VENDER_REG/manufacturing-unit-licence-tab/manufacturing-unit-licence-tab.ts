@@ -33,6 +33,7 @@ export class ManufacturingUnitLicenceTab {
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
+  submitted = false;
 
 
   manufacturingList: any[] = [];
@@ -129,6 +130,7 @@ this.licForm = this.fb.group({
   mStartDate: ['', Validators.required],
   mVALIDITYDATE: ['', Validators.required],
   mLicIssuingAuthority: ['', Validators.required],
+  Files: [null, Validators.required],
 });
 this.GetmANUFACLICDetails()
 
@@ -534,7 +536,7 @@ this.retForm = this.fb.group({
   
   onSubmitLicence() {
     
-
+   this.submitted = true;
     const formData = new FormData();
 
     // Append file if selected
@@ -572,7 +574,9 @@ this.retForm = this.fb.group({
           this.toastr.success('Manufacturing Licence saved successfully!');
           console.log('API Response:', res);
           this.licForm.reset();
+          this.submitted = false;
           this.GetmANUFACLICDetails();
+          this.onshowLICENCE=false;
 
 
         },

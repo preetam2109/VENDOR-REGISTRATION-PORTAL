@@ -43,6 +43,7 @@ export class CapaityOfProduction {
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
+  submitted = false;
   vregid = sessionStorage.getItem('vregid');
   marketStandingCForm!: FormGroup;
   MCCFillItemsForm!: FormGroup;
@@ -108,8 +109,7 @@ export class CapaityOfProduction {
       mstartdate: ['', Validators.required],   // Licence Type
       mEXPDate: ['', Validators.required],        // Licence
       copissuingauthority: ['', Validators.required],        // Licence
-
-
+      Files: [null, Validators.required],
     });
     this.MCCFillItemsForm = this.fb.group({
       mVregid: [this.vregid, Validators.required],
@@ -343,6 +343,8 @@ export class CapaityOfProduction {
   onSubmit() {
     debugger;
     // Always start with insert (no check for existing COPID)
+    this.submitted = true;
+
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;
@@ -381,6 +383,14 @@ export class CapaityOfProduction {
   
           // Step 2: Chain to updates using the fresh COP ID
           this.performUpdates(copId);
+          // Reset form
+          this.marketStandingCForm.reset();
+          this.selectedPanFile = null;
+          this.submitted = false;
+          // ✅ Hide modal only after success
+          const modalEl = document.getElementById('marketStandingModal');
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          if (modal) modal.hide();
         },
         error: (err) => {
           console.error('Error:', err);
@@ -391,8 +401,8 @@ export class CapaityOfProduction {
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }
-  }
   
+  }
   private performUpdates(copId: string) {
     if (this.selectedItems.length === 0) {
       this.toastr.warning('No items selected!');
