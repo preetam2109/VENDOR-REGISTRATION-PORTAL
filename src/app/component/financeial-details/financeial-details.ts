@@ -24,11 +24,12 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-financeial-details',
   standalone: true,
   imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
-    MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,
+    MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
       MatTableExporterModule
   ],
   templateUrl: './financeial-details.html',
@@ -110,10 +111,10 @@ gstFileModel: any; // just for ngModel binding compatibility
     'sno','accyear','turnoveramt','udinno','filename','action'
   ];
   displayedColumns2: string[] = [
-    'sno','statename','gstno','vregid','filename','action'
+    'sno','statename','gstno','filename','action'
   ];
   displayedColumns3: string[] = [
-    'sno','quartername','gstno','accyear','startmonth','endmonth','filename','action'
+    'sno','gstno','accyear','filename','action'
   ];
   dispatchData1: BankMandateDetail[] = [];
   displayedColumns1: string[] = [
@@ -121,6 +122,10 @@ gstFileModel: any; // just for ngModel binding compatibility
   ];
   AccYearSettings: any;
   MASGSTQUARTER: any;
+  loadingSectionA = false;
+  loadingSectionB = false;
+  loadingSectionC = false;
+  loadingSectionD = false;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
     private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,
   ){
@@ -399,8 +404,22 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
-    // ;
+    // debugger;
     // console.log('bankForm=',bankForm);
+//     const bankData = this.dispatchData1.find((f: any) => f.bankaccountid == this.acno);
+
+// if (bankData) {
+//   this.toastr.error('Bank AC No already exist.', 'Error');
+//   return;
+// }
+        const bankaccountID = this.dispatchData1
+       .find((f: any) => f.bankaccountid == this.acno)?.bankaccountid;
+
+        if (bankaccountID) {
+         this.toastr.error('Bank AC No already exist.', 'Error');
+         return;
+          }
+    this.loadingSectionA = true;
     if (bankForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
       return;
@@ -427,10 +446,13 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
         this.selectedFile = null;
         this.SupplierBankAccDetail = {};  // clear data
         // bankForm.resetForm();
-       this.GETBankMandateDetail();
+        this.GETBankMandateDetail();
+        this.loadingSectionA = false;
+       this.onshowFINANCIAL=false;
       },
       error: (err: any) => {
         console.error('Error updating bank details:', err);
+        this.loadingSectionA = false;
         // alert('Failed to update bank details');
       }
     });
@@ -548,6 +570,7 @@ get f() {
 
  OnSubmmit(): void {
   // ;
+  this.loadingSectionB = true;
   this.submitted = true;
   console.log('Form Value:', this.AnnualTurnoverForm.value);
   console.log('Form Valid:', this.AnnualTurnoverForm.valid);
@@ -578,9 +601,12 @@ get f() {
       this.submitted = false;
       this.selectedAnuvFile = null;
       this.GetAnnualTurnover();
+     this.loadingSectionB = false;
+      this.onshowAT=false;
     },
     (err) => {
       this.toastr.error('Submission failed', 'Error');
+      this.loadingSectionB = false;
       console.error(err);
     }
   );
@@ -639,6 +665,7 @@ onButtonClickGST(){
  this.onshowGST= true;
 }
 InsertGSTCertificate(GSTForm: NgForm) {
+  this.loadingSectionC = true;
   const formData = new FormData();
      if (GSTForm.invalid) {
     this.toastr.error('Please fill all required fields.', 'Error');
@@ -664,9 +691,14 @@ InsertGSTCertificate(GSTForm: NgForm) {
               GSTForm.resetForm();
               this.GSTCertificate = null;
               this.GETMassuppliergstDetails();
+              this.loadingSectionC = false;
+
+              this.onshowGST=false;
             },
             error: (err: any) => {
               console.error('Error:', err);
+              this.loadingSectionC = false;
+
               this.toastr.error('Failed to upload GST certificate', 'Error');
             },
           }); 
@@ -689,7 +721,7 @@ InsertGSTCertificate(GSTForm: NgForm) {
 
   
   DownloadFileWithName(mFilePath: string, mFileName: string) {
-    ;
+    
   
     // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
@@ -816,6 +848,8 @@ onFileSelectedGSTReturn(event: any) {
   }
 }
 InsertMASGSTRETURNFILES(GSTRETURNForm: NgForm) {
+  this.loadingSectionD = true;
+
   const formData = new FormData();
      if (GSTRETURNForm.invalid) {
     this.toastr.error('Please fill all required fields.', 'Error');
@@ -849,9 +883,14 @@ InsertMASGSTRETURNFILES(GSTRETURNForm: NgForm) {
               this.GstReturnDetails();
               GSTRETURNForm.resetForm();
               this.GSTreturnCertificate = null;
+             this.loadingSectionD = false;
+
+              this.onshowGSTR=false;
             },
             error: (err: any) => {
               console.error('Error:', err);
+  this.loadingSectionD = false;
+              
               this.toastr.error('Failed to upload GST Return certificate', 'Error');
             },
           }); 
