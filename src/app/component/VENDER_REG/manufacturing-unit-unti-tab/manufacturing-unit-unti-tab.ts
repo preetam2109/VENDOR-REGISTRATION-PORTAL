@@ -73,7 +73,7 @@ export class ManufacturingUnitUntiTab {
 
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
-
+  submitted=false;
 
 
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -481,7 +481,7 @@ this.retForm = this.fb.group({
 
 
   onSubmit() {
-    
+    this.submitted=true;
     try {
       if (this.unitForm.valid) {
         // Set or override values before sending
@@ -500,7 +500,9 @@ this.retForm = this.fb.group({
             });
             console.log('Response:', res);
             this.unitForm.reset();
+            this.submitted=false;
             this.getManufacturingDetails();
+            this.onshowUNIT=false;
           },
           error: (err) => {
             console.error('Error:', err);
@@ -587,7 +589,7 @@ this.retForm = this.fb.group({
   }
 
   onSubmitRetention() {
-    
+  this.submitted=true;
   
     const formData = new FormData();
   
@@ -620,6 +622,7 @@ this.retForm = this.fb.group({
           this.toastr.success('Retention Certificate saved successfully!');
           console.log('API Response:', res);
           this.retForm.reset();
+          this.submitted=false;
           this.GetPovLicenceDetails();
 
         },

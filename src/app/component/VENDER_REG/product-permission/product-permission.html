@@ -18,24 +18,79 @@
             <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
             <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
               formControlName="mcid" [placeholder]="!productPerForm.get('mcid')?.value ? 'Choose Category' : ''"
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onCategorySelectChange($event)">
+              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onCategorySelectChange($event)" 
+              [ngStyle]="{
+                'border': (productPerForm.get('mcid')?.invalid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                  ? '1px solid #dc3545'
+                  : (productPerForm.get('mcid')?.valid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                    ? '1px solid #198754'
+                    : '',
+                'box-shadow': (productPerForm.get('mcid')?.invalid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                  ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                  : (productPerForm.get('mcid')?.valid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                    ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                    : ''
+              }"
+              >
             </ng-select>
+            <div class="text-danger mt-1">
+              <span
+                *ngIf="(productPerForm.get('mcid')?.touched || submitted) && productPerForm.get('mcid')?.errors?.['required']">
+                Category is required.
+              </span>
+          </div>
           </div>
           <!-- ItemType -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
             <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
               formControlName="itemtypeid" [placeholder]="productPerForm.get('itemtypeid')?.value ? '': 'Select Item Type' "
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onItemTypeChange($event)">
+              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onItemTypeChange($event)"  [ngStyle]="{
+                'border': (productPerForm.get('itemtypeid')?.invalid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                  ? '1px solid #dc3545'
+                  : (productPerForm.get('itemtypeid')?.valid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                    ? '1px solid #198754'
+                    : '',
+                'box-shadow': (productPerForm.get('itemtypeid')?.invalid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                  ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                  : (productPerForm.get('itemtypeid')?.valid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                    ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                    : ''
+              }"
+              >
             </ng-select>
+            <div class="text-danger mt-1">
+              <span
+                *ngIf="(productPerForm.get('itemtypeid')?.touched || submitted) && productPerForm.get('itemtypeid')?.errors?.['required']">
+                Item Type is required.
+              </span>
+          </div>
           </div>
           <!-- ItemGroup -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Item Group<span class="text-danger">*</span></label>
             <ng-select class="form-select w-auto" [items]="DDLItemGroup" bindLabel="groupname" bindValue="groupid"
               formControlName="groupid" [placeholder]="productPerForm.get('groupid')?.value ? '': 'Select Item Group' "
-              [searchable]="true" [clearable]="true" [appendTo]="'body'">
+              [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                'border': (productPerForm.get('groupid')?.invalid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                  ? '1px solid #dc3545'
+                  : (productPerForm.get('groupid')?.valid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                    ? '1px solid #198754'
+                    : '',
+                'box-shadow': (productPerForm.get('groupid')?.invalid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                  ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                  : (productPerForm.get('groupid')?.valid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                    ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                    : ''
+              }"
+              >
             </ng-select>
+            <div class="text-danger mt-1">
+              <span
+                *ngIf="(productPerForm.get('groupid')?.touched || submitted) && productPerForm.get('groupid')?.errors?.['required']">
+                Item Group is required.
+              </span>
+          </div>
           </div>
 
               <!-- Licence Type -->
@@ -43,22 +98,67 @@
                 <label class="form-label fw-bold">Licence Type<span class="text-danger">*</span></label>
                 <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
                   formControlName="mlictypeid" [placeholder]="productPerForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'"
-                  [searchable]="true" [clearable]="true" [appendTo]="'body'">
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                    'border': (productPerForm.get('mlictypeid')?.invalid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                      ? '1px solid #dc3545'
+                      : (productPerForm.get('mlictypeid')?.valid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (productPerForm.get('mlictypeid')?.invalid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (productPerForm.get('mlictypeid')?.valid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                  >
                 </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(productPerForm.get('mlictypeid')?.touched || submitted) && productPerForm.get('mlictypeid')?.errors?.['required']">
+                    Licence Type is required.
+                  </span>
+              </div>
               </div>
 
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
                 <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
                   formControlName="licid" [placeholder]="productPerForm.get('licid')?.value ? '' : 'Select Licence'"
-                  [searchable]="true" [clearable]="true" [appendTo]="'body'" (change)="onLicenceTypeChange($event)">
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'" (change)="onLicenceTypeChange($event)"  [ngStyle]="{
+                    'border': (productPerForm.get('licid')?.invalid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                      ? '1px solid #dc3545'
+                      : (productPerForm.get('licid')?.valid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (productPerForm.get('licid')?.invalid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (productPerForm.get('licid')?.valid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                  >
                 </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(productPerForm.get('licid')?.touched || submitted) && productPerForm.get('licid')?.errors?.['required']">
+                    Licence is required.
+                  </span>
+              </div>
               </div>
   
 
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Upload Product Permission<span class="text-danger">*</span></label>
-                <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)">
+                <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)"
+                formControlName="Files" [ngClass]="{
+                  'is-invalid': (productPerForm.get('Files')?.touched || submitted) && productPerForm.get('Files')?.invalid,
+                  'is-valid': productPerForm.get('Files')?.valid && (productPerForm.get('Files')?.touched || submitted)
+                }" />
+        
+        <span class="text-danger"
+        *ngIf="(productPerForm.get('Files')?.touched || submitted) && productPerForm.get('Files')?.errors?.['required']">
+        Please upload the document.
+        </span>
               </div>
             
           <!-- Submit -->

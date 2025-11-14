@@ -19,8 +19,26 @@
             <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
             <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
               formControlName="MCID" [placeholder]="!MCCFillItemsForm.get('MCID')?.value ? 'Choose Category' : ''"
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onCategorySelectChange($event)">
+              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onCategorySelectChange($event)" [ngStyle]="{
+                'border': (MCCFillItemsForm.get('MCID')?.invalid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
+                  ? '1px solid #dc3545'
+                  : (MCCFillItemsForm.get('MCID')?.valid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
+                    ? '1px solid #198754'
+                    : '',
+                'box-shadow': (MCCFillItemsForm.get('MCID')?.invalid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
+                  ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                  : (MCCFillItemsForm.get('MCID')?.valid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
+                    ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                    : ''
+              }"
+              >
             </ng-select>
+            <div class="text-danger mt-1">
+              <span
+                *ngIf="(MCCFillItemsForm.get('MCID')?.touched || submitted) && MCCFillItemsForm.get('MCID')?.errors?.['required']">
+                Category is required.
+              </span>
+          </div>
           </div>
 
       <!-- ItemType -->
@@ -28,16 +46,52 @@
         <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
         <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
           formControlName="mItemTypeID" [placeholder]="MCCFillItemsForm.get('mItemTypeID')?.value ? '': 'Select Item Type' "
-          [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onmItemTypeIDSelectChange($event)">
+          [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onmItemTypeIDSelectChange($event)" [ngStyle]="{
+            'border': (MCCFillItemsForm.get('mItemTypeID')?.invalid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
+              ? '1px solid #dc3545'
+              : (MCCFillItemsForm.get('mItemTypeID')?.valid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
+                ? '1px solid #198754'
+                : '',
+            'box-shadow': (MCCFillItemsForm.get('mItemTypeID')?.invalid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
+              ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+              : (MCCFillItemsForm.get('mItemTypeID')?.valid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
+                ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                : ''
+          }"
+          >
         </ng-select>
+        <div class="text-danger mt-1">
+          <span
+            *ngIf="(MCCFillItemsForm.get('mItemTypeID')?.touched || submitted) && MCCFillItemsForm.get('mItemTypeID')?.errors?.['required']">
+            Item Type is required.
+          </span>
+      </div>
       </div>
       <!-- ItemGroup -->
       <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Item Group<span class="text-danger">*</span></label>
         <ng-select class="form-select w-auto" [items]="DDLItemGroup" bindLabel="groupname" bindValue="groupid"
           formControlName="mGroupID" [placeholder]="MCCFillItemsForm.get('mGroupID')?.value ? '': 'Select Item Group' "
-          [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onGroupSelectChange($event)">
+          [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onGroupSelectChange($event)" [ngStyle]="{
+            'border': (MCCFillItemsForm.get('mGroupID')?.invalid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
+              ? '1px solid #dc3545'
+              : (MCCFillItemsForm.get('mGroupID')?.valid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
+                ? '1px solid #198754'
+                : '',
+            'box-shadow': (MCCFillItemsForm.get('mGroupID')?.invalid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
+              ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+              : (MCCFillItemsForm.get('mGroupID')?.valid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
+                ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                : ''
+          }"
+          >
         </ng-select>
+        <div class="text-danger mt-1">
+          <span
+            *ngIf="(MCCFillItemsForm.get('mGroupID')?.touched || submitted) && MCCFillItemsForm.get('mGroupID')?.errors?.['required']">
+            Item Group is required.
+          </span>
+      </div>
       </div> 
 
       <!-- Action Buttons -->
@@ -317,28 +371,76 @@
                          bindLabel="manfacname" bindValue="licid"
                          formControlName="mlicid"
                          [placeholder]="marketStandingCForm.get('licid')?.value ? '' : 'Select Licence'"
-                         [searchable]="true" [clearable]="true" [appendTo]="'body'">
-              </ng-select>
+                         [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                          'border': (marketStandingCForm.get('mlicid')?.invalid && (marketStandingCForm.get('mlicid')?.dirty || marketStandingCForm.get('mlicid')?.touched))
+                            ? '1px solid #dc3545'
+                            : (marketStandingCForm.get('mlicid')?.valid && (marketStandingCForm.get('mlicid')?.dirty || marketStandingCForm.get('mlicid')?.touched))
+                              ? '1px solid #198754'
+                              : '',
+                          'box-shadow': (marketStandingCForm.get('mlicid')?.invalid && (marketStandingCForm.get('mlicid')?.dirty || marketStandingCForm.get('mlicid')?.touched))
+                            ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                            : (marketStandingCForm.get('mlicid')?.valid && (marketStandingCForm.get('mlicid')?.dirty || marketStandingCForm.get('mlicid')?.touched))
+                              ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                              : ''
+                        }"
+                        >
+                      </ng-select>
+                      <div class="text-danger mt-1">
+                        <span
+                          *ngIf="(marketStandingCForm.get('mlicid')?.touched || submitted) && marketStandingCForm.get('mlicid')?.errors?.['required']">
+                          Licence is required.
+                        </span>
+                    </div>
             </div>
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="ISSUEDATE">
+              <input type="date" class="form-control" formControlName="ISSUEDATE" [ngClass]="{
+                'is-invalid': (marketStandingCForm.get('ISSUEDATE')?.touched || submitted) && marketStandingCForm.get('ISSUEDATE')?.invalid,
+                'is-valid': marketStandingCForm.get('ISSUEDATE')?.valid && (marketStandingCForm.get('ISSUEDATE')?.touched || submitted)
+              }">
+               <span class="text-danger"
+               *ngIf="(marketStandingCForm.get('ISSUEDATE')?.touched || submitted) && marketStandingCForm.get('ISSUEDATE')?.errors?.['required']">
+               Issue Date is required.
+             </span>
             </div>
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mstartdate">
+              <input type="date" class="form-control" formControlName="mstartdate" [ngClass]="{
+                'is-invalid': (marketStandingCForm.get('mstartdate')?.touched || submitted) && marketStandingCForm.get('mstartdate')?.invalid,
+                'is-valid': marketStandingCForm.get('mstartdate')?.valid && (marketStandingCForm.get('mstartdate')?.touched || submitted)
+              }">
+               <span class="text-danger"
+               *ngIf="(marketStandingCForm.get('mstartdate')?.touched || submitted) && marketStandingCForm.get('mstartdate')?.errors?.['required']">
+               Start Date is required.
+             </span>
             </div>
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mEXPDate">
+              <input type="date" class="form-control" formControlName="mEXPDate" [ngClass]="{
+                'is-invalid': (marketStandingCForm.get('mEXPDate')?.touched || submitted) && marketStandingCForm.get('mEXPDate')?.invalid,
+                'is-valid': marketStandingCForm.get('mEXPDate')?.valid && (marketStandingCForm.get('mEXPDate')?.touched || submitted)
+              }">
+               <span class="text-danger"
+               *ngIf="(marketStandingCForm.get('mEXPDate')?.touched || submitted) && marketStandingCForm.get('mEXPDate')?.errors?.['required']">
+               Valid Date is required.
+             </span>
             </div>
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Upload Certificate<span class="text-danger">*</span></label>
-              <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)">
+              <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)" 
+              formControlName="Files" [ngClass]="{
+                'is-invalid': (marketStandingCForm.get('Files')?.touched || submitted) && marketStandingCForm.get('Files')?.invalid,
+                'is-valid': marketStandingCForm.get('Files')?.valid && (marketStandingCForm.get('Files')?.touched || submitted)
+              }" />
+      
+      <span class="text-danger"
+      *ngIf="(marketStandingCForm.get('Files')?.touched || submitted) && marketStandingCForm.get('Files')?.errors?.['required']">
+      Please upload the document.
+      </span>
             </div>
 
             <div class="text-center mt-4 mb-1">

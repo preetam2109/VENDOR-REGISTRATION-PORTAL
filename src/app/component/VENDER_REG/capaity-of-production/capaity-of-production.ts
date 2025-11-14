@@ -43,6 +43,7 @@ export class CapaityOfProduction {
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
+  submitted = false;
   vregid = sessionStorage.getItem('vregid');
   marketStandingCForm!: FormGroup;
   MCCFillItemsForm!: FormGroup;
@@ -107,7 +108,7 @@ export class CapaityOfProduction {
       ISSUEDATE: ['', Validators.required],      // Item Group
       mstartdate: ['', Validators.required],   // Licence Type
       mEXPDate: ['', Validators.required],        // Licence
-
+      Files: [null, Validators.required],
 
     });
     this.MCCFillItemsForm = this.fb.group({
@@ -340,7 +341,7 @@ export class CapaityOfProduction {
 
 
   onSubmit() {
-
+    this.submitted = true;
 if(!sessionStorage.getItem('COPID')){
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
@@ -377,7 +378,7 @@ if(!sessionStorage.getItem('COPID')){
           // Reset form
           this.marketStandingCForm.reset();
           this.selectedPanFile = null;
-  
+          this.submitted = false;
           // ✅ Hide modal only after success
           const modalEl = document.getElementById('marketStandingModal');
           const modal = bootstrap.Modal.getInstance(modalEl);
