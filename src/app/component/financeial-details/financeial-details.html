@@ -127,17 +127,19 @@
                       <form class="p-2" #bankForm="ngForm" (ngSubmit)="onSubmit(bankForm)">
                         <div class="row pb-3">
                           <div class="form-group col-md-6 pt-3">
+                           
                             <label for="inputName">Select Bank Account <span class="text-danger">*</span></label>
                             <ng-select class="form-control" [items]="VendorBankDetail" bindLabel="acno" bindValue="bankaccountid"
                               [(ngModel)]="acno" name="acno" (change)="onselectacno($event)"
                               [placeholder]="'Select Bank Account: '" [searchable]="true" [clearable]="true"  #acno="ngModel"
-                              [appendTo]="'body'" required [ngStyle]="{
+                              appendTo="body" required [ngStyle]="{
                                                 'border': acno.invalid && (acno.dirty || acno.touched) ? '1px solid #dc3545' :
                                                 acno.valid && (acno.dirty || acno.touched) ? '1px solid #198754' : '',
                                                 'box-shadow': acno.invalid && (acno.dirty || accountno.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
                                                 acno.valid && (acno.dirty || acno.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
                                               }">
                             </ng-select>
+                         
                             <!-- <div *ngIf="acno.invalid && acno.touched">
                                               <small class="text-danger">
                                                 Year selection is required.

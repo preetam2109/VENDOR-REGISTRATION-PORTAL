@@ -20,11 +20,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 declare var bootstrap: any;
 @Component({
   selector: 'app-retention',
   standalone:true,
-  imports: [MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
+  imports: [MatDialogModule,MatTableExporterModule, MatSortModule,
+     DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule,
+      MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, MatProgressSpinnerModule,
+      ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
   templateUrl: './retention.html',
   styleUrl: './retention.css'
 })
@@ -45,6 +49,8 @@ export class Retention {
   submitted = false;
   onshowRetentionForm = false;
   onshowRetentionForm2 = false;
+  loadingSectionA = false;
+  loadingSectionB = false;
   vregid = sessionStorage.getItem('vregid');
   
   RetentionForm!: FormGroup;
@@ -273,7 +279,7 @@ formatDate(dateString: string): string {
   
 
   onSubmit() {
-
+    this.loadingSectionA=true;
    this.submitted = true;
     const formData = new FormData();
 
@@ -314,6 +320,7 @@ formatDate(dateString: string): string {
           this.submitted = false;
           this.GETImporterLicenceDetails();
           this.onshowRetentionForm=false;
+          this.loadingSectionA=false;
         },
         error: (err) => {
           console.error('Error:', err);
@@ -327,7 +334,7 @@ formatDate(dateString: string): string {
   }
 
   onSubmit2() {
-
+    this.loadingSectionB=true;
     this.submitted = true;
     const formData = new FormData();
 
@@ -369,6 +376,7 @@ formatDate(dateString: string): string {
 
           this.GETImportRetentionDetails();
           this.onshowRetentionForm2=false;
+          this.loadingSectionB=false;
         },
         error: (err) => {
           console.error('Error:', err);
@@ -419,8 +427,8 @@ formatDate(dateString: string): string {
         }));
         console.log('With S.No:', this.ImportRetentionList);
         this.dataSource2.data = this.ImportRetentionList;
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
+        this.dataSource2.paginator = this.paginator1;
+        this.dataSource2.sort = this.sort1;
         this.spinner.hide();
         this.cdr.detectChanges();
       },
