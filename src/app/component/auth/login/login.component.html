@@ -498,14 +498,24 @@
                     </div>
                   </div>
 
-                  <div class="mb-3">
-                      <label for="pwd" class="form-label">Password</label>
-                      <input type="password" class="form-control" id="pwd" name="pwd" [(ngModel)]="pwd" placeholder="Enter Password" required>
-                      <i class="fa" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
-                             (click)="togglePassword()" style="position: absolute; right: 30px; top: 185px; cursor: pointer;"></i>
-                      
-                      
-                    </div>
+                  <div class="mb-3 position-relative">
+                    <label for="pwd" class="form-label">Password</label>
+                    <input 
+                      [type]="isPasswordVisible ? 'text' : 'password'" 
+                      class="form-control" 
+                      id="pwd" 
+                      name="pwd" 
+                      [(ngModel)]="pwd" 
+                      placeholder="Enter Password" 
+                      required
+                      style="padding-right: 40px;">
+                    <i 
+                      class="fa" 
+                      [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
+                      (click)="togglePassword()" 
+                      style="position: absolute; right: 10px; top: 69%; transform: translateY(-50%); cursor: pointer; color: #666; z-index: 1;">
+                    </i>
+                  </div>
 
                   <!-- <div class="mb-3">
                     <button type="button" class="btn btn-success btn-sm" (click)="sendOTP()">Generate OTP</button>

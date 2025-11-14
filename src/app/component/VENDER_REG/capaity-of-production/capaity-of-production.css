@@ -75,6 +75,16 @@
   
   
 
+
+
+
+
+
+
+
+
+
+
   /* 🔹 Remove backdrop completely (no overlay, no click blocker) */
   .modal-backdrop.show {
     opacity: 0 !important;

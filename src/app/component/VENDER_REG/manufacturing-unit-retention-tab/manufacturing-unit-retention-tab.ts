@@ -17,12 +17,13 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var bootstrap: any;
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @Component({
   selector: 'app-manufacturing-unit-retention-tab',
   standalone:true,
-  imports: [MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
+  imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
   templateUrl: './manufacturing-unit-retention-tab.html',
   styleUrl: './manufacturing-unit-retention-tab.css'
 })
@@ -76,7 +77,7 @@ export class ManufacturingUnitRetentionTab {
   onshowRETE:boolean=false;
   submitted:boolean=false;
 
-
+  loadingSectionA:boolean=false;
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('sort') sort!: MatSort;
@@ -591,6 +592,7 @@ this.retForm = this.fb.group({
   }
 
   onSubmitRetention() {
+    this.loadingSectionA = true;
     
     this.submitted=true;
     const formData = new FormData();
@@ -623,17 +625,23 @@ this.retForm = this.fb.group({
         next: (res) => {
           this.toastr.success('Retention Certificate saved successfully!');
           console.log('API Response:', res);
+    this.loadingSectionA = false;
+
           this.retForm.reset();
           this.submitted=false;
           this.GetPovLicenceDetails();
           this.onshowRETE=false;
         },
         error: (err) => {
+          this.loadingSectionA = false
+
           console.error('Error:', err);
           this.toastr.error('Failed to save data!');
         }
       });
     } catch (error) {
+      this.loadingSectionA = false
+
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }

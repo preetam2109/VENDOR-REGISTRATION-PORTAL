@@ -2135,11 +2135,14 @@ GetMasitems(CategoryID:any,mTypeID:any){
 // }
 
 postPPCertificate(data: any, formData: FormData): Observable<any> {
-  ;
+  debugger
   const params = new HttpParams()
     .set('mVergID', data.mVergID)   // ✅ matches API param exactly
-    .set('licID', data.licID);      // ✅ correct key name
-
+    .set('mIssueDate', data.mIssueDate)
+    .set('mStartDate', data.mStartDate)
+    .set('mVALIDITYDATE', data.mVALIDITYDATE)
+    .set('mISSUINGAUTHORITY', data.mISSUINGAUTHORITY)
+    .set('licID', data.licID);     // ✅ correct key name
   return this.http.post(
     `${this.VREGAPI}/Registration/InsertPPCertificate`,
     formData,
@@ -2233,19 +2236,41 @@ masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
 
   InsertMakrketStanding(data: any, formData: FormData): Observable<any> {
     
-
+debugger
 // Insert First MSC certificate
     
+    // const params = new HttpParams()
+    // .set('mlicid', data.mlicid)
+    // .set('mVergID', data.mVregid)
+    // .set('ISSUEDATE', data.ISSUEDATE)
+    // .set('mstartdate', data.mstartdate)
+    // .set('mEXPDate', data.mEXPDate)
+    // .set('mMSCISSUINGAUTHORITY', data.MSCissuingauthority)
     const params = new HttpParams()
     .set('mlicid', data.mlicid)
     .set('mVergID', data.mVregid)
     .set('ISSUEDATE', data.ISSUEDATE)
     .set('mstartdate', data.mstartdate)
     .set('mEXPDate', data.mEXPDate)
+    .set('mMSCISSUINGAUTHORITY', data.MSCissuingauthority)
+    
+
+
+    // https://localhost:7053/api/Registration/InsertMakrketStanding?mlicid=53&mVergID=50&ISSUEDATE=10-01-2025&mstartdate=10-01-2025&mEXPDate=10-01-2027&mMSCISSUINGAUTHORITY=Gyan
+    // ✅ Build HttpParams to match your API exactly
+  // const params = new HttpParams()
+  // .set('mVergID', data.mVergID)
+  // .set('mIssueDate', data.ISSUEDATE)
+  // .set('mStartDate', data.mstartdate)
+  // .set('mVALIDITYDATE', data.mEXPDate)
+  // .set('mISSUINGAUTHORITY', data.MSCissuingauthority)
+  // .set('licID', data.licID);
+
     
     
     return this.http.post(
       `${this.VREGAPI}/Registration/InsertMakrketStanding`,
+      // `${this.VREGAPI}/Registration/InsertPPCertificate`,
       formData,
       { params, responseType: 'text' }
       );
@@ -2276,7 +2301,7 @@ GetMSCCOPItemDetails(VregID:any,mFileID:any,mscCopType:any){
 }
 
 InsertCOP(data: any, formData: FormData): Observable<any> {
-  
+  debugger
     const params = new HttpParams()
   .set('mlicid', data.mlicid)
   .set('mVergID', data.mVregid)
@@ -2284,10 +2309,20 @@ InsertCOP(data: any, formData: FormData): Observable<any> {
   .set('ISSUEDATE', data.ISSUEDATE)
   .set('mstartdate', data.mstartdate)
   .set('mEXPDate', data.mEXPDate)
+  .set('mCOPISSUINGAUTHORITY', data.copissuingauthority)
+
+  // https://localhost:7053/api/Registration/InsertCOP?
+  // mlicid=53&
+  // mVergID=50&
+  // mCopno=546654
+  // &ISSUEDATE=10-01-2025&
+  // mstartdate=10-01-2025
+  // &mEXPDate=10-01-2027
+  // &mCOPISSUINGAUTHORITY=Preetam
   
   
   return this.http.post(
-    `${this.VREGAPI}/Registration/InsertMakrketStanding`,
+    `${this.VREGAPI}/Registration/InsertCOP`,
     formData,
     { params, responseType: 'text' }
     );
@@ -2295,6 +2330,7 @@ InsertCOP(data: any, formData: FormData): Observable<any> {
 
 
   UpdaetCOPItems(PPCID: any, COPID: any, COPPAGENO: any) {
+    debugger
     
     return this.http.put(
       `${this.VREGAPI}/Registration/UpdaetCOPItems?PPCID=${PPCID}&COPID=${COPID}&COPPAGENO=${COPPAGENO}`,

@@ -108,8 +108,8 @@ export class CapaityOfProduction {
       ISSUEDATE: ['', Validators.required],      // Item Group
       mstartdate: ['', Validators.required],   // Licence Type
       mEXPDate: ['', Validators.required],        // Licence
+      copissuingauthority: ['', Validators.required],        // Licence
       Files: [null, Validators.required],
-
     });
     this.MCCFillItemsForm = this.fb.group({
       mVregid: [this.vregid, Validators.required],
@@ -341,8 +341,10 @@ export class CapaityOfProduction {
 
 
   onSubmit() {
+    debugger;
+    // Always start with insert (no check for existing COPID)
     this.submitted = true;
-if(!sessionStorage.getItem('COPID')){
+
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;
@@ -369,14 +371,23 @@ if(!sessionStorage.getItem('COPID')){
     };
   
     try {
+      debugger;
       this.api.InsertCOP(params, formData).subscribe({
         next: (res) => {
+          // Assuming res is the COP ID (string/number); adjust if it's res.id or similar
+          const copId = res.toString(); // Coerce to string for sessionStorage
+          sessionStorage.setItem('COPID', copId);
+  
           this.toastr.success('Capacity of Production Certificate saved successfully!');
           console.log('API Response:', res);
-          sessionStorage.setItem('COPID',res);
   
+          // Step 2: Chain to updates using the fresh COP ID
+          this.performUpdates(copId);
           // Reset form
           this.marketStandingCForm.reset();
+          
+           
+          this.MCCFillItemsForm.reset();
           this.selectedPanFile = null;
           this.submitted = false;
           // ✅ Hide modal only after success
@@ -393,70 +404,65 @@ if(!sessionStorage.getItem('COPID')){
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }
-
+  
   }
-
-
-
-
-
-const mscid=sessionStorage.getItem('COPID');
+  private performUpdates(copId: string) {
     if (this.selectedItems.length === 0) {
       this.toastr.warning('No items selected!');
+      // Still reset and hide modal even if no items (after insert)
+      this.finalizeSubmit();
       return;
     }
   
+    let completedUpdates = 0;
+    const totalUpdates = this.selectedItems.length;
+  
     this.selectedItems.forEach(item => {
       if (item.ppcid && item.COPPAGENO) {
-        this.api.UpdaetCOPItems(item.ppcid, mscid, item.COPPAGENO).subscribe({
+        this.api.UpdaetCOPItems(item.ppcid, copId, item.COPPAGENO).subscribe({
           next: (res) => {
             console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
+            completedUpdates++;
             
-            this.toastr.success('All items updated successfully!',res);
-            
-            this.refreshCheckbox();
-            this.selectedItems = []; // Clear all
-            this.MCCFillItemsLIst = [];
-
-
-
-
-             // Reset form
-          this.marketStandingCForm.reset();
-          this.selectedPanFile = null;
-  
-          // ✅ Hide modal only after success
-          const modalEl = document.getElementById('marketStandingModal');
-          const modal = bootstrap.Modal.getInstance(modalEl);
-          if (modal) modal.hide();
-       
-
-
-
-
-
-
-
-
+            // Check if all updates are done
+            if (completedUpdates === totalUpdates) {
+              this.toastr.success('All items updated successfully!', res);
+              this.finalizeSubmit();
+            }
           },
           error: (err) => {
             console.error(`❌ Error updating PPCID ${item.ppcid}:`, err);
+            completedUpdates++; // Increment to track progress even on error
+            
+            // Optionally: If you want to stop on first error, add logic here
+            // e.g., if (completedUpdates === totalUpdates) this.finalizeSubmit(); but with error toast
           }
         });
       } else {
         console.warn('⚠️ Missing PPCID or COPPAGENO for item:', item);
+        completedUpdates++; // Increment for invalid items
+        if (completedUpdates === totalUpdates) {
+          this.toastr.success('All items updated successfully!'); // Or adjust message
+          this.finalizeSubmit();
+        }
       }
     });
-
-
-
-
-
-
-
-
-
-
+  }
+  
+  private finalizeSubmit() {
+    this.GetmSCDetailsList();
+    this.refreshCheckbox();
+    this.selectedItems = []; // Clear all
+    this.MCCFillItemsLIst = [];
+  
+    // Reset form
+    this.marketStandingCForm.reset();
+    this.selectedPanFile = null;
+  
+    // ✅ Hide modal only after success
+    const modalEl = document.getElementById('marketStandingModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
   }
 
 
@@ -642,7 +648,7 @@ GetmSCDetailsList() {
 
 
 exportToPDF() {
-  ;
+  
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
   
   // 🕒 Add title and timestamp

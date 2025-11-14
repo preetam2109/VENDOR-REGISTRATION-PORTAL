@@ -76,7 +76,7 @@
   
 
   /* 🔹 Remove backdrop completely (no overlay, no click blocker) */
-  .modal-backdrop.show {
+.modal-backdrop.show {
     opacity: 0 !important;
     background-color: transparent !important;
     pointer-events: none !important; 

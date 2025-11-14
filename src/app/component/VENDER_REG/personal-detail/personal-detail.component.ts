@@ -105,6 +105,7 @@ debugger
       next: (res: any) => {
         console.log("Vendor saved:", res);
         this.toastr.success("Vendor details saved successfully!", "Success");
+        this.onshowedit=false;
       },
       error: (err: any) => {
         console.error("Error saving vendor:", err);

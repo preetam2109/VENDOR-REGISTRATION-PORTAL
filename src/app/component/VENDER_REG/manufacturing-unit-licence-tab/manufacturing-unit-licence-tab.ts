@@ -16,13 +16,15 @@ import autoTable from 'jspdf-autotable';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 declare var bootstrap: any;
 
 
 @Component({
   selector: 'app-manufacturing-unit-licence-tab',
   standalone:true,
-  imports: [MatTableExporterModule,MatSortModule,DropdownModule, NgSelectModule, FormsModule, MatPaginatorModule, MatTableModule, CommonModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
+  imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, NgSelectModule, FormsModule, MatPaginatorModule, MatTableModule, CommonModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
   templateUrl: './manufacturing-unit-licence-tab.html',
   styleUrl: './manufacturing-unit-licence-tab.css'
 })
@@ -52,6 +54,7 @@ export class ManufacturingUnitLicenceTab {
   selectedRetFile: File | null = null;
 
 
+  loadingSectionA:boolean=false;
 
   licForm!: FormGroup;
 
@@ -535,6 +538,7 @@ this.retForm = this.fb.group({
   // }
   
   onSubmitLicence() {
+    this.loadingSectionA = true;
     
    this.submitted = true;
     const formData = new FormData();
@@ -572,6 +576,7 @@ this.retForm = this.fb.group({
       this.api.postManufacturingLic(params,formData).subscribe({
         next: (res) => {
           this.toastr.success('Manufacturing Licence saved successfully!');
+          this.loadingSectionA = false;
           console.log('API Response:', res);
           this.licForm.reset();
           this.submitted = false;
@@ -579,13 +584,17 @@ this.retForm = this.fb.group({
           this.onshowLICENCE=false;
 
 
+
         },
         error: (err) => {
+          this.loadingSectionA = false;
+
           console.error('Error:', err);
           this.toastr.error('Failed to save data!');
         }
       });
     } catch (error) {
+      this.loadingSectionA = false;
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }

@@ -20,12 +20,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-product-permission',
   standalone: true,
-  imports: [MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
+  imports: [MatProgressSpinnerModule,MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
   templateUrl: './product-permission.html',
   styleUrl: './product-permission.css'
 })
@@ -36,6 +38,7 @@ export class ProductPermission {
 
   
   sanitizedPdfUrl!: SafeResourceUrl;
+  loadingSectionA:boolean=false;
   
   
   isCollapsed = false;
@@ -83,7 +86,7 @@ export class ProductPermission {
 
 
   displayedColumns: string[] = [
-    'sno','licno','unitname','entrydate','noofitemppc','filename'
+    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename'
   ];
   displayedColumns2: string[] = [
     'sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper'
@@ -112,13 +115,29 @@ export class ProductPermission {
       mlictypeid: ['', Validators.required],   // Licence Type
       licid: ['', Validators.required],        // Licence
       mVregid: [this.vregid, Validators.required],
-      Files: [null, Validators.required],
+      Files: [null, Validators.required],      mIssueDate: ['',Validators.required],
+      mStartDate: ['',Validators.required],
+      mVALIDITYDATE: ['',Validators.required],
+      mISSUINGAUTHORITY: ['',Validators.required]
+
 
     });
 
   }
 
-  
+  //    ngAfterViewChecked() {
+  //   console.log('Form valid:', this.productPerForm.valid);
+  //   console.log('Form values:', this.productPerForm.value);
+  // }
+
+  // Helper function to format date as dd-MM-yyyy
+formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const day = ('0' + date.getDate()).slice(-2);
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
 
 
   filterTable() {
@@ -417,34 +436,44 @@ export class ProductPermission {
 
 
   }
-uploadPPCertificate(){
-  ;
-
+  uploadPPCertificate() {
+    
     const formData = new FormData();
-
-    // ✅ Append only the file to FormData (for [FromForm] PancardUpdateDTO)
+  
+    // ✅ Check file
     if (this.selectedPanFile) {
       console.log('Uploading file:', this.selectedPanFile.name);
       formData.append('PanCardDocument', this.selectedPanFile);
     } else {
       this.toastr.warning('Please select a file to upload!');
+    
+
       return;
     }
-
-    // ✅ Define query params explicitly (mVergID & licID)
+  
+    // ✅ Prepare data with all required query parameters
     const data = {
       mVergID: this.vregid,
-      licID: this.licid
+      licID: this.licid,
+      mIssueDate: this.formatDate(this.productPerForm.value.mIssueDate),         // ← from your form
+      mStartDate: this.formatDate(this.productPerForm.value.mStartDate),
+      mVALIDITYDATE: this.formatDate(this.productPerForm.value.mVALIDITYDATE),
+      mISSUINGAUTHORITY: this.productPerForm.value.mISSUINGAUTHORITY
     };
 
-    // ✅ Call API
-    if(this.isSaving===false){
+
+       
+
+
+  debugger
+    // ✅ Call API only once
+    if (!this.isSaving) {
       this.api.postPPCertificate(data, formData).subscribe({
         next: (res) => {
           this.toastr.success('Product Permission Certificate saved successfully!');
           this.isSaving = true;
           console.log('API Response:', res);
-          sessionStorage.setItem('fileid',res);
+          sessionStorage.setItem('fileid', res);
           this.saveMasVregPPCItems();
         },
         error: (err) => {
@@ -452,12 +481,11 @@ uploadPPCertificate(){
           this.toastr.error('Failed to save data!');
         }
       });
-
-    }else{
+    } else {
       this.saveMasVregPPCItems();
     }
-
-}
+  }
+  
   saveAndUpdate(){
     this.uploadPPCertificate();
   
@@ -623,7 +651,7 @@ if (this.productPerForm.invalid) {
           ...item,
           sno: index + 1
         }));
-        console.log('With S.No:', this.PPCertificateList);
+        console.log('DDWith S.No:', this.PPCertificateList);
         this.dataSource.data = this.PPCertificateList;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
