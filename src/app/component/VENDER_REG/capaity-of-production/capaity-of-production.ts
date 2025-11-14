@@ -385,6 +385,9 @@ export class CapaityOfProduction {
           this.performUpdates(copId);
           // Reset form
           this.marketStandingCForm.reset();
+          
+           
+          this.MCCFillItemsForm.reset();
           this.selectedPanFile = null;
           this.submitted = false;
           // ✅ Hide modal only after success

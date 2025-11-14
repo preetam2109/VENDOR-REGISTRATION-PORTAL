@@ -387,6 +387,7 @@ export class MarketStandingCertificate {
           this.performUpdates(mscId);
           // Reset form
           this.marketStandingCForm.reset();
+          this.MCCFillItemsForm.reset();
           this.selectedPanFile = null;
           this.submitted = false;
           // ✅ Hide modal only after success

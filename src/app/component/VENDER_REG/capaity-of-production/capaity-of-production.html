@@ -387,7 +387,7 @@
                   
               </table>
             </div>
-            <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+            <mat-paginator  #paginator [pageSizeOptions]="[5, 10, 30]" showFirstLastButtons></mat-paginator>
           </div>
     </div>
 </div>
@@ -457,11 +457,14 @@
 
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
-            <input type="text" class="form-control" formControlName="copissuingauthority" placeholder="Enter Issuing Authority">
-            <!-- <small class="text-danger"
-              *ngIf="licForm.get('mIMPIssuingAuthority')?.touched && licForm.get('mIMPIssuingAuthority')?.invalid">
-              issuing authority is required.
-            </small> -->
+            <input type="text" class="form-control" formControlName="copissuingauthority" placeholder="Enter Issuing Authority"[ngClass]="{
+              'is-invalid': (marketStandingCForm.get('copissuingauthority')?.touched || submitted) && marketStandingCForm.get('copissuingauthority')?.invalid,
+              'is-valid': marketStandingCForm.get('copissuingauthority')?.valid && (marketStandingCForm.get('copissuingauthority')?.touched || submitted)
+            }">
+             <span class="text-danger"
+             *ngIf="(marketStandingCForm.get('copissuingauthority')?.touched || submitted) && marketStandingCForm.get('copissuingauthority')?.errors?.['required']">
+             Issuing Authority is required.
+           </span>
           </div>
 
             <div class="col-md-6 mb-3">
@@ -502,7 +505,7 @@
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Upload Certificate<span class="text-danger">*</span></label>
-              <input type="file" class="form-control" accept=".pdf" (change)="onFileSelected($event)">
+              <!-- <input type="file" class="form-control" accept=".pdf" (change)="onFileSelected($event)"> -->
               <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)"  formControlName="Files" [ngClass]="{
                 'is-invalid': (marketStandingCForm.get('Files')?.touched || submitted) && marketStandingCForm.get('Files')?.invalid,
                 'is-valid': marketStandingCForm.get('Files')?.valid && (marketStandingCForm.get('Files')?.touched || submitted)

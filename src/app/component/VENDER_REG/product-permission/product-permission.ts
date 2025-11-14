@@ -20,12 +20,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-product-permission',
   standalone: true,
-  imports: [MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
+  imports: [MatProgressSpinnerModule,MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
   templateUrl: './product-permission.html',
   styleUrl: './product-permission.css'
 })
@@ -36,6 +38,7 @@ export class ProductPermission {
 
   
   sanitizedPdfUrl!: SafeResourceUrl;
+  loadingSectionA:boolean=false;
   
   
   isCollapsed = false;
@@ -434,6 +437,7 @@ formatDate(dateString: string): string {
 
   }
   uploadPPCertificate() {
+    
     const formData = new FormData();
   
     // ✅ Check file
@@ -442,6 +446,8 @@ formatDate(dateString: string): string {
       formData.append('PanCardDocument', this.selectedPanFile);
     } else {
       this.toastr.warning('Please select a file to upload!');
+    
+
       return;
     }
   

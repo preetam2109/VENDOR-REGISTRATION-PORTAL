@@ -344,7 +344,7 @@
                   
               </table>
             </div>
-            <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+            <mat-paginator #paginator [pageSizeOptions]="[5, 10, 30]" showFirstLastButtons></mat-paginator>
           </div>
     </div>
 </div>
@@ -400,14 +400,36 @@
                     </div>
             </div>
 
-            <div class="col-md-6 mb-3">
+            <!-- <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
               <input type="text" class="form-control" formControlName="MSCissuingauthority" placeholder="Enter Issuing Authority">
-              <!-- <small class="text-danger"
-                *ngIf="licForm.get('mIMPIssuingAuthority')?.touched && licForm.get('mIMPIssuingAuthority')?.invalid">
-                issuing authority is required.
-              </small> -->
+            
+            </div> -->
+
+
+
+
+
+
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">Issuing Authority <span class="text-danger">*</span></label>
+            
+              <input type="text" class="form-control" placeholder="Enter Issuing Authority"
+                formControlName="MSCissuingauthority"
+                [ngClass]="{
+                  'is-invalid': (marketStandingCForm.get('MSCissuingauthority')?.touched || submitted) && marketStandingCForm.get('MSCissuingauthority')?.invalid,
+                  'is-valid': marketStandingCForm.get('MSCissuingauthority')?.valid && (marketStandingCForm.get('MSCissuingauthority')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(marketStandingCForm.get('MSCissuingauthority')?.touched || submitted) && marketStandingCForm.get('MSCissuingauthority')?.errors?.['required']">
+                 Issuing Authority is required.
+               </span>
             </div>
+
+
+
+
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
@@ -609,14 +631,14 @@
   <!-- Header Row -->
   <tr mat-header-row *matHeaderRowDef="[
     'sno',  'gstper', 'hsncode', 'itemcode',  'itemname',
-    'itemtypename', 'mcategory', 'pageno', 'ppcid', 'shortname',
+    'itemtypename', 'mcategory', 'pageno', 'shortname',
     'stndbatchqty', 'strength', 'unit'
   ]"></tr>
   
   <!-- Data Rows -->
   <tr mat-row *matRowDef="let row; columns: [
     'sno',  'gstper', 'hsncode', 'itemcode',  'itemname',
-    'itemtypename', 'mcategory', 'pageno', 'ppcid', 'shortname',
+    'itemtypename', 'mcategory', 'pageno', 'shortname',
     'stndbatchqty', 'strength', 'unit'
   ];"></tr>
     

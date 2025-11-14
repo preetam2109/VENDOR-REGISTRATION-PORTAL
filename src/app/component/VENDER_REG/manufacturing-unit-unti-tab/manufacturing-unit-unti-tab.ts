@@ -16,13 +16,14 @@ import autoTable from 'jspdf-autotable';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 declare var bootstrap: any;
 
 
 @Component({
   selector: 'app-manufacturing-unit-unti-tab',
   standalone:true,
-  imports: [MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
+  imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
   templateUrl: './manufacturing-unit-unti-tab.html',
   styleUrl: './manufacturing-unit-unti-tab.css'
 })
@@ -50,7 +51,7 @@ export class ManufacturingUnitUntiTab {
   selectedPanFile: File | null = null;
   selectedRetFile: File | null = null;
 
-
+  loadingSectionA:boolean=false;
 
   licForm!: FormGroup;
 
@@ -379,7 +380,7 @@ this.retForm = this.fb.group({
 
 
     DownloadFileWithName(mFilePath: string, mFileName: string) {
-      ;
+     
     
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
@@ -481,6 +482,7 @@ this.retForm = this.fb.group({
 
 
   onSubmit() {
+    this.loadingSectionA = true;
     this.submitted=true;
     try {
       if (this.unitForm.valid) {
@@ -503,9 +505,11 @@ this.retForm = this.fb.group({
             this.submitted=false;
             this.getManufacturingDetails();
             this.onshowUNIT=false;
+            this.loadingSectionA = false;
           },
           error: (err) => {
             console.error('Error:', err);
+            this.loadingSectionA = false;
             this.toastr.error('Something went wrong while submitting data!', 'Error', {
               timeOut: 3000,
               positionClass: 'toast-top-right'
