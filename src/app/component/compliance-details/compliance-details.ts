@@ -22,6 +22,7 @@ import { NgForm } from '@angular/forms';
 declare var bootstrap: any;
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { threadCpuUsage } from 'process';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-compliance-details',
   standalone: true,
@@ -40,7 +41,7 @@ import { threadCpuUsage } from 'process';
     MatDialogModule,
     MatSelectModule,
     MatOptionModule,
-    MatTableExporterModule,
+    MatTableExporterModule,MatProgressSpinnerModule
   ],
   templateUrl: './compliance-details.html',
   styleUrl: './compliance-details.css',
@@ -72,6 +73,7 @@ export class ComplianceDetails {
   // mEXPDate: COMCForm.mEXPDate,
   // mRemarks: COMCForm.mRemarks
   submitted = false;
+  loadingSectionA = false;
   dataSource!: MatTableDataSource<ComplienceCertificateDetails>;
   dataSource1!: MatTableDataSource<GetCOMTyepDetails>;
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -145,7 +147,7 @@ export class ComplianceDetails {
     this.onshow= true;
    }
   DownloadFileWithName(mFilePath: string, mFileName: string) {
-    ;
+    
   
     // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
@@ -321,7 +323,7 @@ export class ComplianceDetails {
   }
 
   InsertComplianceCertificate1(COMCForm: NgForm) {
-    // 
+      this.loadingSectionA = true;
     this.submitted = true;
     const formData = new FormData();
     if (COMCForm.invalid) {
@@ -375,6 +377,7 @@ export class ComplianceDetails {
           // COMCForm.resetForm();
           // this.fileSelected = null;
           this.MASVREGWHOITEMTYPE(res, COMCForm);
+
         },
         error: (err: any) => {
           console.error('Error:', err);
@@ -394,7 +397,7 @@ export class ComplianceDetails {
     }
   }
   MASVREGWHOITEMTYPE(WHoid: any, COMCForm: NgForm) {
-    ;
+    
     console.log('whoid=', WHoid);
     console.log('selecteditemtypeid=', this.selecteditemtypeid);
 
@@ -433,9 +436,12 @@ export class ComplianceDetails {
           COMCForm.resetForm();
           this.fileSelected = null;
           this.GetComplienceCertificateDetails();
+           this.loadingSectionA = false;  
+          this.onshow=false;
         },
         error: (err: any) => {
           console.error('Error submitting data:', err);
+          this.loadingSectionA = false;
           this.toastr.error('Failed to submit data', 'Error');
         },
       });

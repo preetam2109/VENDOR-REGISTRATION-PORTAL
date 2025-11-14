@@ -22,12 +22,13 @@ import { NgForm } from '@angular/forms';
 declare var bootstrap: any;
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { threadCpuUsage } from 'process';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-global-company-prefix',
   standalone:true,
   imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
     MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,
-      MatTableExporterModule
+      MatTableExporterModule,MatProgressSpinnerModule
   ],
   templateUrl: './global-company-prefix.html',
   styleUrl: './global-company-prefix.css'
@@ -35,6 +36,7 @@ import { threadCpuUsage } from 'process';
 export class GlobalCompanyPrefix {
   // GetGCPDetails
 onshow:boolean=false;
+loadingSectionA:boolean=false;
     fileSelected: File | null = null;
     // license:licenseModel[]=[];
     // MAScomplianceType:any[]=[];
@@ -159,7 +161,8 @@ onshow:boolean=false;
   }
   
   InsertGCP(GCPForm: NgForm) {
-    // 
+
+this.loadingSectionA=true;
     const formData = new FormData();
        if (GCPForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
@@ -210,9 +213,12 @@ onshow:boolean=false;
                  GCPForm.resetForm();
                 this.fileSelected = null;
                 this.GetGCPDetails();
+                this.onshow=false;
+                this.loadingSectionA=false;
               },
               error: (err: any) => {
                 console.error('Error:', err);
+                this.loadingSectionA=false;
                 this.toastr.error('Failed to upload Compliance Certificate', 'Error');
               },
             }); 

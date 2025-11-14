@@ -11,6 +11,10 @@
           <div class="container-fluid p-3 m-0 ">
             <div class="row justify-content-center g-4 ">
               <div class="col-lg-12 mb-5">
+                <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
+                  <mat-spinner diameter="40"></mat-spinner>
+                </div>
+                <ng-template #sectionAContent>
                 <div class="row justify-content-center g-4 p-3">
                   <!-- Card 1 -->
                   <div class="col-12 col-md-12 p-2">
@@ -115,16 +119,18 @@
                 <!-- END DATA TABLE -->
                 <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowFINANCIAL == true">
                 
+                 
+                
                   <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
                     style="height: auto; overflow: hidden; position: relative;">
                     <div class="mb-3 Fon-family" style="text-align: justify;">
                       <form class="p-2" #bankForm="ngForm" (ngSubmit)="onSubmit(bankForm)">
                         <div class="row pb-3">
                           <div class="form-group col-md-6 pt-3">
-                            <label for="inputName">Select Existing Bank Account <span class="text-danger">*</span></label>
+                            <label for="inputName">Select Bank Account <span class="text-danger">*</span></label>
                             <ng-select class="form-control" [items]="VendorBankDetail" bindLabel="acno" bindValue="bankaccountid"
                               [(ngModel)]="acno" name="acno" (change)="onselectacno($event)"
-                              [placeholder]="'Select Existing Bank Account: '" [searchable]="true" [clearable]="true"  #acno="ngModel"
+                              [placeholder]="'Select Bank Account: '" [searchable]="true" [clearable]="true"  #acno="ngModel"
                               [appendTo]="'body'" required [ngStyle]="{
                                                 'border': acno.invalid && (acno.dirty || acno.touched) ? '1px solid #dc3545' :
                                                 acno.valid && (acno.dirty || acno.touched) ? '1px solid #198754' : '',
@@ -254,8 +260,9 @@
                       </form>
                     </div>
                   </div>
+               
                 </div>
-      
+              </ng-template>
               </div>
             </div>
           </div>
@@ -267,6 +274,10 @@
         <ng-template matTabContent>
             <div class="container-fluid p-3 m-0 ">
                 <div class="row justify-content-center g-4 ">
+                  <div *ngIf="loadingSectionB; else sectionAContentB" class="spinner-container">
+                    <mat-spinner diameter="40"></mat-spinner>
+                  </div>
+                  <ng-template #sectionAContentB>
                     <div class="col-lg-12 mb-5">
                         <!-- DATA Table -->
                         <div class="row justify-content-center g-4 p-3">
@@ -370,7 +381,7 @@
                               <form class="p-2" [formGroup]="AnnualTurnoverForm" (ngSubmit)="OnSubmmit()">
                                 <div class="row pb-3">
                                   <div class="form-group col-md-6 pt-3">
-                                    <label>Select Existing Year <span class="text-danger">*</span></label>
+                                    <label>Select Year <span class="text-danger">*</span></label>
                                     <!-- <ng-select
                                                                       class="form-control"
                                                                       [items]="Years"
@@ -390,10 +401,10 @@
                                                                     </ng-select> -->
                                     <select id="AccYrSetId" class="form-select" formControlName="AccYrSetId" (change)="Onselectyear($event)"
                                       [ngClass]="{
-                                                                      'is-invalid': (AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted) && AnnualTurnoverForm.get('AccYrSetId')?.invalid,
-                                                                      'is-valid': AnnualTurnoverForm.get('AccYrSetId')?.valid && (AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted)
-                                                                    }">
-                                      <option value="" disabled selected>Select Existing Year</option>
+                                      'is-invalid': (AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted) && AnnualTurnoverForm.get('AccYrSetId')?.invalid,
+                                        'is-valid': AnnualTurnoverForm.get('AccYrSetId')?.valid && (AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted)
+                                        }">
+                                      <option value="" disabled selected>Select Year</option>
                                       <option *ngFor="let year of Years" [value]="year.accyrsetid">
                                         {{ year.accyear }}
                                       </option>
@@ -482,6 +493,7 @@
                           </div>
                         </div>
                     </div>
+                  </ng-template>
                 </div>
             </div>
         </ng-template>
@@ -496,6 +508,10 @@
                 <div class="container-fluid ">
                   <div class="row  p-2">
                     <div class="col-lg-12 mb-5">
+                      <div *ngIf="loadingSectionC; else sectionAContentC" class="spinner-container">
+                        <mat-spinner diameter="40"></mat-spinner>
+                      </div>
+                      <ng-template #sectionAContentC>
                       <div class="row justify-content-center g-4 p-3">
         
                         <!-- Card 1 -->
@@ -591,9 +607,9 @@
                             <form class="p-2" #GSTForm="ngForm" (ngSubmit)="InsertGSTCertificate(GSTForm)">
                               <div class="row pb-3">
                                 <div class="form-group col-md-6 pt-3">
-                                  <label for="inputName">Select Existing State <span class="text-danger">*</span></label>
+                                  <label for="inputName">Select State <span class="text-danger">*</span></label>
                                   <ng-select class="form-control" [items]="States" bindLabel="statename" bindValue="stateid" [(ngModel)]="statename"
-                                    name="statename" (change)="OnselectStates($event)" [placeholder]="'Select Existing State: '" [searchable]="true"
+                                    name="statename" (change)="OnselectStates($event)" [placeholder]="'Select State : '" [searchable]="true"
                                     [clearable]="true" #stateid="ngModel" [appendTo]="'body'" required [ngStyle]="{
                                       'border': stateid.invalid && (stateid.dirty || stateid.touched) ? '1px solid #dc3545' :
                                       stateid.valid && (stateid.dirty || stateid.touched) ? '1px solid #198754' : '',
@@ -651,6 +667,7 @@
                           </div>
                         </div>
                       </div>
+                    </ng-template>
                     </div>
                   </div>
                 </div>
@@ -661,7 +678,7 @@
         </mat-tab>
 
       <!-- GST RETURNS FOR 3D CERTIFICATE Tab -->
-      <mat-tab label="GST RETURNS FOR 3D CERTIFICATE">
+      <mat-tab label="GST RETURNS CERTIFICATE">
         <ng-template matTabContent>
             <div class="container-fluid p-0 m-0 ">
                 <div class="row justify-content-center g-4 ">
@@ -669,6 +686,10 @@
                         <div class="container-fluid ">
                             <div class="row  p-2">
                                 <div class="col-lg-12 mb-5">
+                                  <div *ngIf="loadingSectionD; else sectionAContentD" class="spinner-container">
+                                    <mat-spinner diameter="40"></mat-spinner>
+                                  </div>
+                                  <ng-template #sectionAContentD>
                                     <div class="row justify-content-center g-4 p-3">
     
                                         <!-- Card 1 -->
@@ -769,7 +790,7 @@
                                                     <div class="row pb-3">
                                                       <!-- GST NO -->
                                                       <div class="form-group col-md-6 pt-3">
-                                                        <label>Select Existing GST NO. <span class="text-danger">*</span></label>
+                                                        <label>Select GST No<span class="text-danger">*</span></label>
                                                         <ng-select class="form-control"
                                                           [items]="dispatchData2"
                                                           bindLabel="gstno"
@@ -777,7 +798,7 @@
                                                           [(ngModel)]="gstno"
                                                           name="gstno"
                                                           (change)="Onselectgstno($event)"
-                                                          [placeholder]="'Select Existing GST NO:'"
+                                                          [placeholder]="'GST NO is selected:'"
                                                           [searchable]="true"
                                                           [clearable]="true" #gstid="ngModel" [appendTo]="'body'"  required [ngStyle]="{
                                                             'border': gstid.invalid && (gstid.dirty || gstid.touched) ? '1px solid #dc3545' :
@@ -794,11 +815,11 @@
                                                   
                                                       <!-- Month / Quarter -->
                                                       <div class="form-group col-md-6 pt-3">
-                                                        <label>Month / Quarter: <span class="text-danger">*</span></label>
+                                                        <label>Select Month: <span class="text-danger">*</span></label>
                                                         <ng-select class="form-control" [items]="MASGSTQUARTER"
                                                         bindLabel="quartername" bindValue="gstqtrid" [(ngModel)]="quartername"
                                                         name="quartername" (change)="OnselectMASGSTQUARTER($event)"
-                                                        [placeholder]="'Select Existing Month: '" [searchable]="true"
+                                                        [placeholder]="'Show Months : '" [searchable]="true"
                                                         [clearable]="true" [appendTo]="'body'" #gstqtrid="ngModel"   required [ngStyle]="{
                                                           'border': gstqtrid.invalid && (gstqtrid.dirty || gstqtrid.touched) ? '1px solid #dc3545' :
                                                           gstqtrid.valid && (gstqtrid.dirty || gstqtrid.touched) ? '1px solid #198754' : '',
@@ -816,11 +837,11 @@
                                                     <!-- Financial Year -->
                                                     <div class="row pb-3">
                                                       <div class="form-group col-md-6 pt-3">
-                                                        <label>Select Existing Financial Year <span class="text-danger">*</span></label>
+                                                        <label>Select Financial Year <span class="text-danger">*</span></label>
                                                         <ng-select class="form-control" [items]="AccYearSettings"
                                                         bindLabel="accyear" bindValue="accyrsetid" [(ngModel)]="accyear"
                                                         name="accyear" (change)="OnselectAccYearSettings($event)"
-                                                        [placeholder]="'Select Existing Financial Years: '" [searchable]="true"
+                                                        [placeholder]="'year is selected: '" [searchable]="true"
                                                         [clearable]="true"  #accyrsetid="ngModel" [appendTo]="'body'"  required [ngStyle]="{
                                                           'border': accyrsetid.invalid && (accyrsetid.dirty || accyrsetid.touched) ? '1px solid #dc3545' :
                                                           accyrsetid.valid && (accyrsetid.dirty || accyrsetid.touched) ? '1px solid #198754' : '',
@@ -869,6 +890,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                  </ng-template>
                                 </div>
                             </div>
                         </div>

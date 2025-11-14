@@ -4,7 +4,10 @@
 <div class="container-fluid p-0 m-0 py-3">
     <div class="row justify-content-center g-4 px-3">
         <div class="col-lg-12 mb-5">
-
+          <div *ngIf="loadingSectionA; else sectionAContentA" class="spinner-container">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+          <ng-template #sectionAContentA>
             <!-- DATA Table -->
             <div class="row justify-content-center g-4 p-3">
                 <!-- Card 1 -->
@@ -168,7 +171,7 @@
                         <form class="p-2" #COMCForm="ngForm" (ngSubmit)="InsertComplianceCertificate1(COMCForm)">
                             <div class="row pb-3">
                                 <div class="form-group col-md-6 pt-3">
-                                    <label for="inputName">Select Existing License NO<span
+                                    <label for="inputName">Select License NO<span
                                             class="text-danger">*</span></label>
                                     <!-- <ng-select class="form-control" [items]="license"
                                                     bindLabel="unitname" bindValue="license" [(ngModel)]="unitname"
@@ -179,7 +182,7 @@
                                     <ng-select class="form-control" [items]="license" bindValue="licid"
                                         bindLabel="unitname" [(ngModel)]="selectedLicense" name="unitname"
                                         (change)="Onselectlicense($event)"
-                                        [placeholder]="'Select Existing License NO : '" [searchable]="true"
+                                        [placeholder]="'Select License NO : '" [searchable]="true"
                                         [clearable]="true" [appendTo]="'body'" #licid="ngModel" [appendTo]="'body'" required [ngStyle]="{
                                           'border': licid.invalid && (licid.dirty || licid.touched) ? '1px solid #dc3545' :
                                           licid.valid && (licid.dirty || licid.touched) ? '1px solid #198754' : '',
@@ -198,12 +201,12 @@
                                   </div>
                                 </div>
                                 <div class="form-group col-md-6  pt-3">
-                                    <label for="inputPassword4">Select Existing Compliance Type: <span
+                                    <label for="inputPassword4">Select Compliance Type: <span
                                             class="text-danger">*</span></label>
                                     <ng-select class="form-control" [items]="MAScomplianceType" bindValue="comid"
                                         bindLabel="comname" [(ngModel)]="comname" name="comname"
                                         (change)="OnselectlicensecomplianceType($event)"
-                                        [placeholder]="'Select Existing Compliance Type: '" [searchable]="true"
+                                        [placeholder]="'Select Compliance Type: '" [searchable]="true"
                                         [clearable]="true" [appendTo]="'body'" #comid="ngModel" [appendTo]="'body'" required [ngStyle]="{
                                           'border': comid.invalid && (comid.dirty || comid.touched) ? '1px solid #dc3545' :
                                           comid.valid && (comid.dirty || comid.touched) ? '1px solid #198754' : '',
@@ -344,7 +347,7 @@
                             </div>
                             <div class="row pb-3">
                                 <div class="form-group col-md-6 pt-3">
-                                    <label for="inputnumber">Select Existing multiple Item Type: <span class="text-danger">*</span></label>
+                                    <label for="inputnumber">Select multiple Item Type: <span class="text-danger">*</span></label>
                                     <!-- [placeholder]="'Select Item Types...'" -->
                                     
                                     <!-- <ng-select
@@ -404,7 +407,7 @@
 
 
             </div>
-
+          </ng-template>
         </div>
     </div>
 </div>
