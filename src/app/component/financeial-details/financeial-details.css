@@ -227,3 +227,26 @@ Don't show
   border-color: #86b7fe;
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 } */
+:root {
+  --ng-placeholder-force: 'Select Bank Account';
+}
+.ng-select.ng-select-single .ng-select-container .ng-value {
+  color: #000 !important;
+}
+
+.ng-select .ng-select-container::before {
+  content: var(--ng-placeholder-force);
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  pointer-events: none;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.ng-select.ng-select-opened .ng-select-container::before,
+.ng-select .ng-select-container .ng-value {
+  content: '' !important;
+}
+
+
