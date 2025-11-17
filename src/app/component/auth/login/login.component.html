@@ -1,16 +1,4 @@
-<!-- <div class="container-fluid theme-navbar px-2 py-1">
-  <div class="d-flex flex-wrap justify-content-between align-items-center">
 
-    <div class="d-flex">
-      <input type="button" class="color-input border rounded-circle me-2"
-        [style.background]="gradients[0]" (click)="setTheme(gradients[0])">
-      <input type="button" class="color-input border rounded-circle me-2"
-        [style.background]="gradients[1]" (click)="setTheme(gradients[1])">
-      <input type="button" class="color-input border rounded-circle"
-        [style.background]="gradients[2]" (click)="setTheme(gradients[2])">
-    </div>
-  </div>
-</div> -->
 
 <div class="container-fluid vh-100 d-flex flex-column">
   <!-- new code -->
@@ -29,12 +17,12 @@
         <!-- Title Section -->
         <div class="col-12 col-md-6">
         <div class="header-title text-center flex-grow-1 mx-md-3 my-2 my-md-0">
-          <h1 class="cgmsctitle text-white fs-5 fw-bold mb-1">Vendor Registration Portal</h1>
+          <h1 class="cgmsctitle text-white fs-5 fw-bold mb-1">Vendor Registration System</h1>
           <p class="collector-title text-white fs-6 fw-bold mb-1">
-            Integrated Portal for Vendor Registration
+            <!-- Integrated Portal for Vendor Registration -->
           </p>
           <p class="sub-title text-white small m-0">
-            An Initiative to Monitor CGMSCL Services in Chhattisgarh
+            An Initiative to Fastrack CGMSCL Tender Process 
           </p>
         </div>
         </div>
@@ -67,13 +55,13 @@
                     of CGMSCL Infrastructure Reports
                   </button>
                 </li> -->
-                <li class="nav-item" role="presentation">
+                <!-- <li class="nav-item" role="presentation">
                   <button class="nav-link" id="drugs-tab" data-bs-toggle="tab" data-bs-target="#drugs"
                     type="button" role="tab" aria-controls="drugs" aria-selected="false">
-                    Public View 
-                    <!-- of CGMSCL Drugs and Consumables Reports -->
+                    Manuals
+                  
                   </button>
-                </li>
+                </li> -->
               </ul>
             
               <div class="tab-content mt-3" id="publicReportsTabContent">
@@ -101,7 +89,7 @@
                   <div class="card">
                     <div class="card-header bg-success text-white">
                       <strong>
-                        Public View 
+                         Circulars and Manuals 
                         <!-- of CGMSCL Drugs and Consumables Reports -->
                       </strong>
                     </div>
@@ -109,21 +97,21 @@
                       <ul>
                         <li style="color: blue;">
                           <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Public')">
-                            Drugs and Consumables
+                           Letter for Vendor Registration 
                             <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
                           </a>
                         </li>
                         <li style="color: blue;">
             
                           <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Equipment_Reagent_Public')">
-                            Equipment & Reagent 
+                           Training Letter
                             <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
                           </a>
                         </li>
                         <li style="color: blue;">
             
                           <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Infrastructure_Public')">
-                            Infrastructure
+                            Manual
                             <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
                           </a>
                         </li>
@@ -164,20 +152,18 @@
 
 <!-- about section start -->
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
+  <!-- <li class="nav-item" role="presentation">
     <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab"
       aria-controls="about" aria-selected="true">About</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <!-- <a class="nav-link" id="tutorials-tab" data-bs-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Circulars/User Manuals</a> -->
+  </li> -->
+  <!-- <li class="nav-item" role="presentation">
     <a class="nav-link" id="manuals-tab" data-bs-toggle="tab" href="#manuals" role="tab"
       aria-controls="manuals" aria-selected="false">Circulars/User Manuals</a>
-  </li>
-  <li class="nav-item" role="presentation">
+  </li> -->
+  <!-- <li class="nav-item" role="presentation">
     <a class="nav-link" id="tutorials-tab" data-bs-toggle="tab" href="#tutorials" role="tab"
       aria-controls="tutorials" aria-selected="false">Download Mobile App</a>
-    <!-- <a class="nav-link" id="manuals-tab" data-bs-toggle="tab" href="#manuals" role="tab" aria-controls="manuals" aria-selected="false">Download Mobile App</a> -->
-  </li>
+  </li> -->
 </ul>
 <div class="tab-content mt-3">
 
@@ -375,80 +361,6 @@
   </div>
 
 </div>
-<!-- about section end -->
-
-
-
-
-
- <!-- end tab public view-->
-
-
-
-
-
-
-          <!-- <div class="mt-3">
-            <div class="card" style="width: 100%;">
-              <div class="card-header bg-success text-white">
-                <strong>Reports</strong>
-                
-              </div>
-              <div class="card-body">
-                <div class="marquee-container">
-                  <div class="marquee">
-                   
-                    <li style="color: blue;">
-                      Rate Contracts.
-                      <a href="https://dpdmis.in/DPDMISStock/GernalReport/RC_reprot.aspx" target="_blank">
-                        <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
-                      </a>
-                    </li><br>
-                    <li style="color: blue;">
-                      View CGMSC Total Current Stock.
-                      <a href="https://dpdmis.in/DPDMISStock/StockIssue/TotalStock1CGMSCL.aspx" target="_blank">
-                        <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
-                      </a>
-                    </li><br>
-                    <li style="color: blue;">
-                      CGMSC Item Wise Current Stock.
-                      <a href="https://dpdmis.in/DPDMISStock/Reports/DrugWisewarehousesrptCGMSCL.aspx"
-                        target="_blank">
-                        <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
-                      </a>
-                    </li><br>
-                    <li style="color: blue;">
-                      CGMSC Warehouse Current Stock.
-                      <a href="https://dpdmis.in/DPDMISStock/Reports/RptWarehouseStockCGMSCL.aspx" target="_blank">
-                        <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
-                      </a>
-                    </li><br>
-                    <li style="color: blue;">
-                      Health Facility-wise Issuance from Warehouse
-                      <a href="https://dpdmis.in/DPDMISStock/FacilityIssue/Facility_Issue_Summary.aspx"
-                        target="_blank">
-                        <i style="color: rgb(9, 243, 17);" class="bi bi-hand-index-thumb-fill"></i>
-                      </a>
-                    </li><br>
-                    <li style="color: blue;">
-                      Item wise Issuance from Warehouse
-                      <a href="https://dpdmis.in/DPDMISStock/FacilityIssue/Cgmsc_Facility_Issue_Summary.aspx"
-                        target="_blank">
-                        <i style="color:rgb(9, 243, 17)" class="bi bi-hand-index-thumb-fill"></i>
-                      </a>
-                    </li><br>
-                  
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
-
-
-
-          </div> -->
           <!-- Modal -->
 
 
@@ -483,11 +395,11 @@
       <!-- map Section -->
       <!-- map  -->
 
-      <div class="col-lg-4 col-md-12 col-12 p-2">
+      <!-- <div class="col-lg-4 col-md-12 col-12 p-2">
         <div class="card border-white shadow rounded-3">
           <div class="card-body text-center">
             <img 
-              src="assets/images/vendorregistration.jpeg" 
+              src="assets/images/vendorregistration.png" 
               alt="Vendor Registration Portal" 
               class="img-fluid rounded-3 shadow-sm"
               style="max-height: 300px; object-fit: cover;"
@@ -495,9 +407,41 @@
            
           </div>
         </div>
+      </div> -->
+      <!-- <div class="col-lg-4 col-md-12 col-12 p-2">
+        <div class="card border-white shadow rounded-3 overflow-hidden">
+          <img
+            src="assets/images/vendorregistration.jpeg"
+            alt="Vendor Registration Portal"
+            class="card-img-top img-fluid"
+            style="width: 100%; height: 100%; object-fit: cover;"
+          />
+        </div>
+      </div> -->
+    
+      
+      <!-- <div class="col-lg-4 col-md-12 col-12 p-2">
+        <div class="card border-white shadow rounded-3 overflow-hidden" style="aspect-ratio: 1/1;">
+          <img
+            src="assets/images/vendorregistration.jpeg"
+            alt="Vendor Registration Portal"
+            class="card-img img-fluid"
+            style="width:auto; height: auto; object-fit: cover; object-position: center;"
+          />
+        </div>
+      </div> -->
+        
+      <div class="col-lg-4 col-md-12 col-12 p-2">
+        <div class="card border-white shadow rounded-3 overflow-hidden" style="aspect-ratio: 1/1; background-color: #f8f9fa;">
+          <img
+            src="assets/images/v.png"
+            alt="Vendor Registration Portal"
+            class="card-img img-fluid"
+            style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
+          />
+        </div>
       </div>
       
-
 
 
       <!-- Right Section - Login Card -->
@@ -554,14 +498,24 @@
                     </div>
                   </div>
 
-                  <div class="mb-3">
-                      <label for="pwd" class="form-label">Password</label>
-                      <input type="password" class="form-control" id="pwd" name="pwd" [(ngModel)]="pwd" placeholder="Enter Password" required>
-                      <i class="fa" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
-                             (click)="togglePassword()" style="position: absolute; right: 30px; top: 185px; cursor: pointer;"></i>
-                      
-                      
-                    </div>
+                  <div class="mb-3 position-relative">
+                    <label for="pwd" class="form-label">Password</label>
+                    <input 
+                      [type]="isPasswordVisible ? 'text' : 'password'" 
+                      class="form-control" 
+                      id="pwd" 
+                      name="pwd" 
+                      [(ngModel)]="pwd" 
+                      placeholder="Enter Password" 
+                      required
+                      style="padding-right: 40px;">
+                    <i 
+                      class="fa" 
+                      [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
+                      (click)="togglePassword()" 
+                      style="position: absolute; right: 10px; top: 69%; transform: translateY(-50%); cursor: pointer; color: #666; z-index: 1;">
+                    </i>
+                  </div>
 
                   <!-- <div class="mb-3">
                     <button type="button" class="btn btn-success btn-sm" (click)="sendOTP()">Generate OTP</button>
@@ -582,8 +536,13 @@
                     </div>
                   </div>
 
-                  <button type="submit" class="btn btn-success w-100" [disabled]="adminLoginForm.invalid">Login</button>
+                  <button type="submit" class="btn btn-success w-100 mb-3" [disabled]="adminLoginForm.invalid">Login</button>
                 </form>
+                <!-- <a class="btn btn-success w-100 mt-2" routerLink="/Registration">Registration</a> -->
+                <button class="btn btn-success w-100 mt-2" (click)="goToRegistration()">Registration</button>
+
+
+                <!-- <a type="link" class="btn btn-success w-100 mt-2" routerLink="/Registration"  >Registration</a> -->
               </div>
               <!-- Warehouse Tab -->
               <div class="tab-pane fade" id="warehouse" role="tabpanel" aria-labelledby="warehouse-tab">
@@ -706,6 +665,7 @@
 
                   <button type="submit" class="btn btn-success w-100" [disabled]="cgmsclForm.invalid">Login to
                     CGMSCL</button>
+                  
                 </form>
 
               </div>
@@ -769,11 +729,11 @@
           </div>
         </div>
 
-        <div class="card mt-2" style="width: 100%; height: auto;">
+        <!-- <div class="card mt-2" style="width: 100%; height: auto;"> -->
           <!-- <div class="card-header bg-success text-white">
           <strong>Public View Reports</strong>
         </div> -->
-          <div class="card-body">
+          <!-- <div class="card-body">
             <div class="marquee-container2">
               <div class="marquee2">
                 <div class="marquee-item">
@@ -816,11 +776,10 @@
 
                   <img src="assets/images/NMD.jpeg" alt="MD Image">
                 <strong>
-                  <!-- Smt. Padmini Bhoi Sahu (IAS)
-                  Managing Director CGMSCL -->
+                 
                   Shri Ritesh Kumar Aggarwal (IAS) 
                   Managing Director CGMSCL
-                  <!-- श्री रितेश कुमार अग्रवाल (आईएएस) प्रबंध निदेशक सीजीएमएससीएल -->
+                 
                 </strong>
                 </div>
                 <div class="marquee-item">
@@ -845,8 +804,8 @@
 
               </div>
             </div>
-          </div>
-        </div>
+          </div> -->
+        <!-- </div> -->
 
 
       </div>

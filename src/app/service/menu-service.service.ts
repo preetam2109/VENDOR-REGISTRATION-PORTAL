@@ -990,18 +990,23 @@ export class MenuServiceService {
 
     Suppliers: {
       items: [
-        { label: 'Home', route: '/home' },
-        { label: 'Company Details', route: '/home' },
-        { label: 'Financial Details', route: '/home' },
-        { label: 'Manufacturing Unit', route: '/home' },
-        { label: 'Manufacturing Licence', route: '/home' },
+        { label: 'Home', route: '/welcome'},
+        { label: 'Generate Registration', route: '/generate-registration' },
+        { label: 'Company Details', route: '/personal-detail' },
+        { label: 'Financial Details', route: '/FinanceialDetails' },
+
+        { label: 'Manufacturing Unit', route: '/manufacturingUnit'},
+        { label: 'Technical Details', route: '/TechnicalDetails'},
+        { label: 'Compliance Details', route: '/ComplianceDetails'},
+        { label: 'Global Company Prefix', route: '/GlobalCompanyPrefix'},
+        // { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Import Licence', route: '/home' },
+        { label: 'Import Licence', route: '/import-Licence' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Loan Licence', route: '/home' },
+        // { label: 'Loan Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Certificate/Affidavit', route: '/home' },
-        { label: 'Declearation', route: '/home' },
+        // { label: 'Certificate/Affidavit', route: '/' },
+        // { label: 'Declearation', route: '/' },
 
 
       ],
@@ -1111,7 +1116,7 @@ export class MenuServiceService {
     if (!roleMenu) {
       return [];
     }
-debugger
+
     const rolesUsingCategories = ['Collector', 'SEC1', 'DHS', 'CME','DME1'];
 
     if (rolesUsingCategories.includes(role) && roleMenu.categories) {

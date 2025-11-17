@@ -1,0 +1,14 @@
+table th {
+    width: 30%;
+    white-space: nowrap;
+  }
+  table td {
+    word-break: break-word;
+  }
+  .card {
+    transition: all 0.3s ease;
+  }
+  .card:hover {
+    transform: scale(1.01);
+  }
+  

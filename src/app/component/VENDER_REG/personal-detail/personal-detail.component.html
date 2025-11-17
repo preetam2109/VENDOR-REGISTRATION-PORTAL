@@ -1,0 +1,318 @@
+<div class="w-100">
+  <h1 class="text-center mt-2 text-primary fw-bold">Company Details </h1>
+</div>
+
+
+<div class="container mt-4">
+  <div class="card shadow border-0 rounded-3">
+    <div class="card-body p-4">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle text-start">
+          <tbody>
+            <tr>
+              <th class="bg-light w-25">Supplier Name</th>
+              <td>{{ vendor.suppliername || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Address</th>
+              <td>{{ vendor.adddress || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">City</th>
+              <td>{{ vendor.city || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Mobile No</th>
+              <td>{{ vendor.phonE1 || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Email</th>
+              <td>{{ vendor.email || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Authorized Representative Name</th>
+              <td>{{ vendor.authname || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Authorized Representative Mobile No</th>
+              <td>{{ vendor.authmobileno || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Authorized Representative Email</th>
+              <td>{{ vendor.authemail || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Authorized Signatory Name</th>
+              <td>{{ vendor.authsigname || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Authorized Signatory Mobile No</th>
+              <td>{{ vendor.authsigmobileno || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">Authorized Signatory Email</th>
+              <td>{{ vendor.authsigemailid || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">PAN Number</th>
+              <td>{{ panno || '—' }}</td>
+            </tr>
+            <tr>
+              <th class="bg-light">PAN Card</th>
+              <td  (click)="DownloadFileWithName(vendor.filepath,vendor.filename)" >{{ vendor.pancardno || '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-warning px-4" (click)="editVendor()">
+          <i class="bi bi-pencil-square me-1"></i> Edit Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container py-4" *ngIf="onshowedit==true" >
+  <div class="card shadow-lg border-0 rounded-3">
+    <div class="card-body">
+      <form #vendorForm="ngForm" novalidate>
+        <div class="row mb-3">
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Name<span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              name="suppliername"
+              [(ngModel)]="vendor.suppliername"
+              required
+              minlength="3"
+              #suppliername="ngModel"
+            />
+            <div *ngIf="suppliername.invalid && suppliername.touched" class="text-danger small">
+              <span *ngIf="suppliername.errors?.['required']">Name is required.</span>
+              <span *ngIf="suppliername.errors?.['minlength']">Minimum 3 characters required.</span>
+            </div>
+          </div>
+
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Address<span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              name="address"
+              [(ngModel)]="vendor.adddress"
+              required
+              #address="ngModel"
+            />
+            <div *ngIf="address.invalid && address.touched" class="text-danger small">
+              Address is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">City<span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              name="city"
+              [(ngModel)]="vendor.city"
+              required
+              #city="ngModel"
+            />
+            <div *ngIf="city.invalid && city.touched" class="text-danger small">City is required.</div>
+          </div>
+
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Mobile No<span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              name="phonE1"
+              [(ngModel)]="vendor.phonE1"
+              required
+              pattern="^[0-9]{10}$"
+              #phonE1="ngModel"
+            />
+            <div *ngIf="phonE1.invalid && phonE1.touched" class="text-danger small">
+              <span *ngIf="phonE1.errors?.['required']">Mobile number is required.</span>
+              <span *ngIf="phonE1.errors?.['pattern']">Enter a valid 10-digit number.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Email<span class="text-danger">*</span></label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              [(ngModel)]="vendor.email"
+              required
+              email
+              #email="ngModel"
+            />
+            <div *ngIf="email.invalid && email.touched" class="text-danger small">
+              <span *ngIf="email.errors?.['required']">Email is required.</span>
+              <span *ngIf="email.errors?.['email']">Invalid email format.</span>
+            </div>
+          </div>
+
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Authorized Representative Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="authname"
+              [(ngModel)]="vendor.authname"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Authorized Representative Mobile No</label>
+            <input
+              type="text"
+              class="form-control"
+              name="authmobileno"
+              [(ngModel)]="vendor.authmobileno"
+              pattern="^[0-9]{10}$"
+              #authmobileno="ngModel"
+            />
+            <div *ngIf="authmobileno.invalid && authmobileno.touched" class="text-danger small">
+              Enter a valid 10-digit number.
+            </div>
+          </div>
+
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Authorized Representative Email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="authemail"
+              [(ngModel)]="vendor.authemail"
+              email
+              #authemail="ngModel"
+            />
+            <div *ngIf="authemail.invalid && authemail.touched" class="text-danger small">
+              Invalid email format.
+            </div>
+          </div>
+        </div>
+
+        
+
+        <div class="row mb-3">
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Authorized Signatory Name</label>
+            <input type="text" class="form-control" name="authsigname" [(ngModel)]="vendor.authsigname" />
+          </div>
+
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Authorized Signatory Mobile No</label>
+            <input
+              type="text"
+              class="form-control"
+              name="authsigmobileno"
+              [(ngModel)]="vendor.authsigmobileno"
+              pattern="^[0-9]{10}$"
+              #authsigmobileno="ngModel"
+            />
+            <div *ngIf="authsigmobileno.invalid && authsigmobileno.touched" class="text-danger small">
+              Enter a valid 10-digit number.
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Authorized Signatory Email</label>
+            <input
+              type="email"
+              class="form-control"
+              name="authsigemailid"
+              [(ngModel)]="vendor.authsigemailid"
+              email
+              #authsigemailid="ngModel"
+            />
+            <div *ngIf="authsigemailid.invalid && authsigemailid.touched" class="text-danger small">
+              Invalid email format.
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">PAN Number<span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              name="pancardno"
+              [(ngModel)]="vendor.pancardno"
+              required
+              pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+              #pancardno="ngModel"
+            />
+            <div *ngIf="pancardno.invalid && pancardno.touched" class="text-danger small">
+              <span *ngIf="pancardno.errors?.['required']">PAN number is required.</span>
+              <span *ngIf="pancardno.errors?.['pattern']">Enter valid PAN (e.g., ABCDE1234F).</span>
+            </div>
+          </div>
+
+          <div class="col-md-6 text-start">
+            <label class="form-label fw-bold">Upload PAN Card<span class="text-danger">*</span></label>
+            <input
+              type="file"
+              class="form-control"
+              accept=".pdf"
+              (change)="onFileSelected($event)"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-success px-4"
+            [disabled]="vendorForm.invalid"
+            (click)="saveVendor()"
+          >
+            <i class="bi bi-save"></i> Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+ <!-- modal -->
+ <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header bg-dark text-white py-2 px-3">
+        <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe
+          [src]="sanitizedPdfUrl"
+          class="pdf-frame"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>

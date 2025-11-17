@@ -1,0 +1,342 @@
+<!-- <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3"> -->
+<div class="py-2 px-2">
+    <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+      <ng-template #sectionAContent>
+      <div class="card shadow rounded bg-light mx-auto mb-5">
+        <!-- <div class="card-header bg-info text-white">
+      <h4 class="text-center mb-0">Manufacturing Details</h4>
+    </div> -->
+        <div class="card-body p-3">
+          <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="filter-field flex-grow-1">
+                <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                  (keyup)="applyTextFilter($event)">
+              </div>
+              <div class="export-menu-container ms-2">
+                <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick()"
+                >Add <i class="bi bi-folder-plus"></i></button>
+                <!-- <button mat-button [matMenuTriggerFor]="exportMenu" class="btn btn-sm btn-secondary">Export</button>
+                <mat-menu #exportMenu="matMenu">
+                  <button mat-menu-item
+                    (click)="exporter.exportTable('xlsx', { fileName: 'manufacturingList', sheet: 'manufacturingList', Props: { Author: 'cgmsc' }})">Excel</button>
+                  <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                </mat-menu> -->
+              </div>
+          
+            </div>
+            <div class="table-responsive">
+              <table mat-table [dataSource]="dataSource" matTableExporter
+                class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter"  >
+                <!-- S.No Column -->
+                <ng-container matColumnDef="sno">
+                  <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
+                  <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+                  <td mat-footer-cell *matFooterCellDef> - </td>
+                </ng-container>
+                <ng-container matColumnDef="unitname">
+                  <th mat-header-cell *matHeaderCellDef> Name of Unit </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.unitname }} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="unitaddress">
+                  <th mat-header-cell *matHeaderCellDef> Address of Unit </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.unitaddress }} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="city">
+                  <th mat-header-cell *matHeaderCellDef> City </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.city }} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="unitinchargename">
+                  <th mat-header-cell *matHeaderCellDef> Incharge Name </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.unitinchargename }} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="unitinchargemob">
+                  <th mat-header-cell *matHeaderCellDef> Mobile </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.unitinchargemob }} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="unitinchargeemail">
+                  <th mat-header-cell *matHeaderCellDef> Email </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.unitinchargeemail }} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="statename">
+                  <th mat-header-cell *matHeaderCellDef> State </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.statename }} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="lictypename">
+                  <th mat-header-cell *matHeaderCellDef> Licence Type </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.lictypename }} </td>
+                </ng-container>
+  
+                <tr mat-header-row
+                  *matHeaderRowDef="['sno','unitname','unitaddress','city','unitinchargename','unitinchargemob','unitinchargeemail','statename','lictypename']">
+                </tr>
+                <tr mat-row
+                  *matRowDef="let row; columns: ['sno','unitname','unitaddress','city','unitinchargename','unitinchargemob','unitinchargeemail','statename','lictypename'];">
+                </tr>
+              </table>
+            </div>
+            <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+      </div>
+        <div class="card shadow-lg border rounded " *ngIf="onshowUNIT==true">
+          <div class="card-body  px-3 py-3 pb-3 bg-light"
+            style="height: auto; overflow: hidden; position: relative;">
+            <div class="mb-3 Fon-family" style="text-align: justify;">
+        
+              <form [formGroup]="unitForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="row text-start">
+        
+                  <!-- Licence Type -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Licence Type <span class="text-danger">*</span></label>
+                    <div class="select-wrapper" style="position: relative;">
+                      <ng-select class="form-select w-auto form-control" [items]="licenceTypes" bindLabel="lictypename"
+                        bindValue="lictypeid" formControlName="mlictypeid"
+                        [placeholder]="unitForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'" [searchable]="true"
+                        [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+                      'border': (unitForm.get('mlictypeid')?.invalid && (unitForm.get('mlictypeid')?.dirty || unitForm.get('mlictypeid')?.touched))
+                        ? '1px solid #dc3545'
+                        : (unitForm.get('mlictypeid')?.valid && (unitForm.get('mlictypeid')?.dirty || unitForm.get('mlictypeid')?.touched))
+                          ? '1px solid #198754'
+                          : '',
+                      'box-shadow': (unitForm.get('mlictypeid')?.invalid && (unitForm.get('mlictypeid')?.dirty || unitForm.get('mlictypeid')?.touched))
+                        ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                        : (unitForm.get('mlictypeid')?.valid && (unitForm.get('mlictypeid')?.dirty || unitForm.get('mlictypeid')?.touched))
+                          ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                          : ''
+                    }">
+                      </ng-select>
+                      <div class="text-danger mt-1">
+                        <span
+                          *ngIf="(unitForm.get('mlictypeid')?.touched || submitted) && unitForm.get('mlictypeid')?.errors?.['required']">
+                          License Type is required.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- *ngIf="(mlictypeid.touched || unitForm.submitted) && mlictypeid.errors?.['required']">
+                  GST No is required. -->
+
+
+
+                        <!-- [ngClass]="{
+                          'is-invalid': (unitForm.get('mlictypeid')?.touched || submitted) && unitForm.get('mlictypeid')?.invalid,
+                          'is-valid': unitForm.get('mlictypeid')?.valid && (unitForm.get('mlictypeid')?.touched || submitted)
+                        }">
+                      </ng-select>
+                      <span class="text-danger"
+                      *ngIf="(unitForm.get('mlictypeid')?.touched || submitted) && unitForm.get('mlictypeid')?.errors?.['required']">
+                      License Type is required.
+                    </span> -->
+                    <!-- <div class="text-danger mt-1"
+                      *ngIf="unitForm.get('mlictypeid')?.touched && unitForm.get('mlictypeid')?.invalid">
+                      Licence Type is required.
+                    </div> -->
+        
+                  <!-- Option 2: Wrapper for clipping (uncomment if needed) -->
+                  <!--
+                  <div class="select-wrapper" style="position: relative;">
+                    <ng-select class="form-select w-auto"
+                      [items]="licenceTypes"
+                      bindLabel="lictypename"
+                      bindValue="lictypeid"
+                      formControlName="mlictypeid"
+                      [placeholder]="unitForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'"
+                      [searchable]="true"
+                      [clearable]="true"
+                      [appendTo]="'.select-wrapper'">
+                    </ng-select>
+                  </div>
+                  -->
+        
+                  <!-- State -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">State <span class="text-danger">*</span></label>
+                    <div class="select-wrapper" style="position: relative;">
+                      <ng-select class="form-select w-auto" [items]="states" bindLabel="statename" bindValue="stateid"
+                        formControlName="mStateId" [placeholder]="unitForm.get('mStateId')?.value ? '' : 'Choose State'"
+                        [searchable]="true" [clearable]="true" [appendTo]="'.select-wrapper'"
+                        [ngStyle]="{
+                          'border': (unitForm.get('mStateId')?.invalid && (unitForm.get('mStateId')?.dirty || unitForm.get('mStateId')?.touched))
+                            ? '1px solid #dc3545'
+                            : (unitForm.get('mStateId')?.valid && (unitForm.get('mStateId')?.dirty || unitForm.get('mStateId')?.touched))
+                              ? '1px solid #198754'
+                              : '',
+                          'box-shadow': (unitForm.get('mStateId')?.invalid && (unitForm.get('mStateId')?.dirty || unitForm.get('mStateId')?.touched))
+                            ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                            : (unitForm.get('mStateId')?.valid && (unitForm.get('mStateId')?.dirty || unitForm.get('mStateId')?.touched))
+                              ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                              : ''
+                        }"
+                        >
+                      </ng-select>
+                      <div class="text-danger mt-1">
+                        <span
+                          *ngIf="(unitForm.get('mStateId')?.touched || submitted) && unitForm.get('mStateId')?.errors?.['required']">
+                          State is required.
+                        </span>
+                      </div>
+                    </div>
+                    <!-- <div class="text-danger mt-1"
+                      *ngIf="unitForm.get('mStateId')?.touched && unitForm.get('mStateId')?.invalid">
+                      State is required.
+                    </div> -->
+                  </div>
+        
+                  <!-- Unit Name -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Unit Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="mUNITNAME" [ngClass]="{
+                      'is-invalid': (unitForm.get('mUNITNAME')?.touched || submitted) && unitForm.get('mUNITNAME')?.invalid,
+                      'is-valid': unitForm.get('mUNITNAME')?.valid && (unitForm.get('mUNITNAME')?.touched || submitted)
+                    }">
+                     <span class="text-danger"
+                     *ngIf="(unitForm.get('mUNITNAME')?.touched || submitted) && unitForm.get('mUNITNAME')?.errors?.['required']">
+                     Unit Name is required.
+                   </span>
+                    <!-- <div class="text-danger mt-1"
+                      *ngIf="unitForm.get('mUNITNAME')?.touched && unitForm.get('mUNITNAME')?.invalid">
+                      Unit Name is required.
+                    </div> -->
+                  </div>
+        
+                  <!-- Address -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Address <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="mUNITAddress"  [ngClass]="{
+                      'is-invalid': (unitForm.get('mUNITAddress')?.touched || submitted) && unitForm.get('mUNITAddress')?.invalid,
+                      'is-valid': unitForm.get('mUNITAddress')?.valid && (unitForm.get('mUNITAddress')?.touched || submitted)
+                    }">
+                     <span class="text-danger"
+                     *ngIf="(unitForm.get('mUNITAddress')?.touched || submitted) && unitForm.get('mUNITAddress')?.errors?.['required']">
+                     Address is required.
+                   </span>
+                    <!-- <div class="text-danger mt-1"
+                      *ngIf="unitForm.get('mUNITAddress')?.touched && unitForm.get('mUNITAddress')?.invalid">
+                      Address is required.
+                    </div> -->
+                  </div>
+        
+                  <!-- City -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">City <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="mCity" [ngClass]="{
+                      'is-invalid': (unitForm.get('mCity')?.touched || submitted) && unitForm.get('mCity')?.invalid,
+                      'is-valid': unitForm.get('mCity')?.valid && (unitForm.get('mCity')?.touched || submitted)
+                    }">
+                     <span class="text-danger"
+                     *ngIf="(unitForm.get('mCity')?.touched || submitted) && unitForm.get('mCity')?.errors?.['required']">
+                     City is required.
+                   </span>
+                    <!-- <div class="text-danger mt-1" *ngIf="unitForm.get('mCity')?.touched && unitForm.get('mCity')?.invalid">
+                      City is required.
+                    </div> -->
+                  </div>
+        
+                  <!-- Incharge Name -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Incharge Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="mUNITINCHARGENAME" [ngClass]="{
+                      'is-invalid': (unitForm.get('mUNITINCHARGENAME')?.touched || submitted) && unitForm.get('mUNITINCHARGENAME')?.invalid,
+                      'is-valid': unitForm.get('mUNITINCHARGENAME')?.valid && (unitForm.get('mUNITINCHARGENAME')?.touched || submitted)
+                    }">
+                     <span class="text-danger"
+                     *ngIf="(unitForm.get('mUNITINCHARGENAME')?.touched || submitted) && unitForm.get('mUNITINCHARGENAME')?.errors?.['required']">
+                     Unit Name is required.
+                   </span>
+                    <!-- <div class="text-danger mt-1"
+                      *ngIf="unitForm.get('mUNITINCHARGENAME')?.touched && unitForm.get('mUNITINCHARGENAME')?.invalid">
+                      Incharge Name is required.
+                    </div> -->
+                  </div>
+        
+                  <!-- Mobile -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Mobile <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" maxlength="10" formControlName="mUNITINCHARGEMOB" [ngClass]="{
+                      'is-invalid': (unitForm.get('mUNITINCHARGEMOB')?.touched || submitted) && unitForm.get('mUNITINCHARGEMOB')?.invalid,
+                      'is-valid': unitForm.get('mUNITINCHARGEMOB')?.valid && (unitForm.get('mUNITINCHARGEMOB')?.touched || submitted)
+                    }">
+                     <span class="text-danger" *ngIf="(unitForm.get('mUNITINCHARGEMOB')?.touched || submitted)">
+                        
+                      <!-- Required field -->
+                      <span *ngIf="unitForm.get('mUNITINCHARGEMOB')?.errors?.['required']">
+                       Mobile Number is required
+                      </span>
+        
+                      <!-- Invalid pattern -->
+                      <span *ngIf="unitForm.get('mUNITINCHARGEMOB')?.errors?.['pattern']">
+                        Enter a valid Number 
+                       </span>
+                    </span>
+                     <!-- <span class="text-danger"
+                     *ngIf="(unitForm.get('mUNITINCHARGEMOB')?.touched || submitted) && unitForm.get('mUNITINCHARGEMOB')?.errors?.['required']">
+                     Unit Name is required.
+                   </span> -->
+                    <!-- <div class="text-danger mt-1"
+                      *ngIf="unitForm.get('mUNITINCHARGEMOB')?.touched && unitForm.get('mUNITINCHARGEMOB')?.invalid">
+                      <span *ngIf="unitForm.get('mUNITINCHARGEMOB')?.errors?.['required']">Mobile number is required.</span>
+                      <span *ngIf="unitForm.get('mUNITINCHARGEMOB')?.errors?.['pattern']">Enter a valid 10-digit number.</span>
+                    </div> -->
+                  </div>
+        
+                  <!-- Email -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" formControlName="mUNITINCHARGEEMAIL" [ngClass]="{
+                      'is-invalid': (unitForm.get('mUNITINCHARGEEMAIL')?.touched || submitted) && unitForm.get('mUNITINCHARGEEMAIL')?.invalid,
+                      'is-valid': unitForm.get('mUNITINCHARGEEMAIL')?.valid && (unitForm.get('mUNITINCHARGEEMAIL')?.touched || submitted)
+                    }">
+                     <span class="text-danger" *ngIf="(unitForm.get('mUNITINCHARGEEMAIL')?.touched || submitted)">
+                        
+                      <!-- Required field -->
+                      <span *ngIf="unitForm.get('mUNITINCHARGEEMAIL')?.errors?.['required']">
+                        Email is required
+                      </span>
+        
+                      <!-- Invalid pattern -->
+                      <span *ngIf="unitForm.get('mUNITINCHARGEEMAIL')?.errors?.['email']">
+                        Enter a valid Email (email&#64;gmail.com)
+                       </span>
+                    </span>
+                     <!-- <span class="text-danger"
+                     *ngIf="(unitForm.get('mUNITINCHARGEEMAIL')?.touched || submitted) && unitForm.get('mUNITINCHARGEEMAIL')?.errors?.['required']">
+                     Email is required.
+                   </span> -->
+                    <!-- <div class="text-danger mt-1"
+                      *ngIf="unitForm.get('mUNITINCHARGEEMAIL')?.touched && unitForm.get('mUNITINCHARGEEMAIL')?.invalid">
+                      <span *ngIf="unitForm.get('mUNITINCHARGEEMAIL')?.errors?.['required']">Email is required.</span>
+                      <span *ngIf="unitForm.get('mUNITINCHARGEEMAIL')?.errors?.['email']">Enter a valid email address.</span>
+                    </div> -->
+                  </div>
+        
+                  <!-- Submit -->
+                  <div class="text-center mt-4 mb-1">
+                    <button type="submit" class="btn btn-primary px-4" [disabled]="unitForm.invalid">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </ng-template>
+  </div>
+  
+  
+  
+  
+  
+  

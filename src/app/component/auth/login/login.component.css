@@ -265,6 +265,8 @@ footer p {
         --bs-modal-box-shadow: var(--bs-box-shadow);
     }
   }
+
+  
   
   .full-screen-dialog .mat-dialog-container {
     height: 100vh; /* Full viewport height */

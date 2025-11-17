@@ -1,0 +1,704 @@
+
+<app-manufacturing-tabs-under></app-manufacturing-tabs-under>
+
+
+<!-- <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
+  <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed = !isCollapsed"
+    role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
+     UNIT
+    <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+  </h4>
+  <div [collapse]="isCollapsed">
+
+
+
+
+
+    <div class="card shadow rounded bg-light mx-auto mb-5">
+    
+      <div class="card-body p-3">
+        <div class="table-container">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container ms-2">
+              <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick()"
+              >Add <i class="bi bi-folder-plus"></i></button>
+             
+            </div>
+        
+          </div>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matTableExporter
+              class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter">
+           
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
+                <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+                <td mat-footer-cell *matFooterCellDef> - </td>
+              </ng-container>
+              <ng-container matColumnDef="unitname">
+                <th mat-header-cell *matHeaderCellDef> Name of Unit </th>
+                <td mat-cell *matCellDef="let row"> {{ row.unitname }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitaddress">
+                <th mat-header-cell *matHeaderCellDef> Address of Unit </th>
+                <td mat-cell *matCellDef="let row"> {{ row.unitaddress }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef> City </th>
+                <td mat-cell *matCellDef="let row"> {{ row.city }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitinchargename">
+                <th mat-header-cell *matHeaderCellDef> Incharge Name </th>
+                <td mat-cell *matCellDef="let row"> {{ row.unitinchargename }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitinchargemob">
+                <th mat-header-cell *matHeaderCellDef> Mobile </th>
+                <td mat-cell *matCellDef="let row"> {{ row.unitinchargemob }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitinchargeemail">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let row"> {{ row.unitinchargeemail }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="statename">
+                <th mat-header-cell *matHeaderCellDef> State </th>
+                <td mat-cell *matCellDef="let row"> {{ row.statename }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="lictypename">
+                <th mat-header-cell *matHeaderCellDef> Licence Type </th>
+                <td mat-cell *matCellDef="let row"> {{ row.lictypename }} </td>
+              </ng-container>
+
+              <tr mat-header-row
+                *matHeaderRowDef="['sno','unitname','unitaddress','city','unitinchargename','unitinchargemob','unitinchargeemail','statename','lictypename']">
+              </tr>
+              <tr mat-row
+                *matRowDef="let row; columns: ['sno','unitname','unitaddress','city','unitinchargename','unitinchargemob','unitinchargeemail','statename','lictypename'];">
+              </tr>
+            </table>
+          </div>
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+
+
+      <div class="card shadow-lg p-3 border-1 bg-white rounded " *ngIf="onshowUNIT==true">
+      
+        <div class="card-body  px-0 pt-2 pb-3 bg-light"
+          style="height: auto; overflow: hidden; position: relative;">
+          <div class="mb-3 Fon-family" style="text-align: justify;">
+      
+            <form [formGroup]="unitForm" (ngSubmit)="onSubmit()" novalidate>
+              <div class="row text-start">
+      
+               
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Licence Type <span class="text-danger">*</span></label>
+                  <div class="select-wrapper" style="position: relative;">
+                    <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
+                      formControlName="mlictypeid"
+                      [placeholder]="unitForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'" [searchable]="true"
+                      [clearable]="true" [appendTo]="'.select-wrapper'">
+                    </ng-select>
+                  </div>
+                  <div class="text-danger mt-1"
+                    *ngIf="unitForm.get('mlictypeid')?.touched && unitForm.get('mlictypeid')?.invalid">
+                    Licence Type is required.
+                  </div>
+                </div>
+      
+              
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">State <span class="text-danger">*</span></label>
+                  <div class="select-wrapper" style="position: relative;">
+                    <ng-select class="form-select w-auto" [items]="states" bindLabel="statename" bindValue="stateid"
+                      formControlName="mStateId" [placeholder]="unitForm.get('mStateId')?.value ? '' : 'Choose State'"
+                      [searchable]="true" [clearable]="true" [appendTo]="'.select-wrapper'">
+                    </ng-select>
+                  </div>
+                  <div class="text-danger mt-1"
+                    *ngIf="unitForm.get('mStateId')?.touched && unitForm.get('mStateId')?.invalid">
+                    State is required.
+                  </div>
+                </div>
+      
+             
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Unit Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" formControlName="mUNITNAME">
+                  <div class="text-danger mt-1"
+                    *ngIf="unitForm.get('mUNITNAME')?.touched && unitForm.get('mUNITNAME')?.invalid">
+                    Unit Name is required.
+                  </div>
+                </div>
+      
+             
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Address <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" formControlName="mUNITAddress">
+                  <div class="text-danger mt-1"
+                    *ngIf="unitForm.get('mUNITAddress')?.touched && unitForm.get('mUNITAddress')?.invalid">
+                    Address is required.
+                  </div>
+                </div>
+      
+             
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">City <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" formControlName="mCity">
+                  <div class="text-danger mt-1" *ngIf="unitForm.get('mCity')?.touched && unitForm.get('mCity')?.invalid">
+                    City is required.
+                  </div>
+                </div>
+      
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Incharge Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" formControlName="mUNITINCHARGENAME">
+                  <div class="text-danger mt-1"
+                    *ngIf="unitForm.get('mUNITINCHARGENAME')?.touched && unitForm.get('mUNITINCHARGENAME')?.invalid">
+                    Incharge Name is required.
+                  </div>
+                </div>
+      
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Mobile <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" maxlength="10" formControlName="mUNITINCHARGEMOB">
+                  <div class="text-danger mt-1"
+                    *ngIf="unitForm.get('mUNITINCHARGEMOB')?.touched && unitForm.get('mUNITINCHARGEMOB')?.invalid">
+                    <span *ngIf="unitForm.get('mUNITINCHARGEMOB')?.errors?.['required']">Mobile number is required.</span>
+                    <span *ngIf="unitForm.get('mUNITINCHARGEMOB')?.errors?.['pattern']">Enter a valid 10-digit number.</span>
+                  </div>
+                </div>
+      
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" formControlName="mUNITINCHARGEEMAIL">
+                  <div class="text-danger mt-1"
+                    *ngIf="unitForm.get('mUNITINCHARGEEMAIL')?.touched && unitForm.get('mUNITINCHARGEEMAIL')?.invalid">
+                    <span *ngIf="unitForm.get('mUNITINCHARGEEMAIL')?.errors?.['required']">Email is required.</span>
+                    <span *ngIf="unitForm.get('mUNITINCHARGEEMAIL')?.errors?.['email']">Enter a valid email address.</span>
+                  </div>
+                </div>
+      
+                <div class="text-center mt-4 mb-1">
+                  <button type="submit" class="btn btn-primary px-4" [disabled]="unitForm.invalid">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
+
+
+
+   
+
+  </div>
+</div> -->
+
+
+
+
+
+<!-- LIcence page -->
+
+
+<!-- <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
+  <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed1 = !isCollapsed1"
+    role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
+     LICENCES
+    <i class="bi" [ngClass]="isCollapsed1 ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+  </h4>
+  <div [collapse]="isCollapsed1">
+
+
+
+
+
+    <div class="card shadow rounded bg-light mx-auto mb-5">
+      <div class="card-body p-3">
+        <div class="table-container">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                (keyup)="applyTextFilterManLic($event)" />
+            </div>
+            <div class="export-menu-container ms-2">
+              <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClickLICENCE()"
+              >Add <i class="bi bi-folder-plus"></i></button>
+              
+            </div>
+           
+
+
+          </div>
+
+          <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource2" matTableExporter
+              class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter" matSort
+              #sort1="matSort">
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef style="width: 60px;">S.No</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="licno">
+                <th mat-header-cell *matHeaderCellDef>Licence No</th>
+                <td mat-cell *matCellDef="let row">{{ row.licno }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitname">
+                <th mat-header-cell *matHeaderCellDef>Unit Name</th>
+                <td mat-cell *matCellDef="let row">{{ row.unitname }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitaddress">
+                <th mat-header-cell *matHeaderCellDef>Address</th>
+                <td mat-cell *matCellDef="let row">{{ row.unitaddress }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef>City</th>
+                <td mat-cell *matCellDef="let row">{{ row.city }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitinchargename">
+                <th mat-header-cell *matHeaderCellDef>Incharge Name</th>
+                <td mat-cell *matCellDef="let row">{{ row.unitinchargename }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitinchargemob">
+                <th mat-header-cell *matHeaderCellDef>Mobile</th>
+                <td mat-cell *matCellDef="let row">{{ row.unitinchargemob }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitinchargeemail">
+                <th mat-header-cell *matHeaderCellDef>Email</th>
+                <td mat-cell *matCellDef="let row">{{ row.unitinchargeemail }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="issuedate">
+                <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+                <td mat-cell *matCellDef="let row">{{ row.issuedate }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="validitydate">
+                <th mat-header-cell *matHeaderCellDef>Validity Date</th>
+                <td mat-cell *matCellDef="let row">{{ row.validitydate }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="lictypename">
+                <th mat-header-cell *matHeaderCellDef>Licence Type</th>
+                <td mat-cell *matCellDef="let row">{{ row.lictypename }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="statename">
+                <th mat-header-cell *matHeaderCellDef>State</th>
+                <td mat-cell *matCellDef="let row">{{ row.statename }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="entrydate">
+                <th mat-header-cell *matHeaderCellDef>Entry Date</th>
+                <td mat-cell *matCellDef="let row">{{ row.entrydate }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="filename">
+                <th mat-header-cell *matHeaderCellDef>File</th>
+                <td mat-cell *matCellDef="let row">
+                  <button *ngIf="row.filename" class="btn btn-link text-decoration-none text-primary p-0"
+                    (click)="DownloadFileWithName(row.filepath,row.filename)">
+                    {{ row.filename }}
+                  </button>
+                </td>
+              </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="[
+              'sno',
+              'licno',
+              'unitname',
+              'unitaddress',
+              'city',
+              'unitinchargename',
+              'unitinchargemob',
+              'unitinchargeemail',
+              'issuedate',
+              'validitydate',
+              'lictypename',
+              'statename',
+              'entrydate',
+              'filename'
+            ]"></tr>
+
+              <tr mat-row *matRowDef="let row; columns: [
+              'sno',
+              'licno',
+              'unitname',
+              'unitaddress',
+              'city',
+              'unitinchargename',
+              'unitinchargemob',
+              'unitinchargeemail',
+              'issuedate',
+              'validitydate',
+              'lictypename',
+              'statename',
+              'entrydate',
+              'filename'
+            ]"></tr>
+            </table>
+          </div>
+
+          <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card shadow-lg p-3 border-1 bg-white rounded " >
+    
+      <div class="card-body  px-0 pt-2 pb-3 bg-light" style="height: auto; overflow: hidden; position: relative;">
+        <div class="mb-3 Fon-family" style="text-align: justify;">
+          <form [formGroup]="licForm" (ngSubmit)="onSubmitLicence()">
+            <div class="row text-start ">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Unit<span class="text-danger">*</span></label>
+                <ng-select class="form-select w-auto" [items]="unitList" bindLabel="unitname" bindValue="unitid"
+                  formControlName="mUNITID" [placeholder]="licForm.get('mUNITID')?.value ? '' : 'Select Unit'"
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'">
+                </ng-select>
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Form Type<span class="text-danger">*</span></label>
+                <ng-select class="form-select w-auto" [items]="formList" bindLabel="formname" bindValue="formid"
+                  formControlName="mFORMID" [placeholder]="licForm.get('mFORMID')?.value ? '' : 'Select Form Type'"
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'">
+                </ng-select>
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Licence Type<span class="text-danger">*</span></label>
+                <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
+                  formControlName="mLICTYPEID" [placeholder]="licForm.get('mLICTYPEID')?.value ? '' : 'Select Licence Type'"
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'">
+                </ng-select>
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Licence No<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="mLICNO" placeholder="Enter Licence Number">
+                <small class="text-danger"
+                  *ngIf="licForm.get('mLICNO')?.touched && licForm.get('mLICNO')?.hasError('required')">
+                  Licence No is required.
+                </small>
+                <small class="text-danger" *ngIf="licForm.get('mLICNO')?.hasError('pattern')">
+                  Invalid Licence No format.
+                </small>
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mISSUEDATE">
+                <small class="text-danger" *ngIf="licForm.get('mISSUEDATE')?.touched && licForm.get('mISSUEDATE')?.invalid">
+                  Issue Date is required.
+                </small>
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mStartDate">
+                <small class="text-danger" *ngIf="licForm.get('mStartDate')?.touched && licForm.get('mStartDate')?.invalid">
+                  Start Date is required.
+                </small>
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">End Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mVALIDITYDATE">
+                <small class="text-danger"
+                  *ngIf="licForm.get('mVALIDITYDATE')?.touched && licForm.get('mVALIDITYDATE')?.invalid">
+                  End Date is required.
+                </small>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Licence Issuing Authority<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="LicIssuingAuthority"placeholder="Enter Issuing Authority">
+                <small class="text-danger"
+                  *ngIf="licForm.get('LicIssuingAuthority')?.touched && licForm.get('LicIssuingAuthority')?.invalid">
+                  licence issuing authority is required.
+                </small>
+              </div>
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Upload Licence<span class="text-danger">*</span></label>
+                <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)">
+                <small class="text-danger"
+                  *ngIf="licForm.get('mLICENCEFILE')?.touched && licForm.get('mLICENCEFILE')?.invalid">
+                  Licence file is required.
+                </small>
+              </div>
+    
+    
+              <div class="col-12 text-center mt-3 mb-1 ">
+                <button type="submit" class="btn btn-primary px-4" [disabled]="!licForm.valid">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  
+
+
+
+  </div>
+</div> -->
+
+
+<!-- Retention page -->
+
+
+
+<!-- <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
+  <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed2 = !isCollapsed2"
+    role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
+    RETENTION/RENEWEVALS
+    <i class="bi" [ngClass]="isCollapsed2 ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+  </h4>
+  <div [collapse]="isCollapsed2">
+
+
+
+
+
+
+    <div class="card shadow rounded bg-light mx-auto mb-5">
+      <div class="card-body p-3">
+        <div class="table-container">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                (keyup)="applyTextFilterRet($event)" />
+            </div>
+            <div class="export-menu-container ms-2">
+              <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);"
+              >Add <i class="bi bi-folder-plus"></i></button>
+           
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource3" matTableExporter
+              class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter" matSort
+              #sort3="matSort">
+    <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef style="width: 60px;">S.No</th>
+      <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="licno">
+      <th mat-header-cell *matHeaderCellDef>Licence No</th>
+      <td mat-cell *matCellDef="let row">{{ row.licno }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="unitname">
+      <th mat-header-cell *matHeaderCellDef>Unit Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.unitname }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="issuedate">
+      <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+      <td mat-cell *matCellDef="let row">{{ row.issuedate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="startdate">
+      <th mat-header-cell *matHeaderCellDef>Start Date</th>
+      <td mat-cell *matCellDef="let row">{{ row.startdate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="expdate">
+      <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+      <td mat-cell *matCellDef="let row">{{ row.expdate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="retname">
+      <th mat-header-cell *matHeaderCellDef>Retention</th>
+      <td mat-cell *matCellDef="let row">{{ row.retname }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="formname">
+      <th mat-header-cell *matHeaderCellDef>Form Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.formname }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lictypename">
+      <th mat-header-cell *matHeaderCellDef>Licence Type</th>
+      <td mat-cell *matCellDef="let row">{{ row.lictypename }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="filename">
+      <th mat-header-cell *matHeaderCellDef>File</th>
+      <td mat-cell *matCellDef="let row">
+        <button
+          *ngIf="row.filename"
+          class="btn btn-link text-decoration-none text-primary p-0"
+          (click)="DownloadFileWithName(row.filepath,row.filename)"
+        >
+          {{ row.filename }}
+        </button>
+      </td>
+    </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="[
+              'sno',
+  'licno',
+  'unitname',
+  'issuedate',
+  'startdate',
+  'expdate',
+  'retname',
+  'formname',
+  'lictypename',
+  'filename'
+            ]"></tr>
+
+              <tr mat-row *matRowDef="let row; columns: [
+              'sno',
+  'licno',
+  'unitname',
+  'issuedate',
+  'startdate',
+  'expdate',
+  'retname',
+  'formname',
+  'lictypename',
+  'filename'
+            ]"></tr>
+            </table>
+          </div>
+          <mat-paginator #paginator3 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+
+
+    <form [formGroup]="retForm" (ngSubmit)="onSubmitRetention()">
+      <div class="row text-start ">
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
+          <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
+            formControlName="mLICID" [placeholder]="retForm.get('mLICID')?.value ? '' : 'Select Licence'"
+            [searchable]="true" [clearable]="true" [appendTo]="'body'">
+          </ng-select>
+        </div>
+
+     
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Retention Type<span class="text-danger">*</span></label>
+          <ng-select class="form-select w-auto" [items]="masRetentionDDL" bindLabel="retname" bindValue="retid"
+            formControlName="mretid" [placeholder]="retForm.get('mretid')?.value ? '' : 'Select Retention Type'"
+            [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onRetentionChange($event)">
+          </ng-select>
+        </div>
+
+           <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Form Type<span class="text-danger">*</span></label>
+            <ng-select class="form-select w-auto" [items]="filteredFormList" bindLabel="formname" bindValue="formid"
+              formControlName="mFormID" [placeholder]="retForm.get('mFormID')?.value ? '' : 'Select Form Type'"
+              [searchable]="true" [clearable]="true" [appendTo]="'body'">
+            </ng-select>
+          </div>
+     
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
+      <input type="date" class="form-control" formControlName="mISSUEDATE">
+      <small class="text-danger" *ngIf="retForm.get('mISSUEDATE')?.touched && retForm.get('mISSUEDATE')?.invalid">
+        Issue Date is required.
+      </small>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
+      <input type="date" class="form-control" formControlName="mStartDate">
+      <small class="text-danger" *ngIf="retForm.get('mStartDate')?.touched && retForm.get('mStartDate')?.invalid">
+        Start Date is required.
+      </small>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Valid Upto<span class="text-danger">*</span></label>
+      <input type="date" class="form-control" formControlName="mVALIDITYDATE">
+      <small class="text-danger" *ngIf="retForm.get('mVALIDITYDATE')?.touched && retForm.get('mVALIDITYDATE')?.invalid">
+        Valid Upto date is required.
+      </small>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Upload File<span class="text-danger">*</span></label>
+      <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelectedRetention($event)">
+      <small class="text-danger" *ngIf="retForm.get('mRETFILE')?.touched && retForm.get('mRETFILE')?.invalid">
+        Upload File is required.
+      </small>
+    </div>
+
+
+        <div class="col-12 text-center mt-3 mb-1 ">
+          <button type="submit" class="btn btn-primary px-4" [disabled]="!retForm.valid">
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+
+
+
+
+
+   
+
+  </div>
+</div>
+<div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header bg-dark text-white py-2 px-3">
+        <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe
+          [src]="sanitizedPdfUrl"
+          class="pdf-frame"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div> -->

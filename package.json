@@ -1,5 +1,5 @@
 {
-  "name": "mddashboard",
+  "name": "vedregportal",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -11,13 +11,11 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.12",
-    "@angular/cdk": "~16.1.1",
     "@angular/common": "^18.2.12",
     "@angular/compiler": "^18.2.12",
     "@angular/core": "^18.2.12",
     "@angular/forms": "^18.2.12",
     "@angular/google-maps": "^19.0.1",
-    "@angular/material": "~16.1.1",
     "@angular/platform-browser": "^18.2.12",
     "@angular/platform-browser-dynamic": "^18.2.12",
     "@angular/router": "^18.2.12",
@@ -40,6 +38,7 @@
     "lodash-es": "^4.17.21",
     "mat-table-exporter": "^15.0.0",
     "ng-apexcharts": "^1.10.0",
+    "ngx-bootstrap": "^20.0.2",
     "ngx-select-dropdown": "^3.3.2",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",
@@ -55,6 +54,7 @@
     "@angular-devkit/build-angular": "^18.2.12",
     "@angular/cli": "^20.3.5",
     "@angular/compiler-cli": "^18.2.12",
+    "@schematics/angular": "^20.3.8",
     "@types/jasmine": "~4.3.0",
     "@types/node": "^24.7.2",
     "jasmine-core": "~4.5.0",
