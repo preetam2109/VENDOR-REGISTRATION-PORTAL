@@ -25,6 +25,8 @@ export class Registration {
     states: any[] = [];
     countryid:any;
     stateid:any;
+    isPasswordVisible: boolean = false;
+    isPasswordVisible1: boolean = false;
   // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
   // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur
   // &mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881&mEMAIL=kaushal.stranger005%40gmail.com
@@ -296,5 +298,25 @@ onStatesChange(event: Event): void {
     this.registerForm.get('mADDRESS3')?.markAsTouched(); // optional, ensures UI reacts
     this.registerForm.get('mADDRESS3')?.updateValueAndValidity(); // ✅ triggers validation refresh
   }
+}
+
+
+togglePassword(): void {
+  // 
+  this.isPasswordVisible = !this.isPasswordVisible;
+  // this.isPasswordVisible = !this.isPasswordVisible; // Toggle visibility
+  // const passwordField = document.getElementById('pwd') as HTMLInputElement;
+  // if (passwordField) {
+  //   passwordField.type = this.isPasswordVisible ? 'text' : 'password'; // Toggle input type
+  // }
+}
+togglePassword1(): void {
+  // 
+  this.isPasswordVisible1 = !this.isPasswordVisible1;
+  // this.isPasswordVisible = !this.isPasswordVisible; // Toggle visibility
+  // const passwordField = document.getElementById('pwd') as HTMLInputElement;
+  // if (passwordField) {
+  //   passwordField.type = this.isPasswordVisible ? 'text' : 'password'; // Toggle input type
+  // }
 }
 }
