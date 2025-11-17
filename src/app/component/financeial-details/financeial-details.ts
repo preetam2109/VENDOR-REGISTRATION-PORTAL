@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component ,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 // import { CollapseModule } from 'src/app/collapse';
@@ -43,6 +43,7 @@ export class FinanceialDetails {
 // Form fields
 supplierid: number = 0;
 bankaccountid: number = 0;
+// bankaccountid: any = null;
 accountname: string | undefined;
 accountno: string | undefined;
 bankname: string| undefined;
@@ -69,7 +70,7 @@ ifsccode: string | undefined;
   GSTCertificate: File | null = null;
   GSTreturnCertificate: File | null = null;
   quartername:any;
-  statename: any;
+  statename: any=null;
   gstid:any;
   stateid: any;
   gstqtrid:any;
@@ -79,7 +80,10 @@ gstFileModel: any; // just for ngModel binding compatibility
   States:any;
   selectedAccYear:any;
   selectedQuarter:any;
+  // acno = null;
+  acnoo=null;
   acno: any = null;
+  
   accyrsetid: any = null;
   accyear: any = null;
   isNewBank: boolean = false;
@@ -126,6 +130,7 @@ gstFileModel: any; // just for ngModel binding compatibility
   loadingSectionB = false;
   loadingSectionC = false;
   loadingSectionD = false;
+  dropdownOpen = false;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
     private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,
   ){
@@ -140,10 +145,36 @@ gstFileModel: any; // just for ngModel binding compatibility
      this.dataSource1 = new MatTableDataSource<BankMandateDetail>([]);
      this.dataSource2 = new MatTableDataSource<MassuppliergstDetails>([]);
      this.dataSource3 = new MatTableDataSource<GstReturnDetails>([]);
+
+
+//      const css = `
+//   .ng-dropdown-panel { 
+//     background:#fff !important; 
+//     color:#000 !important; 
+//     z-index:2147483647 !important; 
+//     box-shadow:0 7px 18px rgba(0,0,0,0.12) !important; 
+//     position: absolute !important; /* <--- THE FIX */
+//   }
+
+//   .ng-dropdown-panel .ng-option { 
+//     background:#fff !important; 
+//     color:#000 !important; 
+//   }
+
+//   .ng-dropdown-panel .ng-option:hover { 
+//     background:#e6f7ff !important; 
+//   }
+// `;
+// const styleEl = document.createElement('style');
+// styleEl.id = 'ngselect-global-fix';
+// styleEl.innerHTML = css;
+// document.head.appendChild(styleEl);
+
   }
 
 
 ngOnInit() {
+  console.log('acno',this.acno);
   this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
   this.loadVendorBankDetail();
   this.GETAnnualYear();
@@ -154,6 +185,18 @@ ngOnInit() {
   this.GstReturnDetails();
   this.GETMASGSTQUARTER();
   this.GETAccYearSettings();
+
+ 
+//   const css = `
+//   .ng-dropdown-panel { background:#fff !important; color:#000 !important; z-index:2147483647 !important; box-shadow:0 7px 18px rgba(0,0,0,0.12) !important; }
+//   .ng-dropdown-panel .ng-option { background:#fff !important; color:#000 !important; }
+//   .ng-dropdown-panel .ng-option:hover { background:#e6f7ff !important; }
+// `;
+// const styleEl = document.createElement('style');
+// styleEl.id = 'ngselect-global-fix';
+// styleEl.innerHTML = css;
+// document.head.appendChild(styleEl);
+
 }
 
 GetVendorDetailsID(supplierId: any) {
