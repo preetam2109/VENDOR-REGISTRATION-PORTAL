@@ -341,7 +341,7 @@ export class CapaityOfProduction {
 
 
   onSubmit() {
-    debugger;
+    ;
     // Always start with insert (no check for existing COPID)
     this.submitted = true;
 
@@ -371,7 +371,7 @@ export class CapaityOfProduction {
     };
   
     try {
-      debugger;
+      ;
       this.api.InsertCOP(params, formData).subscribe({
         next: (res) => {
           // Assuming res is the COP ID (string/number); adjust if it's res.id or similar

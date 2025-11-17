@@ -342,7 +342,7 @@ export class MarketStandingCertificate {
 
 
   onSubmit() {
-    debugger;
+    ;
   
     this.submitted = true;
 
@@ -373,7 +373,7 @@ export class MarketStandingCertificate {
     };
   
     try {
-      debugger;
+      ;
       this.api.InsertMakrketStanding(params, formData).subscribe({
         next: (res) => {
           // Assuming res is the MSC ID (string/number); adjust if it's res.id or similar

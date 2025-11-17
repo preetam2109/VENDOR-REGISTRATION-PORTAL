@@ -306,10 +306,10 @@ export class TechnicalDetails {
     }
     
     DownloadFileWithName(mscid:any) {
-      // debugger;mFilePath: string, mFileName: string ,
+      // ;mFilePath: string, mFileName: string ,
       let mFileName: any;
       let mFilePath: any;
-      // debugger;
+      // ;
       if (!this.TechnicalDetails || this.TechnicalDetails.length === 0) {
         console.error("Technical details not loaded yet!");
         return;
