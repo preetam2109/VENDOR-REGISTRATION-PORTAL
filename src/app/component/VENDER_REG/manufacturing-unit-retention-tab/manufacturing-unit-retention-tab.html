@@ -157,9 +157,10 @@
           <!-- Unit -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
             <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
               formControlName="mLICID" [placeholder]="retForm.get('mLICID')?.value ? '' : 'Select Licence'"
-              [searchable]="true" [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+              [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
                 'border': (retForm.get('mLICID')?.invalid && (retForm.get('mLICID')?.dirty || retForm.get('mLICID')?.touched))
                   ? '1px solid #dc3545'
                   : (retForm.get('mLICID')?.valid && (retForm.get('mLICID')?.dirty || retForm.get('mLICID')?.touched))
@@ -179,6 +180,7 @@
                 License Type is required.
               </span>
             </div>
+            </div>
           </div>
   
        
@@ -186,9 +188,11 @@
           <!-- Retention Type -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Retention Type<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
+
             <ng-select class="form-select w-auto" [items]="masRetentionDDL" bindLabel="retname" bindValue="retid"
               formControlName="mretid" [placeholder]="retForm.get('mretid')?.value ? '' : 'Select Retention Type'"
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onRetentionChange($event)" [ngStyle]="{
+              [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onRetentionChange($event)" [ngStyle]="{
                 'border': (retForm.get('mretid')?.invalid && (retForm.get('mretid')?.dirty || retForm.get('mretid')?.touched))
                   ? '1px solid #dc3545'
                   : (retForm.get('mretid')?.valid && (retForm.get('mretid')?.dirty || retForm.get('mretid')?.touched))
@@ -208,14 +212,17 @@
                 Retention Type is required.
               </span>
             </div>
+            </div>
           </div>
   
              <!-- Form Type -->
              <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Form Type<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
+
               <ng-select class="form-select w-auto" [items]="filteredFormList" bindLabel="formname" bindValue="formid"
                 formControlName="mFormID" [placeholder]="retForm.get('mFormID')?.value ? '' : 'Select Form Type'"
-                [searchable]="true" [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+                [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
                   'border': (retForm.get('mFormID')?.invalid && (retForm.get('mFormID')?.dirty || retForm.get('mFormID')?.touched))
                     ? '1px solid #dc3545'
                     : (retForm.get('mFormID')?.valid && (retForm.get('mFormID')?.dirty || retForm.get('mFormID')?.touched))
@@ -234,6 +241,7 @@
                   *ngIf="(retForm.get('mFormID')?.touched || submitted) && retForm.get('mFormID')?.errors?.['required']">
                   Form Type is required.
                 </span>
+              </div>
               </div>
             </div>
        

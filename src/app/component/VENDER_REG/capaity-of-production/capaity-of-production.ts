@@ -76,7 +76,7 @@ export class CapaityOfProduction {
   paginatedItems: any[] = [];
   searchText: string = '';
 
-  
+  onshowMSC:boolean=false;
 
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -122,6 +122,10 @@ export class CapaityOfProduction {
     });
 
   }
+
+  onshowButtonClick(){
+    this.onshowMSC = true;
+}
 
   DownloadFileWithName(mFilePath: string, mFileName: string) {
    
@@ -341,7 +345,7 @@ export class CapaityOfProduction {
 
 
   onSubmit() {
-    ;
+    
     // Always start with insert (no check for existing COPID)
     this.submitted = true;
 
@@ -423,7 +427,7 @@ export class CapaityOfProduction {
           next: (res) => {
             console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
             completedUpdates++;
-            
+            this.onshowMSC=false;
             // Check if all updates are done
             if (completedUpdates === totalUpdates) {
               this.toastr.success('All items updated successfully!', res);
@@ -585,6 +589,8 @@ refreshCheckbox(){
           console.log('✅ Fetched MCC Fill Items (preserving selections):', this.MCCFillItemsLIst);
         } else {
           this.MCCFillItemsLIst = [];
+          this.toastr.warning('⚠️ No items found for given parameters');
+
           console.warn('⚠️ No items found for given parameters');
         }
       },

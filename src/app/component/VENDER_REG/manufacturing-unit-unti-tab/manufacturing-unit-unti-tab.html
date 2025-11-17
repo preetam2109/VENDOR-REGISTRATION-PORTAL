@@ -97,13 +97,13 @@
                 <div class="row text-start">
         
                   <!-- Licence Type -->
-                  <div class="col-md-6 mb-3">
+                  <div class="col-md-6 mb-3"style="position: relative;">
                     <label class="form-label fw-bold">Licence Type <span class="text-danger">*</span></label>
-                    <div class="select-wrapper" style="position: relative;">
+                    <div class="form-group" style="position: relative;">
                       <ng-select class="form-select w-auto form-control" [items]="licenceTypes" bindLabel="lictypename"
                         bindValue="lictypeid" formControlName="mlictypeid"
                         [placeholder]="unitForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'" [searchable]="true"
-                        [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+                        [clearable]="true" appendTo=".form-group" [ngStyle]="{
                       'border': (unitForm.get('mlictypeid')?.invalid && (unitForm.get('mlictypeid')?.dirty || unitForm.get('mlictypeid')?.touched))
                         ? '1px solid #dc3545'
                         : (unitForm.get('mlictypeid')?.valid && (unitForm.get('mlictypeid')?.dirty || unitForm.get('mlictypeid')?.touched))
@@ -161,12 +161,12 @@
                   -->
         
                   <!-- State -->
-                  <div class="col-md-6 mb-3">
+                  <div class="col-md-6 mb-3"style="position: relative;">
                     <label class="form-label fw-bold">State <span class="text-danger">*</span></label>
-                    <div class="select-wrapper" style="position: relative;">
+                    <div class="form-group" style="position: relative;">
                       <ng-select class="form-select w-auto" [items]="states" bindLabel="statename" bindValue="stateid"
                         formControlName="mStateId" [placeholder]="unitForm.get('mStateId')?.value ? '' : 'Choose State'"
-                        [searchable]="true" [clearable]="true" [appendTo]="'.select-wrapper'"
+                        [searchable]="true" [clearable]="true" appendTo=".form-group"
                         [ngStyle]="{
                           'border': (unitForm.get('mStateId')?.invalid && (unitForm.get('mStateId')?.dirty || unitForm.get('mStateId')?.touched))
                             ? '1px solid #dc3545'

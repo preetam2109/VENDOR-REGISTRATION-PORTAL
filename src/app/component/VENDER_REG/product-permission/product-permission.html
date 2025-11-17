@@ -1,10 +1,6 @@
 <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
-    <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed = !isCollapsed"
-      role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
-       Product
-      <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-    </h4>
-    <div [collapse]="isCollapsed">
+   
+    
 
 
 
@@ -134,9 +130,11 @@
           <!-- category -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
+
             <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
               formControlName="mcid" [placeholder]="!productPerForm.get('mcid')?.value ? 'Choose Category' : ''"
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onCategorySelectChange($event)" 
+              [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onCategorySelectChange($event)" 
               [ngStyle]="{
                 'border': (productPerForm.get('mcid')?.invalid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
                   ? '1px solid #dc3545'
@@ -158,12 +156,15 @@
               </span>
           </div>
           </div>
+          </div>
           <!-- ItemType -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
+
             <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
               formControlName="itemtypeid" [placeholder]="productPerForm.get('itemtypeid')?.value ? '': 'Select Item Type' "
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onItemTypeChange($event)"  [ngStyle]="{
+              [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onItemTypeChange($event)"  [ngStyle]="{
                 'border': (productPerForm.get('itemtypeid')?.invalid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
                   ? '1px solid #dc3545'
                   : (productPerForm.get('itemtypeid')?.valid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
@@ -184,12 +185,15 @@
               </span>
           </div>
           </div>
+          </div>
           <!-- ItemGroup -->
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Item Group<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
+
             <ng-select class="form-select w-auto" [items]="DDLItemGroup" bindLabel="groupname" bindValue="groupid"
               formControlName="groupid" [placeholder]="productPerForm.get('groupid')?.value ? '': 'Select Item Group' "
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+              [searchable]="true" [clearable]="true" appendTo=".form-group"  [ngStyle]="{
                 'border': (productPerForm.get('groupid')?.invalid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
                   ? '1px solid #dc3545'
                   : (productPerForm.get('groupid')?.valid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
@@ -210,13 +214,16 @@
               </span>
           </div>
           </div>
+          </div>
 
               <!-- Licence Type -->
               <div class="col-md-6 mb-3 ">
                 <label class="form-label fw-bold">Licence Type<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
+
                 <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
                   formControlName="mlictypeid" [placeholder]="productPerForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'"
-                  [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                  [searchable]="true" [clearable]="true" appendTo=".form-group"  [ngStyle]="{
                     'border': (productPerForm.get('mlictypeid')?.invalid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
                       ? '1px solid #dc3545'
                       : (productPerForm.get('mlictypeid')?.valid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
@@ -237,12 +244,15 @@
                   </span>
               </div>
               </div>
+              </div>
 
               <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
+
                 <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
                   formControlName="licid" [placeholder]="productPerForm.get('licid')?.value ? '' : 'Select Licence'"
-                  [searchable]="true" [clearable]="true" [appendTo]="'body'" (change)="onLicenceTypeChange($event)"  [ngStyle]="{
+                  [searchable]="true" [clearable]="true" appendTo=".form-group" (change)="onLicenceTypeChange($event)"  [ngStyle]="{
                     'border': (productPerForm.get('licid')?.invalid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
                       ? '1px solid #dc3545'
                       : (productPerForm.get('licid')?.valid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
@@ -261,6 +271,7 @@
                     *ngIf="(productPerForm.get('licid')?.touched || submitted) && productPerForm.get('licid')?.errors?.['required']">
                     Licence is required.
                   </span>
+              </div>
               </div>
               </div>
 
@@ -401,7 +412,7 @@
   </div>
 </div>
 
-      <div class="d-flex flex-wrap align-items-center justify-content-between mt-4 p-3 rounded shadow-sm bg-light border">
+      <div class="d-flex flex-wrap align-items-center justify-content-between mt-4 p-3 rounded shadow-sm bg-light border" *ngIf="onshowPP==true" >
   
         <!-- 📝 Instruction Box -->
         <div class="alert alert-warning mb-2 mb-md-0 flex-grow-1 me-md-3 p-3 small" style="max-width: 650px;">
@@ -422,7 +433,7 @@
       
       
   
-      <div class="card shadow rounded bg-light mx-auto mt-5">
+      <div class="card shadow rounded bg-light mx-auto mt-5" *ngIf="onshowPP==true">
         <div class="card-body p-3">
       
           <!-- 🔍 Search -->
@@ -622,7 +633,7 @@
 
 
 
-    </div>
+   
   </div>
   
   

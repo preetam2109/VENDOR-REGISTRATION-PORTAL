@@ -432,6 +432,8 @@ formatDate(dateString: string): string {
           this.updatePagination();
         } else {
           this.masItemsList = [];
+          this.toastr.warning('⚠️ No items found for given parameters');
+
           console.warn('No items found for given mcid and mTypeID');
         }
       },
