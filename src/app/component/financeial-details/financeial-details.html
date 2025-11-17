@@ -118,16 +118,34 @@
                 </div>
                 <!-- END DATA TABLE -->
                 <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowFINANCIAL == true">
-                
-                 
-                
                   <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
                     style="height: auto; overflow: hidden; position: relative;">
                     <div class="mb-3 Fon-family" style="text-align: justify;">
                       <form class="p-2" #bankForm="ngForm" (ngSubmit)="onSubmit(bankForm)">
                         <div class="row pb-3">
-                          <div class="form-group col-md-6 pt-3">
+                          <div class="form-group col-md-6 pt-3" style="position: relative;">
                            
+                            <label for="inputName">Select Bank Account <span class="text-danger">*</span></label>
+                            <ng-select  appendTo=".form-group" class="form-control" [items]="VendorBankDetail" bindLabel="acno" bindValue="bankaccountid" 
+                              [(ngModel)]="acnoo" name="acno" (change)="onselectacno($event)"
+                              [placeholder]="!acnoo ? 'Select Bank Account :' : ''"
+                            
+                              [searchable]="true" [clearable]="true"  #acno="ngModel"
+                               required [ngStyle]="{
+                                                'border': acno.invalid && (acno.dirty || acno.touched) ? '1px solid #dc3545' :
+                                                acno.valid && (acno.dirty || acno.touched) ? '1px solid #198754' : '',
+                                                'box-shadow': acno.invalid && (acno.dirty || accountno.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                acno.valid && (acno.dirty || acno.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                              }" >
+                            </ng-select>
+                            
+                            <div class="text-danger mt-1"
+                              *ngIf="(acno.touched || bankForm.submitted) && acno.errors?.['required']">
+                              Year selection is required.
+                            </div>
+                          </div>
+                          <!-- <div class="form-group col-md-6 pt-3">
+                                   [placeholder]="!acno && !dropdownOpen ? 'Select Bank Account' : ''"
                             <label for="inputName">Select Bank Account <span class="text-danger">*</span></label>
                             <ng-select class="form-control" [items]="VendorBankDetail" bindLabel="acno" bindValue="bankaccountid"
                               [(ngModel)]="acno" name="acno" (change)="onselectacno($event)"
@@ -139,17 +157,12 @@
                                                 acno.valid && (acno.dirty || acno.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
                                               }">
                             </ng-select>
-                         
-                            <!-- <div *ngIf="acno.invalid && acno.touched">
-                                              <small class="text-danger">
-                                                Year selection is required.
-                                              </small>
-                                            </div> -->
+
                             <div class="text-danger mt-1"
                               *ngIf="(acno.touched || bankForm.submitted) && acno.errors?.['required']">
                               Year selection is required.
                             </div>
-                          </div>
+                          </div> -->
                           <div class="form-group col-md-6  pt-3">
                             <label for="inputPassword4">Name In Account: <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" [(ngModel)]="SupplierBankAccDetail.accountname"
@@ -171,9 +184,9 @@
                             <input type="text" class="form-control" placeholder="Bank Name:*"
                               [(ngModel)]="SupplierBankAccDetail.bankname" [disabled]="!isNewBank" [ngModelOptions]="{standalone: true}"
                               id="inputEmail4" #bankname="ngModel" required [ngClass]="{
-                                                                                    'is-invalid': (bankname.touched || bankForm.submitted) && bankname.invalid,
-                                                                                    'is-valid': bankname.valid && (bankname.touched || bankForm.submitted)
-                                                                                  }" />
+                              'is-invalid': (bankname.touched || bankForm.submitted) && bankname.invalid,
+                               'is-valid': bankname.valid && (bankname.touched || bankForm.submitted)
+                                 }" />
                             <div class="text-danger mt-1"
                               *ngIf="(bankname.touched || bankForm.submitted) && bankname.errors?.['required']">
                               Bank name is required.
@@ -402,7 +415,7 @@
                                                                       }">
                                                                     </ng-select> -->
                                     <select id="AccYrSetId" class="form-select" formControlName="AccYrSetId" (change)="Onselectyear($event)"
-                                      [ngClass]="{
+                                    [ngClass]="{
                                       'is-invalid': (AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted) && AnnualTurnoverForm.get('AccYrSetId')?.invalid,
                                         'is-valid': AnnualTurnoverForm.get('AccYrSetId')?.valid && (AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted)
                                         }">
@@ -608,11 +621,13 @@
                           <div class="mb-3 Fon-family" style="text-align: justify;">
                             <form class="p-2" #GSTForm="ngForm" (ngSubmit)="InsertGSTCertificate(GSTForm)">
                               <div class="row pb-3">
-                                <div class="form-group col-md-6 pt-3">
+                                <div class="form-group col-md-6 pt-3" style="position: relative;">
                                   <label for="inputName">Select State <span class="text-danger">*</span></label>
-                                  <ng-select class="form-control" [items]="States" bindLabel="statename" bindValue="stateid" [(ngModel)]="statename"
-                                    name="statename" (change)="OnselectStates($event)" [placeholder]="'Select State : '" [searchable]="true"
-                                    [clearable]="true" #stateid="ngModel" [appendTo]="'body'" required [ngStyle]="{
+                                  <ng-select class="form-control"  appendTo=".form-group" [items]="States" bindLabel="statename" bindValue="stateid" [(ngModel)]="statename"
+                                    name="statename" (change)="OnselectStates($event)"
+                                    [placeholder]="!statename ? 'Select State :' : ''"
+                                    [searchable]="true"
+                                    [clearable]="true" #stateid="ngModel"  required [ngStyle]="{
                                       'border': stateid.invalid && (stateid.dirty || stateid.touched) ? '1px solid #dc3545' :
                                       stateid.valid && (stateid.dirty || stateid.touched) ? '1px solid #198754' : '',
                                       'box-shadow': stateid.invalid && (stateid.dirty || stateid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
@@ -791,7 +806,7 @@
                                                 <form class="p-2" #GSTRETURNForm="ngForm" (ngSubmit)="InsertMASGSTRETURNFILES(GSTRETURNForm)">
                                                     <div class="row pb-3">
                                                       <!-- GST NO -->
-                                                      <div class="form-group col-md-6 pt-3">
+                                                      <div class="form-group col-md-6 pt-3" style="position: relative;">
                                                         <label>Select GST No<span class="text-danger">*</span></label>
                                                         <ng-select class="form-control"
                                                           [items]="dispatchData2"
@@ -800,9 +815,10 @@
                                                           [(ngModel)]="gstno"
                                                           name="gstno"
                                                           (change)="Onselectgstno($event)"
-                                                          [placeholder]="'GST NO is selected:'"
+                                                          [placeholder]="!gstno ? 'GST NO is selected :' : ''"
+                                                        
                                                           [searchable]="true"
-                                                          [clearable]="true" #gstid="ngModel" [appendTo]="'body'"  required [ngStyle]="{
+                                                          [clearable]="true" #gstid="ngModel"  appendTo=".form-group"  required [ngStyle]="{
                                                             'border': gstid.invalid && (gstid.dirty || gstid.touched) ? '1px solid #dc3545' :
                                                             gstid.valid && (gstid.dirty || gstid.touched) ? '1px solid #198754' : '',
                                                             'box-shadow': gstid.invalid && (gstid.dirty || gstid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
@@ -816,13 +832,14 @@
                                                       </div>
                                                   
                                                       <!-- Month / Quarter -->
-                                                      <div class="form-group col-md-6 pt-3">
+                                                      <div class="form-group col-md-6 pt-3" style="position: relative;">
                                                         <label>Select Month: <span class="text-danger">*</span></label>
                                                         <ng-select class="form-control" [items]="MASGSTQUARTER"
                                                         bindLabel="quartername" bindValue="gstqtrid" [(ngModel)]="quartername"
                                                         name="quartername" (change)="OnselectMASGSTQUARTER($event)"
-                                                        [placeholder]="'Show Months : '" [searchable]="true"
-                                                        [clearable]="true" [appendTo]="'body'" #gstqtrid="ngModel"   required [ngStyle]="{
+                                                        [placeholder]="!quartername ? 'Show Months :' : ''" 
+                                                         [searchable]="true"
+                                                        [clearable]="true"  appendTo=".form-group" #gstqtrid="ngModel"   required [ngStyle]="{
                                                           'border': gstqtrid.invalid && (gstqtrid.dirty || gstqtrid.touched) ? '1px solid #dc3545' :
                                                           gstqtrid.valid && (gstqtrid.dirty || gstqtrid.touched) ? '1px solid #198754' : '',
                                                           'box-shadow': gstqtrid.invalid && (gstqtrid.dirty || gstqtrid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
@@ -838,13 +855,13 @@
                                                   
                                                     <!-- Financial Year -->
                                                     <div class="row pb-3">
-                                                      <div class="form-group col-md-6 pt-3">
+                                                      <div class="form-group col-md-6 pt-3" style="position: relative;">
                                                         <label>Select Financial Year <span class="text-danger">*</span></label>
                                                         <ng-select class="form-control" [items]="AccYearSettings"
                                                         bindLabel="accyear" bindValue="accyrsetid" [(ngModel)]="accyear"
                                                         name="accyear" (change)="OnselectAccYearSettings($event)"
-                                                        [placeholder]="'year is selected: '" [searchable]="true"
-                                                        [clearable]="true"  #accyrsetid="ngModel" [appendTo]="'body'"  required [ngStyle]="{
+                                                        [placeholder]="!accyear ? 'year is selected:' : ''"  [searchable]="true"
+                                                        [clearable]="true"  #accyrsetid="ngModel"  appendTo=".form-group"  required [ngStyle]="{
                                                           'border': accyrsetid.invalid && (accyrsetid.dirty || accyrsetid.touched) ? '1px solid #dc3545' :
                                                           accyrsetid.valid && (accyrsetid.dirty || accyrsetid.touched) ? '1px solid #198754' : '',
                                                           'box-shadow': accyrsetid.invalid && (accyrsetid.dirty || accyrsetid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
