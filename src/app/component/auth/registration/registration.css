@@ -91,3 +91,92 @@ form .form-label {
     border-bottom-right-radius: 15px;
     }
     }
+
+    /* .hc{
+      position: relative;
+      right: -360px;
+      top: 0;
+      transform: translateY(-236%);
+      cursor: pointer;
+      color: #666;
+    }
+    @media (max-width: 991px) {
+      .hc{
+        position: relative;
+        right: -360px;
+        top: 0;
+        transform: translateY(-236%);
+        cursor: pointer;
+        color: #666;
+      }
+    }
+    @media (max-width: 368px) {
+      .hc{
+        position: relative;
+        right: -470px;
+        top: 0;
+        transform: translateY(-236%);
+        cursor: pointer;
+        color: #666;
+      }
+      } */
+      /* .hc {
+        position: absolute;
+        right: 15px;      
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #666;
+        font-size: 18px;
+      }
+      
+ 
+      @media (max-width: 991px) {
+        .hc {
+          right: 12px;
+          font-size: 18px;
+        }
+      }
+      
+     
+      @media (max-width: 480px) {
+        .hc {
+          right: 10px;
+          font-size: 16px;
+        }
+      }
+       */
+       .password-box {
+        position: relative;
+        width: 100%;
+      }
+      
+      .hc {
+        position: absolute;
+        top: 50%;
+        /* right: 15px; */
+        right: 32px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #666;
+        font-size: 18px;
+        z-index: 10;
+      }
+      
+      /* Tablet */
+      @media (max-width: 991px) {
+        .hc {
+          /* right: 12px; */
+          right: 34px;
+        }
+      }
+      
+      /* Mobile */
+      @media (max-width: 480px) {
+        .hc {
+          /* right: 10px; */
+          right: 32px;
+          font-size: 16px;
+        }
+      }
+      

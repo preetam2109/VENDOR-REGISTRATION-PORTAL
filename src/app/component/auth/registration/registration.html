@@ -136,18 +136,87 @@
                       
                     </div>
                     <div class="mb-4 pb-2">
-                      <div data-mdb-input-init class="form-outline">
-                        <label class="form-label" for="form3Examplev4">Password:<span
+                      <!-- type="password" -->
+                      <!-- <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="pwd">Password:<span
                           class="text-danger">*</span></label>
-                        <input type="password" id="form3Examplev4" class="form-control form-control-lg" formControlName="mPwd" [ngClass]="{
+                        <input   [type]="isPasswordVisible ? 'text' : 'password'"    id="pwd"  class="form-control form-control-lg" formControlName="mPwd" [ngClass]="{
                           'is-invalid': (registerForm.get('mPwd')?.touched || isSubmitting) && registerForm.get('mPwd')?.invalid,
                           'is-valid': registerForm.get('mPwd')?.valid && (registerForm.get('mPwd')?.touched || isSubmitting)
                         }"/>
-                         <span class="text-danger"
-                         *ngIf="(registerForm.get('mPwd')?.touched || isSubmitting) && registerForm.get('mPwd')?.errors?.['required']">
-                         Password is required.
-                       </span>
+                          <i 
+                          class="fa" 
+                          [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
+                          (click)="togglePassword()" 
+                          style="position: absolute; right: 10px; top: 69%; transform: translateY(-50%); cursor: pointer; color: #666; z-index: 1;">
+                        </i>
+                        <span class="text-danger"
+                        *ngIf="(registerForm.get('mPwd')?.touched || isSubmitting) && registerForm.get('mPwd')?.errors?.['required']">
+                        Password is required.
+                      </span>
+                      </div> -->
+                      <div style="position: relative;" data-mdb-input-init class="form-outline">
+
+                        <label class="form-label" for="pwd">Password:
+                          <span class="text-danger">*</span>
+                        </label>
+                        <div class="password-box">
+                          <input
+                            [type]="isPasswordVisible ? 'text' : 'password'"
+                            formControlName="mPwd"
+                            class="form-control form-control-lg"
+                            [ngClass]="{
+                              'is-invalid': (registerForm.get('mPwd')?.touched || isSubmitting) && registerForm.get('mPwd')?.invalid,
+                              'is-valid': registerForm.get('mPwd')?.valid && (registerForm.get('mPwd')?.touched || isSubmitting)
+                            }"
+                          />
+                        
+                          <i class="fa hc"
+                             [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"
+                             (click)="togglePassword()"></i>
+                        
+                        </div>
+                        
+                        <span class="text-danger"
+                          *ngIf="(registerForm.get('mPwd')?.touched || isSubmitting) && registerForm.get('mPwd')?.errors?.['required']">
+                            Password is required.
+                        </span>
+                        
+                        <!-- <input 
+                          [type]="isPasswordVisible ? 'text' : 'password'"
+                          id="pwd"
+                          class="form-control form-control-lg"
+                          formControlName="mPwd"
+                          [ngClass]="{
+                            'is-invalid': (registerForm.get('mPwd')?.touched || isSubmitting) && registerForm.get('mPwd')?.invalid,
+                            'is-valid': registerForm.get('mPwd')?.valid && (registerForm.get('mPwd')?.touched || isSubmitting)
+                          }"
+                        />
+                      
+                      
+                        <i 
+                          class="fa hc" 
+                          [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
+                          (click)="togglePassword()" 
+                         >
+                        </i> -->
+                        <!-- style="
+                        position: absolute; 
+                        right: 20px; 
+                        top: 62%; 
+                        transform: translateY(-50%); 
+                        cursor: pointer; 
+                        color: #666;" -->
+                        <!-- <span class="text-danger"
+                          *ngIf="
+                            (registerForm.get('mPwd')?.touched || isSubmitting) &&
+                            registerForm.get('mPwd')?.errors?.['required']
+                          ">
+                          Password is required.
+                        </span> -->
+                      
                       </div>
+                      
                     </div>
   
                     <div class="row">
@@ -156,10 +225,16 @@
                         <div data-mdb-input-init class="form-outline">
                           <label class="form-label" for="form3Examplev5">Confirm Password:<span
                             class="text-danger">*</span></label>
-                          <input type="password" id="form3Examplev5" class="form-control form-control-lg" formControlName="confirmPassword" [ngClass]="{
+                            <div class="password-box">                        
+                               <input  [type]="isPasswordVisible1 ? 'text' : 'password'" id="form3Examplev5" class="form-control form-control-lg" formControlName="confirmPassword" [ngClass]="{
                             'is-invalid': (registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.invalid,
                             'is-valid': registerForm.get('confirmPassword')?.valid && (registerForm.get('confirmPassword')?.touched || isSubmitting)
                           }"/>
+                             <i class="fa hc"
+                             [ngClass]="isPasswordVisible1 ? 'fa-eye-slash' : 'fa-eye'"
+                             (click)="togglePassword1()"></i>
+                          </div>
+ 
                            <span class="text-danger"
                            *ngIf="(registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.errors?.['required']">
                            Confirm Password is required.
@@ -169,6 +244,7 @@
                            *ngIf="(registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">
                            Passwords do not match.
                          </span>
+
                            <!-- <span class="text-danger"
                            *ngIf="(registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.errors?.['required']">
                            Confirm Password is required.
