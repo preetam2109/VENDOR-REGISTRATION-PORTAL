@@ -78,6 +78,9 @@ export class MarketStandingCertificate {
 
   sanitizedPdfUrl!: SafeResourceUrl;
 
+
+  onshowMSC:boolean=false;
+
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('sort') sort!: MatSort;
@@ -123,6 +126,10 @@ export class MarketStandingCertificate {
     });
 
   }
+
+  onshowButtonClick(){
+        this.onshowMSC = true;
+    }
 
   DownloadFileWithName(mFilePath: string, mFileName: string) {
    
@@ -342,7 +349,7 @@ export class MarketStandingCertificate {
 
 
   onSubmit() {
-    debugger;
+  
   
     this.submitted = true;
 
@@ -373,7 +380,7 @@ export class MarketStandingCertificate {
     };
   
     try {
-      debugger;
+      ;
       this.api.InsertMakrketStanding(params, formData).subscribe({
         next: (res) => {
           // Assuming res is the MSC ID (string/number); adjust if it's res.id or similar
@@ -434,6 +441,7 @@ export class MarketStandingCertificate {
             this.refreshCheckbox();
             this.selectedItems = []; // Clear all
             this.MCCFillItemsLIst = [];
+            this.onshowMSC=false;
 
 
 
@@ -611,6 +619,7 @@ refreshCheckbox(){
           console.log('✅ Fetched MCC Fill Items (preserving selections):', this.MCCFillItemsLIst);
         } else {
           this.MCCFillItemsLIst = [];
+          this.toastr.warning('⚠️ No items found for given parameters');
           console.warn('⚠️ No items found for given parameters');
         }
       },

@@ -447,7 +447,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
-    // debugger;
+    // ;
     // console.log('bankForm=',bankForm);
 //     const bankData = this.dispatchData1.find((f: any) => f.bankaccountid == this.acno);
 

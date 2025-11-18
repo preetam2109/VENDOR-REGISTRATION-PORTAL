@@ -61,7 +61,7 @@ import { Registration } from './component/auth/registration/registration';
     })
   
 ], providers: [DatePipe, 
-      { provide: APP_BASE_HREF, useValue: '/vedang/' }, provideHttpClient(withInterceptorsFromDi())] })
+      { provide: APP_BASE_HREF, useValue: '/Vregistration/' }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas);

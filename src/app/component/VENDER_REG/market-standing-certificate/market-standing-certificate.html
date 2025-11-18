@@ -1,25 +1,148 @@
 <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
-    <h4 class="d-flex justify-content-between align-items-center border-bottom p-2" (click)="isCollapsed = !isCollapsed"
-      role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
-       Market Standing Certificate
-      <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-    </h4>
-    <div [collapse]="isCollapsed">
+
+
+
+  <div class="card shadow rounded bg-light mx-auto  mb-4">
+    <div class="card-body p-3">
+        <div class="table-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="filter-field flex-grow-1">
+                <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                  (keyup)="applyTextFilter($event)">
+              </div>
+              <div class="export-menu-container ms-2">
+                <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick()"
+                >Add <i class="bi bi-folder-plus"></i></button>
+                <!-- <button mat-button [matMenuTriggerFor]="exportMenu" class="btn btn-sm btn-secondary">Export</button>
+                <mat-menu #exportMenu="matMenu">
+                  <button mat-menu-item
+                    (click)="exporter.exportTable('xlsx', { fileName: 'Market_Standing_Certificate_List', sheet: 'Market_Standing_Certificate_List', Props: { Author: 'cgmsc' }})">Excel</button>
+                  <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                </mat-menu> -->
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table mat-table [dataSource]="dataSource" matTableExporter
+                class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter">
+           <!-- S.No Column -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef style="width: 50px;">S.No</th>
+    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+  </ng-container>
   
+  <!-- Licence No -->
+  <ng-container matColumnDef="licno">
+    <th mat-header-cell *matHeaderCellDef>Licence No</th>
+    <td mat-cell *matCellDef="let element">{{ element.licno }}</td>
+  </ng-container>
+ 
+  <!-- Unit Name -->
+  <ng-container matColumnDef="unitname">
+    <th mat-header-cell *matHeaderCellDef>Unit Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.unitname }}</td>
+  </ng-container>
+  
+  <!-- Issue Date -->
+  <ng-container matColumnDef="issuedate">
+    <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.issuedate }}</td>
+  </ng-container>
+  
+  <!-- Start Date -->
+  <ng-container matColumnDef="startdate">
+    <th mat-header-cell *matHeaderCellDef>Start Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.startdate }}</td>
+  </ng-container>
+  
+  <!-- Validity Date -->
+  <ng-container matColumnDef="validitydate">
+    <th mat-header-cell *matHeaderCellDef>Validity Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.validitydate }}</td>
+  </ng-container>
+  
+  <!-- Total Items -->
+  <ng-container matColumnDef="cntitems">
+    <th mat-header-cell *matHeaderCellDef>Total Items</th>
+    <td mat-cell *matCellDef="let element" (click)="OnClickMSCCOPItemDetails(element.mscid)"style="cursor: pointer; color: blue;">{{ element.cntitems }}</td>
+  </ng-container>
+  
+               <!-- File Name -->
+               <ng-container matColumnDef="filename">
+                <th mat-header-cell *matHeaderCellDef>File</th>
+                <td mat-cell *matCellDef="let row">
+                  <button 
+                    *ngIf="row.filename"
+                    class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                    (click)="DownloadFileWithName(row.filepath,row.filename)"
+                  >
+                  <i
+                  class="bi bi-filetype-pdf text-danger"></i>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="mscissuingauthority">
+                <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
+                <td mat-cell *matCellDef="let element">{{ element.mscissuingauthority }}</td>
+              </ng-container>
   
 
-     
+  
 
-      
+
+
+<!-- Header and Row Definitions -->
+<tr mat-header-row *matHeaderRowDef="[
+'sno',
+  'licno',
+  'mscissuingauthority',
+  'unitname',
+  'issuedate',
+  'startdate',
+  'validitydate',
+  'cntitems',
+  'filename'
+]"></tr>
+
+<tr mat-row *matRowDef="let row; columns: [
+'sno',
+  'licno',
+  'mscissuingauthority',
+  'unitname',
+  'issuedate',
+  'startdate',
+  'validitydate',
+  'cntitems',
+  'filename'
+];"></tr>
+
+                  
+              </table>
+            </div>
+            <mat-paginator #paginator [pageSizeOptions]="[5, 10, 30]" showFirstLastButtons></mat-paginator>
+          </div>
+    </div>
+</div>
+
+
+
+
+<div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowMSC == true">
+
+  <div class="card-body border rounded px-3 py-3 pb-3 bg-light"
+    style="height: auto; overflow: hidden; position: relative;">
+    <div class="mb-3 Fon-family" style="text-align: justify;">
 <form [formGroup]="MCCFillItemsForm" (ngSubmit)="onSubmitMCCFillItemsForm()">
     <div class="row text-start ">
          
          <!-- category -->
          <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
+            <div class="form-group" style="position: relative;">
+
             <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
               formControlName="MCID" [placeholder]="!MCCFillItemsForm.get('MCID')?.value ? 'Choose Category' : ''"
-              [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onCategorySelectChange($event)" [ngStyle]="{
+              [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onCategorySelectChange($event)" [ngStyle]="{
                 'border': (MCCFillItemsForm.get('MCID')?.invalid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
                   ? '1px solid #dc3545'
                   : (MCCFillItemsForm.get('MCID')?.valid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
@@ -40,13 +163,16 @@
               </span>
           </div>
           </div>
+          </div>
 
       <!-- ItemType -->
        <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
+        <div class="form-group" style="position: relative;">
+
         <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
           formControlName="mItemTypeID" [placeholder]="MCCFillItemsForm.get('mItemTypeID')?.value ? '': 'Select Item Type' "
-          [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onmItemTypeIDSelectChange($event)" [ngStyle]="{
+          [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onmItemTypeIDSelectChange($event)" [ngStyle]="{
             'border': (MCCFillItemsForm.get('mItemTypeID')?.invalid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
               ? '1px solid #dc3545'
               : (MCCFillItemsForm.get('mItemTypeID')?.valid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
@@ -67,12 +193,15 @@
           </span>
       </div>
       </div>
+      </div>
       <!-- ItemGroup -->
       <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Item Group<span class="text-danger">*</span></label>
+        <div class="form-group" style="position: relative;">
+
         <ng-select class="form-select w-auto" [items]="DDLItemGroup" bindLabel="groupname" bindValue="groupid"
           formControlName="mGroupID" [placeholder]="MCCFillItemsForm.get('mGroupID')?.value ? '': 'Select Item Group' "
-          [searchable]="true" [clearable]="true" [appendTo]="'body'"(change)="onGroupSelectChange($event)" [ngStyle]="{
+          [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onGroupSelectChange($event)" [ngStyle]="{
             'border': (MCCFillItemsForm.get('mGroupID')?.invalid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
               ? '1px solid #dc3545'
               : (MCCFillItemsForm.get('mGroupID')?.valid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
@@ -91,6 +220,7 @@
             *ngIf="(MCCFillItemsForm.get('mGroupID')?.touched || submitted) && MCCFillItemsForm.get('mGroupID')?.errors?.['required']">
             Item Group is required.
           </span>
+      </div>
       </div>
       </div> 
 
@@ -114,11 +244,14 @@
   </div>
   
     </div>
-  </form> 
+  </form>
+    </div> 
+    </div> 
+    </div> 
       
   
 
-  <div class="card shadow rounded bg-light mx-auto mt-5">
+  <div class="card shadow rounded bg-light mx-auto mt-5"*ngIf="onshowMSC == true" >
     <div class="card-body p-3">
   
       <!-- 🔍 Search -->
@@ -229,129 +362,11 @@
   
 
 
-  <div class="card shadow rounded bg-light mx-auto mt-5 mb-4">
-    <div class="card-body p-3">
-        <div class="table-container">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <div class="filter-field flex-grow-1">
-                <input type="text" class="form-control form-control-sm" placeholder="Filter"
-                  (keyup)="applyTextFilter($event)">
-              </div>
-              <div class="export-menu-container ms-2">
-                <button mat-button [matMenuTriggerFor]="exportMenu" class="btn btn-sm btn-secondary">Export</button>
-                <mat-menu #exportMenu="matMenu">
-                  <button mat-menu-item
-                    (click)="exporter.exportTable('xlsx', { fileName: 'Market_Standing_Certificate_List', sheet: 'Market_Standing_Certificate_List', Props: { Author: 'cgmsc' }})">Excel</button>
-                  <button mat-menu-item (click)="exportToPDF()">PDF</button>
-                </mat-menu>
-              </div>
-            </div>
-            <div class="table-responsive">
-              <table mat-table [dataSource]="dataSource" matTableExporter
-                class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter">
-           <!-- S.No Column -->
-<ng-container matColumnDef="sno">
-    <th mat-header-cell *matHeaderCellDef style="width: 50px;">S.No</th>
-    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-  </ng-container>
-  
-  <!-- Licence No -->
-  <ng-container matColumnDef="licno">
-    <th mat-header-cell *matHeaderCellDef>Licence No</th>
-    <td mat-cell *matCellDef="let element">{{ element.licno }}</td>
-  </ng-container>
  
-  <!-- Unit Name -->
-  <ng-container matColumnDef="unitname">
-    <th mat-header-cell *matHeaderCellDef>Unit Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.unitname }}</td>
-  </ng-container>
-  
-  <!-- Issue Date -->
-  <ng-container matColumnDef="issuedate">
-    <th mat-header-cell *matHeaderCellDef>Issue Date</th>
-    <td mat-cell *matCellDef="let element">{{ element.issuedate }}</td>
-  </ng-container>
-  
-  <!-- Start Date -->
-  <ng-container matColumnDef="startdate">
-    <th mat-header-cell *matHeaderCellDef>Start Date</th>
-    <td mat-cell *matCellDef="let element">{{ element.startdate }}</td>
-  </ng-container>
-  
-  <!-- Validity Date -->
-  <ng-container matColumnDef="validitydate">
-    <th mat-header-cell *matHeaderCellDef>Validity Date</th>
-    <td mat-cell *matCellDef="let element">{{ element.validitydate }}</td>
-  </ng-container>
-  
-  <!-- Total Items -->
-  <ng-container matColumnDef="cntitems">
-    <th mat-header-cell *matHeaderCellDef>Total Items</th>
-    <td mat-cell *matCellDef="let element" (click)="OnClickMSCCOPItemDetails(element.mscid)"style="cursor: pointer; color: blue;">{{ element.cntitems }}</td>
-  </ng-container>
-  
-               <!-- File Name -->
-               <ng-container matColumnDef="filename">
-                <th mat-header-cell *matHeaderCellDef>File</th>
-                <td mat-cell *matCellDef="let row">
-                  <button 
-                    *ngIf="row.filename"
-                    class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
-                    (click)="DownloadFileWithName(row.filepath,row.filename)"
-                  >
-                  <i
-                  class="bi bi-filetype-pdf text-danger"></i>
-                  </button>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="mscissuingauthority">
-                <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
-                <td mat-cell *matCellDef="let element">{{ element.mscissuingauthority }}</td>
-              </ng-container>
-  
-
-  
 
 
 
-<!-- Header and Row Definitions -->
-<tr mat-header-row *matHeaderRowDef="[
-'sno',
-  'licno',
-  'mscissuingauthority',
-  'unitname',
-  'issuedate',
-  'startdate',
-  'validitydate',
-  'cntitems',
-  'filename'
-]"></tr>
-
-<tr mat-row *matRowDef="let row; columns: [
-'sno',
-  'licno',
-  'mscissuingauthority',
-  'unitname',
-  'issuedate',
-  'startdate',
-  'validitydate',
-  'cntitems',
-  'filename'
-];"></tr>
-
-                  
-              </table>
-            </div>
-            <mat-paginator #paginator [pageSizeOptions]="[5, 10, 30]" showFirstLastButtons></mat-paginator>
-          </div>
-    </div>
-</div>
-
-
-
-    </div>
+    
   </div>
 
 

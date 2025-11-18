@@ -182,12 +182,12 @@
             <form [formGroup]="licForm" (ngSubmit)="onSubmitLicence()">
               <div class="row text-start ">
                 <!-- Unit -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-3"style="position: relative;">
                   <label class="form-label fw-bold">Unit<span class="text-danger">*</span></label>
-                  <div class="select-wrapper" style="position: relative;"></div>
+                  <div class="form-group" style="position: relative;">
                   <ng-select class="form-select w-auto" [items]="unitList" bindLabel="unitname" bindValue="unitid"
                     formControlName="mUNITID" [placeholder]="licForm.get('mUNITID')?.value ? '' : 'Select Unit'"
-                    [searchable]="true" [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+                    [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
                       'border': (licForm.get('mUNITID')?.invalid && (licForm.get('mUNITID')?.dirty || licForm.get('mUNITID')?.touched))
                         ? '1px solid #dc3545'
                         : (licForm.get('mUNITID')?.valid && (licForm.get('mUNITID')?.dirty || licForm.get('mUNITID')?.touched))
@@ -207,6 +207,7 @@
                       Unit is required.
                     </span>
                   </div>
+                  </div>
                 </div>
       
                 <!-- Form Type -->
@@ -214,7 +215,7 @@
                   <label class="form-label fw-bold">Form Type<span class="text-danger">*</span></label>
                   <ng-select class="form-select w-auto" [items]="formList" bindLabel="formname" bindValue="formid"
                     formControlName="mFORMID" [placeholder]="licForm.get('mFORMID')?.value ? '' : 'Select Form Type'"
-                    [searchable]="true" [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+                    [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
                       'border': (licForm.get('mFORMID')?.invalid && (licForm.get('mFORMID')?.dirty || licForm.get('mFORMID')?.touched))
                         ? '1px solid #dc3545'
                         : (licForm.get('mFORMID')?.valid && (licForm.get('mFORMID')?.dirty || licForm.get('mFORMID')?.touched))
@@ -241,7 +242,7 @@
                   <label class="form-label fw-bold">License Type<span class="text-danger">*</span></label>
                   <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
                     formControlName="mLICTYPEID" [placeholder]="licForm.get('mLICTYPEID')?.value ? '' : 'Select Licence Type'"
-                    [searchable]="true" [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+                    [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
                       'border': (licForm.get('mLICTYPEID')?.invalid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
                         ? '1px solid #dc3545'
                         : (licForm.get('mLICTYPEID')?.valid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))

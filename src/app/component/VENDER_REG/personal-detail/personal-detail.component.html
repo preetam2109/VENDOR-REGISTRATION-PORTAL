@@ -57,10 +57,21 @@
               <th class="bg-light">PAN Number</th>
               <td>{{ panno || '—' }}</td>
             </tr>
-            <tr>
+            <!-- <tr>
               <th class="bg-light">PAN Card</th>
               <td  (click)="DownloadFileWithName(vendor.filepath,vendor.filename)" >{{ vendor.pancardno || '—' }}</td>
+            </tr> -->
+            <tr>
+              <th class="bg-light">PAN Card</th>
+              <td>
+                <a href="javascript:void(0)"
+                   class="text-primary text-decoration-underline"
+                   (click)="DownloadFileWithName(vendor.filepath,vendor.filename)">
+                  {{ vendor.pancardno || '—' }}
+                </a>
+              </td>
             </tr>
+            
           </tbody>
         </table>
       </div>

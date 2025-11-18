@@ -78,6 +78,8 @@ export class ProductPermission {
   PPCertificateList:any;
   PPCertificateItemDetails:any;
 
+  onshowPP:boolean=false;
+
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('sort') sort!: MatSort;
@@ -123,6 +125,10 @@ export class ProductPermission {
 
     });
 
+  }
+
+  onshowButtonClick(){
+    this.onshowPP = true;
   }
 
   //    ngAfterViewChecked() {
@@ -426,6 +432,8 @@ formatDate(dateString: string): string {
           this.updatePagination();
         } else {
           this.masItemsList = [];
+          this.toastr.warning('⚠️ No items found for given parameters');
+
           console.warn('No items found for given mcid and mTypeID');
         }
       },
@@ -465,7 +473,7 @@ formatDate(dateString: string): string {
        
 
 
-  debugger
+  
     // ✅ Call API only once
     if (!this.isSaving) {
       this.api.postPPCertificate(data, formData).subscribe({
@@ -475,6 +483,7 @@ formatDate(dateString: string): string {
           console.log('API Response:', res);
           sessionStorage.setItem('fileid', res);
           this.saveMasVregPPCItems();
+          this.onshowPP=false;
         },
         error: (err) => {
           console.error('Error:', err);
