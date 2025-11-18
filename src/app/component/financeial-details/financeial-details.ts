@@ -329,7 +329,7 @@ onFileSelectedanudocument(event: any) {
     const fileName = file.name.toLowerCase();
     const fileSize = file.size; // in bytes
 
-    // ✅ 1. Check file type
+ 
     if (!fileName.endsWith('.pdf')) {
       this.fileError = 'Only PDF files are allowed!';
       this.AnnualTurnoverForm.get('TurnOverDocument')?.setErrors({ invalidType: true });
@@ -337,7 +337,7 @@ onFileSelectedanudocument(event: any) {
       return;
     }
 
-    // ✅ 2. Check file size (100 MB = 104857600 bytes)
+   
     if (fileSize > 104857600) {
       this.fileError = 'File size must be less than 100 MB!';
       this.AnnualTurnoverForm.get('TurnOverDocument')?.setErrors({ fileTooLarge: true });
@@ -345,7 +345,7 @@ onFileSelectedanudocument(event: any) {
       return;
     }
 
-    // ✅ 3. File valid hai → form control me set kar do
+ 
     this.selectedAnuvFile = file;
     this.AnnualTurnoverForm.patchValue({
       TurnOverDocument: file
@@ -406,7 +406,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
     next: (res: any) => {
       if (res && res.length > 0) {
         this.SupplierBankAccDetail = res[0];
-        console.log('SupplierBankAccDetail:', this.SupplierBankAccDetail);
+        // console.log('SupplierBankAccDetail:', this.SupplierBankAccDetail);
       }
     },
     error: (err: any) => {
@@ -420,7 +420,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
     if (file) {
       this.selectedFile = file;
      
-      console.log('Selected  bank details file:', file.name);
+      // console.log('Selected  bank details file:', file.name);
     }
   }
   
@@ -514,7 +514,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
               sno: index + 1,
             })
           );
-          console.log('BankMandateDetail=:', this.dispatchData1);
+          // console.log('BankMandateDetail=:', this.dispatchData1);
           this.dataSource1.data = this.dispatchData1;
           this.dataSource1.paginator = this.paginator1;
           this.dataSource1.sort = this.sort1;
@@ -615,9 +615,9 @@ get f() {
   // ;
   this.loadingSectionB = true;
   this.submitted = true;
-  console.log('Form Value:', this.AnnualTurnoverForm.value);
-  console.log('Form Valid:', this.AnnualTurnoverForm.valid);
-  console.log('Form Errors:', this.AnnualTurnoverForm.errors);
+  // console.log('Form Value:', this.AnnualTurnoverForm.value);
+  // console.log('Form Valid:', this.AnnualTurnoverForm.valid);
+  // console.log('Form Errors:', this.AnnualTurnoverForm.errors);
 
   if (this.AnnualTurnoverForm.invalid) {
     this.toastr.error('Please fill all required fields!', 'Error');
@@ -684,7 +684,7 @@ GETMassuppliergstDetails(){
               sno: index + 1,
             })
           );
-          console.log('MassuppliergstDetails=:', this.dispatchData2);
+          // console.log('MassuppliergstDetails=:', this.dispatchData2);
           this.dataSource2.data = this.dispatchData2;
           this.dataSource2.paginator = this.paginator2;
           this.dataSource2.sort = this.sort2;
@@ -692,7 +692,7 @@ GETMassuppliergstDetails(){
           this.spinner.hide();
         },
         (error: { message: any; }) => {
-console.log('Error fetching data:',JSON.stringify(error.message))
+        console.log('Error fetching data:',JSON.stringify(error.message))
           // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
         }
       );
@@ -754,11 +754,11 @@ InsertGSTCertificate(GSTForm: NgForm) {
     const file = event.target.files[0];
     if (file) {
       this.GSTCertificate = file;
-      console.log('Selected file :', file.name);
+      // console.log('Selected file :', file.name);
     }
   }
   OnselectStates(event: any) {
-    console.log('Selected state:', event);
+    // console.log('Selected state:', event);
     this.stateid = event?.stateid;
   }
 
@@ -789,7 +789,7 @@ InsertGSTCertificate(GSTForm: NgForm) {
       },
       error: (err) => {
         if (err.status === 0 && err.statusText === 'Unknown Error') {
-          // ✅ Show toaster or alert message
+       
           this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
         } else if (err.status === 404) {
           this.toastr.warning('Requested file not found on the server.', 'File Not Found');
@@ -820,7 +820,7 @@ OnselectAccYearSettings(selectedaccyrsetid: any): void {
   // ;
   const selectedaccyrset = selectedaccyrsetid.accyrsetid || 0;
 
-  console.log('✅ Selected selectedaccyrset:', selectedaccyrset);
+  // console.log('✅ Selected selectedaccyrset:', selectedaccyrset);
 
   if (selectedaccyrset) {
     this.accyrsetid= selectedaccyrset;
@@ -839,7 +839,7 @@ OnselectMASGSTQUARTER(selectedgstqtrid: any): void {
   // ;
   const selectedgstqtr = selectedgstqtrid.gstqtrid || 0;
 
-  console.log('✅ Selected OnselectMASGSTQUARTER:', selectedgstqtr);
+  // console.log('✅ Selected OnselectMASGSTQUARTER:', selectedgstqtr);
 
   if (selectedgstqtr) {
     this.gstqtrid = selectedgstqtr;
@@ -852,7 +852,7 @@ Onselectgstno(selectedgstid: any): void {
   // ;
   const selectedgst = selectedgstid.gstid || 0;
 
-  console.log('✅ Selected GST Object:', selectedgst);
+  // console.log('✅ Selected GST Object:', selectedgst);
 
   if (selectedgst) {
     this.gstid = selectedgst;
@@ -863,7 +863,7 @@ GETAccYearSettings(){
   this.api.GETAccYearSettings().subscribe({
     next: (res: any) => {
      this.AccYearSettings=res;
-     console.log("AccYearSettings:", this.AccYearSettings);
+    //  console.log("AccYearSettings:", this.AccYearSettings);
     },
     error: (err: any) => {
       console.error("Error loading Years:", err);
@@ -875,7 +875,7 @@ GETMASGSTQUARTER(){
   this.api.MASGSTQUARTER().subscribe({
     next: (res: any) => {
      this.MASGSTQUARTER=res;
-     console.log("AccYearSettings:", this.MASGSTQUARTER);
+    //  console.log("AccYearSettings:", this.MASGSTQUARTER);
     },
     error: (err: any) => {
       console.error("Error loading Years:", err);
@@ -887,7 +887,7 @@ onFileSelectedGSTReturn(event: any) {
   const file = event.target.files[0];
   if (file) {
     this.GSTreturnCertificate = file;
-    console.log('Selected file :', file.name);
+    // console.log('Selected file :', file.name);
   }
 }
 InsertMASGSTRETURNFILES(GSTRETURNForm: NgForm) {
