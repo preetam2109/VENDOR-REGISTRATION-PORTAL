@@ -35,6 +35,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class TechnicalDetails {
   NonConvcerCertificate: File | null = null;
+  PowerofAttorney: File | null = null;
+  AffidavitforStrict_Compliance: File | null = null;
+  blacklisting: File | null = null;
+  Other_Document1: File | null = null;
+  Other_Document2: File | null = null;
+
+
+
   TechCertificate1: File | null = null;
   TechCertificate2: File | null = null;
   TechCertificate3: File | null = null;
@@ -76,13 +84,21 @@ export class TechnicalDetails {
     const file = event.target?.files?.[0] || null;
   
     switch (fileNo) {
-      case 0: this.NonConvcerCertificate = file; break;
-      case 1: this.TechCertificate1 = file; break;
-      case 2: this.TechCertificate2 = file; break;
-      case 3: this.TechCertificate3 = file; break;
-      case 4: this.TechCertificate4 = file; break;
-      case 5: this.TechCertificate5 = file; break;
-      case 6: this.TechCertificate6 = file; break;
+      case 0: this.NonConvcerCertificate = file; break;//41
+      case 1: this.PowerofAttorney = file; break;//9
+      case 2: this.AffidavitforStrict_Compliance = file; break;//141
+      case 3: this.blacklisting = file; break;//142
+      case 4: this.Other_Document1 = file; break;//19
+      case 5: this.Other_Document2 = file; break;//122
+     
+      // case 1: this.TechCertificate1 = file; break;
+
+      // case 2: this.TechCertificate2 = file; break;
+      // case 3: this.TechCertificate3 = file; break;
+      // case 4: this.TechCertificate4 = file; break;
+      // case 5: this.TechCertificate5 = file; break;
+      // case 6: this.TechCertificate6 = file; break;
+      // case 6: this.TechCertificate6 = file; break;
     }
   }
   // onFileSelect(event: any,no:any): void {
@@ -122,35 +138,46 @@ export class TechnicalDetails {
   //   string CapacityOfProd = "81";
 
   InsertTechnicalDetails(mFileTypeid: number) {
-
+// debugger;
     const formData = new FormData();
     let selectedFile: File | null = null;
-  
-   
     switch (mFileTypeid) {
-      case 7:  // SSI Certificate
-        selectedFile = this.TechCertificate5;
+      case 19:  // SSI Certificate Other Document  1
+        selectedFile = this.Other_Document1;
         break;
-  
-      case 41: // Non Conviction Certificate
+      case 122:  // SSI Certificate Other Document  2
+        selectedFile = this.Other_Document2;
+        break;
+      case 142:  // blacklisting
+        selectedFile = this.blacklisting;
+        break;
+      case 141:  // AffidavitforStrict_Compliance
+        selectedFile = this.AffidavitforStrict_Compliance;
+        break;
+      case 9:  // PowerofAttorney
+        selectedFile = this.PowerofAttorney;
+        break;
+         case 41: // Non Conviction Certificate
         selectedFile = this.NonConvcerCertificate;
         break;
+      // case 7:  // SSI Certificate Other Document  1
+      //   selectedFile = this.TechCertificate5;
+      //   break;
+      // case 42: // Technical Certificate
+      //   selectedFile = this.TechCertificate3;
+      //   break;
   
-      case 42: // Technical Certificate
-        selectedFile = this.TechCertificate3;
-        break;
+      // case 43: // Performance Certificate
+      //   selectedFile = this.TechCertificate1;
+      //   break;
   
-      case 43: // Performance Certificate
-        selectedFile = this.TechCertificate1;
-        break;
+      // case 45: // Self Affidavit
+      //   selectedFile = this.TechCertificate2;
+      //   break;
   
-      case 45: // Self Affidavit
-        selectedFile = this.TechCertificate2;
-        break;
-  
-      case 81: // Capacity of Production
-        selectedFile = this.TechCertificate4;
-        break;
+      // case 81: // Capacity of Production
+      //   selectedFile = this.TechCertificate4;
+      //   break;
   
       default:
         this.toastr.error('Invalid File Type ID!', 'Error');
@@ -172,7 +199,7 @@ export class TechnicalDetails {
       mVergID: sessionStorage.getItem('vregid') || '',
       mFileTypeID: mFileTypeid.toString()
     };
-  
+  // return;
     //  API Call
     try {
       this.loadingSectionA = true;  
@@ -186,12 +213,15 @@ export class TechnicalDetails {
   
           // Reset only uploaded file variable
           switch (mFileTypeid) {
-            case 7: this.TechCertificate1 = null; break;
+            // case 7: this.TechCertificate1 = null; break;
+
             case 41: this.NonConvcerCertificate = null;  break;
-            case 42: this.TechCertificate2 = null;   break;
-            case 43: this.TechCertificate3 = null; break;
-            case 45: this.TechCertificate4 = null; break;
-            case 81: this.TechCertificate5 = null;  break;
+            case 9: this.PowerofAttorney = null; break;
+            case 141: this.AffidavitforStrict_Compliance = null; break;
+            case 142: this.blacklisting = null;   break;
+            case 19: this.Other_Document1 = null; break;
+            case 122: this.Other_Document2 = null; break;
+            // case 81: this.TechCertificate5 = null;  break;
           }
           this.GetTechnicalDetails();
           this.loadingSectionA = false;  
