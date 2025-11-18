@@ -2043,7 +2043,7 @@ getMasformTypes(){
 
 
 postManufacturingLic(data: any, formData: FormData): Observable<any> {
-  // debugger
+  // 
   const params = new HttpParams()
   .set('mUNITID', data.mUNITID)
   .set('mFORMID', data.mFORMID)
@@ -2135,7 +2135,7 @@ GetMasitems(CategoryID:any,mTypeID:any){
 // }
 
 postPPCertificate(data: any, formData: FormData): Observable<any> {
-  debugger
+  
   const params = new HttpParams()
     .set('mVergID', data.mVergID)   // ✅ matches API param exactly
     .set('mIssueDate', data.mIssueDate)
@@ -2210,7 +2210,7 @@ GetDDlImprtLic(VregID:any){
 
 
 masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
-  // debugger
+  // 
   
   const params = new HttpParams()
   .set('mIMPID', data.mIMPID)
@@ -2236,7 +2236,7 @@ masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
 
   InsertMakrketStanding(data: any, formData: FormData): Observable<any> {
     
-debugger
+
 // Insert First MSC certificate
     
     // const params = new HttpParams()
@@ -2301,7 +2301,7 @@ GetMSCCOPItemDetails(VregID:any,mFileID:any,mscCopType:any){
 }
 
 InsertCOP(data: any, formData: FormData): Observable<any> {
-  debugger
+  
     const params = new HttpParams()
   .set('mlicid', data.mlicid)
   .set('mVergID', data.mVregid)
@@ -2330,7 +2330,7 @@ InsertCOP(data: any, formData: FormData): Observable<any> {
 
 
   UpdaetCOPItems(PPCID: any, COPID: any, COPPAGENO: any) {
-    debugger
+    
     
     return this.http.put(
       `${this.VREGAPI}/Registration/UpdaetCOPItems?PPCID=${PPCID}&COPID=${COPID}&COPPAGENO=${COPPAGENO}`,

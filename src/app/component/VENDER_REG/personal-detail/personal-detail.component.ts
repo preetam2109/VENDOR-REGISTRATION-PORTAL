@@ -76,7 +76,7 @@ saveVendor() {
   
   try {
     const formData = new FormData();
-debugger
+
     // Append file if selected
     
     if (this.selectedPanFile) {
