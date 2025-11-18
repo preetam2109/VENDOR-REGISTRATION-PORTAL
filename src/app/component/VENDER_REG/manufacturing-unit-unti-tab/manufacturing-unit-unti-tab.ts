@@ -74,6 +74,7 @@ export class ManufacturingUnitUntiTab {
 
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
+  
   submitted=false;
 
 
@@ -151,6 +152,18 @@ this.retForm = this.fb.group({
 
 
   }
+  
+  
+  expandedIndex: number | null = null;
+
+  toggleDetails(index: number) {
+    this.expandedIndex = this.expandedIndex === index ? null : index;
+  }
+  
+  isExpansionRow = (index: number, row: any) => {
+    return this.expandedIndex !== null && index === this.expandedIndex + 1;
+  };
+  
 
   getMasformTypes(){
     
