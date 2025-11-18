@@ -62,7 +62,8 @@ loadingSectionA:boolean=false;
       // dispatchData3: GstReturnDetails[] = [];'filepath',
       displayedColumns: string[] = [
         'sno','gcpid','vregid','gcpno','issuedate','startdate',
-        'expdate','filename','entrydate','action'
+        'expdate','filename','entrydate'
+        // ,'action'
         // sno:any;
         // : number
         // : number

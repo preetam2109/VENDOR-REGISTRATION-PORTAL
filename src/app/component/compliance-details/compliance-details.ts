@@ -98,9 +98,9 @@ export class ComplianceDetails {
     // 'vregid',
     // 'supplierid',
     'filename',
+    // 'action',
     // 'ext',
     // 'licid',
-    'action',
   ];
   dispatchData1: GetCOMTyepDetails[] = [];
   // dispatchData3: GstReturnDetails[] = [];'filepath',
@@ -112,9 +112,9 @@ export class ComplianceDetails {
     'itemtypeid',
     'itemtypename',
     'vregid',
+    // 'action',
    
     // 'filename',
-    'action',
     // whotypeid: number;
     // whoid: number;
     // whono: string;
