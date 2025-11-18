@@ -1,11 +1,324 @@
 <div class=" card container-fluid text-center" style="background-color: aliceblue;">
     <h3 class="mb-3 Heading-font-family pt-1">	TECHNICAL DETAILS</h3>
   </div>
-<div class="container-fluid p-0 m-0 py-3">
+
+  <div class="container-fluid p-0 m-0 py-3">
     <div class="row justify-content-center g-4 px-3">
-        <!-- <div class="row g-4"> -->
-            <!-- <div class="container-fluid py-3">
-                <div class="row pt-3 p-2"> -->
+        <div class="col-lg-12 mb-5">
+          <div *ngIf="loadingSectionA; else sectionAContentA" class="spinner-container">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+          <ng-template #sectionAContentA>
+            <!-- DATA Table -->
+            <div class="row justify-content-center g-4 p-3">
+                <!-- Card 1 -->
+                <div class="col-12 col-md-12 p-2">
+                  <div class="" style="padding-bottom: 20px;">
+                    <div class=" card row shadow ">
+                      <div class="d-flex justify-content-between align-items-center m-2">
+                        <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
+                        </div>
+                        <div class="export-menu-container m-2">
+                          <button type="button" class="btn border rounded mr-1 text-light"
+                          style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                            class="bi bi-folder-plus"></i></button>
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+                          [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+                
+                          <ng-container matColumnDef="sno">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              {{element.sno}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="vregid">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>vregid</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
+                          </ng-container>
+                         
+                          <ng-container matColumnDef="mscid">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>mscid</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.mscid}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="ext">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ext</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="File Id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>fileid</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.fileid}} </td>
+                          </ng-container>
+                          <!-- 'sno',
+                          'vregid',
+                  
+                          'mscid',
+                          'filename',
+                          'ext',
+                          'fileid',
+                          'code',
+                          'filepath',
+                          'action', -->
+                          <ng-container matColumnDef="code">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Document Type</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.code}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="filepath">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.filepath}} </td>
+                          </ng-container>
+                         
+                          <ng-container matColumnDef="filename">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              <button
+                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                mat-button
+                                (click)="DownloadFileWithName1(element.filepath, element.filename)"><i
+                                  class="bi bi-filetype-pdf text-danger"></i>
+                              </button>
+                            </td>
+                          </ng-container>
+                
+                          <!-- <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              <span class="d-flex  flex-row-reverse p-2 ">
+                                <button
+                                  class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                  mat-button (click)="onButtonClick(element.licid)">
+                                  <i class="bi bi-pencil-square text-primary"></i>
+                                </button>
+                              </span>
+                            </td>
+                          </ng-container> -->
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- END DATA TABLE -->
+            <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshow == true">
+                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                    style="height: auto; overflow: hidden; position: relative;">
+                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                      <form class="p-2">
+                        <label for="inputnumber">Upload Document </label>
+                        <div class="row pb-3">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber"> Upload Non Conviction certificate Issued by Concern FDA: <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control" accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber1" name="NonConvcerCertificate"
+                                     (change)="onFileSelect($event, 0)" required
+                                     #NonConvcerCertificate="ngModel"
+                                     ngModel
+                                     [ngClass]="{
+                                        'is-invalid': NonConvcerCertificate.invalid && NonConvcerCertificate.touched,
+                                        'is-valid': NonConvcerCertificate.valid && NonConvcerCertificate.touched
+                                      }">
+                                         <!-- Validation Message -->
+                                         <div *ngIf="NonConvcerCertificate.invalid && NonConvcerCertificate.touched">
+                                            <small class="text-danger">
+                                              Please upload the Non Conviction Certificate (PDF).
+                                            </small>
+                                          </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(41)"
+                                [disabled]="!NonConvcerCertificate.valid"  >Upload</button>
+                                <!-- <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(41)">Download</button> -->
+                            </div>
+                          </div>
+                          <!-- <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>  -->
+                          
+                          <!-- [ngClass]="{
+                            'is-invalid': (NonConvcerCertificate.touched || bankForm.submitted) && branch.invalid,
+                            'is-valid': NonConvcerCertificate.valid && (branch.touched || bankForm.submitted)
+                          }" -->
+                        <div class="row  pb-3">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber"> Notary attested copy of Power of Attorney/Resolution of Board : 
+                                    <span  class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber2" (change)="onFileSelect($event, 1)" required
+                                    #TechCertificate1="ngModel" name="TechCertificate1"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': TechCertificate1.invalid && TechCertificate1.touched,
+                                       'is-valid': TechCertificate1.valid && TechCertificate1.touched
+                                     }">
+                                        <!-- Validation Message -->
+                                        <div *ngIf="TechCertificate1.invalid && TechCertificate1.touched">
+                                           <small class="text-danger">
+                                             Please upload the Notary attested copy of Power of Attorney/Resolution of Board Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(43)" [disabled]="!TechCertificate1.valid"  >Upload</button>
+                                <!-- <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(43)" >Download</button> -->
+                            </div>
+                        </div>
+                        <div class="row  pb-3">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Affidavit for Strict Compliance : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber3"  (change)="onFileSelect($event, 2)" required
+                                    #TechCertificate2="ngModel" name="TechCertificate2"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': TechCertificate2.invalid && TechCertificate2.touched,
+                                       'is-valid': TechCertificate2.valid && TechCertificate2.touched
+                                     }">
+                                        <!-- Validation Message -->
+                                        <div *ngIf="TechCertificate2.invalid && TechCertificate2.touched">
+                                           <small class="text-danger">
+                                             Please upload the Affidavit for Strict Compliance Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(45)" [disabled]="!TechCertificate2.valid" >Upload</button>
+                                <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(45)">Download</button> -->
+                            </div>
+                        </div>
+                        <div class="row  pb-3">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Declaration Regarding blacklisting  : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber4" (change)="onFileSelect($event, 3)" required
+                                    #TechCertificate3="ngModel" name="TechCertificate3"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': TechCertificate3.invalid && TechCertificate3.touched,
+                                       'is-valid': TechCertificate3.valid && TechCertificate3.touched
+                                     }">
+                                        <!-- Validation Message -->
+                                        <div *ngIf="TechCertificate3.invalid && TechCertificate3.touched">
+                                           <small class="text-danger">
+                                             Please upload the Declaration Regarding blacklisting Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(42)" [disabled]="!TechCertificate3.valid">Upload</button>
+                                <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(42)">Download</button> -->
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="row  pb-3">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Upload Statement of capacity of production : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber5" (change)="onFileSelect($event, 4)" required
+                                    #TechCertificate4="ngModel" name="TechCertificate4"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': TechCertificate4.invalid && TechCertificate4.touched,
+                                       'is-valid': TechCertificate4.valid && TechCertificate4.touched
+                                     }">
+                                        
+                                        <div *ngIf="TechCertificate4.invalid && TechCertificate4.touched">
+                                           <small class="text-danger">
+                                             Please upload the Upload Statement of capacity of production Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(81)">Upload</button>
+                                <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
+                            </div>
+                        </div> -->
+                        <label for="inputnumber">Other documents for establishing eligibility of bidder</label>
+                        
+                        <div class="row  pb-3">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Other Document  1: <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber6"(change)="onFileSelect($event, 5)" required
+                                    #TechCertificate5="ngModel" name="TechCertificate5"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': TechCertificate5.invalid && TechCertificate5.touched,
+                                       'is-valid': TechCertificate5.valid && TechCertificate5.touched
+                                     }">
+                                        <!-- Validation Message -->
+                                        <div *ngIf="TechCertificate5.invalid && TechCertificate5.touched">
+                                           <small class="text-danger">
+                                             Please upload the Other Document Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)" [disabled]="!TechCertificate5.valid">Upload</button>
+                                <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(7)">Download</button> -->
+                            </div>
+                        </div>
+                        <!-- <div class="row  pb-3">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Other Document 2 : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber7" (change)="onFileSelect($event, 5)"  required
+                                    #TechCertificate6="ngModel" name="TechCertificate6"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': TechCertificate6.invalid && TechCertificate6.touched,
+                                       'is-valid': TechCertificate6.valid && TechCertificate6.touched
+                                     }">
+                                        <div *ngIf="TechCertificate6.invalid && TechCertificate6.touched">
+                                           <small class="text-danger">
+                                             Please upload the Other Document Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                           
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)">Upload</button>
+                                <button type="submit" class="btn btn-primary m-3">Download</button>
+                            </div>
+                        </div> -->
+                        <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
+                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                    </form>
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+          </ng-template>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container-fluid p-0 m-0 py-3">
+    <div class="row justify-content-center g-4 px-3">
                     <div class="col-lg-12 mb-5">
                         <div class="card shadow-lg p-4 border-0 bg-white rounded ">
                             <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
@@ -27,7 +340,7 @@
                                                         'is-invalid': NonConvcerCertificate.invalid && NonConvcerCertificate.touched,
                                                         'is-valid': NonConvcerCertificate.valid && NonConvcerCertificate.touched
                                                       }">
-                                                         <!-- Validation Message -->
+                                                       
                                                          <div *ngIf="NonConvcerCertificate.invalid && NonConvcerCertificate.touched">
                                                             <small class="text-danger">
                                                               Please upload the Non Conviction Certificate (PDF).
@@ -40,12 +353,6 @@
                                                 <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(41)">Download</button>
                                             </div>
                                           </div>
-                                          <!-- <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>  -->
-                                          
-                                          <!-- [ngClass]="{
-                                            'is-invalid': (NonConvcerCertificate.touched || bankForm.submitted) && branch.invalid,
-                                            'is-valid': NonConvcerCertificate.valid && (branch.touched || bankForm.submitted)
-                                          }" -->
                                         <div class="row  pb-3">
                                             <div class="form-group col-md-6 pt-3">
                                                 <label for="inputnumber"> Notary attested copy of Power of Attorney/Resolution of Board : 
@@ -58,7 +365,6 @@
                                                        'is-invalid': TechCertificate1.invalid && TechCertificate1.touched,
                                                        'is-valid': TechCertificate1.valid && TechCertificate1.touched
                                                      }">
-                                                        <!-- Validation Message -->
                                                         <div *ngIf="TechCertificate1.invalid && TechCertificate1.touched">
                                                            <small class="text-danger">
                                                              Please upload the Notary attested copy of Power of Attorney/Resolution of Board Certificate (PDF).
@@ -82,7 +388,6 @@
                                                        'is-invalid': TechCertificate2.invalid && TechCertificate2.touched,
                                                        'is-valid': TechCertificate2.valid && TechCertificate2.touched
                                                      }">
-                                                        <!-- Validation Message -->
                                                         <div *ngIf="TechCertificate2.invalid && TechCertificate2.touched">
                                                            <small class="text-danger">
                                                              Please upload the Affidavit for Strict Compliance Certificate (PDF).
@@ -106,7 +411,6 @@
                                                        'is-invalid': TechCertificate3.invalid && TechCertificate3.touched,
                                                        'is-valid': TechCertificate3.valid && TechCertificate3.touched
                                                      }">
-                                                        <!-- Validation Message -->
                                                         <div *ngIf="TechCertificate3.invalid && TechCertificate3.touched">
                                                            <small class="text-danger">
                                                              Please upload the Declaration Regarding blacklisting Certificate (PDF).
@@ -118,31 +422,6 @@
                                                 <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(42)">Download</button>
                                             </div>
                                         </div>
-                                        
-                                        <!-- <div class="row  pb-3">
-                                            <div class="form-group col-md-6 pt-3">
-                                                <label for="inputnumber">Upload Statement of capacity of production : <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="file" class="form-control"  accept=".pdf"
-                                                    placeholder="Type your Account No" id="inputnumber5" (change)="onFileSelect($event, 4)" required
-                                                    #TechCertificate4="ngModel" name="TechCertificate4"
-                                                    ngModel
-                                                    [ngClass]="{
-                                                       'is-invalid': TechCertificate4.invalid && TechCertificate4.touched,
-                                                       'is-valid': TechCertificate4.valid && TechCertificate4.touched
-                                                     }">
-                                                        
-                                                        <div *ngIf="TechCertificate4.invalid && TechCertificate4.touched">
-                                                           <small class="text-danger">
-                                                             Please upload the Upload Statement of capacity of production Certificate (PDF).
-                                                           </small>
-                                                         </div>
-                                            </div>
-                                            <div class="form-group col-md-6 pt-3">
-                                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(81)">Upload</button>
-                                                <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
-                                            </div>
-                                        </div> -->
                                         <label for="inputnumber">Other documents for establishing eligibility of bidder</label>
                                         
                                         <div class="row  pb-3">
@@ -157,7 +436,6 @@
                                                        'is-invalid': TechCertificate5.invalid && TechCertificate5.touched,
                                                        'is-valid': TechCertificate5.valid && TechCertificate5.touched
                                                      }">
-                                                        <!-- Validation Message -->
                                                         <div *ngIf="TechCertificate5.invalid && TechCertificate5.touched">
                                                            <small class="text-danger">
                                                              Please upload the Other Document Certificate (PDF).
@@ -169,33 +447,7 @@
                                                 <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(7)">Download</button>
                                             </div>
                                         </div>
-                                        <!-- <div class="row  pb-3">
-                                            <div class="form-group col-md-6 pt-3">
-                                                <label for="inputnumber">Other Document 2 : <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="file" class="form-control"  accept=".pdf"
-                                                    placeholder="Type your Account No" id="inputnumber7" (change)="onFileSelect($event, 5)"  required
-                                                    #TechCertificate6="ngModel" name="TechCertificate6"
-                                                    ngModel
-                                                    [ngClass]="{
-                                                       'is-invalid': TechCertificate6.invalid && TechCertificate6.touched,
-                                                       'is-valid': TechCertificate6.valid && TechCertificate6.touched
-                                                     }">
-                                                        <div *ngIf="TechCertificate6.invalid && TechCertificate6.touched">
-                                                           <small class="text-danger">
-                                                             Please upload the Other Document Certificate (PDF).
-                                                           </small>
-                                                         </div>
-                                            </div>
-                                           
-                                            <div class="form-group col-md-6 pt-3">
-                                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)">Upload</button>
-                                                <button type="submit" class="btn btn-primary m-3">Download</button>
-                                            </div>
-                                        </div> -->
-                                        <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
-                                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                                    </form>
+                                       </form>
                                 </div>
                             </div>
 
@@ -203,11 +455,8 @@
                         </div>
 
                     </div>
-                <!-- </div>
-            </div> -->
-        <!-- </div> -->
     </div>
-</div>
+</div> -->
 
 <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-fullscreen">

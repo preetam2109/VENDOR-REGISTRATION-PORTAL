@@ -231,7 +231,7 @@ this.loadingSectionA=true;
       const file = event.target.files[0];
       if (file) {
         this.fileSelected = file;
-        console.log('Selected file :', file.name);
+        // console.log('Selected file :', file.name);
       }
     }
   
@@ -251,7 +251,7 @@ this.loadingSectionA=true;
                   sno: index + 1,
                 })
               );
-              console.log('GetGCPDetails=:', this.dispatchData);
+              // console.log('GetGCPDetails=:', this.dispatchData);
               this.dataSource.data = this.dispatchData;
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
