@@ -112,17 +112,21 @@ gstFileModel: any; // just for ngModel binding compatibility
   dispatchData2: MassuppliergstDetails[] = [];
   dispatchData3: GstReturnDetails[] = [];
   displayedColumns: string[] = [
-    'sno','accyear','turnoveramt','udinno','filename','action'
+    'sno','accyear','turnoveramt','udinno','filename'
+    // ,'action'
   ];
   displayedColumns2: string[] = [
-    'sno','statename','gstno','filename','action'
+    'sno','statename','gstno','filename'
+    // ,'action'
   ];
   displayedColumns3: string[] = [
-    'sno','gstno','accyear','filename','action'
+    'sno','gstno','accyear','filename'
+    // ,'action'
   ];
   dispatchData1: BankMandateDetail[] = [];
   displayedColumns1: string[] = [
-    'sno','accountname','accountno','bankname','branch','ifsccode','defaultacc','filename','action'
+    'sno','accountname','accountno','bankname','branch','ifsccode','defaultacc','filename'
+    // ,'action'
   ];
   AccYearSettings: any;
   MASGSTQUARTER: any;
