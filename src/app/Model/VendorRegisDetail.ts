@@ -141,3 +141,14 @@ export interface vendorBankDetail_model {
     filepath: string
     entrydate: string
   }
+
+  export interface TechnicalDetails_model {
+    sno:any;
+    vregid: string
+    mscid: string
+    filename: string
+    ext: string
+    fileid: string
+    code: string
+    filepath: string
+  }

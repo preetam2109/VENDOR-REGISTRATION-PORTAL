@@ -87,7 +87,7 @@ export class ComplianceDetails {
     'licno',
     'unitname',
     'whono',
-    'comid',
+    // 'comid',
     'comname',
     'issuedate',
     'startdate',
@@ -95,11 +95,11 @@ export class ComplianceDetails {
     'remarks',
     'whotype',
     'whoid',
-    'vregid',
-    'supplierid',
+    // 'vregid',
+    // 'supplierid',
     'filename',
-    'ext',
-    'licid',
+    // 'ext',
+    // 'licid',
     'action',
   ];
   dispatchData1: GetCOMTyepDetails[] = [];
@@ -172,7 +172,7 @@ export class ComplianceDetails {
       },
       error: (err) => {
         if (err.status === 0 && err.statusText === 'Unknown Error') {
-          // ✅ Show toaster or alert message
+         
           this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
         } else if (err.status === 404) {
           this.toastr.warning('Requested file not found on the server.', 'File Not Found');
@@ -245,7 +245,7 @@ export class ComplianceDetails {
       .subscribe({
         next: (res: any) => {
           this.license = res;
-          console.log('license:', this.license);
+          // console.log('license:', this.license);
         },
         error: (err: any) => {
           console.error('Error loading license:', err);
@@ -258,21 +258,21 @@ export class ComplianceDetails {
     // console.log('Selected license:', event);
     if (event) {
       this.licid = event?.licid;
-      console.log('licid:', this.licid);
+      // console.log('licid:', this.licid);
       this.unitname = `${event.licid} - ${event.unitname}`;
       console.log(this.unitname); // will log "55 - Korba"
     }
   }
   OnselectlicensecomplianceType(event: any) {
     // ;
-    console.log('Selected license:', event);
+    // console.log('Selected license:', event);
     this.comid = event?.comid;
-    console.log('comid:', this.comid);
+    // console.log('comid:', this.comid);
   }
   OnselectItemtype(event: any) {
     // console.log('Selected itemtypeid:', event);
     // this.itemtypeid = event?.itemtypeid;
-    console.log('selecteditemtypeid:', this.selecteditemtypeid);
+    // console.log('selecteditemtypeid:', this.selecteditemtypeid);
   }
 
   toggleSelection(id: number, event: any) {
@@ -291,7 +291,7 @@ export class ComplianceDetails {
     this.api.GETMAScomplianceType().subscribe({
       next: (res: any) => {
         this.MAScomplianceType = res;
-        console.log('MAScomplianceType:', this.MAScomplianceType);
+        // console.log('MAScomplianceType:', this.MAScomplianceType);
       },
       error: (err: any) => {
         console.error('Error loading Years:', err);
@@ -303,7 +303,7 @@ export class ComplianceDetails {
     this.api.GETmasitemtypes().subscribe({
       next: (res: any) => {
         this.masitemtypes = res;
-        console.log('masitemtypes:', this.masitemtypes);
+        // console.log('masitemtypes:', this.masitemtypes);
       },
       error: (err: any) => {
         console.error('Error loading Years:', err);
@@ -331,7 +331,7 @@ export class ComplianceDetails {
       return;
     }
     if (this.fileSelected) {
-      formData.append('PanCardDocument', this.fileSelected);
+      // formData.append('PanCardDocument', this.fileSelected);
     } else {
       this.toastr.error(
         'Please select a Compliance Certificate file.',
@@ -466,7 +466,7 @@ export class ComplianceDetails {
                 sno: index + 1,
               })
             );
-            console.log('GetComplienceCertificateDetails=:', this.dispatchData);
+            // console.log('GetComplienceCertificateDetails=:', this.dispatchData);
             this.dataSource.data = this.dispatchData;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -507,7 +507,7 @@ export class ComplianceDetails {
                 sno: index + 1,
               })
             );
-            console.log('GetCOMTyepDetails=:', this.dispatchData1);
+            // console.log('GetCOMTyepDetails=:', this.dispatchData1);
             this.dataSource1.data = this.dispatchData1;
             this.dataSource1.paginator = this.paginator1;
             this.dataSource1.sort = this.sort1;
