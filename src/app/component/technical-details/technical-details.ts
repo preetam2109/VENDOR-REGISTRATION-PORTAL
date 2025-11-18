@@ -21,11 +21,13 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { TechnicalDetails_model } from 'src/app/Model/VendorRegisDetail';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-technical-details',
   standalone: true,
    imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
-     MaterialModule,MatSortModule, MatPaginatorModule, MatOptionModule,
+     MaterialModule,MatSortModule, MatPaginatorModule, MatOptionModule,MatProgressSpinnerModule,MatTableExporterModule
        
    ], 
   templateUrl: './technical-details.html',
@@ -42,16 +44,35 @@ export class TechnicalDetails {
   TechnicalDetails:any;
   sanitizedPdfUrl!: SafeResourceUrl;
   fileError: string = '';
+  loadingSectionA = false;
+    dataSource!: MatTableDataSource<TechnicalDetails_model>;
+    @ViewChild('paginator') paginator!: MatPaginator;
+    @ViewChild('sort') sort!: MatSort;
+     dispatchData: TechnicalDetails_model[] = [];
+      // dispatchData3: GstReturnDetails[] = [];'filepath',
+      displayedColumns: string[] = [
+        'sno',
+        'code',
+        // 'fileid',
+        'filename',
+        // 'vregid',
+        // 'mscid',
+        // 'ext',
+        // 'filepath',
+        // 'action',
+      ];
+      onshow=false;
+      events:any;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
     private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,
-  ){}
+  ){this.dataSource = new MatTableDataSource<TechnicalDetails_model>([]);}
   ngOnInit() {
     this.GetTechnicalDetails();
   
   }
   //#region InsertTechnicalDetails
   onFileSelect(event: any, fileNo: number): void {
-    ;
+  //  this.events= event.target.value;
     const file = event.target?.files?.[0] || null;
   
     switch (fileNo) {
@@ -101,11 +122,11 @@ export class TechnicalDetails {
   //   string CapacityOfProd = "81";
 
   InsertTechnicalDetails(mFileTypeid: number) {
-    ;
+
     const formData = new FormData();
     let selectedFile: File | null = null;
   
-    // 🔹 File selection based on mFileTypeid
+   
     switch (mFileTypeid) {
       case 7:  // SSI Certificate
         selectedFile = this.TechCertificate5;
@@ -136,24 +157,25 @@ export class TechnicalDetails {
         return;
     }
   
-    // 🔹 File check
+    //  File check
     if (!selectedFile) {
       this.toastr.error('Please select a file before uploading.', 'Error');
       console.error(` No file selected for mFileTypeid: ${mFileTypeid}`);
       return;
     }
   
-    // 🔹 Append file to formData
+    //  Append file to formData
     formData.append('PanCardDocument', selectedFile);
   
-    // 🔹 Prepare params data
+    //  Prepare params data
     const data = {
       mVergID: sessionStorage.getItem('vregid') || '',
       mFileTypeID: mFileTypeid.toString()
     };
   
-    // 🔹 API Call
+    //  API Call
     try {
+      this.loadingSectionA = true;  
       this.api.InsertTechnicalDetails(data, formData).subscribe({
         next: (res: any) => {
           this.toastr.success(
@@ -165,14 +187,19 @@ export class TechnicalDetails {
           // Reset only uploaded file variable
           switch (mFileTypeid) {
             case 7: this.TechCertificate1 = null; break;
-            case 41: this.NonConvcerCertificate = null; break;
-            case 42: this.TechCertificate2 = null; break;
+            case 41: this.NonConvcerCertificate = null;  break;
+            case 42: this.TechCertificate2 = null;   break;
             case 43: this.TechCertificate3 = null; break;
             case 45: this.TechCertificate4 = null; break;
-            case 81: this.TechCertificate5 = null; break;
+            case 81: this.TechCertificate5 = null;  break;
           }
+          this.GetTechnicalDetails();
+          this.loadingSectionA = false;  
+          // this.onshow=false;
         },
+
         error: (err: any) => {
+          this.loadingSectionA = false;  
           console.error('Upload Error:', err);
           this.toastr.error('Failed to upload file!', 'Error');
         },
@@ -289,22 +316,93 @@ export class TechnicalDetails {
     //   "filepath": "D:\\VendorDocuments\\50\\Pancard_184.pdf"
     // },
     GetTechnicalDetails(){
-      this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
-        next: (res: any) => {
-         this.TechnicalDetails=res;
-         console.log("GetTechnicalDetails:", this.TechnicalDetails);
-        },
-        error: (err: any) => {
-          console.error("Error loading Years:", err);
-          // alert("Failed to load vendor details");
-        }
-      });
+  try {
+     
+      this.spinner.show();
+      this.api.GetTechnicalDetails(sessionStorage.getItem('vregid') ).subscribe(
+          (res: any) => {
+            this.dispatchData = res.map(
+              (item: TechnicalDetails_model, index: number) => ({
+                ...item,
+                sno: index + 1,
+              })
+            );
+            this.TechnicalDetails=this.dispatchData;
+            // console.log('TechnicalDetails=:', this.dispatchData);
+            this.dataSource.data = this.dispatchData;
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error: { message: any }) => {
+            this.spinner.hide();
+            console.log('Error fetching data:',JSON.stringify(error.message))
+            // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+          }
+        );
+    } catch (err: any) {
+      this.spinner.hide();
+
+      console.log(err);
+      // throw err;
+    }
+
+// return
+
+      // this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
+      //   next: (res: any) => {
+      //    this.TechnicalDetails=res;
+      //   //  console.log("GetTechnicalDetails:", this.TechnicalDetails);
+      //   },
+      //   error: (err: any) => {
+      //     console.error("Error loading Years:", err);
+      //     // alert("Failed to load vendor details");
+      //   }
+      // });
     }
     clickdetailspdf(mscid: number) {
       // Ensure data is loaded
      
     }
     
+    DownloadFileWithName1(mFilePath: string, mFileName: string) {
+    
+  
+      // Encode file path and file name to handle special characters (like spaces, \ etc.)
+      const encodedPath = encodeURIComponent(mFilePath);
+      const encodedName = encodeURIComponent(mFileName);
+    
+      // Build dynamic API URL
+      const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+    
+      this.api.DownloadFileWithName(apiUrl).subscribe({
+        next: (res: Blob) => {
+          const blob = new Blob([res], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          this.openmarqModal(url);
+          // Create a temporary link element for download
+          // const a = document.createElement('a');
+          // a.href = url;
+          // a.download = mFileName;
+          // a.click();
+    
+          // // Clean up URL object after use
+          // window.URL.revokeObjectURL(url);
+        },
+        error: (err) => {
+          if (err.status === 0 && err.statusText === 'Unknown Error') {
+           
+            this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+          } else if (err.status === 404) {
+            this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+          } else {
+            this.toastr.error('Something went wrong while downloading the file.', 'Error');
+          }
+          console.error('Download error:', err);
+        }
+      });
+    }
     DownloadFileWithName(mscid:any) {
       // ;mFilePath: string, mFileName: string ,
       let mFileName: any;
@@ -321,11 +419,11 @@ export class TechnicalDetails {
       if (file) {
         mFileName= file.filename;
         mFilePath= file.filepath;
-        console.log("Matched File:", file);
-        console.log("File Name:", file.filename);
-        console.log("File Path:", file.filepath);
+        // console.log("Matched File:", file);
+        // console.log("File Name:", file.filename);
+        // console.log("File Path:", file.filepath);
     
-        // ✅ Optionally: download or open the file
+       
         // If your API provides downloadable links, you can open them directly:
         // window.open(file.filepath, '_blank'); // ⚠ Only works if it's a valid URL, not local path
     
@@ -356,7 +454,7 @@ export class TechnicalDetails {
         },
         error: (err) => {
           if (err.status === 0 && err.statusText === 'Unknown Error') {
-            // ✅ Show toaster or alert message
+           
             this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
           } else if (err.status === 404) {
             this.toastr.warning('Requested file not found on the server.', 'File Not Found');
@@ -388,5 +486,12 @@ export class TechnicalDetails {
       });
       modal.show();
     }
+    applyTextFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+    onButtonClick1(){
+      this.onshow= true;
+     }
   //#endregion
 }
