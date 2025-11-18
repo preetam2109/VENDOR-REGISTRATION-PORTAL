@@ -580,6 +580,12 @@ this.retForm = this.fb.group({
           console.log('API Response:', res);
           this.licForm.reset();
           this.submitted = false;
+          // Re-patch mVregid after reset to pre-fill for next entry
+          this.licForm.patchValue({
+          mVregid: this.vregid
+          });
+
+          
           this.GetmANUFACLICDetails();
           this.onshowLICENCE=false;
 

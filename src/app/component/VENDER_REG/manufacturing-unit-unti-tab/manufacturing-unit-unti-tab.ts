@@ -558,6 +558,10 @@ this.retForm = this.fb.group({
             console.log('Response:', res);
             this.unitForm.reset();
             this.submitted=false;
+              // Re-patch mVregid after reset to pre-fill for next entry
+            this.unitForm.patchValue({
+            mVregid: this.vregid
+            });
             this.getManufacturingDetails();
             this.onshowUNIT=false;
             this.loadingSectionA = false;
