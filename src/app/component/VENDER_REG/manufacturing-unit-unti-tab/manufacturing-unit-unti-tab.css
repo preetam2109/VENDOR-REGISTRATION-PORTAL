@@ -1,3 +1,6 @@
+/* Consolidated and cleaned CSS for no spaces between rows */
+/* Removed duplicates, conflicts, and added gap-fixing rules */
+
 .container-fluid {
     padding: 20px;
   }
@@ -21,7 +24,8 @@
   .table {
     width: 100%;
     min-width: 1000px;
-    border-collapse: collapse;
+    border-collapse: collapse; /* Merge borders to eliminate gaps */
+    margin-bottom: 0; /* No bottom margin */
   }
   
   .table th {
@@ -29,11 +33,15 @@
     background-color: #f5f5f5;
     text-align: left;
     padding: 8px;
+    margin: 0; /* No margins */
+    border: 1px solid #e0e0e0; /* Consistent borders */
   }
   
   .table td {
     padding: 8px;
+    margin: 0; /* No margins on cells */
     border: 1px solid #e0e0e0;
+    vertical-align: top; /* Consistent alignment */
   }
   
   .table td, .table th {
@@ -47,12 +55,113 @@
   .mat-paginator {
     margin-top: 20px;
   }
+  
   .text p {
-    font-size: small; /* Adjust text size for small screens */
-    /* color: crimson; */
+    font-size: small;
   }
   
-  /* Additional styling for mobile view */
+  .collapse {
+    overflow: visible !important;
+  }
+  
+  .ng-dropdown-panel {
+    position: fixed !important;
+    z-index: 9999 !important;
+  }
+  
+  /* Fixed Centering for Angular Material Table */
+  ::ng-deep .mat-mdc-header-cell,
+  ::ng-deep .mat-header-cell {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  
+  ::ng-deep .mat-sort-header-container {
+    justify-content: center !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  
+  ::ng-deep .mat-mdc-cell,
+  ::ng-deep .mat-cell {
+    justify-content: center !important;
+    text-align: center !important;
+    align-items: center !important;
+  }
+  
+  ::ng-deep .mat-mdc-table .table th,
+  ::ng-deep .mat-mdc-table .table td {
+    text-align: center !important;
+  }
+  
+  ::ng-deep .mat-sort-header-arrow {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+  
+  /* Expandable Rows: No gaps between rows (consolidated from previous sections) */
+  .data-row {
+    border: 1px solid #dee2e6;
+    margin: 0; /* No margins on rows */
+  }
+  
+  .data-row.expanded-row {
+    border-bottom: none; /* Seamless with detail row */
+  }
+  
+  .data-row.expanded-row td {
+    border-bottom-width: 0; /* Remove bottom border for seamless expansion */
+  }
+  
+  .detail-row {
+    height: 0; /* Collapsed height */
+    min-height: 0; /* Override any min-height */
+    border-top: none; /* No top border gap */
+    margin: 0; /* No margins */
+    padding: 0; /* No padding */
+    overflow: hidden; /* Hide content when collapsed */
+    transition: height 225ms cubic-bezier(0.4, 0.0, 0.2, 1); /* Smooth expand */
+  }
+  
+  .data-row.expanded-row + .detail-row {
+    height: auto; /* Expand to content height */
+    min-height: 48px; /* Minimum expanded height; adjust as needed */
+  }
+  
+  .detail-expand {
+    overflow: hidden;
+    display: block;
+    margin: 0; /* No margins */
+    padding: 0; /* No padding on container */
+  }
+  
+  .detail-expand .p-3 {
+    padding: 16px;
+    margin: 0; /* No margins inside */
+  }
+  
+  .data-row:not(.expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  .data-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+  
+  /* Global row gap elimination for Material Table */
+  ::ng-deep .mat-mdc-table tbody tr {
+    margin: 0 !important; /* No margins between rows */
+    border-spacing: 0 !important; /* No spacing */
+  }
+  
+  ::ng-deep .mat-mdc-table tbody tr td {
+    margin: 0 !important; /* No cell margins */
+    padding: 8px !important; /* Consistent padding */
+  }
+  
+  /* Mobile adjustments */
   @media (max-width: 768px) {
     .table-container {
       padding: 0;
@@ -67,68 +176,66 @@
       margin-bottom: 10px;
       width: 100%;
     }
+  
     .text p {
-      font-size: xx-small; /* Adjust text size for small screens */
-      /* color: crimson; */
+      font-size: xx-small;
+    }
+  
+    /* Ensure no extra gaps on mobile */
+    .table th,
+    .table td {
+      padding: 6px; /* Slightly reduced for tighter rows */
     }
   }
   
-/* Ensure dropdown is visible even inside collapse */
-.collapse {
-    overflow: visible !important;
+  .mat-mdc-table {
+    table-layout: auto;
   }
   
-  /* Fix ng-select dropdown position */
-  .ng-dropdown-panel {
-    position: fixed !important;
-    z-index: 9999 !important;
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Add to your component's SCSS for inner expansion styling */
+
+.retention-expand {
+    overflow: hidden;
+    background-color: #f8f9fa; /* Light bg for sub-table */
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
   }
   
-
-
-
-
-
-
-
-
-
-
-
-
-  /* Fixed Centering for Angular Material Table */
-::ng-deep .mat-mdc-header-cell,
-::ng-deep .mat-header-cell {
-  justify-content: center !important;
-  text-align: center !important;
-  /* display: flex !important;  */
-  /* Ensure flex mode */
-}
-
-::ng-deep .mat-sort-header-container {
-  justify-content: center !important;
-  text-align: center !important;
-  display: flex !important;
-  align-items: center !important; 
-  width: 100% !important; 
-}
-
-::ng-deep .mat-mdc-cell,
-::ng-deep .mat-cell {
-  justify-content: center !important;
-  text-align: center !important;
-  /* display: flex !important; */
-  align-items: center !important;
-}
-
-/* Override Bootstrap table text-align if conflicting */
-::ng-deep .mat-mdc-table .table th,
-::ng-deep .mat-mdc-table .table td {
-  text-align: center !important;
-}
-
-/* Ensure sort icons (if present) don't break centering */
-::ng-deep .mat-sort-header-arrow {
-  margin-left: 0 !important;
-  margin-right: auto !important; 
-}
+  .retention-expand .table {
+    margin-bottom: 0;
+  }
+  
+  .retention-expand thead th {
+    background-color: #e9ecef; /* Subtle header */
+    font-size: 0.875rem;
+  }
+  
+  /* Ensure no gaps in nested tables */
+  .retention-detail-row {
+    border-top: none;
+  }
+  
+  .retention-detail-row td {
+    padding: 0;
+    border-top: none;
+  }
