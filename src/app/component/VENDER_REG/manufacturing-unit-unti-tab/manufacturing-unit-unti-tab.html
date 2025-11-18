@@ -106,7 +106,7 @@
                   <td>{{ lic.licno || 'No data found' }}</td>
                   <td>{{ lic.issuedate || 'No data found' }}</td>
                   <td>{{ lic.validitydate || 'No data found' }}</td>
-                  <td>{{ lic.formname || lic.validitydate || 'No data found' }}</td>
+                  <td>{{ lic.formname || 'No data found' }}</td>
                   <td>{{ lic.licIssuingAuthority || 'No data found' }}</td>
                   <td>
                     <button class="btn btn-outline-primary btn-sm" (click)="toggleLicDetails(lic); $event.stopPropagation()">
