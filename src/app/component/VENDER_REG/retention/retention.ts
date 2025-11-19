@@ -318,6 +318,9 @@ formatDate(dateString: string): string {
           console.log('API Response:', res);
           this.RetentionForm.reset();
           this.submitted = false;
+          this.RetentionForm.patchValue({
+            mVregid: this.vregid
+          });
           this.GETImporterLicenceDetails();
           this.onshowRetentionForm=false;
           this.loadingSectionA=false;
@@ -373,7 +376,9 @@ formatDate(dateString: string): string {
           console.log('API Response:', res);
           this.RetentionForm2.reset();
           this.submitted = false;
-
+          this.RetentionForm2.patchValue({
+            mVregid: this.vregid
+          });
           this.GETImportRetentionDetails();
           this.onshowRetentionForm2=false;
           this.loadingSectionB=false;

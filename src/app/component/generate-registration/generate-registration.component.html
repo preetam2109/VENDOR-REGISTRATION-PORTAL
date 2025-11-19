@@ -6,7 +6,7 @@
 
     <!-- Generate Button -->
     <div class="d-flex justify-content-end mb-3">
-      <button class="btn btn-success" (click)="generate()">
+      <button class="btn btn-success"  *ngIf="showButtons" (click)="generate()">
         <i class="bi bi-plus-circle"></i> Generate
       </button>
     </div>

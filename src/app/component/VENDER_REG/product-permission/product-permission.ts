@@ -412,162 +412,73 @@ formatDate(dateString: string): string {
   }
 
 
-  onSubmit() {
-
-    this.api.GetMasitems(this.mcid, this.mTypeID).subscribe({
-      next: (res: any[]) => {
-        if (res && res.length > 0) {
-          // Store the items in a local array for table binding
-          this.masItemsList = res.map(item => ({
-            itemid: item.itemid,
-            itemname: item.itemname,
-            itemtypename: item.itemtypename,
-            itemcode: item.itemcode,
-            strength: item.strength,
-            unit: item.unit,
-            selected: false  // for checkbox binding
-          }));
-          console.log('Fetched Mas Items:', this.masItemsList);
-          this.filteredItems = [...this.masItemsList];
-          this.updatePagination();
-        } else {
-          this.masItemsList = [];
-          this.toastr.warning('⚠️ No items found for given parameters');
-
-          console.warn('No items found for given mcid and mTypeID');
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching Mas Items:', err);
-      }
-    });
-
-
-  }
-  uploadPPCertificate() {
-    
-    const formData = new FormData();
+  saveAndUpdate(): void {
+    // Step 1: Validate form and file before anything
+    if (this.productPerForm.invalid) {
+      this.toastr.warning('Please fill all required fields in the form correctly!');
+      return;
+    }
   
-    // ✅ Check file
-    if (this.selectedPanFile) {
-      console.log('Uploading file:', this.selectedPanFile.name);
-      formData.append('PanCardDocument', this.selectedPanFile);
-    } else {
+    if (!this.selectedPanFile) {
       this.toastr.warning('Please select a file to upload!');
-    
-
       return;
     }
   
-    // ✅ Prepare data with all required query parameters
-    const data = {
-      mVergID: this.vregid,
-      licID: this.licid,
-      mIssueDate: this.formatDate(this.productPerForm.value.mIssueDate),         // ← from your form
-      mStartDate: this.formatDate(this.productPerForm.value.mStartDate),
-      mVALIDITYDATE: this.formatDate(this.productPerForm.value.mVALIDITYDATE),
-      mISSUINGAUTHORITY: this.productPerForm.value.mISSUINGAUTHORITY
-    };
-
-
-       
-
-
-  
-    // ✅ Call API only once
-    if (!this.isSaving) {
-      this.api.postPPCertificate(data, formData).subscribe({
-        next: (res) => {
-          this.toastr.success('Product Permission Certificate saved successfully!');
-          this.isSaving = true;
-          console.log('API Response:', res);
-          sessionStorage.setItem('fileid', res);
-          this.saveMasVregPPCItems();
-          this.onshowPP=false;
-        },
-        error: (err) => {
-          console.error('Error:', err);
-          this.toastr.error('Failed to save data!');
-        }
-      });
-    } else {
-      this.saveMasVregPPCItems();
-    }
-  }
-  
-  saveAndUpdate(){
-    this.uploadPPCertificate();
-  
-  }
-  saveMasVregPPCItems() {
-    
-  
-    // if (this.productPerForm.invalid) {
-    //   this.toastr.warning('Please Select all required fields correctly!');
-    //   return;
-    // }
-  
-   
-  
-  
-    // const selectedItems = this.paginatedItems.filter((item: any) => item.selected);
-  
-    // if (selectedItems.length === 0) {
-    //   this.toastr.warning('Please select at least one item!');
-    //   return;
-    // }
-  
-   
-    // const itemsToInsert = selectedItems.map((item: any) => ({
-    //   ppcid: 0,
-    //   vregid: this.vregid,
-    //   itemid: item.itemid,
-    //   fileid: sessionStorage.getItem('fileid') || 0,
-    //   stndbatchqty: item.stndbatchqty,
-    //   pageno: item.pageno,
-    //   hsncode: item.hsncode,
-    //   gstper: item.gstper,
-    //   licid: this.licid,
-    //   impid: 0,
-    //   entrydate: new Date().toLocaleDateString('en-GB'), 
-    //   pharmaid: item.pharmaid
-    // }));
-  
-    // console.log('Items to send:', itemsToInsert);
-  
-   
-    // this.api.insertMasVregPPCItems(sessionStorage.getItem('vregid'), itemsToInsert).subscribe({
-    //   next: (res) => {
-    //     this.toastr.success('MASVREGPPCITEMS inserted successfully!');
-    //     console.log('API Response:', res);
-    //   },
-    //   error: (err) => {
-    //     console.error('Error:', err);
-    //     this.toastr.error('Failed to insert items!');
-    //   }
-    // });
-    this.submitted = true;
-if (this.productPerForm.invalid) {
-      this.toastr.warning('Please Select all required fields correctly!');
+    if (this.isSaving) {
+      this.toastr.warning('Save in progress. Please wait.');
       return;
     }
-
-    // Make sure we have items
+  
+    // Step 2: Validate selected items (before upload)
     const selected = (this.paginatedItems || []).filter((it: any) => it.selected);
-  
-    if (!selected || selected.length === 0) {
+    if (selected.length === 0) {
       this.toastr.warning('Please select at least one item to save!');
       return;
     }
   
-    // Flag to detect any invalid row
+    if (!this.validateSelectedItems(selected)) {
+      return; // Validation errors already shown via toastr
+    }
+  
+    this.isSaving = true;
+    this.submitted = true;
+  
+    // Step 3: Upload certificate only if all above pass
+    const formData = new FormData();
+    formData.append('PanCardDocument', this.selectedPanFile);
+  
+    const data = {
+      mVergID: this.vregid,
+      licID: this.licid,
+      mIssueDate: this.formatDate(this.productPerForm.value.mIssueDate),
+      mStartDate: this.formatDate(this.productPerForm.value.mStartDate),
+      mVALIDITYDATE: this.formatDate(this.productPerForm.value.mVALIDITYDATE),
+      mISSUINGAUTHORITY: this.productPerForm.value.mISSUINGAUTHORITY
+    };
+  
+    this.api.postPPCertificate(data, formData).subscribe({
+      next: (res) => {
+        this.toastr.success('Product Permission Certificate saved successfully!');
+        console.log('API Response:', res);
+        sessionStorage.setItem('fileid', res);
+  
+        // Step 4: Save items only if upload succeeds
+        this.saveMasVregPPCItems(selected);
+      },
+      error: (err) => {
+        console.error('Upload Error:', err);
+        this.toastr.error('Failed to upload certificate. Items not saved.');
+        this.resetSaveState();
+      }
+    });
+  }
+  
+  private validateSelectedItems(selected: any[]): boolean {
     let invalidFound = false;
     let firstErrorMsg = '';
   
-    // iterate selected rows and validate each field
     for (const item of selected) {
-      // Ensure error UI shows
-      item._showErrors = true;
+      item._showErrors = true; // Show errors in UI
   
       // Validate pharmaid
       if (!item.pharmaid && item.pharmaid !== 0) {
@@ -602,19 +513,20 @@ if (this.productPerForm.invalid) {
       // Validate GST
       if (item.gstper === null || item.gstper === undefined || item.gstper === '') {
         invalidFound = true;
-        firstErrorMsg = firstErrorMsg || 'GST rate is required for selected items.';
+        firstErrorMsg = firstErrorMsg || 'GST rate is removed for selected items.';
         continue;
       }
     }
   
     if (invalidFound) {
-      // scroll to top or selected area if you want
       this.toastr.error(firstErrorMsg, 'Validation Error');
-      // stop submission
-      return;
+      return false;
     }
+    return true;
+  }
   
-    // All selected rows are valid — proceed with constructing payload and sending to API
+  private saveMasVregPPCItems(selected: any[]): void {
+    // Construct payload
     const itemsToInsert = selected.map((item: any) => ({
       ppcid: 0,
       vregid: Number(sessionStorage.getItem('vregid') || this.vregid),
@@ -630,28 +542,77 @@ if (this.productPerForm.invalid) {
       pharmaid: item.pharmaid
     }));
   
-    // Call your API
+    console.log('Items to send:', itemsToInsert);
+  
     this.api.insertMasVregPPCItems(sessionStorage.getItem('vregid'), itemsToInsert).subscribe({
       next: (res) => {
         this.toastr.success('MASVREGPPCITEMS inserted successfully!');
-        // reset selection and showSuccess
-        selected.forEach(it => {
-          it.selected = false;
-          it._showErrors = false;
-        });
-        // optionally refresh list
-        // this.getMasItems();
-        this.submitted = false;
-        this.GETtPPCertificate()
-
+        console.log('API Response:', res);
+        
+        // Reset selection and state
+        this.resetSelection(selected);
+        this.GETtPPCertificate();
+        this.onshowPP = false;
       },
       error: (err) => {
-        console.error(err);
-        this.toastr.error('Failed to insert items!');
+        console.error('Insert Error:', err);
+        this.toastr.error('Certificate uploaded, but failed to save items!');
+        this.resetSelection(selected); // Reset even on error to avoid stuck state
+      },
+      complete: () => {
+        this.resetSaveState();
       }
     });
   }
-    
+  
+  private resetSelection(selected: any[]): void {
+    selected.forEach(it => {
+      it.selected = false;
+      it._showErrors = false;
+    });
+  }
+  
+  private resetSaveState(): void {
+    this.submitted = false;
+    this.isSaving = false;
+  }
+  
+  // Keep onSubmit() unchanged - it's only for loading items table
+  onSubmit() {
+    if (!this.mcid || !this.mTypeID) {
+      this.toastr.warning('Please select Category and Item Type first!');
+      return;
+    }
+  
+    this.api.GetMasitems(this.mcid, this.mTypeID).subscribe({
+      next: (res: any[]) => {
+        if (res && res.length > 0) {
+          // Store the items in a local array for table binding
+          this.masItemsList = res.map(item => ({
+            itemid: item.itemid,
+            itemname: item.itemname,
+            itemtypename: item.itemtypename,
+            itemcode: item.itemcode,
+            strength: item.strength,
+            unit: item.unit,
+            selected: false,  // for checkbox binding
+            _showErrors: false // For validation UI
+          }));
+          console.log('Fetched Mas Items:', this.masItemsList);
+          this.filteredItems = [...this.masItemsList];
+          this.updatePagination();
+        } else {
+          this.masItemsList = [];
+          this.toastr.warning('⚠️ No items found for given parameters');
+          console.warn('No items found for given mcid and mTypeID');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching Mas Items:', err);
+        this.toastr.error('Failed to load items. Please try again.');
+      }
+    });
+  } 
 
   GETtPPCertificate() {
     this.spinner.show();

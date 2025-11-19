@@ -17,6 +17,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 declare var bootstrap: any;
 
 
@@ -25,8 +26,26 @@ declare var bootstrap: any;
   standalone:true,
   imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
   templateUrl: './manufacturing-unit-unti-tab.html',
-  styleUrl: './manufacturing-unit-unti-tab.css'
+  styleUrl: './manufacturing-unit-unti-tab.css',
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+    trigger('innerDetailExpand', [
+      state('expanded', style({ height: '*', opacity: 1 })),
+      transition(':enter', [
+        style({ height: '0px', opacity: 0 }),
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ height: '*', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ height: '0px', opacity: 0 }))
+      ])
+    ])
+  ],
 })
+
 export class ManufacturingUnitUntiTab {
 
   isCollapsed = false;
@@ -74,6 +93,7 @@ export class ManufacturingUnitUntiTab {
 
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
+  
   submitted=false;
 
 
@@ -85,10 +105,41 @@ export class ManufacturingUnitUntiTab {
   @ViewChild('sort2') sort2!: MatSort;
   
 
+
+  displayedColumns: string[] = ['sno', 'unitname', 'unitaddress', 'city', 'unitinchargename', 'unitinchargemob', 'unitinchargeemail', 'statename', 'lictypename', 'licenceDetails'];
+  expandedElement: any | null = null;
+  expandedLic: any | null = null;
+
+toggleDetails(row: any): void {
+    console.log('Toggle clicked for row:', row); // For debugging - check console
+    this.expandedElement = this.expandedElement === row ? null : row;
+  }
+
+  isExpanded = (row: any): boolean => this.expandedElement === row;
   constructor(private sanitizer: DomSanitizer,private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
     this.dataSource3 = new MatTableDataSource<any>([]);
+  }
+  trackByLicIndex(index: number, item: any): any {
+    return index; // Or use a unique ID like item.licno for better performance
+  }
+  
+  onLicenceAction(lic: any, index: number): void {
+    console.log('Action on license:', lic, 'at index:', index);
+    // Implement your action, e.g., open modal, navigate, etc.
+    // Example: this.openEditModal(lic);
+  }
+
+  toggleLicDetails(lic: any): void {
+    console.log('Toggling license details for:', lic); // For debugging
+    this.expandedLic = this.expandedLic === lic ? null : lic;
+  }
+  
+ 
+  
+  trackByRetIndex(index: number, ret: any): any {
+    return ret.id || index; // Use unique ID if available (add 'id' field if needed)
   }
 
   ngOnInit() {
@@ -151,6 +202,13 @@ this.retForm = this.fb.group({
 
 
   }
+  
+  // ngAfterViewChecked() {
+  //   console.log('Form valid:', this.unitForm.valid);
+  //   console.log('Form values:', this.unitForm.value);
+  // }
+ 
+  
 
   getMasformTypes(){
     
@@ -303,7 +361,7 @@ this.retForm = this.fb.group({
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
       this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
-          console.log('Raw API response:', res);
+          console.log('Raw API responseR:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
             sno: index + 1
@@ -503,6 +561,11 @@ this.retForm = this.fb.group({
             console.log('Response:', res);
             this.unitForm.reset();
             this.submitted=false;
+              // Re-patch mVregid after reset to pre-fill for next entry
+              this.unitForm.patchValue({
+                mSupplierID: sessionStorage.getItem('facilityid'),
+                mVregid: this.vregid
+              });
             this.getManufacturingDetails();
             this.onshowUNIT=false;
             this.loadingSectionA = false;
