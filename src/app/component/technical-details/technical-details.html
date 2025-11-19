@@ -162,7 +162,7 @@
                                          </div>
                             </div>
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(43)" [disabled]="!TechCertificate1.valid"  >Upload</button>
+                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(9)" [disabled]="!TechCertificate1.valid"  >Upload</button>
                                 <!-- <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(43)" >Download</button> -->
                             </div>
                         </div>
@@ -186,7 +186,8 @@
                                          </div>
                             </div>
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(45)" [disabled]="!TechCertificate2.valid" >Upload</button>
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(141)" [disabled]="!TechCertificate2.valid" >Upload</button>
+                                <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(45)" [disabled]="!TechCertificate2.valid" >Upload</button> -->
                                 <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(45)">Download</button> -->
                             </div>
                         </div>
@@ -210,7 +211,8 @@
                                          </div>
                             </div>
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(42)" [disabled]="!TechCertificate3.valid">Upload</button>
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(142)" [disabled]="!TechCertificate3.valid">Upload</button>
+                                <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(42)" [disabled]="!TechCertificate3.valid">Upload</button> -->
                                 <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(42)">Download</button> -->
                             </div>
                         </div>
@@ -246,7 +248,7 @@
                                 <label for="inputnumber">Other Document  1: <span
                                         class="text-danger">*</span></label>
                                 <input type="file" class="form-control"  accept=".pdf"
-                                    placeholder="Type your Account No" id="inputnumber6"(change)="onFileSelect($event, 5)" required
+                                    placeholder="Type your Account No" id="inputnumber6"(change)="onFileSelect($event, 4)" required
                                     #TechCertificate5="ngModel" name="TechCertificate5"
                                     ngModel
                                     [ngClass]="{
@@ -261,11 +263,12 @@
                                          </div>
                             </div>
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)" [disabled]="!TechCertificate5.valid">Upload</button>
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(19)" [disabled]="!TechCertificate5.valid">Upload</button>
+                                <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(121)" [disabled]="!TechCertificate5.valid">Upload</button> -->
                                 <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(7)">Download</button> -->
                             </div>
                         </div>
-                        <!-- <div class="row  pb-3">
+                        <div class="row  pb-3">
                             <div class="form-group col-md-6 pt-3">
                                 <label for="inputnumber">Other Document 2 : <span
                                         class="text-danger">*</span></label>
@@ -285,17 +288,13 @@
                             </div>
                            
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)">Upload</button>
-                                <button type="submit" class="btn btn-primary m-3">Download</button>
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(122)">Upload</button>
+                                <!-- <button type="submit" class="btn btn-primary m-3">Download</button> -->
                             </div>
-                        </div> -->
+                        </div> 
                         <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
                         <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
                     </form>
-
-
-
-
                     </div>
                 </div>
 
