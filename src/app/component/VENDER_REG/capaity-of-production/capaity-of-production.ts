@@ -392,6 +392,16 @@ export class CapaityOfProduction {
           
            
           this.MCCFillItemsForm.reset();
+
+          this.marketStandingCForm.patchValue({
+            mVregid: this.vregid
+            });
+
+          this.MCCFillItemsForm.patchValue({
+            mVregid: this.vregid
+            });
+
+
           this.selectedPanFile = null;
           this.submitted = false;
           // ✅ Hide modal only after success
@@ -461,6 +471,9 @@ export class CapaityOfProduction {
   
     // Reset form
     this.marketStandingCForm.reset();
+    this.marketStandingCForm.patchValue({
+      mVregid: this.vregid
+      });
     this.selectedPanFile = null;
   
     // ✅ Hide modal only after success

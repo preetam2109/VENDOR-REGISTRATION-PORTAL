@@ -31,6 +31,7 @@ export class GenerateRegistrationComponent {
 
   vregid: any;
   vendorDetails: any[] = [];
+  showButtons:boolean=true;
 
   ngOnInit() {
     this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
@@ -84,6 +85,9 @@ export class GenerateRegistrationComponent {
       next: (res: any) => {
         if (Array.isArray(res) && res.length > 0) {
           this.vendorDetails = res;
+          if(res[0].status==='Complete')[
+            this.showButtons=false
+          ]
           console.log('Vendor Details:', this.vendorDetails);
           this.vregid = res[0].vregid;
           sessionStorage.setItem('vregid', this.vregid);

@@ -111,6 +111,21 @@ export class ManufacturingUnitRetentionTab {
       mUNITINCHARGEEMAIL: ['', [Validators.required, Validators.email]],
       mlictypeid: ['', Validators.required]
     });
+
+
+    this.retForm = this.fb.group({
+      mLICID: ['', Validators.required],
+      mISSUEDATE: ['', Validators.required],
+      mStartDate: ['', Validators.required],
+      mVALIDITYDATE: ['', Validators.required],
+      mVregid: [this.vregid, Validators.required],
+      mretid: ['', Validators.required],
+      mFormID: ['', Validators.required],
+      mProIssuingAuthority: ['', Validators.required],
+      Files: [null, Validators.required],
+    });
+
+
     this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
     this.getManufacturingDetails();
 
@@ -139,17 +154,8 @@ this.GetmANUFACLICDetails()
 this.GetmMANLICDDL();
 this.GetMasRetentionTypeDDL();
 this.GetPovLicenceDetails();
-this.retForm = this.fb.group({
-  mLICID: ['', Validators.required],
-  mISSUEDATE: ['', Validators.required],
-  mStartDate: ['', Validators.required],
-  mVALIDITYDATE: ['', Validators.required],
-  mVregid: [sessionStorage.getItem('vregid'), Validators.required],
-  mretid: ['', Validators.required],
-  mFormID: ['', Validators.required],
-  mProIssuingAuthority: ['', Validators.required],
-  Files: [null, Validators.required],
-});
+
+
 
 
 
@@ -233,6 +239,9 @@ this.retForm = this.fb.group({
           this.unitForm.patchValue({
             mVregid: vregid
           });
+          this.retForm.patchValue({
+            mVregid: vregid
+          });
           this.licForm.patchValue({
             mVregid: vregid
           });
@@ -250,7 +259,7 @@ this.retForm = this.fb.group({
     
     //  this.isCollapsed = true;
       // isCollapsed1 = true;
-
+        // console.log("Checking the vregid ",this.vregid);
         this.onshowRETE = true;
      
   
@@ -384,7 +393,7 @@ this.retForm = this.fb.group({
 
 
     DownloadFileWithName(mFilePath: string, mFileName: string) {
-      ;
+      
     
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
@@ -532,8 +541,8 @@ this.retForm = this.fb.group({
 
 
   // ngAfterViewChecked() {
-  //   console.log('Form valid:', this.licForm.valid);
-  //   console.log('Form values:', this.licForm.value);
+  //   console.log('Form valid:', this.retForm.valid);
+  //   console.log('Form values:', this.retForm.value);
   // }
   
   onSubmitLicence() {
@@ -609,7 +618,7 @@ this.retForm = this.fb.group({
   
     // Patch vregid if needed
     this.retForm.patchValue({
-      mVregid: this.vregid,
+      mVregid: this.vregid
     });
   
     // Format dates to dd-MM-yyyy
@@ -629,6 +638,12 @@ this.retForm = this.fb.group({
 
           this.retForm.reset();
           this.submitted=false;
+
+          // Re-patch mVregid after reset to pre-fill for next entry
+          this.retForm.patchValue({
+          mVregid: this.vregid
+          });
+
           this.GetPovLicenceDetails();
           this.onshowRETE=false;
         },

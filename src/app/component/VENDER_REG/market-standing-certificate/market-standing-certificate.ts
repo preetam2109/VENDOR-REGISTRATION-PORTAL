@@ -395,8 +395,18 @@ export class MarketStandingCertificate {
           // Reset form
           this.marketStandingCForm.reset();
           this.MCCFillItemsForm.reset();
+          this.marketStandingCForm.patchValue({
+            mVregid: this.vregid
+            });
+          this.MCCFillItemsForm.patchValue({
+            mVregid: this.vregid
+            });
+
           this.selectedPanFile = null;
           this.submitted = false;
+
+          
+
           // ✅ Hide modal only after success
           const modalEl = document.getElementById('marketStandingModal');
           const modal = bootstrap.Modal.getInstance(modalEl);
@@ -448,6 +458,9 @@ export class MarketStandingCertificate {
 
              // Reset form
           this.marketStandingCForm.reset();
+          this.marketStandingCForm.patchValue({
+            mVregid: this.vregid
+            });
           this.selectedPanFile = null;
           this.submitted = false;
           // ✅ Hide modal only after success
