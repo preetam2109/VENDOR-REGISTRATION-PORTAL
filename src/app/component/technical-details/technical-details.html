@@ -148,21 +148,21 @@
                                     <span  class="text-danger">*</span></label>
                                 <input type="file" class="form-control"  accept=".pdf"
                                     placeholder="Type your Account No" id="inputnumber2" (change)="onFileSelect($event, 1)" required
-                                    #TechCertificate1="ngModel" name="TechCertificate1"
+                                    #PowerofAttorney="ngModel" name="PowerofAttorney"
                                     ngModel
                                     [ngClass]="{
-                                       'is-invalid': TechCertificate1.invalid && TechCertificate1.touched,
-                                       'is-valid': TechCertificate1.valid && TechCertificate1.touched
+                                       'is-invalid': PowerofAttorney.invalid && PowerofAttorney.touched,
+                                       'is-valid': PowerofAttorney.valid && PowerofAttorney.touched
                                      }">
                                         <!-- Validation Message -->
-                                        <div *ngIf="TechCertificate1.invalid && TechCertificate1.touched">
+                                        <div *ngIf="PowerofAttorney.invalid && PowerofAttorney.touched">
                                            <small class="text-danger">
                                              Please upload the Notary attested copy of Power of Attorney/Resolution of Board Certificate (PDF).
                                            </small>
                                          </div>
                             </div>
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(9)" [disabled]="!TechCertificate1.valid"  >Upload</button>
+                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(9)" [disabled]="!PowerofAttorney.valid"  >Upload</button>
                                 <!-- <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(43)" >Download</button> -->
                             </div>
                         </div>
@@ -172,21 +172,21 @@
                                         class="text-danger">*</span></label>
                                 <input type="file" class="form-control"  accept=".pdf"
                                     placeholder="Type your Account No" id="inputnumber3"  (change)="onFileSelect($event, 2)" required
-                                    #TechCertificate2="ngModel" name="TechCertificate2"
+                                    #AffidavitforStrict_Compliance="ngModel" name="AffidavitforStrict_Compliance"
                                     ngModel
                                     [ngClass]="{
-                                       'is-invalid': TechCertificate2.invalid && TechCertificate2.touched,
-                                       'is-valid': TechCertificate2.valid && TechCertificate2.touched
+                                       'is-invalid': AffidavitforStrict_Compliance.invalid && AffidavitforStrict_Compliance.touched,
+                                       'is-valid': AffidavitforStrict_Compliance.valid && AffidavitforStrict_Compliance.touched
                                      }">
                                         <!-- Validation Message -->
-                                        <div *ngIf="TechCertificate2.invalid && TechCertificate2.touched">
+                                        <div *ngIf="AffidavitforStrict_Compliance.invalid && AffidavitforStrict_Compliance.touched">
                                            <small class="text-danger">
                                              Please upload the Affidavit for Strict Compliance Certificate (PDF).
                                            </small>
                                          </div>
                             </div>
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(141)" [disabled]="!TechCertificate2.valid" >Upload</button>
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(141)" [disabled]="!AffidavitforStrict_Compliance.valid" >Upload</button>
                                 <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(45)" [disabled]="!TechCertificate2.valid" >Upload</button> -->
                                 <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(45)">Download</button> -->
                             </div>
@@ -197,21 +197,21 @@
                                         class="text-danger">*</span></label>
                                 <input type="file" class="form-control"  accept=".pdf"
                                     placeholder="Type your Account No" id="inputnumber4" (change)="onFileSelect($event, 3)" required
-                                    #TechCertificate3="ngModel" name="TechCertificate3"
+                                    #blacklisting="ngModel" name="blacklisting"
                                     ngModel
                                     [ngClass]="{
-                                       'is-invalid': TechCertificate3.invalid && TechCertificate3.touched,
-                                       'is-valid': TechCertificate3.valid && TechCertificate3.touched
+                                       'is-invalid': blacklisting.invalid && blacklisting.touched,
+                                       'is-valid': blacklisting.valid && blacklisting.touched
                                      }">
                                         <!-- Validation Message -->
-                                        <div *ngIf="TechCertificate3.invalid && TechCertificate3.touched">
+                                        <div *ngIf="blacklisting.invalid && blacklisting.touched">
                                            <small class="text-danger">
                                              Please upload the Declaration Regarding blacklisting Certificate (PDF).
                                            </small>
                                          </div>
                             </div>
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(142)" [disabled]="!TechCertificate3.valid">Upload</button>
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(142)" [disabled]="!blacklisting.valid">Upload</button>
                                 <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(42)" [disabled]="!TechCertificate3.valid">Upload</button> -->
                                 <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(42)">Download</button> -->
                             </div>
@@ -249,21 +249,21 @@
                                         class="text-danger">*</span></label>
                                 <input type="file" class="form-control"  accept=".pdf"
                                     placeholder="Type your Account No" id="inputnumber6"(change)="onFileSelect($event, 4)" required
-                                    #TechCertificate5="ngModel" name="TechCertificate5"
+                                    #Other_Document1="ngModel" name="Other_Document1"
                                     ngModel
                                     [ngClass]="{
-                                       'is-invalid': TechCertificate5.invalid && TechCertificate5.touched,
-                                       'is-valid': TechCertificate5.valid && TechCertificate5.touched
+                                       'is-invalid': Other_Document1.invalid && Other_Document1.touched,
+                                       'is-valid': Other_Document1.valid && Other_Document1.touched
                                      }">
                                         <!-- Validation Message -->
-                                        <div *ngIf="TechCertificate5.invalid && TechCertificate5.touched">
+                                        <div *ngIf="Other_Document1.invalid && Other_Document1.touched">
                                            <small class="text-danger">
                                              Please upload the Other Document Certificate (PDF).
                                            </small>
                                          </div>
                             </div>
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(19)" [disabled]="!TechCertificate5.valid">Upload</button>
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(19)" [disabled]="!Other_Document1.valid">Upload</button>
                                 <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(121)" [disabled]="!TechCertificate5.valid">Upload</button> -->
                                 <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(7)">Download</button> -->
                             </div>
@@ -274,13 +274,13 @@
                                         class="text-danger">*</span></label>
                                 <input type="file" class="form-control"  accept=".pdf"
                                     placeholder="Type your Account No" id="inputnumber7" (change)="onFileSelect($event, 5)"  required
-                                    #TechCertificate6="ngModel" name="TechCertificate6"
+                                    #Other_Document2="ngModel" name="Other_Document2"
                                     ngModel
                                     [ngClass]="{
-                                       'is-invalid': TechCertificate6.invalid && TechCertificate6.touched,
-                                       'is-valid': TechCertificate6.valid && TechCertificate6.touched
+                                       'is-invalid': Other_Document2.invalid && Other_Document2.touched,
+                                       'is-valid': Other_Document2.valid && Other_Document2.touched
                                      }">
-                                        <div *ngIf="TechCertificate6.invalid && TechCertificate6.touched">
+                                        <div *ngIf="Other_Document2.invalid && Other_Document2.touched">
                                            <small class="text-danger">
                                              Please upload the Other Document Certificate (PDF).
                                            </small>
@@ -288,7 +288,7 @@
                             </div>
                            
                             <div class="form-group col-md-6 pt-3">
-                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(122)">Upload</button>
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(122)" [disabled]="!Other_Document2.valid">Upload</button>
                                 <!-- <button type="submit" class="btn btn-primary m-3">Download</button> -->
                             </div>
                         </div> 
