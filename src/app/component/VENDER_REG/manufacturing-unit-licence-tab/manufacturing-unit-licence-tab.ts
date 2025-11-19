@@ -582,8 +582,10 @@ this.retForm = this.fb.group({
           this.submitted = false;
           // Re-patch mVregid after reset to pre-fill for next entry
           this.licForm.patchValue({
-          mVregid: this.vregid
+            mVregid: this.vregid,
+            mSUPPLIERID: sessionStorage.getItem('facilityid')
           });
+      
 
           
           this.GetmANUFACLICDetails();

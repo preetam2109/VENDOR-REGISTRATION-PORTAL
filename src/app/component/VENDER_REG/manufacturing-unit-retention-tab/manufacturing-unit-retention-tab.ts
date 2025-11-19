@@ -540,10 +540,10 @@ this.GetPovLicenceDetails();
   }
 
 
-  ngAfterViewChecked() {
-    console.log('Form valid:', this.retForm.valid);
-    console.log('Form values:', this.retForm.value);
-  }
+  // ngAfterViewChecked() {
+  //   console.log('Form valid:', this.retForm.valid);
+  //   console.log('Form values:', this.retForm.value);
+  // }
   
   onSubmitLicence() {
     

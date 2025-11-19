@@ -203,7 +203,10 @@ this.retForm = this.fb.group({
 
   }
   
-  
+  // ngAfterViewChecked() {
+  //   console.log('Form valid:', this.unitForm.valid);
+  //   console.log('Form values:', this.unitForm.value);
+  // }
  
   
 
@@ -559,9 +562,10 @@ this.retForm = this.fb.group({
             this.unitForm.reset();
             this.submitted=false;
               // Re-patch mVregid after reset to pre-fill for next entry
-            this.unitForm.patchValue({
-            mVregid: this.vregid
-            });
+              this.unitForm.patchValue({
+                mSupplierID: sessionStorage.getItem('facilityid'),
+                mVregid: this.vregid
+              });
             this.getManufacturingDetails();
             this.onshowUNIT=false;
             this.loadingSectionA = false;
