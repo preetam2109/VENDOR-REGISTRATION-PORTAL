@@ -43,12 +43,12 @@ export class TechnicalDetails {
 
 
 
-  TechCertificate1: File | null = null;
-  TechCertificate2: File | null = null;
-  TechCertificate3: File | null = null;
-  TechCertificate4: File | null = null;
-  TechCertificate5: File | null = null;
-  TechCertificate6: File | null = null;
+  // TechCertificate1: File | null = null;
+  // TechCertificate2: File | null = null;
+  // TechCertificate3: File | null = null;
+  // TechCertificate4: File | null = null;
+  // TechCertificate5: File | null = null;
+  // TechCertificate6: File | null = null;
   TechnicalDetails:any;
   sanitizedPdfUrl!: SafeResourceUrl;
   fileError: string = '';
