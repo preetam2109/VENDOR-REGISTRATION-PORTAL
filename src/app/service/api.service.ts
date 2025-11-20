@@ -1844,6 +1844,10 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
     //https://dpdmis.in/VREGAPI/api/Registration/GetTechnicalDetails?mVrgeID=50
     return this.http.get(`${this.VREGAPI}/Registration/GetTechnicalDetails?mVrgeID=${mVrgeID}`);
   }
+  GETIFSCCODE(ifsccode:any) {
+    //https://ifsc.razorpay.com/SBIN0000461
+    return this.http.get(`https://ifsc.razorpay.com/${ifsccode}`);
+  }
   GetComplienceCertificateDetails(mVrgeID:any,mSupplierid:any) {
     //https://dpdmis.in/VREGAPI/api/Registration/GetComplienceCertificate?mVregID=50&mSupplierid=1936
     // https://dpdmis.in/VREGAPI/api/Registration/GetComplienceCertificate?mVregID=50&mSupplierid=1936

@@ -39,7 +39,9 @@ export class FinanceialDetails {
   vregid:any
   // SupplierBankAccDetail: SupplierBankAccDetail_model[] = [];
 
-
+  existingIFSC = "";  // यह पहले से DB से load हुई IFSC
+  isCheckingIFSC = false;
+  onshowPP = false;
 // Form fields
 supplierid: number = 0;
 bankaccountid: number = 0;
@@ -135,6 +137,8 @@ gstFileModel: any; // just for ngModel binding compatibility
   loadingSectionC = false;
   loadingSectionD = false;
   dropdownOpen = false;
+  ifsccodeDetails:any;
+  statusText:any;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
     private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,
   ){
@@ -178,7 +182,8 @@ gstFileModel: any; // just for ngModel binding compatibility
 
 
 ngOnInit() {
-  console.log('acno',this.acno);
+  // console.log('acno',this.acno);
+  this.existingIFSC = this.SupplierBankAccDetail.ifsccode;
   this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
   this.loadVendorBankDetail();
   this.GETAnnualYear();
@@ -189,6 +194,7 @@ ngOnInit() {
   this.GstReturnDetails();
   this.GETMASGSTQUARTER();
   this.GETAccYearSettings();
+//  this.GETIFSCCODE();
 
  
 //   const css = `
@@ -202,6 +208,71 @@ ngOnInit() {
 // document.head.appendChild(styleEl);
 
 }
+
+
+onIFSCChange() {
+  // debugger
+  const ifsc = this.SupplierBankAccDetail.ifsccode;
+
+ 
+  // if (ifsc === this.existingIFSC) {
+  //   this.validateIFSC(ifsc);
+  //   // return;
+  // }
+
+
+  if (ifsc && ifsc.length === 11) {
+    // this.GETIFSCCODE(ifsc);
+    this.validateIFSC(ifsc);
+  }
+  // else{
+  //   this.validateIFSC(ifsc);
+  // }
+  }
+
+  validateIFSC(ifsc: string) {
+    // this.isCheckingIFSC = true;
+  
+    this.api.GETIFSCCODE(ifsc).subscribe({
+      next: (res: any) => {
+        this.isCheckingIFSC = true;
+        this.onshowPP = true;
+        this.ifsccodeDetails=res;
+        this.statusText = "";
+        // console.log("ifsccode:", this.ifsccodeDetails);
+        // if (res) {
+        //   this.toastr.success('Valid IFSC Code!', 'Success');
+        // } else {
+        //   this.toastr.error('Invalid IFSC Code!', 'Error');
+        // }
+      },
+      error: (err:any) => {
+        // this.statusText= err.statusText;
+        this.statusText = "Invalid IFSC Code";
+        this.isCheckingIFSC = false;
+        this.onshowPP = false;
+        // this.toastr.error('Unable to verify IFSC Code!', 'Error');
+      }
+    });
+  }
+  
+// GETIFSCCODE(ifsc:any){
+//   // debugger;
+//   // GETIFSCCODE(ifsccode:any)
+//   // this.api.GETIFSCCODE('SBIN0000461').subscribe({
+//   this.api.GETIFSCCODE(ifsc).subscribe({
+//     next: (res: any) => {
+//      this.ifsccodeDetails=res;
+//      console.log("ifsccode:", this.ifsccodeDetails);
+//     },
+//     error: (err: any) => {
+//      err.statusText
+//     this.statusText= err.statusText;
+//       console.error("Error loading :", err);
+//       // alert("Failed to load vendor details");
+//     }
+//   });
+// }
 
 GetVendorDetailsID(supplierId: any) {
   this.api.getVendorDetailsID(supplierId).subscribe({
@@ -451,24 +522,28 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
-    // ;
-    // console.log('bankForm=',bankForm);
-//     const bankData = this.dispatchData1.find((f: any) => f.bankaccountid == this.acno);
-
-// if (bankData) {
-//   this.toastr.error('Bank AC No already exist.', 'Error');
-//   return;
-// }
+ 
+// debugger
+        this.loadingSectionA = true;
         const bankaccountID = this.dispatchData1
        .find((f: any) => f.bankaccountid == this.acno)?.bankaccountid;
 
         if (bankaccountID) {
          this.toastr.error('Bank AC No already exist.', 'Error');
+         this.loadingSectionA = false;
          return;
           }
-    this.loadingSectionA = true;
+
+   
+    // const ifsc = this.SupplierBankAccDetail.ifsccode;
+    if (this.statusText=="Invalid IFSC Code") {
+      this.toastr.error('Please fill valid IFSC Code.', 'Error');
+      this.loadingSectionA = false;
+      return;
+    }
     if (bankForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
+      this.loadingSectionA = false;
       return;
     }
     const formData = new FormData();
@@ -887,6 +962,7 @@ GETMASGSTQUARTER(){
     }
   });
 }
+
 onFileSelectedGSTReturn(event: any) {
   const file = event.target.files[0];
   if (file) {

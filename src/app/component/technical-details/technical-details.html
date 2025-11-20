@@ -16,88 +16,72 @@
                   <div class="" style="padding-bottom: 20px;">
                     <div class=" card row shadow ">
                       <div class="d-flex justify-content-between align-items-center m-2">
-                        <div class="filter-field flex-grow-1">
+                        <!-- <div class="filter-field flex-grow-1">
                           <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
-                        </div>
-                        <div class="export-menu-container m-2">
+                        </div> -->
+                        <!-- <div class="export-menu-container m-2">
                           <button type="button" class="btn border rounded mr-1 text-light"
                           style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
                             class="bi bi-folder-plus"></i></button>
-                        </div>
+                        </div> -->
                       </div>
                       <div class="table-responsive">
-                        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
-                          [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
-                
-                          <ng-container matColumnDef="sno">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
-                            <td mat-cell *matCellDef="let element" class="text-center">
-                              {{element.sno}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="vregid">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>vregid</th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
-                          </ng-container>
-                         
-                          <ng-container matColumnDef="mscid">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>mscid</th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.mscid}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="ext">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ext</th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="File Id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>fileid</th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.fileid}} </td>
-                          </ng-container>
-                          <!-- 'sno',
-                          'vregid',
-                  
-                          'mscid',
-                          'filename',
-                          'ext',
-                          'fileid',
-                          'code',
-                          'filepath',
-                          'action', -->
-                          <ng-container matColumnDef="code">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Document Type</th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.code}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="filepath">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.filepath}} </td>
-                          </ng-container>
-                         
-                          <ng-container matColumnDef="filename">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
-                            <td mat-cell *matCellDef="let element" class="text-center">
-                              <button
-                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
-                                mat-button
-                                (click)="DownloadFileWithName1(element.filepath, element.filename)"><i
-                                  class="bi bi-filetype-pdf text-danger"></i>
-                              </button>
-                            </td>
-                          </ng-container>
-                
-                          <!-- <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
-                            <td mat-cell *matCellDef="let element" class="text-center">
-                              <span class="d-flex  flex-row-reverse p-2 ">
-                                <button
-                                  class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
-                                  mat-button (click)="onButtonClick(element.licid)">
-                                  <i class="bi bi-pencil-square text-primary"></i>
-                                </button>
-                              </span>
-                            </td>
-                          </ng-container> -->
-                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-                        <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                        <!-- <table class="table table-bordered table-striped border rounded "  -->
+                       
+                        <!-- <table class="table table-striped"> -->
+                          <table class="table table-bordered table-striped border rounded">
+                            <thead>
+                              <tr>
+                                <th *ngFor="let head of tableHeadings">{{ head.label }}</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                          
+                            <tbody>
+                              <tr>
+                                <td *ngFor="let head of tableHeadings">
+                          
+                                  <!-- If record exists -->
+                                  <!-- <span *ngIf="TechnicalDetailsMapped[head.mscid]">
+                                    {{ TechnicalDetailsMapped[head.mscid].code }}
+                                    <button
+                                    class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                   
+                                    (click)="DownloadFileWithName1(TechnicalDetailsMapped[head.mscid].filepath, TechnicalDetailsMapped[head.mscid].filename)"><i
+                                      class="bi bi-filetype-pdf text-danger"></i>
+                                  </button>
+                                  </span> -->
+                                  <span *ngIf="TechnicalDetailsMapped[head.mscid]">
+
+                                    <!-- Value -->
+                                    {{ TechnicalDetailsMapped[head.mscid].code }} :
+                                  
+                                    <!-- PDF Icon -->
+                                    <i class="bi bi-filetype-pdf text-danger"
+                                       style="cursor:pointer;"
+                                       (click)="DownloadFileWithName1(
+                                          TechnicalDetailsMapped[head.mscid].filepath, 
+                                          TechnicalDetailsMapped[head.mscid].filename
+                                        )">
+                                    </i>
+                                  
+                                  </span>
+                                  <!-- If record NOT exists -->
+                                  <span *ngIf="!TechnicalDetailsMapped[head.mscid]" class="text-danger">
+                                    Not Available
+                                  </span>
+                                </td>
+                          
+                                <td>
+                                  <button type="button" class="btn border rounded mr-1 text-light"
+                                  style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                                    class="bi bi-folder-plus"></i></button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                       
                       </div>
                     </div>
                   </div>
@@ -241,6 +225,32 @@
                                 <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>
                             </div>
                         </div> -->
+                        <div class="row  pb-3">
+                          <!-- string SSICertificateID = "7";
+                    InsertFinDetails(dt.Rows[0]["vregid"].ToString(), SSICertificateID, flpSSICertificate); -->
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Upload SSI Certificate  : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber5" (change)="onFileSelect($event, 6)" required
+                                    #SSICertificate="ngModel" name="SSICertificate"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': SSICertificate.invalid && SSICertificate.touched,
+                                       'is-valid': SSICertificate.valid && SSICertificate.touched
+                                     }">
+                                        
+                                        <div *ngIf="SSICertificate.invalid && SSICertificate.touched">
+                                           <small class="text-danger">
+                                             Please upload the SSI Certificate  (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)" [disabled]="!SSICertificate.valid">Upload</button>
+                                <!-- <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button> -->
+                            </div>
+                        </div> 
                         <label for="inputnumber">Other documents for establishing eligibility of bidder</label>
                         
                         <div class="row  pb-3">
@@ -474,3 +484,85 @@
       </div>
     </div>
   </div>
+
+
+  <!-- <div class="col-12 col-md-12 p-2">
+    <div class="" style="padding-bottom: 20px;">
+      <div class=" card row shadow ">
+        <div class="d-flex justify-content-between align-items-center m-2">
+          <div class="filter-field flex-grow-1">
+            <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
+          </div>
+          <div class="export-menu-container m-2">
+            <button type="button" class="btn border rounded mr-1 text-light"
+            style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+              class="bi bi-folder-plus"></i></button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+            [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+  
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{element.sno}} </td>
+            </ng-container>
+            <ng-container matColumnDef="vregid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>vregid</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
+            </ng-container>
+           
+            <ng-container matColumnDef="mscid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>mscid</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.mscid}} </td>
+            </ng-container>
+            <ng-container matColumnDef="ext">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ext</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}} </td>
+            </ng-container>
+            <ng-container matColumnDef="File Id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>fileid</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.fileid}} </td>
+            </ng-container>
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Document Type</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.code}} </td>
+            </ng-container>
+            <ng-container matColumnDef="filepath">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.filepath}} </td>
+            </ng-container>
+           
+            <ng-container matColumnDef="filename">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <button
+                  class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                  mat-button
+                  (click)="DownloadFileWithName1(element.filepath, element.filename)"><i
+                    class="bi bi-filetype-pdf text-danger"></i>
+                </button>
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <span class="d-flex  flex-row-reverse p-2 ">
+                  <button
+                    class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                    mat-button (click)="onButtonClick(element.licid)">
+                    <i class="bi bi-pencil-square text-primary"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div> -->

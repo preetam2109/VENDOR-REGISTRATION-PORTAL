@@ -40,6 +40,7 @@ export class TechnicalDetails {
   blacklisting: File | null = null;
   Other_Document1: File | null = null;
   Other_Document2: File | null = null;
+  SSICertificate: File | null = null;
 
 
 
@@ -57,6 +58,7 @@ export class TechnicalDetails {
     @ViewChild('paginator') paginator!: MatPaginator;
     @ViewChild('sort') sort!: MatSort;
      dispatchData: TechnicalDetails_model[] = [];
+     TechnicalDetailsData:TechnicalDetails_model[]=[];
       // dispatchData3: GstReturnDetails[] = [];'filepath',
       displayedColumns: string[] = [
         'sno',
@@ -69,6 +71,27 @@ export class TechnicalDetails {
         // 'filepath',
         // 'action',
       ];
+      // tableHeadings = [
+      //   "Non Conviction certificate",
+      //   "Power of Attorney",
+      //   "Affidavit for Strict Compliance",
+      //   "Declaration Regarding blacklisting",
+      //   "Other Document 1",
+      //   "Other Document 2"
+      // ];
+      tableHeadings = [
+        { label: "Non Conviction certificate", mscid: 41 },
+        { label: "Power of Attorney", mscid: 9 },
+        { label: "Affidavit for Strict Compliance", mscid: 141 },
+        { label: "Declaration Regarding blacklisting", mscid: 142 },
+        { label: "Annexure XVI(16) Certificate for SSI units", mscid: 7 },
+        { label: "Other Document 1", mscid: 19 },
+        { label: "Other Document 2", mscid: 122 },
+      ];
+      
+      TechnicalDetailsMapped: any = {};
+      
+
       onshow=false;
       events:any;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
@@ -90,6 +113,7 @@ export class TechnicalDetails {
       case 3: this.blacklisting = file; break;//142
       case 4: this.Other_Document1 = file; break;//19
       case 5: this.Other_Document2 = file; break;//122
+      case 6: this.SSICertificate = file; break;//7
      
       // case 1: this.TechCertificate1 = file; break;
 
@@ -138,14 +162,28 @@ export class TechnicalDetails {
   //   string CapacityOfProd = "81";
 
   InsertTechnicalDetails(mFileTypeid: number) {
-// ;
+
+// debugger;
+ // Find the matching file
+ const file = this.TechnicalDetailsData.find((f: any) => f.mscid == mFileTypeid);
+//  console.log(file)
+ if(file){
+  this.toastr.error('This document type already exists. Please select a different one!', 'Error');
+
+  return;
+ }
+//   else {
+//   console.warn(`No file found for fileid: ${mFileTypeid}`);
+// }
+// return;
+
     const formData = new FormData();
     let selectedFile: File | null = null;
     switch (mFileTypeid) {
       case 19:  // SSI Certificate Other Document  1
         selectedFile = this.Other_Document1;
         break;
-      case 122:  // SSI Certificate Other Document  2
+      case 122:  // Other Document  2
         selectedFile = this.Other_Document2;
         break;
       case 142:  // blacklisting
@@ -160,6 +198,9 @@ export class TechnicalDetails {
          case 41: // Non Conviction Certificate
         selectedFile = this.NonConvcerCertificate;
         break;
+        case 7: 
+        selectedFile=this.SSICertificate;
+         break;//7
       // case 7:  // SSI Certificate Other Document  1
       //   selectedFile = this.TechCertificate5;
       //   break;
@@ -239,158 +280,91 @@ export class TechnicalDetails {
       this.toastr.error('Unexpected error occurred!', 'Error');
     }
   }
+
+  GetTechnicalDetails() {
+    // debugger;
+    this.spinner.show();
   
- // onFileSelectedNonConvcerCertificate(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.NonConvcerCertificate = file;
-  //     console.log('Selected file :', file.name);
-  //   }
-  // //  this.InsertTechnicalDetails();
-  // }
- 
-  // onFileSelectedCertificate1(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.TechCertificate1 = file;
-  //     console.log('Selected file :', file.name);
-  //   }
-  // //  this.InsertTechnicalDetails();
-  // }
-  // onFileSelectedCertificate2(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.TechCertificate2 = file;
-  //     console.log('Selected file :', file.name);
-  //   }
-  // //  this.InsertTechnicalDetails();
-  // }
-  // onFileSelectedCertificate3(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.TechCertificate3 = file;
-  //     console.log('Selected file :', file.name);
-  //   }
-  // //  this.InsertTechnicalDetails();
-  // }
-  // onFileSelectedCertificate4(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.TechCertificate4 = file;
-  //     console.log('Selected file :', file.name);
-  //   }
-  // //  this.InsertTechnicalDetails();
-  // }
-  // onFileSelectedCertificate5(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.TechCertificate5 = file;
-  //     console.log('Selected file :', file.name);
-  //   }
-  // //  this.InsertTechnicalDetails();
-  // }
-  // onFileSelectedCertificate6(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.TechCertificate6 = file;
-  //     console.log('Selected file :', file.name);
-  //   }
-  // //  this.InsertTechnicalDetails();
-  // }
-
-  // InsertTechnicalDetails(mFileTypeid:any) {
-  //   ;
-  //   const formData = new FormData();
-  //   // const mFileTypeid=41;
-  //   //    if (GSTForm.invalid) {
-  //   //   this.toastr.error('Please fill all required fields.', 'Error');
-  //   //   return;
-  //   // }
-  //       if (this.NonConvcerCertificate) {
-  //         formData.append('PanCardDocument', this.NonConvcerCertificate);
-  //       } else {
-  //         console.error('❌ No Non Convcer Certificate certificate file selected!');
-  //         return;
-  //       }
-  //       const data = {
-  //         mVergID: sessionStorage.getItem('vregid') || '',
-  //         mFileTypeID:mFileTypeid
-  //       };
-  //     try {
-  //       this.api.InsertTechnicalDetails(data, formData).subscribe
-  //       ({
-  //             next: (res: any) => {
-  //               this.toastr.success(res.message || 'Non Conviction Certificate Certificate uploaded successfully!', 'Success');
-  //               // GSTForm.resetForm();
-  //               this.NonConvcerCertificate = null;
-  //             },
-  //             error: (err: any) => {
-  //               console.error('Error:', err);
-  //               this.toastr.error('Failed to upload Non Conviction Certificate', 'Error');
-  //             },
-  //           }); 
-  //     } catch (error) {
-  //       console.error('Exception:', error);
-  //       this.toastr.error('Unexpected error occurred!');
-  //     }
-  //   }
-
-
-    // {
-    //   "vregid": "50",
-    //   "mscid": "22",
-    //   "filename": "Pancard_184.pdf.pdf",
-    //   "ext": ".pdf",
-    //   "fileid": "184",
-    //   "code": "Pan Card",
-    //   "filepath": "D:\\VendorDocuments\\50\\Pancard_184.pdf"
-    // },
-    GetTechnicalDetails(){
-  try {
+    this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
+      next: (res: any) => {
+  
+        this.TechnicalDetailsData = res;
+  
+        // Safe Mapping
+        this.TechnicalDetailsMapped = {};
+  
+        // this.tableHeadings.forEach(head => {
+        //   this.TechnicalDetailsMapped[head] = res.find((item: any) =>
+        //     (item.code?.trim() || "") === head.trim()
+        //   );
+        // });
+        // this.tableHeadings.forEach(head => {
+        //   this.TechnicalDetailsMapped[head.label] =
+        //     res.find((item: any) => item.mscid == head.mscid);
+        // });
+        this.tableHeadings.forEach(head => {
+          this.TechnicalDetailsMapped[head.mscid] =
+            res.find((item: any) => item.mscid == head.mscid);
+        });
+        // console.log("Mapped:", this.TechnicalDetailsMapped);
+  
+        this.spinner.hide();
+      },
+      error: (err: any) => {
+        this.spinner.hide();
+        console.error(err);
+      }
+    });
+  }
+  
+  
+//     GetTechnicalDetails(){
+//   try {
      
-      this.spinner.show();
-      this.api.GetTechnicalDetails(sessionStorage.getItem('vregid') ).subscribe(
-          (res: any) => {
-            this.dispatchData = res.map(
-              (item: TechnicalDetails_model, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            this.TechnicalDetails=this.dispatchData;
-            // console.log('TechnicalDetails=:', this.dispatchData);
-            this.dataSource.data = this.dispatchData;
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            this.cdr.detectChanges();
-            this.spinner.hide();
-          },
-          (error: { message: any }) => {
-            this.spinner.hide();
-            console.log('Error fetching data:',JSON.stringify(error.message))
-            // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
-          }
-        );
-    } catch (err: any) {
-      this.spinner.hide();
+//       this.spinner.show();
+//       this.api.GetTechnicalDetails(sessionStorage.getItem('vregid') ).subscribe(
+//           (res: any) => {
+//             // this.dispatchData = res.map(
+//             //   (item: TechnicalDetails_model, index: number) => ({
+//             //     ...item,
+//             //     sno: index + 1,
+//             //   })
+//             // );
+//             this.TechnicalDetailsData=res;
+//             // this.TechnicalDetails=this.dispatchData;
+//             // console.log('TechnicalDetails=:', this.dispatchData);
+//             // this.dataSource.data = this.dispatchData;
+//             // this.dataSource.paginator = this.paginator;
+//             // this.dataSource.sort = this.sort;
+//             // this.cdr.detectChanges();
+//             this.spinner.hide();
+//           },
+//           (error: { message: any }) => {
+//             this.spinner.hide();
+//             console.log('Error fetching data:',JSON.stringify(error.message))
+//             // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+//           }
+//         );
+//     } catch (err: any) {
+//       this.spinner.hide();
 
-      console.log(err);
-      // throw err;
-    }
+//       console.log(err);
+//       // throw err;
+//     }
 
-// return
+// // return
 
-      // this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
-      //   next: (res: any) => {
-      //    this.TechnicalDetails=res;
-      //   //  console.log("GetTechnicalDetails:", this.TechnicalDetails);
-      //   },
-      //   error: (err: any) => {
-      //     console.error("Error loading Years:", err);
-      //     // alert("Failed to load vendor details");
-      //   }
-      // });
-    }
+//       // this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
+//       //   next: (res: any) => {
+//       //    this.TechnicalDetails=res;
+//       //   //  console.log("GetTechnicalDetails:", this.TechnicalDetails);
+//       //   },
+//       //   error: (err: any) => {
+//       //     console.error("Error loading Years:", err);
+//       //     // alert("Failed to load vendor details");
+//       //   }
+//       // });
+//     }
     clickdetailspdf(mscid: number) {
       // Ensure data is loaded
      
@@ -398,7 +372,7 @@ export class TechnicalDetails {
     
     DownloadFileWithName1(mFilePath: string, mFileName: string) {
     
-  
+  // debugger
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
       const encodedName = encodeURIComponent(mFileName);
@@ -525,3 +499,43 @@ export class TechnicalDetails {
      }
   //#endregion
 }
+
+
+// <table class="table table-bordered table-striped border rounded">
+// <thead>
+//   <tr>
+//     <th scope="col">Non Conviction certificate</th>
+//     <th scope="col">Power of Attorney</th>
+//     <th scope="col">Affidavit for Strict Compliance</th>
+//     <th scope="col">Declaration Regarding blacklisting</th>
+//     <th scope="col">Other Document 1</th>
+//     <th scope="col">Other Document 2</th>
+//     <th scope="col">Action</th>
+//   </tr>
+// </thead>
+// <tbody>
+//   <tr>
+//     <th scope="row">1</th>
+//     <td>Mark</td>
+//     <td>Otto</td>
+//     <td>mdo</td>
+//     <td>mdo</td>
+//     <td>mdo</td>
+//     <td><button type="button" class="btn border rounded mr-1 text-light"
+//       style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+//         class="bi bi-folder-plus"></i></button></td>
+//   </tr>
+//   <!-- <tr>
+//     <th scope="row">2</th>
+//     <td>Jacob</td>
+//     <td>Thornton</td>
+//     <td>fat</td>
+//   </tr>
+//   <tr>
+//     <th scope="row">3</th>
+//     <td>Larry</td>
+//     <td>the Bird</td>
+//     <td>twitter</td>
+//   </tr> -->
+// </tbody>
+// </table>
