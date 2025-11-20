@@ -23,6 +23,7 @@ declare var bootstrap: any;
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { threadCpuUsage } from 'process';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'app-compliance-details',
   standalone: true,
@@ -45,6 +46,23 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ],
   templateUrl: './compliance-details.html',
   styleUrl: './compliance-details.css',
+    animations: [
+      trigger('detailExpand', [
+        state('collapsed', style({ height: '0px', minHeight: '0' })),
+        state('expanded', style({ height: '*' })),
+        transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      ]),
+      trigger('innerDetailExpand', [
+        state('expanded', style({ height: '*', opacity: 1 })),
+        transition(':enter', [
+          style({ height: '0px', opacity: 0 }),
+          animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ height: '*', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ height: '0px', opacity: 0 }))
+        ])
+      ])
+    ],
 })
 export class ComplianceDetails {
   fileSelected: File | null = null;
@@ -67,11 +85,6 @@ export class ComplianceDetails {
   mRemarks: string = '';
   mWHONO: any;
   onshow:boolean=false;
-  // mWHONO: COMCForm.mWHONO,
-  // ISSUEDATE: COMCForm.ISSUEDATE,
-  // mstartdate: COMCForm.mstartdate,
-  // mEXPDate: COMCForm.mEXPDate,
-  // mRemarks: COMCForm.mRemarks
   submitted = false;
   loadingSectionA = false;
   dataSource!: MatTableDataSource<ComplienceCertificateDetails>;
@@ -106,12 +119,12 @@ export class ComplianceDetails {
   // dispatchData3: GstReturnDetails[] = [];'filepath',
   displayedColumns1: string[] = [
     'sno',
-    'whotypeid',
-    'whoid',
+    // 'whotypeid',
+    // 'whoid',
     'whono',
-    'itemtypeid',
+    // 'itemtypeid',
     'itemtypename',
-    'vregid',
+    // 'vregid',
     // 'action',
    
     // 'filename',
@@ -122,6 +135,13 @@ export class ComplianceDetails {
     // itemtypename: string;
     // vregid: number;
   ];
+  expandedElement: any | null = null;
+  toggleDetails(row: any): void {
+    console.log('Toggle clicked for row:', row); // For debugging - check console
+    this.expandedElement = this.expandedElement === row ? null : row;
+  }
+
+  isExpanded = (row: any): boolean => this.expandedElement === row;
   constructor(
     private spinner: NgxSpinnerService,
     private api: ApiService,
@@ -214,6 +234,22 @@ export class ComplianceDetails {
 //       //   },
 //       // });
 //   }
+onCheckboxChange(item: any) {
+  if (!this.selecteditemtypeid) {
+    this.selecteditemtypeid = [];
+  }
+
+  const id = item.itemtypeid;
+
+  if (this.selecteditemtypeid.includes(id)) {
+    // remove
+    this.selecteditemtypeid = this.selecteditemtypeid.filter(x => x !== id);
+  } else {
+    // add
+    this.selecteditemtypeid = [...this.selecteditemtypeid, id];
+  }
+}
+
   onButtonClick(id: any) {}
   openmarqModal(pdfUrl: string): void {
     this.sanitizedPdfUrl =
@@ -328,10 +364,11 @@ export class ComplianceDetails {
     const formData = new FormData();
     if (COMCForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
+      this.loadingSectionA = false;
       return;
     }
     if (this.fileSelected) {
-      // formData.append('PanCardDocument', this.fileSelected);
+      formData.append('PanCardDocument', this.fileSelected);
     } else {
       this.toastr.error(
         'Please select a Compliance Certificate file.',
@@ -364,12 +401,12 @@ export class ComplianceDetails {
       // mEXPDate: formValues.mEXPDate,
       // mRemarks: formValues.mRemarks
     };
-    console.log('data=:', data);
+    // console.log('data=:', data);
     // return;
     try {
       this.api.InsertComplianceCertificate1(data, formData).subscribe({
         next: (res: any) => {
-          console.log('res=', res);
+          // console.log('res=', res);
           this.toastr.success(
             res.message || 'Certificate uploaded successfully!',
             'Success'
@@ -397,7 +434,7 @@ export class ComplianceDetails {
     }
   }
   MASVREGWHOITEMTYPE(WHoid: any, COMCForm: NgForm) {
-    
+    // debugger
     console.log('whoid=', WHoid);
     console.log('selecteditemtypeid=', this.selecteditemtypeid);
 
@@ -405,7 +442,7 @@ export class ComplianceDetails {
     //   this.toastr.error('Please fill all required fields.', 'Error');
     //   return;
     // }
-
+    // this.loadingSectionA = true;  
     const today = new Date();
     const entrydate = `${String(today.getDate()).padStart(2, '0')}-${String(
       today.getMonth() + 1
@@ -425,6 +462,7 @@ export class ComplianceDetails {
     }));
     // console.log('data to send:', rows);
     const vregid = sessionStorage.getItem('vregid') || '';
+    // return;
     this.api
       .post1(`/Registration/MASVREGWHOITEMTYPE?vregid=${vregid}`, rows)
       .subscribe({
@@ -447,10 +485,9 @@ export class ComplianceDetails {
       });
   }
 
-  //
+
   GetComplienceCertificateDetails() {
     try {
-      //  ;
       this.spinner.show();
       this.api
         .GetComplienceCertificateDetails(
