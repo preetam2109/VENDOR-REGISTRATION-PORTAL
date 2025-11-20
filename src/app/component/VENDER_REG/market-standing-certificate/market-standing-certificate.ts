@@ -203,7 +203,7 @@ export class MarketStandingCertificate {
  
   GetmMANLICDDL() {
 
-    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'), sessionStorage.getItem('vregid'), 1).subscribe((res: any[]) => {
+    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'), sessionStorage.getItem('vregid'), 0).subscribe((res: any[]) => {
       if (res && res.length > 0) {
         this.ManLicDdllist = res.map(item => ({
           licid: item.licid,
@@ -349,11 +349,9 @@ export class MarketStandingCertificate {
 
 
   onSubmit() {
-  
-  
+    
     this.submitted = true;
-
-
+  
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;
@@ -379,8 +377,24 @@ export class MarketStandingCertificate {
       mEXPDate: this.formatDate(this.marketStandingCForm.value.mEXPDate),
     };
   
+    // Step 1: Validate selected items (including MSCPAGENO) BEFORE insert
+    if (this.selectedItems.length === 0) {
+      this.toastr.warning('No items selected!');
+      this.resetSubmitState();
+      return;
+    }
+  
+    const invalidItems = this.selectedItems.filter(item => !item.MSCPAGENO || item.MSCPAGENO <= 0);
+    if (invalidItems.length > 0) {
+      this.toastr.error('MSC Page No. is required and must be ≥ 1 for all selected items. Please fill and try again.');
+      // Highlight errors in UI
+      invalidItems.forEach(item => item._showErrors = true);
+      this.resetSubmitState(); // Reset flags but keep form/items for retry
+      return;
+    }
+  
+    // All validations passed - proceed with insert
     try {
-      ;
       this.api.InsertMakrketStanding(params, formData).subscribe({
         next: (res) => {
           // Assuming res is the MSC ID (string/number); adjust if it's res.id or similar
@@ -392,124 +406,115 @@ export class MarketStandingCertificate {
   
           // Step 2: Chain to updates using the fresh MSC ID
           this.performUpdates(mscId);
-          // Reset form
-          this.marketStandingCForm.reset();
-          this.MCCFillItemsForm.reset();
-          this.marketStandingCForm.patchValue({
-            mVregid: this.vregid
-            });
-          this.MCCFillItemsForm.patchValue({
-            mVregid: this.vregid
-            });
-
-          this.selectedPanFile = null;
-          this.submitted = false;
-
-          
-
-          // ✅ Hide modal only after success
-          const modalEl = document.getElementById('marketStandingModal');
-          const modal = bootstrap.Modal.getInstance(modalEl);
-          if (modal) modal.hide();
         },
         error: (err) => {
           console.error('Error:', err);
           this.toastr.error('Failed to save data!');
+          this.resetSubmitState(); // Reset on error too
         }
       });
     } catch (error) {
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
+      this.resetSubmitState();
     }
   }
   
   private performUpdates(mscId: string) {
-    if (this.selectedItems.length === 0) {
-      this.toastr.warning('No items selected!');
-      // Still reset and hide modal even if no items (after insert)
-      this.finalizeSubmit();
-      return;
-    }
-  
     let completedUpdates = 0;
     const totalUpdates = this.selectedItems.length;
+    let updateErrors = 0; // Track errors for final messaging
   
     this.selectedItems.forEach(item => {
-      if (item.ppcid && item.MSCPAGENO) {
-        this.api.UpdaetMSCMCCFillItems(item.ppcid, mscId, item.MSCPAGENO).subscribe({
-          next: (res) => {
-            console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
-            completedUpdates++;
-            
-            // Check if all updates are done
-            if (completedUpdates === totalUpdates) {
-              this.toastr.success('All items updated successfully!', res);
-              this.finalizeSubmit();
-            }
-            this.toastr.success('All items updated successfully!',res);
-            
-            this.refreshCheckbox();
-            this.selectedItems = []; // Clear all
-            this.MCCFillItemsLIst = [];
-            this.onshowMSC=false;
-
-
-
-
-             // Reset form
-          this.marketStandingCForm.reset();
-          this.marketStandingCForm.patchValue({
-            mVregid: this.vregid
-            });
-          this.selectedPanFile = null;
-          this.submitted = false;
-          // ✅ Hide modal only after success
-          const modalEl = document.getElementById('marketStandingModal');
-          const modal = bootstrap.Modal.getInstance(modalEl);
-          if (modal) modal.hide();
-       
-
-
-
-
-
-
-
-
-          },
-          error: (err) => {
-            console.error(`❌ Error updating PPCID ${item.ppcid}:`, err);
-            completedUpdates++; // Increment to track progress even on error
-            
-            // Optionally: If you want to stop on first error, add logic here
-            // e.g., if (completedUpdates === totalUpdates) this.finalizeSubmit(); but with error toast
-          }
-        });
-      } else {
-        console.warn('⚠️ Missing PPCID or MSCPAGENO for item:', item);
-        completedUpdates++; // Increment for invalid items
+      // Per-item safety check (defensive, since pre-validated)
+      if (!item.ppcid || !item.MSCPAGENO || item.MSCPAGENO <= 0) {
+        console.warn('⚠️ Skipping invalid item:', item);
+        completedUpdates++;
         if (completedUpdates === totalUpdates) {
-          this.toastr.success('All items updated successfully!'); // Or adjust message
           this.finalizeSubmit();
         }
+        return;
       }
+  
+      this.api.UpdaetMSCMCCFillItems(item.ppcid, mscId, item.MSCPAGENO).subscribe({
+        next: (res) => {
+          console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
+          completedUpdates++;
+        },
+        error: (err) => {
+          console.error(`❌ Error updating PPCID ${item.ppcid}:`, err);
+          completedUpdates++;
+          updateErrors++;
+        },
+        complete: () => {
+          // Check if all updates are done
+          if (completedUpdates === totalUpdates) {
+            if (updateErrors > 0) {
+              this.toastr.warning(`Partially updated: ${updateErrors} item(s) failed.`);
+            } else {
+              this.toastr.success('All items updated successfully!');
+            }
+            this.finalizeSubmit();
+          }
+        }
+      });
     });
   }
   
   private finalizeSubmit() {
+    // Refresh main data
     this.GetmSCDetailsList();
-    this.refreshCheckbox();
-    this.selectedItems = []; // Clear all
-    this.MCCFillItemsLIst = [];
   
-    // Reset form
+    // Full reset: Forms, file, selections, and item fields (but preserve list structure)
     this.marketStandingCForm.reset();
+    this.MCCFillItemsForm?.reset(); // Safe access if optional
+    this.marketStandingCForm.patchValue({ mVregid: this.vregid });
+    this.MCCFillItemsForm?.patchValue({ mVregid: this.vregid });
+  
     this.selectedPanFile = null;
   
-    // ✅ Hide modal only after success
+    // Reset items table: Uncheck, clear fields, refresh views
+    this.resetItemsTable();
+  
+    this.onshowMSC = false;
+    this.submitted = false;
+  
+    // Hide modal
     const modalEl = document.getElementById('marketStandingModal');
     const modal = bootstrap.Modal.getInstance(modalEl);
     if (modal) modal.hide();
+  }
+  
+  resetItemsTable(): void {
+    // Clear selections and reset fields without emptying the list
+    if (this.MCCFillItemsLIst && this.MCCFillItemsLIst.length > 0) {
+      this.MCCFillItemsLIst.forEach(item => {
+        item.selected = false; // Uncheck checkboxes
+        item._showErrors = false; // Hide validation errors
+        item.MSCPAGENO = null; // Reset the page no. field (matches HTML input)
+        // Add resets for other fields if present, e.g.:
+        // item.otherField = null;
+      });
+    }
+  
+    // Clear selectedItems array (redundant but ensures no lingering refs)
+    this.selectedItems = [];
+  
+    // Refresh filtered/paginated views if used (re-triggers *ngFor binding)
+    if (this.filteredItems) {
+      this.filteredItems = [...this.MCCFillItemsLIst]; // Sync with cleared fields
+    }
+    // If pagination: this.updatePagination(); // Uncomment if method exists
+  
+    // Force change detection if needed (for immediate UI update)
+    this.cdr.detectChanges(); // Assuming ChangeDetectorRef injected
+  }
+  
+  private resetSubmitState(): void {
+    this.submitted = false;
+    // this.onshowMSC = false;
+     // Reset modal state on error
+    // Do NOT reset forms/selections on error—allow retry
   }
 
   filterTable() {
@@ -585,14 +590,7 @@ export class MarketStandingCertificate {
     console.log('Selected Items:', this.selectedItems);
   }
   
-refreshCheckbox(){
-  // this.filteredItems = [...this.MCCFillItemsLIst]; // Refresh filtered
-  this.selectedItems = []; // Clear all
-  this.MCCFillItemsLIst = [];
 
-
-
-}
 
   onSubmitMCCFillItemsForm() {
    

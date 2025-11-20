@@ -96,6 +96,7 @@ export class ManufacturingUnitUntiTab {
   
   submitted=false;
 
+  mLicID=0
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('sort') sort!: MatSort;
@@ -132,7 +133,13 @@ toggleDetails(row: any): void {
   }
 
   toggleLicDetails(lic: any): void {
+    
     console.log('Toggling license details for:', lic); // For debugging
+    
+    this.mLicID=lic.licid;
+    console.log('Toggling license id details for:', this.mLicID); // For debugging
+    this.GetPovLicenceDetails();
+
     this.expandedLic = this.expandedLic === lic ? null : lic;
   }
   
@@ -144,7 +151,7 @@ toggleDetails(row: any): void {
 
   ngOnInit() {
 
-
+    
     this.GetLicenceTypes()
     this.GetMassStates()
 
@@ -246,7 +253,7 @@ this.retForm = this.fb.group({
   
   GetmMANLICDDL(){
     
-    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),1).subscribe((res:any[])=>{
+    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),0).subscribe((res:any[])=>{
       if (res && res.length > 0) {
         this.ManLicDdllist = res.map(item => ({
           licid: item.licid,
@@ -301,7 +308,9 @@ this.retForm = this.fb.group({
   }
   
   onshowButtonClick(){
-    
+    this.GetmMANLICDDL();
+    this.GetMassStates()
+
     //  this.isCollapsed = true;
       // isCollapsed1 = true;
 
@@ -357,10 +366,11 @@ this.retForm = this.fb.group({
       
     }
   GetPovLicenceDetails() {
+    this.mLicID
       
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
-      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
+      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),this.mLicID).subscribe((res: any) => {
           console.log('Raw API responseR:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
