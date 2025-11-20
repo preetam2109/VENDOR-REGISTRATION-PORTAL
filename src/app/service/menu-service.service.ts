@@ -1001,7 +1001,7 @@ export class MenuServiceService {
         { label: 'Global Company Prefix', route: '/GlobalCompanyPrefix'},
         // { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
-        { label: 'Import Licence', route: '/import-Licence' },
+        // { label: 'Import Licence', route: '/import-Licence' }, 
         // { label: 'Product Permission', route: '/home' },
         // { label: 'Loan Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },

@@ -13,7 +13,7 @@ import { ApiService } from '../service/api.service';
 @Component({
   selector: 'app-manufaturing-unit-tabs',
   standalone: true,
-  imports: [CommonModule, MatTabsModule, ManufacturingUnit, ProductPermission, Confirmation, Retention, MarketStandingCertificate, CapaityOfProduction],
+  imports: [CommonModule, MatTabsModule, ManufacturingUnit, ProductPermission, Confirmation, MarketStandingCertificate, CapaityOfProduction],
   templateUrl: './manufaturing-unit-tabs.html',
   styleUrl: './manufaturing-unit-tabs.css'
 })

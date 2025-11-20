@@ -190,7 +190,7 @@ this.retForm = this.fb.group({
   
   GetmMANLICDDL(){
     
-    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),1).subscribe((res:any[])=>{
+    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),0).subscribe((res:any[])=>{
       if (res && res.length > 0) {
         this.ManLicDdllist = res.map(item => ({
           licid: item.licid,
@@ -304,7 +304,7 @@ this.retForm = this.fb.group({
       
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
-      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
+      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
           console.log('Raw API response:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
@@ -382,7 +382,7 @@ this.retForm = this.fb.group({
 
 
     DownloadFileWithName(mFilePath: string, mFileName: string) {
-      ;
+      
     
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
@@ -691,7 +691,7 @@ onFileSelectedRetention(event: any) {
   
   
   exportToPDF() {
-    ;
+    
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -762,7 +762,7 @@ onFileSelectedRetention(event: any) {
   
 
   exportToPDFManufacturingLic() {
-    ;
+    
     const doc = new jsPDF('l', 'mm', 'a4'); // landscape mode
   
     // 🕒 Current date & time
@@ -843,10 +843,6 @@ onFileSelectedRetention(event: any) {
     doc.save(`Manufacturing_Licence_List_${formattedDate}.pdf`);
   }
 
-
-
-  
-  
   exportToPDFRetention() {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
@@ -923,10 +919,5 @@ onFileSelectedRetention(event: any) {
     // 💾 Save PDF
     doc.save('Retention_List.pdf');
   }
-  
-
-
-  
-
 
 }

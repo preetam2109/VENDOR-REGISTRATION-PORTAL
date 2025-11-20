@@ -162,6 +162,7 @@ export class TechnicalDetails {
   //   string CapacityOfProd = "81";
 
   InsertTechnicalDetails(mFileTypeid: number) {
+
 // debugger;
  // Find the matching file
  const file = this.TechnicalDetailsData.find((f: any) => f.mscid == mFileTypeid);
@@ -175,6 +176,7 @@ export class TechnicalDetails {
 //   console.warn(`No file found for fileid: ${mFileTypeid}`);
 // }
 // return;
+
     const formData = new FormData();
     let selectedFile: File | null = null;
     switch (mFileTypeid) {

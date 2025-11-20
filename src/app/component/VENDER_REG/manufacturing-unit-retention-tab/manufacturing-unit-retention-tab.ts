@@ -198,7 +198,7 @@ this.GetPovLicenceDetails();
   
   GetmMANLICDDL(){
     
-    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),1).subscribe((res:any[])=>{
+    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),0).subscribe((res:any[])=>{
       if (res && res.length > 0) {
         this.ManLicDdllist = res.map(item => ({
           licid: item.licid,
@@ -256,6 +256,9 @@ this.GetPovLicenceDetails();
   }
   
   onshowButtonClick(){
+    this.GetLicenceTypes();
+    this.GetmMANLICDDL();
+    this.GetMasRetentionTypeDDL();
     
     //  this.isCollapsed = true;
       // isCollapsed1 = true;
@@ -315,7 +318,7 @@ this.GetPovLicenceDetails();
       
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
-      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
+      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
           console.log('Raw API response:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
@@ -601,6 +604,7 @@ this.GetPovLicenceDetails();
   }
 
   onSubmitRetention() {
+    
     this.loadingSectionA = true;
     
     this.submitted=true;

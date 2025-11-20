@@ -210,8 +210,77 @@
                   </div>
                 </div>
       
+
+<!-- Licence Type -->
+<div class="col-md-6 mb-3">
+    <label class="form-label fw-bold">License Type<span class="text-danger">*</span></label>
+    <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
+        formControlName="mLICTYPEID"  (change)="onLicenceTypeChange($event)" [placeholder]="licForm.get('mLICTYPEID')?.value ? '' : 'Select Licence Type'"
+        [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
+        'border': (licForm.get('mLICTYPEID')?.invalid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
+          ? '1px solid #dc3545'
+          : (licForm.get('mLICTYPEID')?.valid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
+            ? '1px solid #198754'
+            : '',
+        'box-shadow': (licForm.get('mLICTYPEID')?.invalid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
+          ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+          : (licForm.get('mLICTYPEID')?.valid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
+            ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+            : ''
+      }">
+    </ng-select>
+    <div class="text-danger mt-1">
+        <span
+            *ngIf="(licForm.get('mLICTYPEID')?.touched || submitted) && licForm.get('mLICTYPEID')?.errors?.['required']">
+            License Type is required.
+        </span>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+            <div class="col-md-6 mb-3" *ngIf="showImporterType">
+                <label class="form-label fw-bold">Importer Type<span class="text-danger">*</span></label>
+                <ng-select class="form-select w-auto" [items]="MasimportertypeDDL" bindLabel="imptypename"
+                  bindValue="imptypeid" formControlName="mLICTYPEID"
+                  [placeholder]="!licForm.get('mLICTYPEID')?.value ? 'Choose Import Type' : ''" [searchable]="true"
+                  [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                    'border': (licForm.get('mLICTYPEID')?.invalid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
+                      ? '1px solid #dc3545'
+                      : (licForm.get('mLICTYPEID')?.valid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (licForm.get('mLICTYPEID')?.invalid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (licForm.get('mLICTYPEID')?.valid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                  >
+                </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(licForm.get('mLICTYPEID')?.touched || submitted) && licForm.get('mLICTYPEID')?.errors?.['required']">
+                    Importer Type is required.
+                  </span>
+              </div>
+              </div>
+
+
+
+
+
+
+
+
+
                 <!-- Form Type -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-3" *ngIf="showFormType">
                   <label class="form-label fw-bold">Form Type<span class="text-danger">*</span></label>
                   <ng-select class="form-select w-auto" [items]="formList" bindLabel="formname" bindValue="formid"
                     formControlName="mFORMID" [placeholder]="licForm.get('mFORMID')?.value ? '' : 'Select Form Type'"
@@ -237,32 +306,7 @@
                   </div>
                 </div>
       
-                <!-- Licence Type -->
-                <div class="col-md-6 mb-3">
-                  <label class="form-label fw-bold">License Type<span class="text-danger">*</span></label>
-                  <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
-                    formControlName="mLICTYPEID" [placeholder]="licForm.get('mLICTYPEID')?.value ? '' : 'Select Licence Type'"
-                    [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
-                      'border': (licForm.get('mLICTYPEID')?.invalid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
-                        ? '1px solid #dc3545'
-                        : (licForm.get('mLICTYPEID')?.valid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
-                          ? '1px solid #198754'
-                          : '',
-                      'box-shadow': (licForm.get('mLICTYPEID')?.invalid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
-                        ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
-                        : (licForm.get('mLICTYPEID')?.valid && (licForm.get('mLICTYPEID')?.dirty || licForm.get('mLICTYPEID')?.touched))
-                          ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
-                          : ''
-                    }"
-                    >
-                  </ng-select>
-                  <div class="text-danger mt-1">
-                    <span
-                      *ngIf="(licForm.get('mLICTYPEID')?.touched || submitted) && licForm.get('mLICTYPEID')?.errors?.['required']">
-                      License Type is required.
-                    </span>
-                  </div>
-                </div>
+               
       
                 <!-- Licence No -->
                 <div class="col-md-6 mb-3">

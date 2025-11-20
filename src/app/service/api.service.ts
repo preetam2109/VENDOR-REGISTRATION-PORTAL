@@ -2036,8 +2036,11 @@ postSupplierUnit(data: any): Observable<any> {
 getManufacturingDetails(supplierId: any, VregID: any) {
   return this.http.get(`${this.VREGAPI}/Registration/ManufacturingDetails?supplierId=${supplierId}&VregID=${VregID}`);
 }
-getPovLicenceDetails(supplierId: any, VregID: any) {
-  return this.http.get(`${this.VREGAPI}/Registration/PovLicenceDetails?VregID=${VregID}&SupplierID=${supplierId}`);
+getPovLicenceDetails(supplierId: any, VregID: any,mLicID:any) {
+  // here 
+  // https://localhost:7053/api/Registration/PovLicenceDetails?VregID=84&SupplierID=1651&mLicID=0
+
+  return this.http.get(`${this.VREGAPI}/Registration/PovLicenceDetails?VregID=${VregID}&SupplierID=${supplierId}&mLICID=${mLicID}`);
 }
 
 getMasformTypes(){
@@ -2100,6 +2103,7 @@ downloadFile(filePath: string, fileName: string): Observable<Blob> {
 }
 
 getmMANLICDDL(supID:any,vregid:any,type:any){
+  
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/MANLICDDL?supID=${supID}&vregid=${vregid}&type=${type}`);
 }
 getRetentionTypeDDL(){
