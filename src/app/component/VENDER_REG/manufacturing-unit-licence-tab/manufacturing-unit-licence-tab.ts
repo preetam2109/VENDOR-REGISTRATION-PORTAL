@@ -78,6 +78,11 @@ export class ManufacturingUnitLicenceTab {
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
 
+  MasimportertypeDDL: any
+
+
+  showImporterType: boolean = false;
+  showFormType: boolean = true;
 
 
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -121,6 +126,7 @@ export class ManufacturingUnitLicenceTab {
 // licence
 
 this.getMasformTypes();
+this.GETtMasimportertype();
 
 this.licForm = this.fb.group({
   mSUPPLIERID: [sessionStorage.getItem('facilityid') || '', Validators.required],
@@ -134,6 +140,9 @@ this.licForm = this.fb.group({
   mVALIDITYDATE: ['', Validators.required],
   mLicIssuingAuthority: ['', Validators.required],
   Files: [null, Validators.required],
+
+
+  
 });
 this.GetmANUFACLICDetails()
 
@@ -157,21 +166,75 @@ this.retForm = this.fb.group({
 
   }
 
-  getMasformTypes(){
-    
-    this.api.getMasformTypes().subscribe((res:any[])=>{
-      if (res && res.length > 0) {
-        this.formList = res.map(item => ({
-          formid: item.formid,
-          formname : item.formname,
-        }));
-        
-        console.log('formname items', res)
-      } else {
-        console.error('No formname found or incorrect structure:', res);
-      }
-    }); 
+  // ISSUE DATE vs START DATE
+validateIssueStart(form: FormGroup) {
+  const issue = form.get('mISSUEDATE')?.value;
+  const start = form.get('mStartDate')?.value;
+
+  if (!issue || !start) return null;
+
+  return new Date(start) >= new Date(issue)
+    ? null
+    : { issueStartError: true };
+}
+
+// START DATE vs END DATE
+validateStartEnd(form: FormGroup) {
+  const start = form.get('mStartDate')?.value;
+  const end = form.get('mVALIDITYDATE')?.value;
+
+  if (!start || !end) return null;
+
+  return new Date(end) > new Date(start)
+    ? null
+    : { startEndError: true };
+}
+
+  onLicenceTypeChange(selected: any) {
+    const selectedValue = selected.lictypename;   // or selected.lictypeid
+  
+    if (selectedValue === "Importer") {
+      this.showImporterType = true;
+      this.showFormType = false;
+    } else {
+      this.showImporterType = false;
+      this.showFormType = true;
+    }
   }
+  
+
+
+  GETtMasimportertype(){
+    this.api.GetMasimportertype().subscribe((res: any[]) => {
+      if (res && res.length > 0) {
+        this.MasimportertypeDDL=res.map(item => ({
+          imptypeid: item.imptypeid,
+          imptypename: item.imptypename,
+        }));
+
+        console.log('imptypename items', res)
+      } else {
+        console.error('No imptypename found or incorrect structure:', res);
+      }
+    });
+  }
+  getMasformTypes() {
+    
+    this.api.getMasformTypes().subscribe((res: any[]) => {
+  
+      const hideIds = ["7"];  // ⬅️ IDs you want to hide
+  
+      this.formList = res
+        .filter(item => !hideIds.includes(item.formid))  // Remove those rows
+        .map(item => ({
+          formid: item.formid,
+          formname: item.formname,
+        }));
+  
+      console.log('Filtered formList cg', this.formList);
+    });
+  }
+  
   onRetentionChange(selected: any) {
     const retid = selected?.retid ?? selected; // handles both cases
   
@@ -193,7 +256,7 @@ this.retForm = this.fb.group({
   
   GetmMANLICDDL(){
     
-    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),1).subscribe((res:any[])=>{
+    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'),0).subscribe((res:any[])=>{
       if (res && res.length > 0) {
         this.ManLicDdllist = res.map(item => ({
           licid: item.licid,
@@ -307,7 +370,7 @@ this.retForm = this.fb.group({
       
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
-      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
+      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
           console.log('Raw API response:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,

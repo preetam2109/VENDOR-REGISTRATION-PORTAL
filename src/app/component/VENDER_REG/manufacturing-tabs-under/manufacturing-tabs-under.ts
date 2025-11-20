@@ -21,12 +21,19 @@ import { ManufacturingUnitLicenceTab } from '../manufacturing-unit-licence-tab/m
 export class ManufacturingTabsUnder {
   vregid:any
   selectedTabIndex: number = 0;
+  // selectedTabIndex = 0;
+
+onTabChanged(index: number) {
+  this.selectedTabIndex = index;
+}
+
 
   constructor(private router:Router,private api:ApiService){
   
     }
 
     ngOnInit(): void {
+      
       this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
     }
     GetVendorDetailsID(supplierId: any) {
@@ -49,9 +56,9 @@ export class ManufacturingTabsUnder {
         }
       });
     }
-    selectedTabValue(event: any): void {
+    // selectedTabValue(event: any): void {
       
-      this.selectedTabIndex = event.index;
-    }
+    //   this.selectedTabIndex = event.index;
+    // }
    
   }

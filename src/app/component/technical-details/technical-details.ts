@@ -138,7 +138,7 @@ export class TechnicalDetails {
   //   string CapacityOfProd = "81";
 
   InsertTechnicalDetails(mFileTypeid: number) {
-// debugger;
+// ;
     const formData = new FormData();
     let selectedFile: File | null = null;
     switch (mFileTypeid) {

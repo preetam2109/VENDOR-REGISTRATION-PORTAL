@@ -127,6 +127,12 @@ export class ProductPermission {
 
   }
 
+
+    ngAfterViewChecked() {
+    console.log('Form valid:', this.productPerForm.valid);
+    console.log('Form values:', this.productPerForm.value);
+  }
+
   onshowButtonClick(){
     this.onshowPP = true;
   }
@@ -191,7 +197,7 @@ formatDate(dateString: string): string {
   }
   GetmMANLICDDL() {
 
-    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'), sessionStorage.getItem('vregid'), 1).subscribe((res: any[]) => {
+    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'), sessionStorage.getItem('vregid'), 0).subscribe((res: any[]) => {
       if (res && res.length > 0) {
         this.ManLicDdllist = res.map(item => ({
           licid: item.licid,
@@ -513,7 +519,7 @@ formatDate(dateString: string): string {
       // Validate GST
       if (item.gstper === null || item.gstper === undefined || item.gstper === '') {
         invalidFound = true;
-        firstErrorMsg = firstErrorMsg || 'GST rate is removed for selected items.';
+        firstErrorMsg = firstErrorMsg || 'GST rate is required for selected items.';
         continue;
       }
     }
@@ -551,6 +557,14 @@ formatDate(dateString: string): string {
         
         // Reset selection and state
         this.resetSelection(selected);
+        
+        // Refresh productPerForm: Reset form and re-patch persistent fields
+        this.productPerForm.reset();
+        this.productPerForm.patchValue({
+          mVregid: this.vregid // Re-fill hidden/required fields
+          // Add other defaults if needed, e.g., mcid: '', licid: null, etc.
+        });
+        
         this.GETtPPCertificate();
         this.onshowPP = false;
       },
@@ -566,10 +580,33 @@ formatDate(dateString: string): string {
   }
   
   private resetSelection(selected: any[]): void {
+    // Reset only the previously selected items (unselect and clear fields)
     selected.forEach(it => {
       it.selected = false;
       it._showErrors = false;
+      
+      // Clear table fields for selected items
+      it.pharmaid = null;
+      it.stndbatchqty = null;
+      it.pageno = null;
+      it.hsncode = '';
+      it.gstper = null;
     });
+    
+    // Also clear ALL items in masItemsList for a full reset (covers filtered/paginated views)
+    this.masItemsList.forEach(item => {
+      item.pharmaid = null;
+      item.stndbatchqty = null;
+      item.pageno = null;
+      item.hsncode = '';
+      item.gstper = null;
+      item.selected = false;
+      item._showErrors = false;
+    });
+    
+    // Update filtered/paginated views to reflect changes
+    this.filteredItems = [...this.masItemsList];
+    this.updatePagination();
   }
   
   private resetSaveState(): void {
@@ -612,7 +649,8 @@ formatDate(dateString: string): string {
         this.toastr.error('Failed to load items. Please try again.');
       }
     });
-  } 
+  }
+
 
   GETtPPCertificate() {
     this.spinner.show();
