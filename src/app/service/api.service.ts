@@ -607,7 +607,7 @@ export class ApiService {
   }
 
   masddlUser(Usertype: any): Observable<any> {
-
+debugger
     return this.http.get<masddlUser[]>(`${this.CGMSCHO_API2}/Master/masddlUser?Usertype=${Usertype}`);
 
   }
@@ -2037,6 +2037,7 @@ getManufacturingDetails(supplierId: any, VregID: any) {
   return this.http.get(`${this.VREGAPI}/Registration/ManufacturingDetails?supplierId=${supplierId}&VregID=${VregID}`);
 }
 getPovLicenceDetails(supplierId: any, VregID: any,mLicID:any) {
+  debugger
   // here 
   // https://localhost:7053/api/Registration/PovLicenceDetails?VregID=84&SupplierID=1651&mLicID=0
 

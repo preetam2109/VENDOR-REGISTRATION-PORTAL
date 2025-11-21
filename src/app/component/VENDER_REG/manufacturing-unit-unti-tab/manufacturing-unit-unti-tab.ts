@@ -366,6 +366,7 @@ this.retForm = this.fb.group({
       
     }
   GetPovLicenceDetails() {
+    debugger
     this.mLicID
       
       this.spinner.show();
@@ -839,7 +840,7 @@ onFileSelectedRetention(event: any) {
   
 
   exportToPDFManufacturingLic() {
-    ;
+    
     const doc = new jsPDF('l', 'mm', 'a4'); // landscape mode
   
     // 🕒 Current date & time

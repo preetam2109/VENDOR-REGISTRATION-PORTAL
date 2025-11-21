@@ -163,7 +163,7 @@ export class TechnicalDetails {
 
   InsertTechnicalDetails(mFileTypeid: number) {
 
-// debugger;
+// ;
  // Find the matching file
  const file = this.TechnicalDetailsData.find((f: any) => f.mscid == mFileTypeid);
 //  console.log(file)
@@ -282,7 +282,7 @@ export class TechnicalDetails {
   }
 
   GetTechnicalDetails() {
-    // debugger;
+    // ;
     this.spinner.show();
   
     this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
@@ -372,7 +372,7 @@ export class TechnicalDetails {
     
     DownloadFileWithName1(mFilePath: string, mFileName: string) {
     
-  // debugger
+  // 
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
       const encodedName = encodeURIComponent(mFileName);

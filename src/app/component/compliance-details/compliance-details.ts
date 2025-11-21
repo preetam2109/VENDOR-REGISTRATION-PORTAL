@@ -463,7 +463,7 @@ onCheckboxChange(item: any) {
     }
   }
   MASVREGWHOITEMTYPE(WHoid: any, COMCForm: NgForm) {
-    // debugger
+    // 
     console.log('whoid=', WHoid);
     console.log('selecteditemtypeid=', this.selecteditemtypeid);
 
