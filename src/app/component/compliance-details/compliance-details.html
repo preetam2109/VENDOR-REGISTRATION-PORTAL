@@ -34,13 +34,14 @@
                             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                               <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
                             <button mat-menu-item (click)="exportToPDF()">PDF</button>
-                          </mat-menu> -->
+                          </mat-menu> class="mat-elevation-z1"-->
                         </div>
                       </div>
+
                       <div class="table-responsive">
-                        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
-                          [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
-                
+                      
+                        <table class="table table-bordered table-striped border rounded" mat-table [dataSource]="dataSource" mat-table matTableExporter
+                          #exporter="matTableExporter" matSort #sort="matSort">
                           <ng-container matColumnDef="sno">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
                             <td mat-cell *matCellDef="let element" class="text-center">
@@ -50,7 +51,7 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Licence</th>
                             <td mat-cell *matCellDef="let element" class="text-center"> {{element.licno}} </td>
                           </ng-container>
-                
+                      
                           <ng-container matColumnDef="unitname">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</th>
                             <td mat-cell *matCellDef="let element" class="text-center"> {{element.unitname}} </td>
@@ -85,30 +86,11 @@
                           </ng-container>
                           <ng-container matColumnDef="whotype">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Type</th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.whotype}} 
-                               
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.whotype}}
+                      
                             </td>
                           </ng-container>
-                          <ng-container matColumnDef="whoid">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO ID</th>
-                            <td mat-cell *matCellDef="let element" class="text-center">
-                                <a
-                                (click)="GettypedetailsDetails(element.whoid)"
-
-                                class="whoid-link"
-                                style="cursor: pointer;"
-                              >
-                                {{ element.whoid }}
-                              </a>
-                                <!-- <a
-                                class="link"
-                                mat-button
-                                (click)="openModal(element.whoid)"
-                                (click)="openModal(element.whoid)"
-                                >
-                            </a> -->
-                            </td>
-                          </ng-container>
+                      
                           <ng-container matColumnDef="vregid">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>vreg ID</th>
                             <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
@@ -130,39 +112,117 @@
                             <td mat-cell *matCellDef="let element" class="text-center">
                               <button
                                 class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
-                                mat-button
-                                (click)="DownloadFileWithName(element.filepath,element.filename)"><i
+                                mat-button (click)="DownloadFileWithName(element.filepath,element.filename)"><i
                                   class="bi bi-filetype-pdf text-danger"></i>
                                 <!-- (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
-                                  class="bi bi-filetype-pdf text-danger"></i> -->
+                                                        class="bi bi-filetype-pdf text-danger"></i> -->
                                 <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i> -->
                               </button>
                             </td>
                           </ng-container>
-                
-                          <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                      
+                          <!-- <ng-container matColumnDef="action">
+                                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                                                  <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                      <button
+                                                        class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button (click)="onButtonClick(element.licid)">
+                                                        <i class="bi bi-pencil-square text-primary"></i>
+                                                      </button>
+                                                    </span>
+                                                  </td>
+                                                </ng-container> -->
+                          <!-- <ng-container matColumnDef="whoid">
+                                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO ID</th>
+                                                  <td mat-cell *matCellDef="let element" class="text-center">
+                                                      <a
+                                                      (click)="GettypedetailsDetails(element.whoid)"
+                      
+                                                      class="whoid-link"
+                                                      style="cursor: pointer;"
+                                                    >
+                                                      {{ element.whoid }}
+                                                    </a>
+                                                  </td>
+                                                </ng-container> -->
+                          <ng-container matColumnDef="whoid">
+                            <th mat-header-cell *matHeaderCellDef>Compliance Type Detail</th>
                             <td mat-cell *matCellDef="let element" class="text-center">
-                              <span class="d-flex  flex-row-reverse p-2 ">
-                                <button
-                                  class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
-                                  mat-button (click)="onButtonClick(element.licid)">
-                                  <i class="bi bi-pencil-square text-primary"></i>
-                                </button>
-                              </span>
-                            </td>
-                          </ng-container>
-                          <!-- <ng-container matColumnDef="licenceDetails">
-                            <th mat-header-cell *matHeaderCellDef> Licence Detail </th>
-                            <td mat-cell *matCellDef="let element">
-                              <button class="btn btn-outline-primary" (click)="toggleDetails(element); $event.stopPropagation()">
+                              <button class="btn btn-outline-primary btn-sm"
+                                (click)="toggleDetails(element, element.whoid)">
                                 {{ expandedElement === element ? 'Hide' : 'Show' }}
                               </button>
+                      
+                      
+                              <!-- <button class="btn btn-outline-primary" (click)="toggleDetails(element,element.whoid); $event.stopPropagation()">
+                                                      {{ expandedElement === element ? 'Hide' : 'Show' }}
+                                                    </button> -->
                             </td>
-                          </ng-container> -->
+                          </ng-container>
+                          <!-- DETAIL ROW (collapsible) -->
+                          <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+                      
+                              <div class="detail-wrapper detail-expand" [@detailExpand]="expandedElement === row.data ? 'expanded' : 'collapsed'"
+                                *ngIf="row.detailRow">
+                      
+                                <div class="p-3 bg-light border rounded mt-2">
+                      
+                                  <h6 class="fw-bold mb-2 text-center">Compliance Type Details</h6>
+                      
+                                  <!-- INNER DETAIL TABLE -->
+                                  <div class="table-responsive border rounded">
+                                    <table class="table table-bordered table-striped table-sm mb-0">
+                                      <thead class="table-secondary">
+                                        <tr>
+                                          <th class="text-center">S.No</th>
+                                          <th class="text-center" >WHO NO</th>
+                                          <th class="text-center">Type Name</th>
+                                          <!-- <th>Vreg ID</th> -->
+                                        </tr>
+                                      </thead>
+                      
+                                      <tbody>
+                                        <tr *ngFor="let d of COMTyepDetailsdata">
+                                          <td class="text-center">{{d.sno}}</td>
+                                          <td class="text-center">{{d.whono}}</td>
+                                          <td class="text-center">{{d.itemtypename}}</td>
+                                          <!-- <td>{{d.vregid}}</td> -->
+                                        </tr>
+                      
+                                        <tr *ngIf="COMTyepDetailsdata.length == 0">
+                                          <td colspan="4" class="text-center text-muted">No details found</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                      
+                                </div>
+                      
+                              </div>
+                      
+                            </td>
+                          </ng-container>
+                      
+                          <!-- DETAIL ROW DEF -->
+                          <tr mat-row *matRowDef="let row; when: isExpansionDetailRow; columns: ['expandedDetail'];" class="animRow"></tr>
+                      
+                      
+                      
+                          <!-- Row Definitions -->
                           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns">
+                          </tr>
+                      
                         </table>
+                      
+                      
+                      
+                      
+                      
+                      
                         <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
                       </div>
                     </div>
@@ -476,122 +536,7 @@
     </div>
   </div>
   <!-- data table click de whoid by -->
-<div class="modal fade custom-transparent-modal" id="whoidModal" tabindex="-1" aria-labelledby="whoidModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
-      <div class="modal-content border-0 shadow-none">
-        <div class="modal-header bg-dark text-white py-2 px-3">
-          <h5 class="modal-title" id="whoidModalLabel">Compliance Type Details</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body p-3">
-        <div class="row justify-content-center g-4 p-3">
-            <!-- Card 1 -->
-            <div class="col-12 col-md-12 p-2">
-              <div class="" style="padding-bottom: 20px;">
-                <div class=" card row shadow ">
-                  <div class="d-flex justify-content-between align-items-center m-2">
-                    <div class="filter-field flex-grow-1">
-                      <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
-                    </div>
-            
-                    <!-- <button type="button" class="btn border rounded mr-1 text-light" style="background-color: rgb(21, 184, 0);"
-                      (click)="onButtonClickAT()"><i class="bi bi-folder-plus"></i></button> -->
-                    <!-- <div class="export-menu-container m-2">
-                      <button type="button" class="btn border rounded btn-outline-secondary" mat-button
-                        [matMenuTriggerFor]="exportMenu">Export</button>
-                      <mat-menu #exportMenu="matMenu">
-                        <button mat-menu-item
-                          (click)="exporter.exportTable('xlsx', { fileName: 'COMTyepDetails', sheet: 'COMTyepDetails', Props: { Author: 'cgmsc' }})">Excel</button>
-                        <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-                        <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                        <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-                        <button mat-menu-item (click)="exportToPDF()">PDF</button>
-                      </mat-menu>
-                    </div> -->
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
-                      [dataSource]="dataSource1" #exporter="matTableExporter" matSort #sort1="matSort">
-            
-                      <ng-container matColumnDef="sno">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
-                        <td mat-cell *matCellDef="let element" class="text-center">
-                          {{element.sno}} </td>
-                      </ng-container>
-                      <!-- 'sno',
-                      'whotypeid',
-                      'whoid',
-                      'whono',
-                      'itemtypeid',
-                      'itemtypename',
-                      'vregid',
-                     
-                      // 'filename',
-                      'action', -->
-                      <ng-container matColumnDef="whotypeid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Type Id</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whotypeid}} </td>
-                      </ng-container>
-            
-                      <ng-container matColumnDef="whoid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Id</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whoid}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="whono">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO No</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.whono}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="itemtypeid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Type Id</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.itemtypeid}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="itemtypename">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Type Name</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.itemtypename}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="vregid">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>VREG Id</th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
-                      </ng-container>
-                      
-                      <!-- <ng-container matColumnDef="filename">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th>
-                        <td mat-cell *matCellDef="let element" class="text-center">
-                          <button
-                            class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
-                            mat-button
-                            (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')"><i
-                              class="bi bi-filetype-pdf text-danger"></i>
-                          </button>
-                        </td>
-                      </ng-container> -->
-            
-                      <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
-                        <td mat-cell *matCellDef="let element" class="text-center">
-                          <span class="d-flex  flex-row-reverse p-2 ">
-                            <button
-                              class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
-                              mat-button (click)="onButtonClick(element.vregid)">
-                              <i class="bi bi-pencil-square text-primary"></i>
-                            </button>
-                          </span>
-                        </td>
-                      </ng-container>
-                      <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
-                      <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
-                    </table>
-                    <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
 
-      </div>
-      </div>
-    </div>
-  </div>
 
 
    <!-- [placeholder]="'Select Item Types...'" -->
