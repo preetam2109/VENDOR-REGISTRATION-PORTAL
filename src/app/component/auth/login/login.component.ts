@@ -301,26 +301,47 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
   }
 
   
-  cgmsclLoginDropdown(){
+  // cgmsclLoginDropdown(){
     
-    this.api.masddlUser(0).subscribe((res:any[])=>{
-      // console.log('API  CGMSCL dropdown Response:', res);
+  //   this.api.masddlUser(0).subscribe((res:any[])=>{
+  //     console.log('API  CGMSCL dropdown Response:', res);
+  //     if (res && res.length > 0) {
+  //       this.cgmsclDropdownList = res.map(item => ({
+  //         emailid: item.emailid, // Adjust key names if needed
+  //         textfield: item.textfield,
+  //         siMobile: item.siMobile,
+  //         userid: item.userid,
+  //       }));
+  //       // console.log('Processed cgmsclDropdownList:', this.cgmsclDropdownList);
+  //     } else {
+  //       console.error('No emailid found or incorrect structure:', res);
+  //     }
+  //   });  
+  // }
+  cgmsclLoginDropdown() {
+    this.api.masddlUser(0).subscribe((res: any[]) => {
+      console.log('API CGMSCL dropdown Response:', res);
+  
+      const hideIds: any = [2994, 3026];
+  
       if (res && res.length > 0) {
-        this.cgmsclDropdownList = res.map(item => ({
-          emailid: item.emailid, // Adjust key names if needed
-          textfield: item.textfield,
-          siMobile: item.siMobile,
-          userid: item.userid,
-        }));
-        // console.log('Processed cgmsclDropdownList:', this.cgmsclDropdownList);
+        this.cgmsclDropdownList = res
+          .filter(item => !hideIds.includes(item.userid))   // 👈 correct filtering
+          .map(item => ({
+            emailid: item.emailid,
+            textfield: item.textfield,
+            siMobile: item.siMobile,
+            userid: item.userid,
+          }));
       } else {
         console.error('No emailid found or incorrect structure:', res);
       }
-    });  
+    });
   }
+  
   wHlLoginDropdown(){
     this.api.masddlUser('WH').subscribe((res:any[])=>{
-      console.log('API warehouse Response:', res);
+      // console.log('API warehouse Response:', res);
       if (res && res.length > 0) {
         this.wHDropdownList = res.map(item => ({
           emailid: item.emailid, // Adjust key names if needed

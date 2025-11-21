@@ -211,7 +211,7 @@ ngOnInit() {
 
 
 onIFSCChange() {
-  // debugger
+  // 
   const ifsc = this.SupplierBankAccDetail.ifsccode;
 
  
@@ -257,7 +257,7 @@ onIFSCChange() {
   }
   
 // GETIFSCCODE(ifsc:any){
-//   // debugger;
+//   // ;
 //   // GETIFSCCODE(ifsccode:any)
 //   // this.api.GETIFSCCODE('SBIN0000461').subscribe({
 //   this.api.GETIFSCCODE(ifsc).subscribe({
@@ -523,7 +523,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
 
   onSubmit(bankForm: NgForm) {
  
-// debugger
+// 
         this.loadingSectionA = true;
         const bankaccountID = this.dispatchData1
        .find((f: any) => f.bankaccountid == this.acno)?.bankaccountid;
