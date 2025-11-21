@@ -79,7 +79,6 @@ export class ComplianceDetails {
   onshow:boolean=false;
   submitted = false;
   loadingSectionA = false;
-
   dataSource!: MatTableDataSource<ComplienceCertificateDetails>;
   dataSource1!: MatTableDataSource<GetCOMTyepDetails>;
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -87,7 +86,6 @@ export class ComplianceDetails {
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
   dispatchData: ComplienceCertificateDetails[] = [];
-  // dispatchData3: GstReturnDetails[] = [];'filepath',
   displayedColumns: string[] = [
     'sno',
     'licno',
@@ -188,7 +186,6 @@ toggleDetails(row: any, whoid: any) {
     this.GETMAScomplianceType();
     this.GETmasitemtypes();
     this.GetComplienceCertificateDetails();
-    // this.GettypedetailsDetails(0);
   }
 
   //#region compliance Details
