@@ -24,6 +24,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { threadCpuUsage } from 'process';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+
 @Component({
   selector: 'app-compliance-details',
   standalone: true,
@@ -46,23 +47,14 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ],
   templateUrl: './compliance-details.html',
   styleUrl: './compliance-details.css',
-    animations: [
-      trigger('detailExpand', [
-        state('collapsed', style({ height: '0px', minHeight: '0' })),
-        state('expanded', style({ height: '*' })),
-        transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-      ]),
-      trigger('innerDetailExpand', [
-        state('expanded', style({ height: '*', opacity: 1 })),
-        transition(':enter', [
-          style({ height: '0px', opacity: 0 }),
-          animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ height: '*', opacity: 1 }))
-        ]),
-        transition(':leave', [
-          animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)', style({ height: '0px', opacity: 0 }))
-        ])
-      ])
-    ],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', opacity: 0, padding: '0' })),
+      state('expanded', style({ height: '*', opacity: 1 })),
+      transition('expanded <=> collapsed', animate('250ms ease-in-out')),
+    ])
+  ],
+    
 })
 export class ComplianceDetails {
   fileSelected: File | null = null;
@@ -87,6 +79,7 @@ export class ComplianceDetails {
   onshow:boolean=false;
   submitted = false;
   loadingSectionA = false;
+
   dataSource!: MatTableDataSource<ComplienceCertificateDetails>;
   dataSource1!: MatTableDataSource<GetCOMTyepDetails>;
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -107,15 +100,17 @@ export class ComplianceDetails {
     'validitydate',
     'remarks',
     'whotype',
-    'whoid',
     // 'vregid',
     // 'supplierid',
     'filename',
+    'whoid',
     // 'action',
     // 'ext',
     // 'licid',
   ];
   dispatchData1: GetCOMTyepDetails[] = [];
+  // COMTyepDetailsdata: GetCOMTyepDetails[] = [];
+// manufacturingLicList: any[] = [];
   // dispatchData3: GstReturnDetails[] = [];'filepath',
   displayedColumns1: string[] = [
     'sno',
@@ -136,12 +131,45 @@ export class ComplianceDetails {
     // vregid: number;
   ];
   expandedElement: any | null = null;
-  toggleDetails(row: any): void {
-    console.log('Toggle clicked for row:', row); // For debugging - check console
-    this.expandedElement = this.expandedElement === row ? null : row;
+  COMTyepDetailsdata: any[] = [];
+  
+// Identify detail rows
+isExpansionDetailRow = (i: number, row: any) => row.detailRow === true;
+
+// Toggle row expand/collapse
+toggleDetails(row: any, whoid: any) {
+  // Collapse if already open
+  if (this.expandedElement === row) {
+    this.expandedElement = null;
+
+    // Remove all detail rows
+    this.dataSource.data = this.dataSource.data.filter(r => !r.detailRow);
+    return;
   }
 
-  isExpanded = (row: any): boolean => this.expandedElement === row;
+  // OPEN NEW ROW
+  this.expandedElement = row;
+
+  // Insert detail row just below clicked row
+  const updatedRows: any[] = [];
+
+  this.dataSource.data.forEach(r => {
+    updatedRows.push(r);
+
+    if (r === row) {
+      updatedRows.push({
+        detailRow: true,
+        data: row
+      });
+    }
+  });
+
+  this.dataSource.data = updatedRows;
+
+  // Fetch detail API data
+  this.GettypedetailsDetails(whoid);
+}
+
   constructor(
     private spinner: NgxSpinnerService,
     private api: ApiService,
@@ -160,6 +188,7 @@ export class ComplianceDetails {
     this.GETMAScomplianceType();
     this.GETmasitemtypes();
     this.GetComplienceCertificateDetails();
+    // this.GettypedetailsDetails(0);
   }
 
   //#region compliance Details
@@ -529,42 +558,69 @@ onCheckboxChange(item: any) {
   }
   exportToPDF() {}
 
-  GettypedetailsDetails(mWHOID: any) {
-    // https://dpdmis.in/VREGAPI/api/Registration/GetCOMTyepDetails?VregID=50&mWHOID=21
-    try {
-      ;
-      this.spinner.show();
-      this.api
-        .GettypedetailsDetails(sessionStorage.getItem('vregid'), mWHOID)
-        .subscribe(
-          (res: any) => {
-            this.dispatchData1 = res.map(
-              (item: GetCOMTyepDetails, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('GetCOMTyepDetails=:', this.dispatchData1);
-            this.dataSource1.data = this.dispatchData1;
-            this.dataSource1.paginator = this.paginator1;
-            this.dataSource1.sort = this.sort1;
-            this.cdr.detectChanges();
-            this.spinner.hide();
-          },
-          (error: { message: any }) => {
-            this.spinner.hide();
-            console.log('Error fetching data:',JSON.stringify(error.message))
-            // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
-          }
-        );
-    } catch (err: any) {
-      this.spinner.hide();
+  // Your API call (unchanged except no modal)
+GettypedetailsDetails(mWHOID: any) {
+  this.spinner.show();
 
-      console.log(err);
-      // throw err;
-    }
-    this.openModal();
-  }
+  this.api.GettypedetailsDetails(sessionStorage.getItem('vregid'), mWHOID)
+    .subscribe({
+      next: (res: any) => {
+        this.COMTyepDetailsdata = res.map((d: any, i: number) => ({
+          ...d,
+          sno: i + 1,
+        }));
+        this.spinner.hide();
+      },
+      error: () => {
+        this.COMTyepDetailsdata = [];
+        this.spinner.hide();
+      }
+    });
+}
+  // GettypedetailsDetails(mWHOID: any) {
+  //   // https://dpdmis.in/VREGAPI/api/Registration/GetCOMTyepDetails?VregID=50&mWHOID=21
+  //   try {
+  //     this.spinner.show();
+  //     this.api
+  //       .GettypedetailsDetails(sessionStorage.getItem('vregid'), mWHOID)
+  //       .subscribe(
+  //         (res: any) => {
+  //           this.COMTyepDetailsdata= res.map(
+  //             (item: any, index: number) => ({
+  //               ...item,
+  //               sno: index + 1,
+  //             })
+  //           );
+  //           // this.dispatchData1 = res.map(
+  //           //   (item: any, index: number) => ({
+  //           //     ...item,
+  //           //     sno: index + 1,
+  //           //   })
+  //           // );
+  //           console.log('GetCOMTyepDetails=:', this.COMTyepDetailsdata);
+
+  //           // this.GetCOMTyepDetails = this.dispatchData1;
+  //           // this.dataSource1.data =this.GetCOMTyepDetails;
+  //           // this.dataSource1.data = this.dispatchData1;
+  //           // this.dataSource1.paginator = this.paginator1;
+  //           // this.dataSource1.sort = this.sort1;
+  //           // this.cdr.detectChanges();
+  //           this.spinner.hide();
+  //         },
+  //         (error: { message: any }) => {
+  //           this.spinner.hide();
+  //           console.log('Error fetching data:',JSON.stringify(error.message))
+  //           // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+  //         }
+  //       );
+  //   } catch (err: any) {
+  //     this.spinner.hide();
+
+  //     console.log(err);
+  //     // throw err;
+  //   }
+  //   this.openModal();
+  // }
   applyTextFilter1(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource1.filter = filterValue.trim().toLowerCase();
