@@ -101,6 +101,7 @@ export interface vendorBankDetail_model {
 
 
   export interface ComplienceCertificateDetails {
+    detailRow: any;
     sno:any;
     licno: string
     unitname: string

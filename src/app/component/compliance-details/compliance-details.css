@@ -240,3 +240,127 @@ Don't show
   border-color: #86b7fe;
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 } */
+
+
+  /* Expandable Rows: No gaps between rows (consolidated from previous sections) */
+  .data-row {
+    border: 1px solid #dee2e6;
+    margin: 0; /* No margins on rows */
+  }
+  
+  .data-row.expanded-row {
+    border-bottom: none; /* Seamless with detail row */
+  }
+  
+  .data-row.expanded-row td {
+    border-bottom-width: 0; /* Remove bottom border for seamless expansion */
+  }
+  
+  .detail-row {
+    height: 0; /* Collapsed height */
+    min-height: 0; /* Override any min-height */
+    border-top: none; /* No top border gap */
+    margin: 0; /* No margins */
+    padding: 0; /* No padding */
+    overflow: hidden; /* Hide content when collapsed */
+    transition: height 225ms cubic-bezier(0.4, 0.0, 0.2, 1); /* Smooth expand */
+  }
+  
+  .data-row.expanded-row + .detail-row {
+    height: auto; /* Expand to content height */
+    min-height: 48px; /* Minimum expanded height; adjust as needed */
+  }
+  
+  .detail-expand {
+    overflow: hidden;
+    display: block;
+    margin: 0; /* No margins */
+    padding: 0; /* No padding on container */
+  }
+  
+  .detail-expand .p-3 {
+    padding: 16px;
+    margin: 0; /* No margins inside */
+  }
+  
+  .data-row:not(.expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  .data-row:not(.expanded-row):active {
+    background: #efefef;
+  }
+  
+  /* Global row gap elimination for Material Table */
+  ::ng-deep .mat-mdc-table tbody tr {
+    margin: 0 !important; /* No margins between rows */
+    border-spacing: 0 !important; /* No spacing */
+  }
+  
+  ::ng-deep .mat-mdc-table tbody tr td {
+    margin: 0 !important; /* No cell margins */
+    padding: 8px !important; /* Consistent padding */
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .table-container {
+      padding: 0;
+    }
+  
+    .table {
+      font-size: 14px;
+    }
+  
+    .filter-field,
+    .export-menu-container {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  
+    .text p {
+      font-size: xx-small;
+    }
+  
+    /* Ensure no extra gaps on mobile */
+    .table th,
+    .table td {
+      padding: 6px; /* Slightly reduced for tighter rows */
+    }
+  }
+  
+  .mat-mdc-table {
+    table-layout: auto;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+  /* Add to your component's SCSS for inner expansion styling */
+
+.retention-expand {
+    overflow: hidden;
+    background-color: #f8f9fa; /* Light bg for sub-table */
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
+  }
+  
+  .retention-expand .table {
+    margin-bottom: 0;
+  }
+  
+  .retention-expand thead th {
+    background-color: #e9ecef; /* Subtle header */
+    font-size: 0.875rem;
+  }
+  
+  /* Ensure no gaps in nested tables */
+  .retention-detail-row {
+    border-top: none;
+  }
+  
+  .retention-detail-row td {
+    padding: 0;
+    border-top: none;
+  }
