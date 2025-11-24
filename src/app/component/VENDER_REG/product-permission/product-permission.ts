@@ -39,6 +39,7 @@ export class ProductPermission {
   
   sanitizedPdfUrl!: SafeResourceUrl;
   loadingSectionA:boolean=false;
+  manufacturingLicList: any[] = [];
   
   
   isCollapsed = false;
@@ -324,6 +325,8 @@ formatDate(dateString: string): string {
     
     const licid = selected?.licid ?? selected;
 
+
+
     if (licid) {
       this.licid = licid || null;
 
@@ -332,12 +335,32 @@ formatDate(dateString: string): string {
     } else {
       console.error('Selected itemtypeid not found in the list.');
     }
-    // 
-    // this.mTypeID = 
-    // const=selectedId?.itemtypeid;
-    // const mcid = selectedId?.itemtypeid ?? selected; 
-    // console.log('Selected Item Type ID:', selectedId);
+
+
+
+  
   }
+
+  GetmANUFACLICDetails(licid:any) {
+    
+          const supplierId = sessionStorage.getItem('facilityid');
+        
+          this.api.getmANUFACLICDetails(supplierId,sessionStorage.getItem('vregid')).subscribe((res: any) => {
+              console.log('Raw API response:', res);
+        
+              this.manufacturingLicList = res.map((item: any, index: number) => ({
+                ...item,
+                sno: index + 1
+              }));
+        
+            },
+            (error) => {
+              console.error('API error:', error);
+              this.spinner.hide();
+            }
+          );
+          
+        }
 
 
   onItemSelect(item: any) {
