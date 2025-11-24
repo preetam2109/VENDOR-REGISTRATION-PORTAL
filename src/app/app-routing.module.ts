@@ -19,6 +19,8 @@ import { TechnicalDetails } from './component/technical-details/technical-detail
 import { ComplianceDetails } from './component/compliance-details/compliance-details';
 import { GlobalCompanyPrefix } from './component/global-company-prefix/global-company-prefix';
 import { ManufacturingTabsUnder } from './component/VENDER_REG/manufacturing-tabs-under/manufacturing-tabs-under';
+import { VendorRegistrationCompleted } from './component/vendor-registration-completed/vendor-registration-completed';
+import { VendorRegistrationApproved } from './component/vendor-registration-approved/vendor-registration-approved';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -33,6 +35,8 @@ const routes: Routes = [
   {path:'Registration',component:Registration},
   {path:'collector-login',component:CollectorLoginComponent},
   {path:'otp',component:OtpComponent},
+  {path:'VendorRegistrationCompleted',component:VendorRegistrationCompleted},
+  {path:'VendorRegistrationApproved',component:VendorRegistrationApproved},
 
   {path:'logout',component:LogoutComponent,canActivate:[RouteGuardService]},
   { path: 'home',component: CategorySelectionComponent,canActivate:[RouteGuardService]}, 
