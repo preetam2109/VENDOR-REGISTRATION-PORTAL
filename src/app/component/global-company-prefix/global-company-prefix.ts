@@ -35,6 +35,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class GlobalCompanyPrefix {
   // GetGCPDetails
+  errorMsg:any;
 onshow:boolean=false;
 loadingSectionA:boolean=false;
     fileSelected: File | null = null;
@@ -238,7 +239,6 @@ this.loadingSectionA=true;
     }
   
   
-    // 
     GetGCPDetails(){
         try{
         //  ;
@@ -281,7 +281,32 @@ this.loadingSectionA=true;
       exportToPDF(){
     
       }
-  
+      validateDates() {
+        const start = new Date(this.mstartdate);
+        const issue = new Date(this.ISSUEDATE);
+        const validity = new Date(this.mEXPDate);
+        this.errorMsg = "";
+      
+        // Rule 1: Start Date must be >= Issue Date
+        if (start < issue) {
+          this.errorMsg = "Start Date cannot be earlier than Issue Date.";
+          return false;
+        }
+      
+        // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+        if (validity < start) {
+          this.errorMsg = "Expiry Date must be on or after Start Date.";
+          return false;
+        }
+      
+        if (validity < issue) {
+          this.errorMsg = "Expiry Date cannot be earlier than Issue Date.";
+          return false;
+        }
+      
+        return true;
+      }
+      
   
   //#endregion
 }
