@@ -85,9 +85,12 @@ export class GenerateRegistrationComponent {
       next: (res: any) => {
         if (Array.isArray(res) && res.length > 0) {
           this.vendorDetails = res;
-          if(res[0].status==='Complete')[
+          if(res[0].status!='Complete'){
             this.showButtons=false
-          ]
+          }
+          if(res[0].status==='Complete'){
+            this.showButtons=true
+          }
           console.log('Vendor Details:', this.vendorDetails);
           this.vregid = res[0].vregid;
           sessionStorage.setItem('vregid', this.vregid);

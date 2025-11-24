@@ -102,8 +102,12 @@
               required
               minlength="3"
               #suppliername="ngModel"
+              [ngClass]="{
+                'is-invalid': (suppliername.invalid && (suppliername.touched || vendorForm.submitted)),
+                'is-valid': (suppliername.valid && (suppliername.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="suppliername.invalid && suppliername.touched" class="text-danger small">
+            <div *ngIf="suppliername.invalid && (suppliername.touched || vendorForm.submitted)" class="text-danger small">
               <span *ngIf="suppliername.errors?.['required']">Name is required.</span>
               <span *ngIf="suppliername.errors?.['minlength']">Minimum 3 characters required.</span>
             </div>
@@ -118,8 +122,12 @@
               [(ngModel)]="vendor.adddress"
               required
               #address="ngModel"
+              [ngClass]="{
+                'is-invalid': (address.invalid && (address.touched || vendorForm.submitted)),
+                'is-valid': (address.valid && (address.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="address.invalid && address.touched" class="text-danger small">
+            <div *ngIf="address.invalid && (address.touched || vendorForm.submitted)" class="text-danger small">
               Address is required.
             </div>
           </div>
@@ -135,10 +143,16 @@
               [(ngModel)]="vendor.city"
               required
               #city="ngModel"
+              [ngClass]="{
+                'is-invalid': (city.invalid && (city.touched || vendorForm.submitted)),
+                'is-valid': (city.valid && (city.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="city.invalid && city.touched" class="text-danger small">City is required.</div>
+            <div *ngIf="city.invalid && (city.touched || vendorForm.submitted)" class="text-danger small">
+              City is required.
+            </div>
           </div>
-
+        
           <div class="col-md-6 text-start">
             <label class="form-label fw-bold">Mobile No<span class="text-danger">*</span></label>
             <input
@@ -149,8 +163,12 @@
               required
               pattern="^[0-9]{10}$"
               #phonE1="ngModel"
+              [ngClass]="{
+                'is-invalid': (phonE1.invalid && (phonE1.touched || vendorForm.submitted)),
+                'is-valid': (phonE1.valid && (phonE1.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="phonE1.invalid && phonE1.touched" class="text-danger small">
+            <div *ngIf="phonE1.invalid && (phonE1.touched || vendorForm.submitted)" class="text-danger small">
               <span *ngIf="phonE1.errors?.['required']">Mobile number is required.</span>
               <span *ngIf="phonE1.errors?.['pattern']">Enter a valid 10-digit number.</span>
             </div>
@@ -168,27 +186,39 @@
               required
               email
               #email="ngModel"
+              [ngClass]="{
+                'is-invalid': (email.invalid && (email.touched || vendorForm.submitted)),
+                'is-valid': (email.valid && (email.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="email.invalid && email.touched" class="text-danger small">
+            <div *ngIf="email.invalid && (email.touched || vendorForm.submitted)" class="text-danger small">
               <span *ngIf="email.errors?.['required']">Email is required.</span>
               <span *ngIf="email.errors?.['email']">Invalid email format.</span>
             </div>
           </div>
-
+        
           <div class="col-md-6 text-start">
-            <label class="form-label fw-bold">Authorized Representative Name</label>
+            <label class="form-label fw-bold">Authorized Representative Name<span class="text-danger">*</span></label>
             <input
               type="text"
               class="form-control"
               name="authname"
               [(ngModel)]="vendor.authname"
+              #authname="ngModel"
+              [ngClass]="{
+                'is-invalid': (authname.invalid && (authname.touched || vendorForm.submitted)),
+                'is-valid': (authname.valid && (authname.touched || vendorForm.submitted))
+              }"
             />
+            <div *ngIf="authname.invalid && (authname.touched || vendorForm.submitted)" class="text-danger small">
+              Authorized Representative Name is invalid.
+            </div>
           </div>
         </div>
 
         <div class="row mb-3">
           <div class="col-md-6 text-start">
-            <label class="form-label fw-bold">Authorized Representative Mobile No</label>
+            <label class="form-label fw-bold">Authorized Representative Mobile No<span class="text-danger">*</span></label>
             <input
               type="text"
               class="form-control"
@@ -196,14 +226,18 @@
               [(ngModel)]="vendor.authmobileno"
               pattern="^[0-9]{10}$"
               #authmobileno="ngModel"
+              [ngClass]="{
+                'is-invalid': (authmobileno.invalid && (authmobileno.touched || vendorForm.submitted)),
+                'is-valid': (authmobileno.valid && (authmobileno.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="authmobileno.invalid && authmobileno.touched" class="text-danger small">
+            <div *ngIf="authmobileno.invalid && (authmobileno.touched || vendorForm.submitted)" class="text-danger small">
               Enter a valid 10-digit number.
             </div>
           </div>
-
+        
           <div class="col-md-6 text-start">
-            <label class="form-label fw-bold">Authorized Representative Email</label>
+            <label class="form-label fw-bold">Authorized Representative Email<span class="text-danger">*</span></label>
             <input
               type="email"
               class="form-control"
@@ -211,8 +245,12 @@
               [(ngModel)]="vendor.authemail"
               email
               #authemail="ngModel"
+              [ngClass]="{
+                'is-invalid': (authemail.invalid && (authemail.touched || vendorForm.submitted)),
+                'is-valid': (authemail.valid && (authemail.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="authemail.invalid && authemail.touched" class="text-danger small">
+            <div *ngIf="authemail.invalid && (authemail.touched || vendorForm.submitted)" class="text-danger small">
               Invalid email format.
             </div>
           </div>
@@ -222,12 +260,25 @@
 
         <div class="row mb-3">
           <div class="col-md-6 text-start">
-            <label class="form-label fw-bold">Authorized Signatory Name</label>
-            <input type="text" class="form-control" name="authsigname" [(ngModel)]="vendor.authsigname" />
+            <label class="form-label fw-bold">Authorized Signatory Name<span class="text-danger">*</span></label>
+            <input 
+              type="text" 
+              class="form-control" 
+              name="authsigname" 
+              [(ngModel)]="vendor.authsigname" 
+              #authsigname="ngModel"
+              [ngClass]="{
+                'is-invalid': (authsigname.invalid && (authsigname.touched || vendorForm.submitted)),
+                'is-valid': (authsigname.valid && (authsigname.touched || vendorForm.submitted))
+              }"
+            />
+            <div *ngIf="authsigname.invalid && (authsigname.touched || vendorForm.submitted)" class="text-danger small">
+              Authorized Signatory Name is invalid.
+            </div>
           </div>
-
+        
           <div class="col-md-6 text-start">
-            <label class="form-label fw-bold">Authorized Signatory Mobile No</label>
+            <label class="form-label fw-bold">Authorized Signatory Mobile No<span class="text-danger">*</span></label>
             <input
               type="text"
               class="form-control"
@@ -235,8 +286,12 @@
               [(ngModel)]="vendor.authsigmobileno"
               pattern="^[0-9]{10}$"
               #authsigmobileno="ngModel"
+              [ngClass]="{
+                'is-invalid': (authsigmobileno.invalid && (authsigmobileno.touched || vendorForm.submitted)),
+                'is-valid': (authsigmobileno.valid && (authsigmobileno.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="authsigmobileno.invalid && authsigmobileno.touched" class="text-danger small">
+            <div *ngIf="authsigmobileno.invalid && (authsigmobileno.touched || vendorForm.submitted)" class="text-danger small">
               Enter a valid 10-digit number.
             </div>
           </div>
@@ -244,7 +299,7 @@
 
         <div class="row mb-3">
           <div class="col-md-6 text-start">
-            <label class="form-label fw-bold">Authorized Signatory Email</label>
+            <label class="form-label fw-bold">Authorized Signatory Email<span class="text-danger">*</span></label>
             <input
               type="email"
               class="form-control"
@@ -252,12 +307,17 @@
               [(ngModel)]="vendor.authsigemailid"
               email
               #authsigemailid="ngModel"
+              [ngClass]="{
+                'is-invalid': (authsigemailid.invalid && (authsigemailid.touched || vendorForm.submitted)),
+                'is-valid': (authsigemailid.valid && (authsigemailid.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="authsigemailid.invalid && authsigemailid.touched" class="text-danger small">
+            <div *ngIf="authsigemailid.invalid && (authsigemailid.touched || vendorForm.submitted)" class="text-danger small">
               Invalid email format.
             </div>
           </div>
         </div>
+       
 
         <div class="row mb-4">
           <div class="col-md-6 text-start">
@@ -270,13 +330,17 @@
               required
               pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
               #pancardno="ngModel"
+              [ngClass]="{
+                'is-invalid': (pancardno.invalid && (pancardno.touched || vendorForm.submitted)),
+                'is-valid': (pancardno.valid && (pancardno.touched || vendorForm.submitted))
+              }"
             />
-            <div *ngIf="pancardno.invalid && pancardno.touched" class="text-danger small">
+            <div *ngIf="pancardno.invalid && (pancardno.touched || vendorForm.submitted)" class="text-danger small">
               <span *ngIf="pancardno.errors?.['required']">PAN number is required.</span>
               <span *ngIf="pancardno.errors?.['pattern']">Enter valid PAN (e.g., ABCDE1234F).</span>
             </div>
           </div>
-
+        
           <div class="col-md-6 text-start">
             <label class="form-label fw-bold">Upload PAN Card<span class="text-danger">*</span></label>
             <input
@@ -285,7 +349,15 @@
               accept=".pdf"
               (change)="onFileSelected($event)"
               required
+              [ngClass]="{
+                'is-invalid': (!selectedPanFile && (fileTouched || vendorForm.submitted)),
+                'is-valid': (selectedPanFile && (fileTouched || vendorForm.submitted))
+              }"
             />
+            <span class="text-danger"
+              *ngIf="!selectedPanFile && (fileTouched || vendorForm.submitted)">
+              PAN card file is required.
+            </span>
           </div>
         </div>
 
