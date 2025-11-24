@@ -127,8 +127,8 @@ gstFileModel: any; // just for ngModel binding compatibility
   ];
   dispatchData1: BankMandateDetail[] = [];
   displayedColumns1: string[] = [
-    'sno','accountname','accountno','bankname','branch','ifsccode','defaultacc','filename'
-    // ,'action'
+    'sno','accountname','accountno','bankname','branch','ifsccode','filename'
+    // ,'action''defaultacc',
   ];
   AccYearSettings: any;
   MASGSTQUARTER: any;

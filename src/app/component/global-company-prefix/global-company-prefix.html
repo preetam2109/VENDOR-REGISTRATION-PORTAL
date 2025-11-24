@@ -145,7 +145,7 @@
                                     id="ISSUEDATE"
                                     name="ISSUEDATE"
                                     [(ngModel)]="ISSUEDATE"
-                                    #ISSUEDATEee="ngModel"  required
+                                    #ISSUEDATEee="ngModel"  required (change)="validateDates()"
                                         [ngClass]="{
                                           'is-invalid': (ISSUEDATEee.touched || GCPForm.submitted) && ISSUEDATEee.invalid,
                                           'is-valid': ISSUEDATEee.valid && (ISSUEDATEee.touched || GCPForm.submitted)
@@ -164,7 +164,7 @@
                                     id="mstartdate"
                                     name="mstartdate"
                                     [(ngModel)]="mstartdate"
-                                    #mstartdatee="ngModel"  required
+                                    #mstartdatee="ngModel"  required (change)="validateDates()"
                                         [ngClass]="{
                                           'is-invalid': (mstartdatee.touched || GCPForm.submitted) && mstartdatee.invalid,
                                           'is-valid': mstartdatee.valid && (mstartdatee.touched || GCPForm.submitted)
@@ -180,7 +180,7 @@
                                     id="mEXPDate"
                                     name="mEXPDate"
                                     [(ngModel)]="mEXPDate"
-                                    #mEXPDateee="ngModel"  required
+                                    #mEXPDateee="ngModel"  required (change)="validateDates()"
                                     [ngClass]="{
                                       'is-invalid': (mEXPDateee.touched || GCPForm.submitted) && mEXPDateee.invalid,
                                       'is-valid': mEXPDateee.valid && (mEXPDateee.touched || GCPForm.submitted)
@@ -189,6 +189,7 @@
                                        *ngIf="(mEXPDateee.touched || GCPForm.submitted) && mEXPDateee.errors?.['required']">
                                        Validity Date is required.
                                   </div>
+                                
                                 </div>
 
                             </div>
@@ -220,6 +221,7 @@
                                                     Mandate</button>
                                             </div>
                                         </div> -->
+                                        <p class="text-danger">{{ errorMsg }}</p>
                             <div class="d-flex justify-content-center mt-3">
                                 <button type="submit" class="btn btn-primary" [disabled]="GCPForm.invalid">Submit</button>
                                 <!-- <button type="submit" class="btn btn-primary mt-3" [disabled]="!AnnualTurnoverForm.valid">Submit</button> -->
