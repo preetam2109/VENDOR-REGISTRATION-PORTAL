@@ -248,7 +248,7 @@ this.loadingSectionA=true;
           .subscribe(
             (res:any) => {
               this.dispatchData = res.map(
-                (item: ComplienceCertificateDetails, index: number) => ({
+                (item: GetGCPDetails, index: number) => ({
                   ...item,
                   sno: index + 1,
                 })

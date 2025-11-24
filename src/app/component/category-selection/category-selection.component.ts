@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 import { HardcodedAuthenticationService } from 'src/app/service/authentication/hardcoded-authentication.service';
 import { MenuServiceService } from 'src/app/service/menu-service.service';
 import { ApiService } from 'src/app/service/api.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Define the Category type
 type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure' | 'Admin';
 
 @Component({
   selector: 'app-category-selector',
   standalone:true,
-  imports:[CommonModule],
+  imports: [CommonModule, RouterLinkActive,CommonModule, FormsModule, ReactiveFormsModule,  RouterModule,],
   templateUrl: './category-selection.component.html',
   styleUrls: ['./category-selection.component.css']
 })
