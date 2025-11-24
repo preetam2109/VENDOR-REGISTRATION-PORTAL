@@ -724,7 +724,8 @@ export class MenuServiceService {
     'GM Finance': {
       items: [
         { label: 'Home', route: '/home' },
-        // { label: 'Finance', route: '/finance-dash' },
+        { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
+        { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
         // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
         // { label: 'Growth in Distribution', route: '/distribution' },
         // { label: 'Payment', route: '/PriceEvaluation' },

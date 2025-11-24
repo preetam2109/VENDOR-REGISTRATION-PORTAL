@@ -318,53 +318,7 @@ export class TechnicalDetails {
   }
   
   
-//     GetTechnicalDetails(){
-//   try {
-     
-//       this.spinner.show();
-//       this.api.GetTechnicalDetails(sessionStorage.getItem('vregid') ).subscribe(
-//           (res: any) => {
-//             // this.dispatchData = res.map(
-//             //   (item: TechnicalDetails_model, index: number) => ({
-//             //     ...item,
-//             //     sno: index + 1,
-//             //   })
-//             // );
-//             this.TechnicalDetailsData=res;
-//             // this.TechnicalDetails=this.dispatchData;
-//             // console.log('TechnicalDetails=:', this.dispatchData);
-//             // this.dataSource.data = this.dispatchData;
-//             // this.dataSource.paginator = this.paginator;
-//             // this.dataSource.sort = this.sort;
-//             // this.cdr.detectChanges();
-//             this.spinner.hide();
-//           },
-//           (error: { message: any }) => {
-//             this.spinner.hide();
-//             console.log('Error fetching data:',JSON.stringify(error.message))
-//             // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
-//           }
-//         );
-//     } catch (err: any) {
-//       this.spinner.hide();
 
-//       console.log(err);
-//       // throw err;
-//     }
-
-// // return
-
-//       // this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
-//       //   next: (res: any) => {
-//       //    this.TechnicalDetails=res;
-//       //   //  console.log("GetTechnicalDetails:", this.TechnicalDetails);
-//       //   },
-//       //   error: (err: any) => {
-//       //     console.error("Error loading Years:", err);
-//       //     // alert("Failed to load vendor details");
-//       //   }
-//       // });
-//     }
     clickdetailspdf(mscid: number) {
       // Ensure data is loaded
      

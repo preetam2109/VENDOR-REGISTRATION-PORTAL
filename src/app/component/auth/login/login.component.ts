@@ -326,7 +326,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
   
       if (res && res.length > 0) {
         this.cgmsclDropdownList = res
-          .filter(item => !hideIds.includes(item.userid))   // 👈 correct filtering
+          .filter(item => hideIds.includes(item.userid))   // 👈 correct filtering
           .map(item => ({
             emailid: item.emailid,
             textfield: item.textfield,
