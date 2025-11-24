@@ -101,7 +101,7 @@ saveVendor() {
       pancardno: this.vendor.pancardno,
       vregId: this.vregId
     };
-debugger
+
     // Use updated service method
     this.api.updateVendor(params, formData).subscribe({
       next: (res: any) => {
