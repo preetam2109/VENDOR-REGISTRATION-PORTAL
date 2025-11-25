@@ -339,7 +339,7 @@
                               <div class="form-group col-md-6 pt-3">
                                 <label for="inputAddress">Issue Date: <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" placeholder="Type your Issue Date"
-                                    id="inputAddress" name="ISSUEDATE" (change)="validateDates()"
+                                    id="inputAddress" name="ISSUEDATE" (change)="validateDates()" [max]="today" 
                                     [(ngModel)]="ISSUEDATE"  #ISSUEDATEee="ngModel"  required
                                     [ngClass]="{
                                       'is-invalid': (ISSUEDATEee.touched || COMCForm.submitted) && ISSUEDATEee.invalid,
@@ -356,20 +356,30 @@
                                 [ngClass]="{
                                   'is-invalid': (ISSUEDATEe.touched || COMCForm.submitted) && ISSUEDATEe.invalid,
                                   'is-valid': ISSUEDATEe.valid && (ISSUEDATEe.touched || ISSUEDATEe.submitted)
-                                }" -->
+                                }" 
+                                        [ngClass]="{
+                                          'is-invalid': (mstartdatee.touched || COMCForm.submitted) && mstartdatee.invalid,
+                                          'is-valid': mstartdatee.valid && (mstartdatee.touched || COMCForm.submitted)
+                                        }"-->
                             </div>
                                 <div class="form-group col-md-6 pt-3">
                                     <label for="inputnumber">Start Date: <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" placeholder="Type your Validity Date"
                                         id="inputnumber" name="mstartdate" (change)="validateDates()"
-                                        [(ngModel)]="mstartdate"    #mstartdatee="ngModel"  required
+                                        [(ngModel)]="mstartdate" [max]="today"   #mstartdatee="ngModel"  required
                                         [ngClass]="{
-                                          'is-invalid': (mstartdatee.touched || COMCForm.submitted) && mstartdatee.invalid,
-                                          'is-valid': mstartdatee.valid && (mstartdatee.touched || COMCForm.submitted)
-                                        }">
+                                          'is-invalid': 
+                                             (mEXPDateee.touched || COMCForm.submitted) && (mEXPDateee.invalid || starterrorMsg),
+                                  
+                                          'is-valid': 
+                                          mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted) && !starterrorMsg
+                                       }"/>
                                           <div class="text-danger mt-1"
                                           *ngIf="(mstartdatee.touched || COMCForm.submitted) && mstartdatee.errors?.['required']">
                                        Start Date is required.
+                                     </div>
+                                          <div class="text-danger mt-1">
+                                          <p class="text-danger">{{ starterrorMsg }}</p>
                                      </div>
                                 </div>
                               
@@ -377,19 +387,45 @@
 
                             </div>
                             <div class="row pb-3">
+                              <!-- [ngClass]="{
+                                'is-invalid': 
+                                   (ifsccode.touched || bankForm.submitted) &&
+                                   (ifsccode.invalid || statusText),
+                        
+                                'is-valid': 
+                                   ifsccode.valid && 
+                                   (ifsccode.touched || bankForm.submitted) &&
+                                   !statusText
+                             }" 
+
+                                        [ngClass]="{
+                                          'is-invalid': (mEXPDateee.touched || COMCForm.submitted) && mEXPDateee.invalid,
+                                          'is-valid': mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted)
+                                        }"-->
+                             <!--  <div class="form-group col-md-6 pt-4" style="position: relative;">
+                                  <p class="text-danger">{{ errorMsg }}</p>
+
+                                </div>-->
                                 <div class="form-group col-md-6 pt-3">
                                     <label for="inputnumber">Validity Date: <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" placeholder="Type your Validity Date"
                                         id="inputnumber" name="mEXPDate"(change)="validateDates()"
                                         [(ngModel)]="mEXPDate" #mEXPDateee="ngModel"  required
+
                                         [ngClass]="{
-                                          'is-invalid': (mEXPDateee.touched || COMCForm.submitted) && mEXPDateee.invalid,
-                                          'is-valid': mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted)
-                                        }" />
+                                          'is-invalid': 
+                                             (mEXPDateee.touched || COMCForm.submitted) && (mEXPDateee.invalid || validityerrorMsg),
+                                  
+                                          'is-valid': 
+                                          mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted) && !validityerrorMsg
+                                       }" />
                                            <div class="text-danger mt-1"
                                            *ngIf="(mEXPDateee.touched || COMCForm.submitted) && mEXPDateee.errors?.['required']">
                                            Validity Date is required.
                                       </div>
+                                      <div class="text-danger mt-1">
+                                        <p class="text-danger">{{ validityerrorMsg }}</p>
+                                   </div>
                                 </div>
                                 <div class="form-group col-md-6 pt-3">
                                     <label for="inputnumber"> Upload Compliance Certificate: <span
@@ -456,10 +492,10 @@
                                     </div>
                                   </div>
                                 </div>
-                                <div class="form-group col-md-6 pt-4" style="position: relative;">
+                                <!-- <div class="form-group col-md-6 pt-4" style="position: relative;">
                                   <p class="text-danger">{{ errorMsg }}</p>
 
-                                </div>
+                                </div> -->
                                 
                                 </div>
 
