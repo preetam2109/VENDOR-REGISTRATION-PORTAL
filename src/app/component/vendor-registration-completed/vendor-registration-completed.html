@@ -1,50 +1,8 @@
 
 <!-- <title>Vendor Registration</title> -->
-<div class="container-fluid py-3 px-3">
+<!-- <div class="container-fluid py-3 px-3">
     <div class="card">
       <h4 class="text-center mb-4 fw-bold">Vendor Registration Completed</h4>
-  
-      <!-- Generate Button -->
-      <!-- <div class="d-flex justify-content-end mb-3">
-        <button class="btn btn-success"  *ngIf="showButtons" (click)="generate()">
-          <i class="bi bi-plus-circle"></i> Generate
-        </button>
-      </div> -->
-  
-      <!-- Table -->
-      <!-- <div class="table-responsive">
-        <table class=" align-middle table table-bordered table-striped border rounded">
-          <thead>
-            <tr>
-              <th>Registration No</th>
-              <th>Registration Date</th>
-              <th>Status</th>
-              <th>Approved Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let vendor of vendorDetails">
-              <td>{{ vendor.vregno }}</td>
-              <td>{{ vendor.regdate }}</td>
-              <td (click)="onClick(vendor.status)">
-                <span [ngClass]="{
-                    'status-complete': vendor.status === 'Complete',
-                    'status-incomplete': vendor.status === 'Incomplete' }"> {{ vendor.status }}
-                </span>
-              </td>
-              <td>
-                <a  routerLink="/VendorRegistrationApproved" class="approved-link text-warning">
-                  Pending
-                </a>
-              </td>
-              
-              <td> <span class="approved-statuss text-warning">Pending</span></td>
-              <td><span class="delete-link" (click)="deleteVendor(vendor)">Delete</span></td> 
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
       
 
       <div class="table-responsive">
@@ -102,7 +60,143 @@
 
 
     </div>
-  </div>
+  </div> -->
   
-  
-  
+<div class=" card container-fluid text-center" style="background-color: aliceblue;">
+    <h3 class="mb-3 Heading-font-family pt-1">Vendor Registration Completed</h3>
+</div>
+<div class="container-fluid p-0 m-0 py-3">
+    <div class="row justify-content-center g-4 px-3">
+        <!-- <div class="row g-4">
+            <div class="container-fluid py-3">
+                <div class="row pt-3 p-2"> -->
+                  <!-- <div *ngIf="loadingSectionA; else sectionAContentA" class="spinner-container">
+                    <mat-spinner diameter="40"></mat-spinner>
+                  </div> -->
+                  <!-- <ng-template #sectionAContentA> -->
+        <div class="col-lg-12 mb-5">
+             <!-- DATA Table -->
+             <div class="row justify-content-center g-4 p-3">
+                <!-- Card 1 -->
+                <div class="col-12 col-md-12 p-2">
+                  <div class="" style="padding-bottom: 20px;">
+                    <div class=" card row shadow ">
+                      <div class="d-flex justify-content-between align-items-center m-2">
+                        <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
+                        </div>
+                        <!-- <div class="export-menu-container m-2">
+                          <button type="button" class="btn border rounded mr-1 text-light" 
+                          style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                              class="bi bi-folder-plus"></i></button>
+                          <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                            [matMenuTriggerFor]="exportMenu">Export</button>
+                          <mat-menu #exportMenu="matMenu">
+                            <button mat-menu-item
+                              (click)="exporter.exportTable('xlsx', { fileName: 'COMPLIANCED', sheet: 'COMPLIANCED', Props: { Author: 'cgmsc' }})">Excel</button>
+                            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                            <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                          </mat-menu>
+                        </div> -->
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+                          [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+                
+                          <ng-container matColumnDef="sno">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              {{element.sno}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="vregno">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration No</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregno}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="regdate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration Date</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.regdate}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="supplierName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.supplierName}} </td>
+                          </ng-container>
+                          <!-- 'sno','vregno','regdate','supplierName','pancardno','phone1',
+                          'authName','authMobileNo','authEmail','authSigName','authSigMobileNo',
+                          'authSigEmailId','status','action' -->
+                          <ng-container matColumnDef="pancardno">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>PAN No</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.pancardno}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="authName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Authorized Representative Name</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.authName}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="authMobileNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Authorized Representative Mobile No</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.authMobileNo}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="phone1">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.phone1}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="authEmail">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Authorized Representative Email</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.authEmail}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="authSigName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Authorized Signatory Name</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.authSigName}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="authSigMobileNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Authorized Signatory Mobile No</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.authSigMobileNo}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="authSigEmailId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Authorized Signatory Email</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.authSigEmailId}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.status}} </td>
+                          </ng-container>
+                          <!-- <ng-container matColumnDef="filename">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              <button
+                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                mat-button
+                                (click)="DownloadFileWithName(element.filepath,element.filename)"
+                              ><i
+                                  class="bi bi-filetype-pdf text-danger"></i>
+                              </button>
+                            </td>
+                          </ng-container> -->
+                
+                          <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved Status</th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                              <span class="d-flex  flex-row-reverse p-2 ">
+                                <button
+                                  class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                  mat-button (click)="onButtonClick(element.vregid,element.supplierid)">
+                                  <i class="bi bi-pencil-square text-primary"></i>
+                                </button>
+                              </span>
+                            </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                        </table>
+                        <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- END DATA TABLE -->
+        </div>
+    </div>
+</div>
+
