@@ -57,6 +57,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     
 })
 export class ComplianceDetails {
+  today: string = new Date().toISOString().split("T")[0];
   fileSelected: File | null = null;
   license: licenseModel[] = [];
   MAScomplianceType: any[] = [];
@@ -76,7 +77,8 @@ export class ComplianceDetails {
   mEXPDate: string = '';
   mRemarks: string = '';
   mWHONO: any;
-  errorMsg:any;
+  validityerrorMsg:any;
+  starterrorMsg:any;
   onshow:boolean=false;
   submitted = false;
   loadingSectionA = false;
@@ -386,25 +388,27 @@ onCheckboxChange(item: any) {
   }
 
   validateDates() {
+  debugger;
     const start = new Date(this.mstartdate);
     const issue = new Date(this.ISSUEDATE);
     const validity = new Date(this.mEXPDate);
-    this.errorMsg = "";
+    // this.validityerrorMsg = "";
+    // this.starterrorMsg = "";
   
     // Rule 1: Start Date must be >= Issue Date
     if (start < issue) {
-      this.errorMsg = "Start Date cannot be earlier than Issue Date.";
+      this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
       return false;
     }
   
     // Rule 2: Expiry Date must be >= Start Date AND Issue Date
     if (validity < start) {
-      this.errorMsg = "Expiry Date must be on or after Start Date.";
+      this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
       return false;
     }
   
     if (validity < issue) {
-      this.errorMsg = "Expiry Date cannot be earlier than Issue Date.";
+      this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
       return false;
     }
   
