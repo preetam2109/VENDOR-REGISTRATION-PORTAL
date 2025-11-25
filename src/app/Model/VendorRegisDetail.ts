@@ -153,3 +153,21 @@ export interface vendorBankDetail_model {
     code: string
     filepath: string
   }
+  export interface registeredVendorsdata {
+    sno:any
+    vregid: number
+    vregno: string
+    regdate: string
+    bankaccountid: string
+    pancardno: string
+    status: string
+    supplierName: string
+    phone1: string
+    authName: any
+    authEmail: any
+    authMobileNo: any
+    authSigName: any
+    authSigMobileNo: any
+    authSigEmailId: any
+    supplierid: string
+  }

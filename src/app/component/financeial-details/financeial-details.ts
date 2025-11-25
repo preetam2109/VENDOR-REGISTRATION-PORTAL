@@ -476,7 +476,6 @@ onFileSelectedanudocument(event: any) {
   }
 
 GETSupplierBankAccDetail(sid:any,acno:any) {
-  // ;
   this.api.SupplierBankAccDetail(sessionStorage.getItem('facilityid'),acno).subscribe({
     next: (res: any) => {
       if (res && res.length > 0) {
@@ -500,7 +499,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
   
   onselectacno(event: any): void {
-    // 
+ 
    const bankaccountid= event.bankaccountid
     this.acno=bankaccountid;
     if (bankaccountid === 0) {
@@ -581,10 +580,8 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
  GETBankMandateDetail(){
     try{
-    //  ;
       this.spinner.show();
     this.api.Massupplieraccnos(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
-    // this.Service.get('GetDrugTenderList?n=0')
       .subscribe(
         (res:any) => {
           this.dispatchData1 = res.map(

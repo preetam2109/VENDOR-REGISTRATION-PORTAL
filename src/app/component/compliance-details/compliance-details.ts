@@ -388,12 +388,12 @@ onCheckboxChange(item: any) {
   }
 
   validateDates() {
-  debugger;
+  // debugger;
     const start = new Date(this.mstartdate);
     const issue = new Date(this.ISSUEDATE);
     const validity = new Date(this.mEXPDate);
-    // this.validityerrorMsg = "";
-    // this.starterrorMsg = "";
+    this.validityerrorMsg = "";
+    this.starterrorMsg = "";
   
     // Rule 1: Start Date must be >= Issue Date
     if (start < issue) {
