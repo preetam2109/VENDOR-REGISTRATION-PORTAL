@@ -25,7 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { ActivatedRoute } from '@angular/router';
 @Component({
   standalone: true,
  imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
@@ -75,8 +75,8 @@ export class VendorRegistrationApproved {
     @ViewChild('sort6') sort6!: MatSort;
           
     displayedColumns1: string[] = [
-      'sno','accountname','accountno','bankname','branch','ifsccode','defaultacc','filename'
-      // ,'action'
+      'sno','accountname','accountno','bankname','branch','ifsccode','filename'
+      // ,'action''defaultacc',
     ];
     displayedColumns: string[] = [
       'sno','accyear','turnoveramt','udinno','filename'
@@ -129,8 +129,10 @@ export class VendorRegistrationApproved {
       // entrydate: string
      
     ];
+   vregid:any;
+   SupID:any;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
-    private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,private route: ActivatedRoute
   ){
      this.dataSource = new MatTableDataSource<GetAnnualTurnoverDetail>([]);
      this.dataSource1 = new MatTableDataSource<BankMandateDetail>([]);
@@ -144,6 +146,15 @@ export class VendorRegistrationApproved {
   
 
 ngOnInit() {
+  this.route.queryParams.subscribe(params => {
+    this.vregid= params['vregid'];
+    this.SupID=  params['supid'];
+
+    console.log("VRegID:",  this.vregid);
+    console.log("SupID:",  this.SupID);
+    // console.log("VRegID:", params['vregid']);
+    // console.log("SupID:", params['supid']);
+  });
   this.GetAnnualTurnover();
   this.GETBankMandateDetail();
   this.GETMassuppliergstDetails();
@@ -158,9 +169,13 @@ ngOnInit() {
     //#region BankMandateDetail
     GETBankMandateDetail(){
       try{
+        debugger
         this.spinner.show();
       // this.api.Massupplieraccnos(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
-      this.api.Massupplieraccnos(1651,84)
+      // this.vregid= params['vregid'];
+      // this.SupID=  params['supid'];
+      // this.api.Massupplieraccnos(1651,84)
+      this.api.Massupplieraccnos(this.SupID,this.vregid)
    
         .subscribe(
           (res:any) => {
@@ -170,7 +185,7 @@ ngOnInit() {
                 sno: index + 1,
               })
             );
-            // console.log('BankMandateDetail=:', this.dispatchData1);
+            console.log('BankMandateDetail=:', this.dispatchData1);
             this.dataSource1.data = this.dispatchData1;
             this.dataSource1.paginator = this.paginator1;
             this.dataSource1.sort = this.sort1;
@@ -255,7 +270,8 @@ ngOnInit() {
   try{
     this.spinner.show();
   // this.api.GetAnnualTurnover(sessionStorage.getItem('vregid'))
-  this.api.GetAnnualTurnover(84)
+  // this.api.GetAnnualTurnover(84)
+  this.api.GetAnnualTurnover(this.vregid)
     .subscribe(
       (res:any) => {
         this.dispatchData = res.map(
@@ -299,7 +315,8 @@ GETMassuppliergstDetails(){
   try{
       // this.spinner.show();
     // this.api.MassuppliergstDetails(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
-    this.api.MassuppliergstDetails(1651,84)
+    // this.api.MassuppliergstDetails(1651,84)
+    this.api.MassuppliergstDetails(this.SupID,this.vregid)
       .subscribe(
         (res:any) => {
           this.dispatchData2 = res.map(
@@ -339,7 +356,8 @@ GstReturnDetails(){
     //  ;
       // this.spinner.show();
     // this.api.GstReturnDetails(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
-    this.api.GstReturnDetails(1651,84)
+    // this.api.GstReturnDetails(1651,84)
+    this.api.GstReturnDetails(this.SupID,this.vregid)
       .subscribe(
         (res:any) => {
           this.dispatchData3 = res.map(
@@ -379,7 +397,8 @@ applyTextFilter3(event: Event) {
      
       this.spinner.show();
       // this.api.GetTechnicalDetails(sessionStorage.getItem('vregid') )
-      this.api.GetTechnicalDetails(84)
+      // this.api.GetTechnicalDetails(84)
+      this.api.GetTechnicalDetails(this.vregid)
       .subscribe(
           (res: any) => {
             this.dispatchData4 = res.map(
@@ -420,7 +439,8 @@ GetComplienceCertificateDetails() {
   try {
     this.spinner.show();
     this.api
-      .GetComplienceCertificateDetails(84,1651)
+      // .GetComplienceCertificateDetails(84,1651)
+      .GetComplienceCertificateDetails(this.vregid,this.SupID)
       // .GetComplienceCertificateDetails(
       //   sessionStorage.getItem('vregid'),
       //   sessionStorage.getItem('facilityid')
@@ -463,7 +483,8 @@ applyTextFilter5(event: Event) {
   try{
     this.spinner.show();
   // this.api.GetGCPDetails(sessionStorage.getItem('vregid'))
-  this.api.GetGCPDetails(84)
+  // this.api.GetGCPDetails(84)
+  this.api.GetGCPDetails(this.vregid)
     .subscribe(
       (res:any) => {
         this.dispatchData6 = res.map(
