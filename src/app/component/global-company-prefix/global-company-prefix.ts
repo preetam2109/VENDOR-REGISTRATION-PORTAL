@@ -28,8 +28,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   standalone:true,
   imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
     MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,
-      MatTableExporterModule,MatProgressSpinnerModule
-  ],
+      MatTableExporterModule,MatProgressSpinnerModule],
   templateUrl: './global-company-prefix.html',
   styleUrl: './global-company-prefix.css'
 })
@@ -241,7 +240,6 @@ this.loadingSectionA=true;
   
     GetGCPDetails(){
         try{
-        //  ;
           this.spinner.show();
         this.api.GetGCPDetails(sessionStorage.getItem('vregid'))
         // this.Service.get('GetDrugTenderList?n=0')
