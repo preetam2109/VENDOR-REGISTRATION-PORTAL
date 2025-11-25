@@ -732,11 +732,14 @@ export class MenuServiceService {
        
       ],
     },
+   
     'AdminMoH': {
       items: [
         { label: 'Home', route: '/home' },
         { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
         { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
+        { label: 'Vendor Registration Approved Technical', route: '/ApprovalTechnicalCrt' }
+
         // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
         // { label: 'Growth in Distribution', route: '/distribution' },
         // { label: 'Payment', route: '/PriceEvaluation' },
@@ -757,11 +760,21 @@ export class MenuServiceService {
 
     "DM PO": {
 
-
-      items: [
-        { label: 'Home', route: '/welcome' },
-        { label: 'QC Insights ', route: '/qc-dashboard' },
-        { label: 'Finance', route: '/finance-dash' },
+      
+        items: [
+          { label: 'Home', route: '/home' },
+          { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
+          { label: 'Vendor Registration Approved Technical', route: '/ApprovalTechnicalCrt' },
+          // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+          // { label: 'Growth in Distribution', route: '/distribution' },
+          // { label: 'Payment', route: '/PriceEvaluation' },
+         
+        ],
+      
+      // items: [
+      //   { label: 'Home', route: '/welcome' },
+      //   { label: 'QC Insights ', route: '/qc-dashboard' },
+      //   { label: 'Finance', route: '/finance-dash' },
  
         // {
         //   label: 'Health Facilities Coverage',
@@ -771,62 +784,62 @@ export class MenuServiceService {
         //     { label: 'Facility Details', route:  '/facilityDetails' }
         //   ]
         // },
-        { label: 'EMD Drugs/Consumables', route: '/emd' },
-        { label: 'Health Facilities Coverage', route: '/FacCoverage' },
-        { label: 'Warehouse Information', route: '/WarehouseInfo' },
-        { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
-        { label: 'Warehouse Stock Details', route: '/stockDetails' },
-        { label: 'Field Stock', route: '/field-stock' },
-        { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
-        { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
-        { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
-        { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
-        { label: 'Growth in Distribution', route: '/distribution' },
-        { label: 'Near Expiry', route: '/nearExpiry' },
-        { label: 'Devlivery', route: '/Devlivery' },
+        // { label: 'EMD Drugs/Consumables', route: '/emd' },
+        // { label: 'Health Facilities Coverage', route: '/FacCoverage' },
+        // { label: 'Warehouse Information', route: '/WarehouseInfo' },
+        // { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
+        // { label: 'Warehouse Stock Details', route: '/stockDetails' },
+        // { label: 'Field Stock', route: '/field-stock' },
+        // { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
+        // { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
+        // { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
+        // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        // { label: 'Growth in Distribution', route: '/distribution' },
+        // { label: 'Near Expiry', route: '/nearExpiry' },
+        // { label: 'Devlivery', route: '/Devlivery' },
 
         // { label: 'QC Courier', route:  '/QcPendings' },
         // { label: 'QC-Lab Issues', route:  '/qc-dash' },
-        { label: 'Quality Control', route: '/qc-dashboard' },
-        {
-          label: 'Quality Control Track',
-          submenu: [
-            { label: 'QC Courier', route: '/QcPendings' },
-            { label: 'QC-Lab Issues', route: '/qc-dash' },
-          ],
-          route: '/welcome',
-        },
+        // { label: 'Quality Control', route: '/qc-dashboard' },
+        // {
+        //   label: 'Quality Control Track',
+        //   submenu: [
+        //     { label: 'QC Courier', route: '/QcPendings' },
+        //     { label: 'QC-Lab Issues', route: '/qc-dash' },
+        //   ],
+        //   route: '/welcome',
+        // },
 
-        { label: 'IWH Pendings', route: '/iwhPending' },
-        { label: 'NOC', route: '/noc' },
-        { label: 'ANPR Report ', route: '/vehicleTracking' },
+        // { label: 'IWH Pendings', route: '/iwhPending' },
+        // { label: 'NOC', route: '/noc' },
+        // { label: 'ANPR Report ', route: '/vehicleTracking' },
 
         // {label:'Quality Controll'
 
         // },
         // Menu=Quality Controll
-        {
-          label: 'Time-Based Analysis',
+        // {
+        //   label: 'Time-Based Analysis',
 
-          submenu: [
-            {
-              label: 'Door Delivery App Uses',
-              route: '/DropAppWarehousePerformance',
-            },
-            {
-              label: 'Time Taken By Supplier',
-              route: '/timetakenBySupplier',
-            },
-            { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
-            { label: 'QC Time Taken', route: '/QcTimeTaken' },
+        //   submenu: [
+        //     {
+        //       label: 'Door Delivery App Uses',
+        //       route: '/DropAppWarehousePerformance',
+        //     },
+        //     {
+        //       label: 'Time Taken By Supplier',
+        //       route: '/timetakenBySupplier',
+        //     },
+        //     { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
+        //     { label: 'QC Time Taken', route: '/QcTimeTaken' },
 
-            // { label: 'Facility Details', route:  '/facilityDetails' }
-          ],
-          route: '/welcome',
-        },
+        //     // { label: 'Facility Details', route:  '/facilityDetails' }
+        //   ],
+        //   route: '/welcome',
+        // },
 
         // { label: 'In-Transit Issues', route:  '/intransitIssues' },
-      ],
+      // ],
 
 
     },
