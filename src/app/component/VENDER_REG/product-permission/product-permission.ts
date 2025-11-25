@@ -337,6 +337,12 @@ formatDate(dateString: string): string {
     }
   }
   
+  formatToInputDate(dateStr: string) {
+    if (!dateStr) return '';
+    const [dd, mm, yyyy] = dateStr.split('-');
+    return `${yyyy}-${mm}-${dd}`;  // input format
+  }
+  
 
   getLicenceDatesById(licid: any) {
 debugger
@@ -349,15 +355,16 @@ debugger
   debugger
       if (selectedLic) {
         // Convert dd-mm-yyyy → yyyy-mm-dd
-        const issue = selectedLic.issuedate;
-        const start = selectedLic.startdate;
-        const valid = selectedLic.validitydate;
+        const issue = this.formatToInputDate(selectedLic.issuedate);
+        const start = this.formatToInputDate(selectedLic.startdate);
+        const valid = this.formatToInputDate(selectedLic.validitydate);
   
         // Patch values into form
         this.productPerForm.patchValue({
           mIssueDate: issue,
           mStartDate: start,
-          mVALIDITYDATE: valid
+          mVALIDITYDATE: valid,
+          groupid:0
         });
       }
   

@@ -125,6 +125,10 @@ export class MarketStandingCertificate {
 
     });
 
+    this.MCCFillItemsForm.patchValue({
+      mGroupID: 0
+    })
+
   }
 
   onshowButtonClick(){

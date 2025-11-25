@@ -32,7 +32,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   styleUrl: './vendor-registration-completed.css'
 })
 export class VendorRegistrationCompleted {
-
+  roleName: any = localStorage.getItem('roleName');
   vregid: any;
   vendorDetails: any[] = [];
   showButtons:boolean=true;

@@ -121,6 +121,10 @@ export class CapaityOfProduction {
 
     });
 
+    this.MCCFillItemsForm.patchValue({
+      mGroupID: 0
+    })
+
   }
 
   onshowButtonClick(){
