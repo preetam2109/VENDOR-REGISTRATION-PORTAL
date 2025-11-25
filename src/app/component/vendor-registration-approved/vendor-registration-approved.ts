@@ -76,7 +76,9 @@ export class VendorRegistrationApproved {
     @ViewChild('sort6') sort6!: MatSort;
           
     displayedColumns1: string[] = [
+
       'sno','accountname','accountno','bankname','branch','ifsccode','filename','Remark','action', 'Save',
+
       // 'defaultacc',
     ];
     displayedColumns: string[] = [
