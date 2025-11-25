@@ -118,7 +118,8 @@ export class ProductPermission {
       mlictypeid: ['', Validators.required],   // Licence Type
       licid: ['', Validators.required],        // Licence
       mVregid: [this.vregid, Validators.required],
-      Files: [null, Validators.required],      mIssueDate: ['',Validators.required],
+      Files: [null, Validators.required],
+      mIssueDate: ['',Validators.required],
       mStartDate: ['',Validators.required],
       mVALIDITYDATE: ['',Validators.required],
       mISSUINGAUTHORITY: ['',Validators.required]
@@ -322,45 +323,47 @@ formatDate(dateString: string): string {
     // console.log('Selected Item Type ID:', selectedId);
   }
   onLicenceTypeChange(selected: any): void {
-    
+
     const licid = selected?.licid ?? selected;
-
-
-
-    if (licid) {
-      this.licid = licid || null;
-
-
-
-    } else {
-      console.error('Selected itemtypeid not found in the list.');
-    }
-
-
-
   
+    if (licid) {
+      this.licid = licid;
+  
+      // Call API to fetch dates for this licence
+      this.getLicenceDatesById(licid);
+  
+    } else {
+      console.error('Selected licid not found.');
+    }
   }
+  
 
-  GetmANUFACLICDetails(licid:any) {
-    
-          const supplierId = sessionStorage.getItem('facilityid');
-        
-          this.api.getmANUFACLICDetails(supplierId,sessionStorage.getItem('vregid')).subscribe((res: any) => {
-              console.log('Raw API response:', res);
-        
-              this.manufacturingLicList = res.map((item: any, index: number) => ({
-                ...item,
-                sno: index + 1
-              }));
-        
-            },
-            (error) => {
-              console.error('API error:', error);
-              this.spinner.hide();
-            }
-          );
-          
-        }
+  getLicenceDatesById(licid: any) {
+debugger
+    const supplierId = sessionStorage.getItem('facilityid');
+    const vregid = sessionStorage.getItem('vregid');
+  
+    this.api.getmANUFACLICDetails(supplierId, vregid).subscribe((res: any[]) => {
+  
+      const selectedLic = res.find(item => item.licid == licid);
+  debugger
+      if (selectedLic) {
+        // Convert dd-mm-yyyy → yyyy-mm-dd
+        const issue = selectedLic.issuedate;
+        const start = selectedLic.startdate;
+        const valid = selectedLic.validitydate;
+  
+        // Patch values into form
+        this.productPerForm.patchValue({
+          mIssueDate: issue,
+          mStartDate: start,
+          mVALIDITYDATE: valid
+        });
+      }
+  
+    });
+  }
+  
 
 
   onItemSelect(item: any) {
