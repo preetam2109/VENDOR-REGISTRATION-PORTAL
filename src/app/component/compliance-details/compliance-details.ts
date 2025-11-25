@@ -76,6 +76,7 @@ export class ComplianceDetails {
   mEXPDate: string = '';
   mRemarks: string = '';
   mWHONO: any;
+  errorMsg:any;
   onshow:boolean=false;
   submitted = false;
   loadingSectionA = false;
@@ -384,8 +385,34 @@ onCheckboxChange(item: any) {
     return `${day}-${month}-${year}`;
   }
 
+  validateDates() {
+    const start = new Date(this.mstartdate);
+    const issue = new Date(this.ISSUEDATE);
+    const validity = new Date(this.mEXPDate);
+    this.errorMsg = "";
+  
+    // Rule 1: Start Date must be >= Issue Date
+    if (start < issue) {
+      this.errorMsg = "Start Date cannot be earlier than Issue Date.";
+      return false;
+    }
+  
+    // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+    if (validity < start) {
+      this.errorMsg = "Expiry Date must be on or after Start Date.";
+      return false;
+    }
+  
+    if (validity < issue) {
+      this.errorMsg = "Expiry Date cannot be earlier than Issue Date.";
+      return false;
+    }
+  
+    return true;
+  }
+  
   InsertComplianceCertificate1(COMCForm: NgForm) {
-      this.loadingSectionA = true;
+    this.loadingSectionA = true;
     this.submitted = true;
     const formData = new FormData();
     if (COMCForm.invalid) {
@@ -460,7 +487,7 @@ onCheckboxChange(item: any) {
     }
   }
   MASVREGWHOITEMTYPE(WHoid: any, COMCForm: NgForm) {
-    // 
+  
     console.log('whoid=', WHoid);
     console.log('selecteditemtypeid=', this.selecteditemtypeid);
 

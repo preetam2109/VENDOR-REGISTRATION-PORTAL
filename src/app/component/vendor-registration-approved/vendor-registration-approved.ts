@@ -75,19 +75,24 @@ export class VendorRegistrationApproved {
     @ViewChild('sort6') sort6!: MatSort;
           
     displayedColumns1: string[] = [
-      'sno','accountname','accountno','bankname','branch','ifsccode','defaultacc','filename','action'
+      'sno','accountname','accountno','bankname','branch','ifsccode','defaultacc','filename'
+      // ,'action'
     ];
     displayedColumns: string[] = [
-      'sno','accyear','turnoveramt','udinno','filename','action'
+      'sno','accyear','turnoveramt','udinno','filename'
+      // ,'action'
     ];
     displayedColumns2: string[] = [
-      'sno','statename','gstno','filename','action'
+      'sno','statename','gstno','filename'
+      // ,'action'
     ];
     displayedColumns3: string[] = [
-      'sno','gstno','accyear','filename','action'
+      'sno','gstno','accyear','filename'
+      // ,'action'
     ];
     displayedColumns4: string[] = [
-      'sno','code','filename','action',
+      'sno','code','filename'
+      // ,'action',
       // 'fileid','vregid','mscid', 'ext','filepath',
     ];
     displayedColumns5: string[] = [
@@ -103,13 +108,14 @@ export class VendorRegistrationApproved {
        // 'supplierid',
        'filename',
       //  'whoid',
-       'action',
+      //  'action',
        // 'ext',
        // 'licid',
      ];
      displayedColumns6: string[] = [
       'sno','gcpno','issuedate','startdate',
-      'expdate','filename','action'
+      'expdate','filename',
+      // 'action'
       // 'gcpid','vregid','entrydate'
       // sno:any;
       // : number
