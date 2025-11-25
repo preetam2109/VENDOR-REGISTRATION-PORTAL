@@ -1,0 +1,33 @@
+
+    /* #resign Tab css*/
+    .nav-tabs .nav-link {
+        border: none;
+        /* color: #f8f2f2; */
+        color: #110101;
+        position: relative;
+      }
+      /* .nav-tabs .nav-link.active{
+        color: #110101;
+      } */
+      .nav-tabs .nav-link.active{
+       border-radius: 30px;
+       /* background: var(--theme-gradient); */
+       /* -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent; */
+        /* background-color: #ff7c94; */
+        background-color: #4ea9f3dc
+      }
+      .nav-tabs .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        width: 100%;
+        
+        /* background-color: #f4a300; Saffron shade */
+      }
+      
+      /*#endregion tab css*/
+      
+      
