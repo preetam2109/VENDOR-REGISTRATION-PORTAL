@@ -76,7 +76,8 @@ export class VendorRegistrationApproved {
           
     displayedColumns1: string[] = [
       'sno','accountname','accountno','bankname','branch','ifsccode','filename'
-      // ,'action''defaultacc',
+       ,'action'
+      // 'defaultacc',
     ];
     displayedColumns: string[] = [
       'sno','accyear','turnoveramt','udinno','filename'

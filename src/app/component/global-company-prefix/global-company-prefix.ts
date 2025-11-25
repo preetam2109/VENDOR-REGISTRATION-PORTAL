@@ -34,6 +34,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class GlobalCompanyPrefix {
   // GetGCPDetails
+  today: string = new Date().toISOString().split("T")[0];
   errorMsg:any;
 onshow:boolean=false;
 loadingSectionA:boolean=false;
@@ -54,7 +55,8 @@ loadingSectionA:boolean=false;
   mstartdate: string = '';
   mEXPDate: string = '';
   mGCpNo: any ;
-  
+  validityerrorMsg:any;
+  starterrorMsg:any;
    dataSource!: MatTableDataSource<GetGCPDetails>;
     @ViewChild('paginator') paginator!: MatPaginator;
     @ViewChild('sort') sort!: MatSort;
@@ -280,30 +282,57 @@ this.loadingSectionA=true;
     
       }
       validateDates() {
-        const start = new Date(this.mstartdate);
-        const issue = new Date(this.ISSUEDATE);
-        const validity = new Date(this.mEXPDate);
-        this.errorMsg = "";
-      
-        // Rule 1: Start Date must be >= Issue Date
-        if (start < issue) {
-          this.errorMsg = "Start Date cannot be earlier than Issue Date.";
-          return false;
+        // debugger;
+          const start = new Date(this.mstartdate);
+          const issue = new Date(this.ISSUEDATE);
+          const validity = new Date(this.mEXPDate);
+          this.validityerrorMsg = "";
+          this.starterrorMsg = "";
+        
+          // Rule 1: Start Date must be >= Issue Date
+          if (start < issue) {
+            this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
+            return false;
+          }
+        
+          // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+          if (validity < start) {
+            this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
+            return false;
+          }
+        
+          if (validity < issue) {
+            this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
+            return false;
+          }
+        
+          return true;
         }
+      // validateDates() {
+      //   const start = new Date(this.mstartdate);
+      //   const issue = new Date(this.ISSUEDATE);
+      //   const validity = new Date(this.mEXPDate);
+      //   this.errorMsg = "";
       
-        // Rule 2: Expiry Date must be >= Start Date AND Issue Date
-        if (validity < start) {
-          this.errorMsg = "Expiry Date must be on or after Start Date.";
-          return false;
-        }
+      //   // Rule 1: Start Date must be >= Issue Date
+      //   if (start < issue) {
+      //     this.errorMsg = "Start Date cannot be earlier than Issue Date.";
+      //     return false;
+      //   }
       
-        if (validity < issue) {
-          this.errorMsg = "Expiry Date cannot be earlier than Issue Date.";
-          return false;
-        }
+      //   // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+      //   if (validity < start) {
+      //     this.errorMsg = "Expiry Date must be on or after Start Date.";
+      //     return false;
+      //   }
       
-        return true;
-      }
+      //   if (validity < issue) {
+      //     this.errorMsg = "Expiry Date cannot be earlier than Issue Date.";
+      //     return false;
+      //   }
+      
+      //   return true;
+      // }
       
   
   //#endregion

@@ -5,7 +5,7 @@
         FINANCIAL DETAILS
         <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
     </h4> -->
-    <h4 class="d-flex justify-content-between align-items-center border-bottom p-2 text-primary"
+    <h4 class="d-flex justify-content-between align-items-center border-bottom p-2 text-light bg-secondary"
     (click)="activeSection = activeSection === 'A' ? '' : 'A'"
     role="button">
     FINANCIAL DETAILS
@@ -14,7 +14,10 @@
     <!-- <div [collapse]="isCollapsed"> -->
     <div  [collapse]="activeSection !== 'A'">
         <div class="card card-body">
-            <strong class="text-lg">Bank Mandate</strong>
+            <!-- <strong class="text-lg">Bank Mandate</strong> -->
+            <div class=" card container-fluid text-center" style="background-color: aliceblue;">
+                <h3 class="mb-3 Heading-font-family pt-1">BANK MANDATE</h3>
+            </div>
 
             <div class="container-fluid p-0 m-0 ">
                 <div class="row justify-content-center g-4 ">
@@ -136,7 +139,10 @@
             </div>
 
             <!--  ANNUAL TURNOVER CERTIFICATE Tab -->
-            <strong class="text-lg">ANNUAL TURNOVER CERTIFICATE</strong>
+            <!-- <strong class="text-lg">ANNUAL TURNOVER CERTIFICATE</strong> -->
+            <div class=" card container-fluid text-center" style="background-color: aliceblue;">
+                <h3 class="mb-3 Heading-font-family pt-1">ANNUAL TURNOVER CERTIFICATE</h3>
+            </div>
             <div class="col-lg-12 mb-5">
                 <!-- DATA Table -->
                 <div class="row justify-content-center g-4 p-3">
@@ -244,7 +250,10 @@
 
             </div>
             <!-- GST CERTIFICATE Tab -->
-            <strong class="text-lg">GST CERTIFICATE</strong>
+            <!-- <strong class="text-lg">GST CERTIFICATE</strong> -->
+            <div class=" card container-fluid text-center" style="background-color: aliceblue;">
+                <h3 class="mb-3 Heading-font-family pt-1">GST CERTIFICATE</h3>
+            </div>
             <div class="col-12 col-md-12 p-2">
                 <div class="" style="padding-bottom: 20px;">
                     <div class=" card row shadow ">
@@ -334,7 +343,10 @@
                 </div>
             </div>
             <!-- GST RETURNS CERTIFICATE -->
-            GST RETURNS CERTIFICATE
+            
+            <div class=" card container-fluid text-center" style="background-color: aliceblue;">
+                <h3 class="mb-3 Heading-font-family pt-1">GST RETURNS CERTIFICATE</h3>
+            </div>
             <div class="col-12 col-md-12 p-2">
                 <div class="" style="padding-bottom: 20px;">
                     <div class=" card row shadow ">
@@ -438,7 +450,7 @@
         <i class="bi" [ngClass]="isCollapsed_TECHNICAL_DETAILS ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
     </h4>
     <div [collapse]="isCollapsed_TECHNICAL_DETAILS"> -->
-        <h4 class="d-flex justify-content-between align-items-center border-bottom p-2 text-primary"
+        <h4 class="d-flex justify-content-between align-items-center border-bottom p-2 text-light bg-secondary"
     (click)="activeSection = activeSection === 'B' ? '' : 'B'"
     role="button">
     TECHNICAL DETAILS
@@ -543,7 +555,7 @@
         <i class="bi" [ngClass]="isCollapsed_COMPLIANCE_DETAILS ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
     </h4>
     <div [collapse]="isCollapsed_COMPLIANCE_DETAILS"> -->
-        <h4 class="d-flex justify-content-between align-items-center border-bottom p-2 text-primary"
+        <h4 class="d-flex justify-content-between align-items-center border-bottom p-2 text-light bg-secondary"
         (click)="activeSection = activeSection === 'C' ? '' : 'C'"
         role="button">
         COMPLIANCE DETAILS
@@ -701,7 +713,7 @@
         <i class="bi" [ngClass]="isCollapsed_GLOBAL_COMPANY_PREFIX ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
     </h4>
     <div [collapse]="isCollapsed_GLOBAL_COMPANY_PREFIX"> -->
-        <h4 class="d-flex justify-content-between align-items-center border-bottom p-2 text-primary"
+        <h4 class="d-flex justify-content-between align-items-center border-bottom p-2 text-light bg-secondary"
         (click)="activeSection = activeSection === 'D' ? '' : 'D'"
         role="button">
         GLOBAL COMPANY PREFIX
@@ -832,7 +844,9 @@
 <!-- Modal PDF-->
 <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+    <!-- modal-lg -->
+    <!-- <div class="modal-dialog modal-dialog-centered modal-fullscreen"> -->
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-none">
             <div class="modal-header bg-dark text-white py-2 px-3">
                 <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
