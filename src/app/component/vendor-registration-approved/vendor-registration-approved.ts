@@ -37,6 +37,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './vendor-registration-approved.css'
 })
 export class VendorRegistrationApproved {
+  Remark:any;
   sanitizedPdfUrl!: SafeResourceUrl;
   activeSection: string = 'A';
   isCollapsed = false;
@@ -75,39 +76,38 @@ export class VendorRegistrationApproved {
     @ViewChild('sort6') sort6!: MatSort;
           
     displayedColumns1: string[] = [
-      'sno','accountname','accountno','bankname','branch','ifsccode','filename'
-       ,'action'
+      'sno','accountname','accountno','bankname','branch','ifsccode','filename','Remark','action', 'Save',
       // 'defaultacc',
     ];
     displayedColumns: string[] = [
-      'sno','accyear','turnoveramt','udinno','filename'
+      'sno','accyear','turnoveramt','udinno','filename','Remark','action', 'Save',
       // ,'action'
     ];
     displayedColumns2: string[] = [
-      'sno','statename','gstno','filename'
+      'sno','statename','gstno','filename','Remark','action', 'Save',
       // ,'action'
     ];
     displayedColumns3: string[] = [
-      'sno','gstno','accyear','filename'
+      'sno','gstno','accyear','filename','Remark','action', 'Save',
       // ,'action'
     ];
     displayedColumns4: string[] = [
-      'sno','code','filename'
+      'sno','code','filename','ismfaccepted','mfaccrejremarks','ismfaccepteddt','Remark','action','Save'
       // ,'action',
       // 'fileid','vregid','mscid', 'ext','filepath',
     ];
     displayedColumns5: string[] = [
        'sno','licno','unitname','whono',
-       // 'comid',
        'comname',
        'issuedate',
        'startdate',
        'validitydate',
        'remarks',
        'whotype',
+       'filename','iswhoaccepted','iswhoaccepteddt','whoaccrejremarks','Remark','action','Save'
+       // 'comid',
        // 'vregid',
        // 'supplierid',
-       'filename',
       //  'whoid',
       //  'action',
        // 'ext',
@@ -115,7 +115,8 @@ export class VendorRegistrationApproved {
      ];
      displayedColumns6: string[] = [
       'sno','gcpno','issuedate','startdate',
-      'expdate','filename',
+      'expdate','filename','isgcpaccepted','isgcpaccepteddt','gcpaccrejremarks','Remark','action', 'Save',
+   
       // 'action'
       // 'gcpid','vregid','entrydate'
       // sno:any;
@@ -170,7 +171,7 @@ ngOnInit() {
     //#region BankMandateDetail
     GETBankMandateDetail(){
       try{
-        debugger
+        // debugger
         this.spinner.show();
       // this.api.Massupplieraccnos(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
       // this.vregid= params['vregid'];
@@ -211,6 +212,40 @@ ngOnInit() {
       const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource1.filter = filterValue.trim().toLowerCase();
     }
+//  PUT_UpdateBankMandate(data: any, formData: FormData): Observable<any> {
+        // https://dpdmis.in/VREGAPI/api/Registration/UpdateApprovalStatus?ISAPPROVE=N&BANKACCOUNTID=659&USERID=111&APPROVEREASON=testing
+        PUT_UpdateBankMandate(element: any) {
+          debugger
+         
+          if (!element.ISAPPROVE || !element.APPROVEREASON?.trim()) {
+            this.toastr.error('Please fill all required fields before Update.', 'Error');
+            return;
+          }
+          
+                const data = {
+                  USERID: sessionStorage.getItem('userid') || '',
+                  BANKACCOUNTID: element.bankaccountid.toString(),
+                  ISAPPROVE: element.ISAPPROVE,    // Y or N
+                  APPROVEREASON: element.APPROVEREASON      // row-wise remark
+                };
+              
+                const formData = new FormData();
+          
+              // return;
+                this.api.PUT_UpdateBankMandate(data, formData).subscribe({
+                  next: (res: any) => {
+                    this.toastr.success(res.message || 'Data Update successfully!','Success'
+                    );
+                    // this.toastr.success(res.message || 'Success', 'Success');
+                   this.GETBankMandateDetail();
+                  },
+                  error: (err: any) => {
+                    this.toastr.error('Failed!', 'Error');
+                  }
+                });
+              }
+
+
     openmarqModal(pdfUrl: string): void {
       this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
       document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
@@ -307,7 +342,41 @@ applyTextFilter(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
 }
-
+UpdateAnnualTurnoverApproval(element: any) {
+  debugger
+ 
+          // https://dpdmis.in/VREGAPI/api/Registration/UpdateAnnualTurnoverApproval?ISAPPROVE=Y&ATID=44&USERID=111&APPROVEREASON=test
+  // if(element.Iaccept == undefined && element.Remark  == undefined){
+  //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
+  //   return;
+  // }
+  if (!element.ATISAPPROVE || !element.ATAPPROVEREASON?.trim()) {
+    this.toastr.error('Please fill all required fields before Update.', 'Error');
+    return;
+  }
+  
+        const data = {
+          USERID: sessionStorage.getItem('userid') || '',
+          ATID: element.atid.toString(),
+          ISAPPROVE: element.ATISAPPROVE,    // Y or N
+          APPROVEREASON: element.ATAPPROVEREASON      // row-wise remark
+        };
+      
+        const formData = new FormData();
+  
+      // return;
+        this.api.UpdateAnnualTurnoverApproval(data, formData).subscribe({
+          next: (res: any) => {
+            this.toastr.success(res.message || 'Data Update successfully!','Success'
+            );
+            // this.toastr.success(res.message || 'Success', 'Success');
+           this.GetAnnualTurnover();
+          },
+          error: (err: any) => {
+            this.toastr.error('Failed!', 'Error');
+          }
+        });
+      }
 //#endregion
 
 
@@ -350,8 +419,42 @@ applyTextFilter2(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource2.filter = filterValue.trim().toLowerCase();
 }
+UpdateSupplierGSTApproval(element: any) {
+          // https://dpdmis.in/VREGAPI/api/Registration/UpdateSupplierGSTApproval?ISAPPROVE=Y&GSTID=656&USERID=333&APPROVEREASON=test
+  // debugger
+  // if(element.Iaccept == undefined && element.Remark  == undefined){
+  //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
+  //   return;
+  // }
+  if (!element.Iaccept || !element.Remark?.trim()) {
+    this.toastr.error('Please fill all required fields before Update.', 'Error');
+    return;
+  }
+  
+        const data = {
+          USERID: sessionStorage.getItem('userid') || '',
+          GSTID: element.gstid.toString(),
+          ISAPPROVE: element.gstISAPPROVE,    // Y or N
+          APPROVEREASON: element.gstAPPROVEREASON      // row-wise remark
+        };
+      
+        const formData = new FormData();
+  
+      // return;
+        this.api.PUT_TechnicalDetails(data, formData).subscribe({
+          next: (res: any) => {
+            this.toastr.success(res.message || 'Data Update successfully!','Success'
+            );
+            // this.toastr.success(res.message || 'Success', 'Success');
+           this.GETMassuppliergstDetails();
+          },
+          error: (err: any) => {
+            this.toastr.error('Failed!', 'Error');
+          }
+        });
+      }
 //#endregion 
-//#region 
+//#region  gst return
 GstReturnDetails(){
   try{
     //  ;
@@ -391,6 +494,40 @@ applyTextFilter3(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource3.filter = filterValue.trim().toLowerCase();
 }
+UpdateGSTReturnApproval(element: any) {
+          // https://dpdmis.in/VREGAPI/api/Registration/UpdateGSTReturnApproval?ISAPPROVE=Y&RETID=13&USERID=111&APPROVEREASON=test	
+  // debugger
+  // if(element.Iaccept == undefined && element.Remark  == undefined){
+  //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
+  //   return;
+  // }
+  if (!element.gstrISAPPROVE || !element.gstrAPPROVEREASON?.trim()) {
+    this.toastr.error('Please fill all required fields before Update.', 'Error');
+    return;
+  }
+  
+        const data = {
+          USERID: sessionStorage.getItem('userid') || '',
+          RETID: element.retid.toString(),
+          ISAPPROVE: element.gstrISAPPROVE,    // Y or N
+          APPROVEREASON: element.gstrAPPROVEREASON      // row-wise remark
+        };
+      
+        const formData = new FormData();
+  
+      // return;
+        this.api.UpdateGSTReturnApproval(data, formData).subscribe({
+          next: (res: any) => {
+            this.toastr.success(res.message || 'Data Update successfully!','Success'
+            );
+            // this.toastr.success(res.message || 'Success', 'Success');
+           this.GstReturnDetails();
+          },
+          error: (err: any) => {
+            this.toastr.error('Failed!', 'Error');
+          }
+        });
+      }
 //#endregion 
 //#region Technical Details
     GetTechnicalDetails(){
@@ -434,6 +571,41 @@ applyTextFilter3(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource4.filter = filterValue.trim().toLowerCase();
     }
+    PUT_TechnicalDetails(element: any) {
+// debugger
+// if(element.Iaccept == undefined && element.Remark  == undefined){
+//   this.toastr.error('Please Fill this Data before uploading.', 'Error');
+//   return;
+// }
+if (!element.Iaccept || !element.Remark?.trim()) {
+  this.toastr.error('Please fill all required fields before Update.', 'Error');
+  return;
+}
+
+      const data = {
+        userID: sessionStorage.getItem('userid') || '',
+        mFileID: element.fileid.toString(),
+        Iaccept: element.Iaccept,    // Y or N
+        Remarks: element.Remark      // row-wise remark
+      };
+    
+      const formData = new FormData();
+
+    // return;
+      this.api.PUT_TechnicalDetails(data, formData).subscribe({
+        next: (res: any) => {
+          this.toastr.success(res.message || 'Data Update successfully!','Success'
+          );
+          // this.toastr.success(res.message || 'Success', 'Success');
+         this.GetTechnicalDetails();
+        },
+        error: (err: any) => {
+          this.toastr.error('Failed!', 'Error');
+        }
+      });
+    }
+    
+   
 //#endregion 
 //#region Complience Certificate Details
 GetComplienceCertificateDetails() {
@@ -442,7 +614,7 @@ GetComplienceCertificateDetails() {
     this.api
       // .GetComplienceCertificateDetails(84,1651)
       .GetComplienceCertificateDetails(this.vregid,this.SupID)
-      // .GetComplienceCertificateDetails(
+      // .GetComplienceCertificateDetails(  
       //   sessionStorage.getItem('vregid'),
       //   sessionStorage.getItem('facilityid')
       // )
@@ -478,8 +650,43 @@ applyTextFilter5(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource5.filter = filterValue.trim().toLowerCase();
 }
+
+// https://dpdmis.in/VREGAPI/api/Registration/COMPlinceVerification?mWHOID=31&Iaccept=N&Remarks=dsf&userID=2654
+PUT_COMPlinceVerification(element: any) {
+  debugger
+  // if(element.Iaccept == undefined && element.Remar k  == undefined){
+  //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
+  //   return;
+  // }
+  if (!element.iaccept || !element.remark?.trim()) {
+    this.toastr.error('Please fill all required fields before Update.', 'Error');
+    return;
+  }
+  
+        const data = {
+          userID: sessionStorage.getItem('userid') || '',
+          mWHOID: element.whoid.toString(),
+          Iaccept: element.iaccept,    // Y or N
+          Remarks: element.remark      // row-wise remark
+        };
+      
+        const formData = new FormData();
+  console.log('data:',data)
+      // return;
+        this.api.PUT_COMPlinceVerification(data, formData).subscribe({
+          next: (res: any) => {
+            this.toastr.success(res.message || 'Data Update successfully!','Success'
+            );
+            // this.toastr.success(res.message || 'Success', 'Success');
+           this.GetComplienceCertificateDetails()
+          },
+          error: (err: any) => {
+            this.toastr.error('Failed!', 'Error');
+          }
+        });
+      }
 //#endregion 
- //#region Complience Certificate Details
+ //#region GetGCPDetails
  GetGCPDetails(){
   try{
     this.spinner.show();
@@ -519,6 +726,41 @@ applyTextFilter6(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource6.filter = filterValue.trim().toLowerCase();
 }
+PUT_GCPVerification(element:any){
+  // debugger
+// if(element.Iaccept == undefined && element.Remark  == undefined){
+//   this.toastr.error('Please Fill this Data before uploading.', 'Error');
+//   return;
+// }
+if (!element.gcpiaccept || !element.gcpremark?.trim()) {
+  this.toastr.error('Please fill all required fields before Update.', 'Error');
+  return;
+}
+
+// https://localhost:7053/api/Registration/GCPVerification?mGCPID=11&Iaccept=N&Remarks=sdgfsg&userID=12365
+      const data = {
+        userID: sessionStorage.getItem('userid') || '',
+        mGCPID: element.gcpid.toString(),
+        Iaccept: element.gcpiaccept,    // Y or N
+        Remarks: element.gcpremark      // row-wise remark
+      };
+    
+      const formData = new FormData();
+
+    // return;
+      this.api.PUT_GCPVerification(data, formData).subscribe({
+        next: (res: any) => {
+          this.toastr.success(res.message || 'Data Update successfully!','Success'
+          );
+          // this.toastr.success(res.message || 'Success', 'Success');
+         this. GetGCPDetails();
+        },
+        error: (err: any) => {
+          this.toastr.error('Failed!', 'Error');
+        }
+      });
+    }
+
  //#endregion 
 }
 
