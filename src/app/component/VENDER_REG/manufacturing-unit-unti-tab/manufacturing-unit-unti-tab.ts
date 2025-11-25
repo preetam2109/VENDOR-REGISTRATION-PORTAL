@@ -366,7 +366,7 @@ this.retForm = this.fb.group({
       
     }
   GetPovLicenceDetails() {
-    debugger
+    
     this.mLicID
       
       this.spinner.show();

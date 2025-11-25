@@ -530,11 +530,11 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
     
     
     
-    // if (captchaValue !== this.captcha) {
-    //   alert('Incorrect CAPTCHA. Please try again.');
-    //   this.generateCaptcha(); // Refresh CAPTCHA
-    //   return;
-    // }
+    if (captchaValue !== this.captcha) {
+      alert('Incorrect CAPTCHA. Please try again.');
+      this.generateCaptcha(); // Refresh CAPTCHA
+      return;
+    }
     // unhide after fully selly selection
     sessionStorage.removeItem
     localStorage.removeItem
@@ -613,7 +613,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
 
 
 async handleCgmsclLogin() {
-  ;
+  
   // Clear storage
   sessionStorage.clear();
   localStorage.clear();

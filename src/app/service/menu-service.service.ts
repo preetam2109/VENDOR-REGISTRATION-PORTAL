@@ -732,6 +732,18 @@ export class MenuServiceService {
        
       ],
     },
+    'AdminMoH': {
+      items: [
+        { label: 'Home', route: '/home' },
+        { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
+        { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
+        // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        // { label: 'Growth in Distribution', route: '/distribution' },
+        // { label: 'Payment', route: '/PriceEvaluation' },
+       
+      ],
+    },
+
     'DMFin': {
       items: [
         { label: 'Home', route: '/home' },

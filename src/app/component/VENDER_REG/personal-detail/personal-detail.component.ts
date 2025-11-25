@@ -19,6 +19,7 @@ export class PersonalDetailComponent {
   vregId=sessionStorage.getItem('vregid')
 
   selectedPanFile: File | null = null;
+  fileTouched = false;
   sanitizedPdfUrl!: SafeResourceUrl;
 
  
@@ -84,6 +85,7 @@ saveVendor() {
     }
 
     
+    this.fileTouched = true;
 
     // Append any extra form fields if required in DTO
     // formData.append('SomeField', this.vendor.someValue);
@@ -106,6 +108,7 @@ saveVendor() {
         console.log("Vendor saved:", res);
         this.toastr.success("Vendor details saved successfully!", "Success");
         this.onshowedit=false;
+        this.loadVendorDetails();
       },
       error: (err: any) => {
         console.error("Error saving vendor:", err);
@@ -129,17 +132,39 @@ saveVendor() {
 
 onFileSelected(event: any) {
   const file = event.target.files[0];
-  if (file) {
-    this.selectedPanFile = file;
-    console.log('Selected PAN card file:', file.name);
+  this.fileTouched = true; // Mark as touched for UI validation (e.g., show errors if empty on submit)
+
+  if (!file) {
+    this.selectedPanFile = null;
+    return; // No file selected—clear and exit
   }
+
+  // Enforce PDF only (common for PAN cards; adjust accept=".pdf" in HTML if needed)
+  if (file.type !== 'application/pdf') {
+    this.toastr.warning('Please select a valid PDF file for PAN card.', 'Invalid File Type');
+    this.selectedPanFile = null;
+    event.target.value = ''; // Clear the invalid selection from input
+    return;
+  }
+
+  // Optional: Enforce file size (e.g., < 5MB for PAN scans)
+  if (file.size > 5 * 1024 * 1024) { // 5MB limit
+    this.toastr.warning('File size too large. Please select a file under 5MB.', 'File Too Large');
+    this.selectedPanFile = null;
+    event.target.value = '';
+    return;
+  }
+
+  // Valid file—assign and log
+  this.selectedPanFile = file;
+  console.log('Selected PAN card file:', file.name, `(Size: ${file.size} bytes)`);
 }
  
 
 
 
 DownloadFileWithName(mFilePath: string, mFileName: string) {
-  ;
+  
 
   // Encode file path and file name to handle special characters (like spaces, \ etc.)
   const encodedPath = encodeURIComponent(mFilePath);
