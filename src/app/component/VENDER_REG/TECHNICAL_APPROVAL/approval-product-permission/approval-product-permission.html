@@ -162,17 +162,22 @@
   
   
   <!-- REMARK COLUMN -->
-  <ng-container matColumnDef="Remark">
+ <!-- REMARK INPUT -->
+ <ng-container matColumnDef="Remark">
     <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
       Remark
     </th>
   
     <td mat-cell *matCellDef="let element" class="text-center p-0">
-      <input type="text"
-             class="form-control form-control-sm small-input mx-auto"
-             placeholder="Remark"
-             style="max-width: 160px;"
-             [(ngModel)]="element.remark">
+  
+      <textarea
+        class="form-control form-control-sm small-input mx-auto"
+        placeholder="Enter remark"
+        rows="2"
+        style=" max-width: 160px;"
+        [(ngModel)]="element.remark">
+      </textarea>
+  
     </td>
   </ng-container>
   

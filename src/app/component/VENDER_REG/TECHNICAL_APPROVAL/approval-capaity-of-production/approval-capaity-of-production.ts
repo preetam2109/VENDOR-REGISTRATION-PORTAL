@@ -22,6 +22,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 declare var bootstrap: any;
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-approval-capaity-of-production',
@@ -146,11 +148,13 @@ export class ApprovalCapaityOfProduction {
   }
   
   saveRow(element: any) {
-    debugger
-    const mCOPID = element.copId;     // licid from row
+    debugger;
+  
+    const mCOPID = element.copId;
     const Iaccept = element.approval; // 'Y' or 'N'
     const Remarks = element.remark || '';
   
+    // Validation
     if (!Iaccept) {
       this.toastr.error("Please select YES or NO before saving.");
       return;
@@ -160,24 +164,52 @@ export class ApprovalCapaityOfProduction {
       return;
     }
   
-    this.api.COPVerification(mCOPID, Iaccept, Remarks,this.userid).subscribe({
-      next: (res:any) => {
-        if(Iaccept==='N'){
-          this.toastr.success('Sucessfully Rejected Certificate');  
-        }else{
-
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this COP?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callCOPAPI(mCOPID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop further execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.callCOPAPI(mCOPID, Iaccept, Remarks);
+    }
+  }
+  
+  
+  // API call extracted separately (cleaner)
+  callCOPAPI(mCOPID: any, Iaccept: string, Remarks: string) {
+  
+    this.api.COPVerification(mCOPID, Iaccept, Remarks, this.userid).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success('Successfully Rejected Certificate');
+        } else {
           this.toastr.success(res);
         }
         this.GetmSCDetailsList();
-
-
       },
       error: (err) => {
         console.error(err);
-        alert("Error while saving.");
+        this.toastr.error("Error while saving.");
       }
     });
+  
   }
+  
 
   onshowButtonClick(){
     this.onshowMSC = true;

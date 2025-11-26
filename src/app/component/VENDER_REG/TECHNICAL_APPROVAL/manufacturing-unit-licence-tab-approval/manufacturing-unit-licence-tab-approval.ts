@@ -18,6 +18,7 @@ import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
@@ -186,13 +187,15 @@ this.retForm = this.fb.group({
   }
   
   saveRow(element: any) {
-    debugger
+    debugger;
+  
     const mLicID = element.licid;     // licid from row
     const Iaccept = element.approval; // 'Y' or 'N'
     const Remarks = element.remark || '';
   
+    // Validation
     if (!Iaccept) {
-      alert("Please select YES or NO before saving.");
+      this.toastr.error("Please select YES or NO before saving.");
       return;
     }
     if (!Remarks) {
@@ -200,23 +203,50 @@ this.retForm = this.fb.group({
       return;
     }
   
-    this.api.LICVerification(mLicID, Iaccept, Remarks).subscribe({
-      next: (res:any) => {
-        if(Iaccept==='N'){
-          this.toastr.success('Sucessfully Rejected Certificate');  
-        }else{
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this License?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callLICAPI(mLicID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop further execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.callLICAPI(mLicID, Iaccept, Remarks);
+    }
+  }
 
+  callLICAPI(mLicID: any, Iaccept: string, Remarks: string) {
+    this.api.LICVerification(mLicID, Iaccept, Remarks).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
           this.toastr.success(res);
         }
-        // this.getManufacturingDetails();
+  
         this.GetmANUFACLICDetails();
       },
       error: (err) => {
         console.error(err);
-        alert("Error while saving.");
+        this.toastr.error("Error while saving.");
       }
     });
   }
+  
+  
   
 
   // ISSUE DATE vs START DATE

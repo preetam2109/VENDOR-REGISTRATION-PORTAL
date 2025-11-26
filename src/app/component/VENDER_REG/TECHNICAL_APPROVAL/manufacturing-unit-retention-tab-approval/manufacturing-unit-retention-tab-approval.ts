@@ -19,6 +19,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var bootstrap: any;
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manufacturing-unit-retention-tab-approval',
@@ -181,11 +182,13 @@ this.GetPovLicenceDetails();
   }
   
   saveRow(element: any) {
-    debugger
-    const mPROVID = element.provid;     // licid from row
-    const Iaccept = element.approval; // 'Y' or 'N'
+    debugger;
+  
+    const mPROVID = element.provid;     // provid from row
+    const Iaccept = element.approval;   // 'Y' or 'N'
     const Remarks = element.remark || '';
   
+    // Validation
     if (!Iaccept) {
       this.toastr.error("Please select YES or NO before saving.");
       return;
@@ -194,25 +197,50 @@ this.GetPovLicenceDetails();
       this.toastr.error("Please write remark before saving.");
       return;
     }
-    
   
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this Provisional License?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callPROVLICAPI(mPROVID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.callPROVLICAPI(mPROVID, Iaccept, Remarks);
+    }
+  }
+  callPROVLICAPI(mPROVID: any, Iaccept: string, Remarks: string) {
     this.api.PROVLICVerification(mPROVID, Iaccept, Remarks).subscribe({
-      next: (res:any) => {
-        if(Iaccept==='N'){
-          this.toastr.success('Sucessfully Rejected Certificate');  
-        }else{
-
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
           this.toastr.success(res);
         }
+  
         this.GetPovLicenceDetails();
-
       },
       error: (err) => {
         console.error(err);
-        alert("Error while saving.");
+        this.toastr.error("Error while saving.");
       }
     });
   }
+  
+  
 
   getMasformTypes(){
     

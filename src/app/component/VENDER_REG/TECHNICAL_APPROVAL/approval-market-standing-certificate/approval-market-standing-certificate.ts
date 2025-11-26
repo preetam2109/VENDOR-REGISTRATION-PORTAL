@@ -21,6 +21,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
+
 declare var bootstrap: any;
 @Component({
   selector: 'app-approval-market-standing-certificate',
@@ -149,11 +151,13 @@ export class ApprovalMarketStandingCertificate {
   }
   
   saveRow(element: any) {
-    debugger
-    const mMSCID = element.mscid;     // licid from row
+    debugger;
+  
+    const mMSCID = element.mscid;
     const Iaccept = element.approval; // 'Y' or 'N'
     const Remarks = element.remark || '';
   
+    // Validation
     if (!Iaccept) {
       this.toastr.error("Please select YES or NO before saving.");
       return;
@@ -163,24 +167,48 @@ export class ApprovalMarketStandingCertificate {
       return;
     }
   
-    this.api.MSCVerification(mMSCID, Iaccept, Remarks,this.userid).subscribe({
-      next: (res:any) => {
-        if(Iaccept==='N'){
-          this.toastr.success('Sucessfully Rejected Certificate');  
-        }else{
-
-          this.toastr.success(res);
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this MSC?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callMSCAPI(mMSCID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop further execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.callMSCAPI(mMSCID, Iaccept, Remarks);
+    }
+  }
+  callMSCAPI(mMSCID: any, Iaccept: string, Remarks: string) {
+    this.api.MSCVerification(mMSCID, Iaccept, Remarks, this.userid).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
+          this.toastr.success("Successfully Approved Certificate");
         }
         this.GetmSCDetailsList();
-
-
       },
       error: (err) => {
         console.error(err);
-        alert("Error while saving.");
+        this.toastr.error("Error while saving.");
       }
     });
   }
+  
+  
 
   onshowButtonClick(){
         this.onshowMSC = true;

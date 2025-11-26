@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
@@ -144,11 +145,13 @@ export class ApprovalProductPermission {
   }
   
   saveRow(element: any) {
-    debugger
-    const mFileID = element.fileid;     // licid from row
-    const Iaccept = element.approval; // 'Y' or 'N'
+    debugger;
+  
+    const mFileID = element.fileid;     // file id from row
+    const Iaccept = element.approval;   // 'Y' or 'N'
     const Remarks = element.remark || '';
   
+    // Validation
     if (!Iaccept) {
       this.toastr.error("Please select YES or NO before saving.");
       return;
@@ -158,24 +161,49 @@ export class ApprovalProductPermission {
       return;
     }
   
-    this.api.PPCVerification(mFileID, Iaccept, Remarks,this.userid).subscribe({
-      next: (res:any) => {
-        if(Iaccept==='N'){
-          this.toastr.success('Sucessfully Rejected Certificate');  
-        }else{
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this PPC Certificate?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callPPCAPI(mFileID, Iaccept, Remarks);
+        }
+      });
+  
+      return;
+    }
+  
+    // If YES → directly approve
+    if (Iaccept === 'Y') {
+      this.callPPCAPI(mFileID, Iaccept, Remarks);
+    }
+  }
 
+  callPPCAPI(mFileID: any, Iaccept: string, Remarks: string) {
+    this.api.PPCVerification(mFileID, Iaccept, Remarks, this.userid).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
           this.toastr.success(res);
         }
         this.GETtPPCertificate();
-
-
       },
       error: (err) => {
         console.error(err);
-        alert("Error while saving.");
+        this.toastr.error("Error while saving.");
       }
     });
   }
+  
+  
 
 
 
