@@ -56,6 +56,9 @@ export interface vendorBankDetail_model {
     ext: string| undefined;
     filepath: string| undefined;
     udinno: string| undefined;
+    isapprove!: string
+    approvedt: any
+    approvereason: any
 
   }
   export class BankMandateDetail {
@@ -68,6 +71,9 @@ export interface vendorBankDetail_model {
     branch: string| undefined;
     ifsccode: string| undefined;
     defaultacc: boolean| undefined;
+    isapprove!: string
+    approvedt: any
+    approvereason: any
   }
   export class MassuppliergstDetails {
     sno:any;
@@ -78,6 +84,9 @@ export interface vendorBankDetail_model {
     statename: string| undefined;
     stateid: number| undefined;
     vregid: number| undefined;
+    isapprove!: string
+    approvedt: any
+    approvereason: any
   }
   export class GstReturnDetails {
     sno:any;
@@ -91,6 +100,9 @@ export interface vendorBankDetail_model {
     endmonth: string| undefined;
     filename: string| undefined;
     filepath: string| undefined;
+    isapprove!: string
+    approvedt: any
+    approvereason: any
   }
   export class licenseModel  {
     licid: number| undefined;
@@ -159,7 +171,7 @@ export interface vendorBankDetail_model {
     code: string
     filepath: string
     ismfaccepted: string
-    mfaccrejremarks: any,
+    mfaccrejremarks: any
     ismfaccepteddt: any
    
   }
