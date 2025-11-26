@@ -27,18 +27,18 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-
 @Component({
+  selector: 'app-confirm-bank-details-tab',
   standalone: true,
- imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
-    MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
-      MatTableExporterModule
-  ],
-  selector: 'app-vendor-registration-approved',
-  templateUrl: './vendor-registration-approved.html',
-  styleUrl: './vendor-registration-approved.css'
+  imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
+     MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
+       MatTableExporterModule
+   ],
+  
+  templateUrl: './confirm-bank-details-tab.html',
+  styleUrl: './confirm-bank-details-tab.css'
 })
-export class VendorRegistrationApproved {
+export class ConfirmBankDetailsTab {
   loadingSectionA:boolean=false;
   Remark:any;
   sanitizedPdfUrl!: SafeResourceUrl;
@@ -198,15 +198,13 @@ export class VendorRegistrationApproved {
   }
     
 ngOnInit() {
-  this.route.queryParams.subscribe(params => {
-    this.vregid= params['vregid'];
-    this.SupID=  params['supid'];
+  
+    this.vregid= sessionStorage.getItem('vregid');
+    this.SupID=  sessionStorage.getItem('facilityid');
 
     console.log("VRegID:",  this.vregid);
     console.log("SupID:",  this.SupID);
-    // console.log("VRegID:", params['vregid']);
-    // console.log("SupID:", params['supid']);
-  });
+
   this.GetAnnualTurnover();
   this.GETBankMandateDetail();
   this.GETMassuppliergstDetails();

@@ -1885,7 +1885,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
       }
       PUT_GCPVerification(data: any, formData: FormData): Observable<any> {
         // https://localhost:7053/api/Registration/GCPVerification?mGCPID=11&Iaccept=N&Remarks=sdgfsg&userID=12365
-        debugger
+        
       
       
           let params = new HttpParams()
@@ -1901,7 +1901,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
       PUT_UpdateBankMandate(data: any, formData: FormData): Observable<any> {
         // https://dpdmis.in/VREGAPI/api/Registration/UpdateApprovalStatus?ISAPPROVE=N&BANKACCOUNTID=659&USERID=111&APPROVEREASON=testing
 
-        debugger
+        
       
       
           let params = new HttpParams()
@@ -1917,7 +1917,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
         // https://dpdmis.in/VREGAPI/api/Registration/UpdateAnnualTurnoverApproval?ISAPPROVE=Y&ATID=44&USERID=111&APPROVEREASON=test
 
 
-        debugger
+        
       
       
           let params = new HttpParams()
@@ -1934,7 +1934,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
 
 
 
-        debugger
+        
       
       
           let params = new HttpParams()
@@ -1951,7 +1951,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
 
 
 
-        debugger
+        
       
       
           let params = new HttpParams()
@@ -2002,7 +2002,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
   }
   PUT_COMPlinceVerification(data: any, formData: FormData): Observable<any> {
   // https://dpdmis.in/VREGAPI/api/Registration/COMPlinceVerification?mWHOID=31&Iaccept=N&Remarks=dsf&userID=2654
-  debugger
+  
 
 
     let params = new HttpParams()
@@ -2054,7 +2054,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
   }
   PUT_TechnicalDetails(data: any, formData: FormData): Observable<any> {
     //https://dpdmis.in/VREGAPI/api/Registration/PPCVerification?mFileID=341&Iaccept=Y&Remarks=Test&userID=123654
-    // debugger
+    // 
     let params = new HttpParams()
       .set('mFileID', data.mFileID)
       .set('Iaccept', data.Iaccept)
@@ -2483,7 +2483,7 @@ PROVLICVerification(mPROVID:any,Iaccept:any,Remarks:any){
 );
 }
 PPCVerification(mFileID:any,Iaccept:any,Remarks:any,userID:any){
-  debugger
+  
   // api/Registration/PPCVerification?mFileID=341&Iaccept=Y&Remarks=Test&userID=123654
   return this.http.put(`${this.VREGAPI}/Registration/PPCVerification?mFileID=${mFileID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
   {}, // empty body
@@ -2491,7 +2491,7 @@ PPCVerification(mFileID:any,Iaccept:any,Remarks:any,userID:any){
 );
 }
 MSCVerification(mMSCID:any,Iaccept:any,Remarks:any,userID:any){
-  debugger
+  
   // api/Registration/MSCVerification?mMSCID=42&Iaccept=N&Remarks=Test&userID=2654
   return this.http.put(`${this.VREGAPI}/Registration/MSCVerification?mMSCID=${mMSCID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
   {}, // empty body
@@ -2499,7 +2499,7 @@ MSCVerification(mMSCID:any,Iaccept:any,Remarks:any,userID:any){
 );
 }
 COPVerification(mCOPID:any,Iaccept:any,Remarks:any,userID:any){
-  debugger
+  
   // api/Registration/COPVerification?mCOPID=11&Iaccept=N&Remarks=dsgdf&userID=12365
   return this.http.put(`${this.VREGAPI}/Registration/COPVerification?mCOPID=${mCOPID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
   {}, // empty body

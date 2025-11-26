@@ -182,12 +182,12 @@ this.retForm = this.fb.group({
   }
 
   setApproval(element: any, value: 'Y' | 'N') {
-    debugger
+    
     element.approval = value; // store selected value in row
   }
   
   saveRow(element: any) {
-    debugger;
+    ;
   
     const mLicID = element.licid;     // licid from row
     const Iaccept = element.approval; // 'Y' or 'N'

@@ -737,8 +737,8 @@ export class MenuServiceService {
       items: [
         { label: 'Home', route: '/home' },
         { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
-        { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
-        { label: 'Vendor Registration Approved Technical', route: '/ApprovalTechnicalCrt' }
+        // { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
+        // { label: 'Vendor Registration Approved Technical', route: '/ApprovalTechnicalCrt' }
 
         // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
         // { label: 'Growth in Distribution', route: '/distribution' },
@@ -1025,6 +1025,7 @@ export class MenuServiceService {
         { label: 'Technical Details', route: '/TechnicalDetails'},
         { label: 'Compliance Details', route: '/ComplianceDetails'},
         { label: 'Global Company Prefix', route: '/GlobalCompanyPrefix'},
+        { label: 'Complete Registration', route: '/confirmation'},
         // { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
         // { label: 'Import Licence', route: '/import-Licence' }, 
