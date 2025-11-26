@@ -368,7 +368,7 @@ ngOnInit() {
     }
     DownloadFileWithName(mFilePath: string, mFileName: string) {
       this.loadingSectionA=true;
-  
+      debugger;
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
       const encodedName = encodeURIComponent(mFileName);
@@ -422,7 +422,7 @@ ngOnInit() {
             sno: index + 1,
           })
         );
-        // console.log('GetAnnualTurnoverDetail=:', this.dispatchData);
+        console.log('GetAnnualTurnoverDetail=:', this.dispatchData);
         this.dataSource.data = this.dispatchData;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

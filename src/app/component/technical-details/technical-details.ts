@@ -282,7 +282,7 @@ export class TechnicalDetails {
   }
 
   GetTechnicalDetails() {
-    // ;
+   
     this.spinner.show();
   
     this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
@@ -306,7 +306,8 @@ export class TechnicalDetails {
           this.TechnicalDetailsMapped[head.mscid] =
             res.find((item: any) => item.mscid == head.mscid);
         });
-        // console.log("Mapped:", this.TechnicalDetailsMapped);
+        console.log("res:", res);
+        console.log("Mapped:", this.TechnicalDetailsMapped);
   
         this.spinner.hide();
       },
