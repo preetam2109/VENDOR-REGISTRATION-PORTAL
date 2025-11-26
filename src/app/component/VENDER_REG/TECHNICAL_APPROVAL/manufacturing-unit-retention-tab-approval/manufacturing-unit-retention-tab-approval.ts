@@ -16,21 +16,18 @@ import autoTable from 'jspdf-autotable';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ManufacturingTabsUnder } from "../manufacturing-tabs-under/manufacturing-tabs-under";
-import { ApprovalTechnicalCertificate } from "../approval-technical-certificate/approval-technical-certificate";
 declare var bootstrap: any;
-
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-manufacturing-unit',
-  standalone: true,
-  imports: [MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, ManufacturingTabsUnder, ApprovalTechnicalCertificate],
-  templateUrl: './manufacturing-unit.html',
-  styleUrl: './manufacturing-unit.css'
+  selector: 'app-manufacturing-unit-retention-tab-approval',
+  standalone:true,
+  imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
+  templateUrl: './manufacturing-unit-retention-tab-approval.html',
+  styleUrl: './manufacturing-unit-retention-tab-approval.css'
 })
-export class ManufacturingUnit {
-
+export class ManufacturingUnitRetentionTabApproval {
 
   isCollapsed = false;
   isCollapsed1 = true;
@@ -50,6 +47,7 @@ export class ManufacturingUnit {
   lictypeid:any;
   stateid:any;
   vregid: any;
+  SupID: any;
 
   selectedPanFile: File | null = null;
   selectedRetFile: File | null = null;
@@ -77,8 +75,10 @@ export class ManufacturingUnit {
 
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
+  onshowRETE:boolean=false;
+  submitted:boolean=false;
 
-
+  loadingSectionA:boolean=false;
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('sort') sort!: MatSort;
@@ -88,13 +88,25 @@ export class ManufacturingUnit {
   @ViewChild('sort2') sort2!: MatSort;
   
 
-  constructor(private sanitizer: DomSanitizer,private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
+  constructor(private sanitizer: DomSanitizer,private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder,private route: ActivatedRoute){
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
     this.dataSource3 = new MatTableDataSource<any>([]);
   }
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      this.vregid= params['vregid'];
+      this.SupID=  params['supid'];
+  
+      console.log("VRegID:",  this.vregid);
+      console.log("SupID:",  this.SupID);
+      // console.log("VRegID:", params['vregid']);
+      // console.log("SupID:", params['supid']);
+    });
+
+
 
 
     this.GetLicenceTypes()
@@ -112,6 +124,21 @@ export class ManufacturingUnit {
       mUNITINCHARGEEMAIL: ['', [Validators.required, Validators.email]],
       mlictypeid: ['', Validators.required]
     });
+
+
+    this.retForm = this.fb.group({
+      mLICID: ['', Validators.required],
+      mISSUEDATE: ['', Validators.required],
+      mStartDate: ['', Validators.required],
+      mVALIDITYDATE: ['', Validators.required],
+      mVregid: [this.vregid, Validators.required],
+      mretid: ['', Validators.required],
+      mFormID: ['', Validators.required],
+      mProIssuingAuthority: ['', Validators.required],
+      Files: [null, Validators.required],
+    });
+
+
     this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
     this.getManufacturingDetails();
 
@@ -140,19 +167,51 @@ this.GetmANUFACLICDetails()
 this.GetmMANLICDDL();
 this.GetMasRetentionTypeDDL();
 this.GetPovLicenceDetails();
-this.retForm = this.fb.group({
-  mLICID: ['', Validators.required],
-  mISSUEDATE: ['', Validators.required],
-  mStartDate: ['', Validators.required],
-  mVALIDITYDATE: ['', Validators.required],
-  mVregid: [sessionStorage.getItem('vregid'), Validators.required],
-  mretid: ['', Validators.required],
-  mFormID: ['', Validators.required]
-});
 
 
 
 
+
+
+  }
+
+  setApproval(element: any, value: 'Y' | 'N') {
+    debugger
+    element.approval = value; // store selected value in row
+  }
+  
+  saveRow(element: any) {
+    debugger
+    const mPROVID = element.provid;     // licid from row
+    const Iaccept = element.approval; // 'Y' or 'N'
+    const Remarks = element.remark || '';
+  
+    if (!Iaccept) {
+      this.toastr.error("Please select YES or NO before saving.");
+      return;
+    }
+    if (!Remarks) {
+      this.toastr.error("Please write remark before saving.");
+      return;
+    }
+    
+  
+    this.api.PROVLICVerification(mPROVID, Iaccept, Remarks).subscribe({
+      next: (res:any) => {
+        if(Iaccept==='N'){
+          this.toastr.success('Sucessfully Rejected Certificate');  
+        }else{
+
+          this.toastr.success(res);
+        }
+        this.GetPovLicenceDetails();
+
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Error while saving.");
+      }
+    });
   }
 
   getMasformTypes(){
@@ -232,6 +291,9 @@ this.retForm = this.fb.group({
           this.unitForm.patchValue({
             mVregid: vregid
           });
+          this.retForm.patchValue({
+            mVregid: vregid
+          });
           this.licForm.patchValue({
             mVregid: vregid
           });
@@ -246,18 +308,21 @@ this.retForm = this.fb.group({
   }
   
   onshowButtonClick(){
+    this.GetLicenceTypes();
+    this.GetmMANLICDDL();
+    this.GetMasRetentionTypeDDL();
     
     //  this.isCollapsed = true;
       // isCollapsed1 = true;
-
-        this.onshowUNIT = true;
+        // console.log("Checking the vregid ",this.vregid);
+        this.onshowRETE = true;
      
   
     }
     onshowButtonClickLICENCE() {
       // ;
       // if (val === 0) {
-        this.onshowLICENCE = true;
+        this.onshowRETE = true;
       //   this.isCollapsed1 = false;
       // } else {
       //   this.onshowLICENCE = false;
@@ -269,10 +334,10 @@ this.retForm = this.fb.group({
   getManufacturingDetails() {
 
       this.spinner.show();
-      const supplierId = sessionStorage.getItem('facilityid');
+      const supplierId = this.SupID
       
     
-      this.api.getManufacturingDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
+      this.api.getManufacturingDetails(supplierId, this.vregid).subscribe((res: any) => {
           console.log('Raw API response:', res);
     
           this.manufacturingList = res.map((item: any, index: number) => ({
@@ -304,8 +369,8 @@ this.retForm = this.fb.group({
   GetPovLicenceDetails() {
       
       this.spinner.show();
-      const supplierId = sessionStorage.getItem('facilityid');
-      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
+      const supplierId = this.SupID;
+      this.api.getPovLicenceDetails(supplierId, this.vregid,0).subscribe((res: any) => {
           console.log('Raw API response:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
@@ -531,8 +596,8 @@ this.retForm = this.fb.group({
 
 
   // ngAfterViewChecked() {
-  //   console.log('Form valid:', this.licForm.valid);
-  //   console.log('Form values:', this.licForm.value);
+  //   console.log('Form valid:', this.retForm.valid);
+  //   console.log('Form values:', this.retForm.value);
   // }
   
   onSubmitLicence() {
@@ -592,7 +657,9 @@ this.retForm = this.fb.group({
 
   onSubmitRetention() {
     
-  
+    this.loadingSectionA = true;
+    
+    this.submitted=true;
     const formData = new FormData();
   
     // Append file if selected
@@ -607,7 +674,7 @@ this.retForm = this.fb.group({
   
     // Patch vregid if needed
     this.retForm.patchValue({
-      mVregid: this.vregid,
+      mVregid: this.vregid
     });
   
     // Format dates to dd-MM-yyyy
@@ -623,16 +690,29 @@ this.retForm = this.fb.group({
         next: (res) => {
           this.toastr.success('Retention Certificate saved successfully!');
           console.log('API Response:', res);
-          this.retForm.reset();
-          this.GetPovLicenceDetails();
+    this.loadingSectionA = false;
 
+          this.retForm.reset();
+          this.submitted=false;
+
+          // Re-patch mVregid after reset to pre-fill for next entry
+          this.retForm.patchValue({
+          mVregid: this.vregid
+          });
+
+          this.GetPovLicenceDetails();
+          this.onshowRETE=false;
         },
         error: (err) => {
+          this.loadingSectionA = false
+
           console.error('Error:', err);
           this.toastr.error('Failed to save data!');
         }
       });
     } catch (error) {
+      this.loadingSectionA = false
+
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }
@@ -692,7 +772,7 @@ onFileSelectedRetention(event: any) {
   
   
   exportToPDF() {
-    
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -763,7 +843,7 @@ onFileSelectedRetention(event: any) {
   
 
   exportToPDFManufacturingLic() {
-    
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // landscape mode
   
     // 🕒 Current date & time
@@ -844,6 +924,10 @@ onFileSelectedRetention(event: any) {
     doc.save(`Manufacturing_Licence_List_${formattedDate}.pdf`);
   }
 
+
+
+  
+  
   exportToPDFRetention() {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
@@ -920,5 +1004,10 @@ onFileSelectedRetention(event: any) {
     // 💾 Save PDF
     doc.save('Retention_List.pdf');
   }
+  
+
+
+  
+
 
 }

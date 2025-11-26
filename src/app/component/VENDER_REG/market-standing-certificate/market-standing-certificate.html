@@ -86,7 +86,34 @@
                 <td mat-cell *matCellDef="let element">{{ element.mscissuingauthority }}</td>
               </ng-container>
   
-
+              <ng-container matColumnDef="ismscaccepted">
+                <th mat-header-cell *matHeaderCellDef>Accepted</th>
+              
+                <td mat-cell *matCellDef="let row">
+              
+                  <span 
+                    [ngClass]="{
+                      'text-success fw-bold': row.ismscaccepted === 'Y',
+                      'text-danger fw-bold': row.ismscaccepted === 'N',
+                      'text-secondary': row.ismscaccepted === 'NA'
+                    }"
+                  >
+                    {{ row.ismscaccepted === 'Y' ? 'YES' : row.ismscaccepted === 'N' ? 'NO' : 'NA' }}
+                  </span>
+              
+                </td>
+              </ng-container>
+              
+            
+            <ng-container matColumnDef="mscaccrejremarks">
+              <th mat-header-cell *matHeaderCellDef>Remarks</th>
+              <td mat-cell *matCellDef="let row">{{ row.mscaccrejremarks }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="ismscaccepteddt">
+              <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
+              <td mat-cell *matCellDef="let row">{{ row.ismscaccepteddt }}</td>
+            </ng-container>
   
 
 
@@ -101,7 +128,8 @@
   'startdate',
   'validitydate',
   'cntitems',
-  'filename'
+  'filename',
+  
 ]"></tr>
 
 <tr mat-row *matRowDef="let row; columns: [
@@ -113,7 +141,8 @@
   'startdate',
   'validitydate',
   'cntitems',
-  'filename'
+  'filename',
+ 
 ];"></tr>
 
                   

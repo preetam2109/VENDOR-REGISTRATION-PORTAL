@@ -15,8 +15,8 @@
                   (keyup)="applyTextFilterManLic($event)" />
               </div>
               <div class="export-menu-container ms-2">
-                <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClickLICENCE()"
-                >Add <i class="bi bi-folder-plus"></i></button>
+                <!-- <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClickLICENCE()"
+                >Add <i class="bi bi-folder-plus"></i></button> -->
               </div>
             </div>
   
@@ -104,7 +104,7 @@
                   <th mat-header-cell *matHeaderCellDef>Entry Date</th>
                   <td mat-cell *matCellDef="let row">{{ row.entrydate }}</td>
                 </ng-container>
-
+                <!-- Entry Date -->
                 <ng-container matColumnDef="isaccepted">
                     <th mat-header-cell *matHeaderCellDef>Accepted</th>
                   
@@ -133,6 +133,84 @@
                   <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
                   <td mat-cell *matCellDef="let row">{{ row.isaccepteddt }}</td>
                 </ng-container>
+
+
+  <!-- APPROVED COLUMN -->
+<ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+      Approved
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+  
+      <div class="d-flex flex-column justify-content-center align-items-center gap-1">
+  
+        <!-- YES -->
+        <div class="form-check p-0 m-0">
+          <input class="form-check-input small-radio"
+                 type="radio"
+                 name="approve{{element.licid}}"
+                 [value]="'Y'"
+                 (change)="setApproval(element, 'Y')">
+          <label class="form-check-label tiny-text">YES</label>
+        </div>
+  
+        <!-- NO -->
+        <div class="form-check p-0 m-0">
+          <input class="form-check-input small-radio"
+                 type="radio"
+                 name="approve{{element.licid}}"
+                 [value]="'N'"
+                 
+                 (change)="setApproval(element, 'N')">
+          <label class="form-check-label tiny-text">NO</label>
+        </div>
+  
+      </div>
+  
+    </td>
+  </ng-container>
+  
+  
+  <!-- REMARK COLUMN -->
+  <ng-container matColumnDef="Remark">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+      Remark
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+      <input type="text"
+             class="form-control form-control-sm small-input mx-auto"
+             placeholder="Remark"
+             style="max-width: 160px;"
+             [(ngModel)]="element.remark">
+    </td>
+  </ng-container>
+  
+  
+  <!-- SAVE BUTTON -->
+  <ng-container matColumnDef="Save">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 80px;">
+      Action
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+      <button class="btn btn-outline-primary btn-sm py-0 px-2"
+              (click)="saveRow(element)">
+        Save
+      </button>
+    </td>
+  </ng-container>
+  
+  
+
+
+
+
+
+
+
+                  
   
                 <!-- File Name -->
                 <!-- <ng-container matColumnDef="filename">
@@ -176,8 +254,13 @@
                 'lictypename',
                 'statename',
                 'entrydate',
+                'isaccepteddt',
                 'filename',
-             
+                'isaccepted',
+                'accrejremarks',
+                'action',
+                'Remark',
+                'Save'
               ]"></tr>
   
                 <tr mat-row *matRowDef="let row; columns: [
@@ -195,8 +278,13 @@
                 'lictypename',
                 'statename',
                 'entrydate',
+                'isaccepteddt',
                 'filename',
-              
+                'isaccepted',
+                'accrejremarks',
+                'action',
+                'Remark',
+                'Save'
               ]"></tr>
               </table>
             </div>

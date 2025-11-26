@@ -2358,6 +2358,46 @@ InsertCOP(data: any, formData: FormData): Observable<any> {
   //   
   //   return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`);
   // }
+
+
+// APPROVAL TECHNICAL
+
+LICVerification(mLicID:any,Iaccept:any,Remarks:any){
+  return this.http.put(`${this.VREGAPI}/Registration/LICVerification?mLicID=${mLicID}&Iaccept=${Iaccept}&Remarks=${Remarks}`,
+  {}, // empty body
+  { responseType: 'text' } // options, not body
+);
+}
+PROVLICVerification(mPROVID:any,Iaccept:any,Remarks:any){
+  return this.http.put(`${this.VREGAPI}/Registration/PROVLICVerification?mPROVID=${mPROVID}&Iaccept=${Iaccept}&Remarks=${Remarks}`,
+  {}, // empty body
+  { responseType: 'text' } // options, not body
+);
+}
+PPCVerification(mFileID:any,Iaccept:any,Remarks:any,userID:any){
+  debugger
+  // api/Registration/PPCVerification?mFileID=341&Iaccept=Y&Remarks=Test&userID=123654
+  return this.http.put(`${this.VREGAPI}/Registration/PPCVerification?mFileID=${mFileID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
+  {}, // empty body
+  { responseType: 'text' } // options, not body
+);
+}
+MSCVerification(mMSCID:any,Iaccept:any,Remarks:any,userID:any){
+  debugger
+  // api/Registration/MSCVerification?mMSCID=42&Iaccept=N&Remarks=Test&userID=2654
+  return this.http.put(`${this.VREGAPI}/Registration/MSCVerification?mMSCID=${mMSCID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
+  {}, // empty body
+  { responseType: 'text' } // options, not body
+);
+}
+COPVerification(mCOPID:any,Iaccept:any,Remarks:any,userID:any){
+  debugger
+  // api/Registration/COPVerification?mCOPID=11&Iaccept=N&Remarks=dsgdf&userID=12365
+  return this.http.put(`${this.VREGAPI}/Registration/COPVerification?mCOPID=${mCOPID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
+  {}, // empty body
+  { responseType: 'text' } // options, not body
+);
+}
   
 
 }

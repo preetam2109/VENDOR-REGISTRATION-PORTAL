@@ -184,7 +184,7 @@ export class VendorRegistrationCompleted {
 //   }
   onButtonClick(vregid: any, supid: any) {
     this.router.navigate(
-      ['VendorRegistrationApproved'],
+      ['ApprovalTechnicalCrt'],
       { 
         queryParams: {
           vregid: vregid,
