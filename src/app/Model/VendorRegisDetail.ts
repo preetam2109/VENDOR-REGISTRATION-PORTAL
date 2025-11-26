@@ -120,6 +120,9 @@ export interface vendorBankDetail_model {
     ext: string
     licid: number
     filepath: string
+    iswhoaccepted: string
+    iswhoaccepteddt: any
+    whoaccrejremarks: any
   }
   export interface GetCOMTyepDetails {
     sno: any;
@@ -141,6 +144,9 @@ export interface vendorBankDetail_model {
     filename: string
     filepath: string
     entrydate: string
+    isgcpaccepted: string
+    isgcpaccepteddt: string
+    gcpaccrejremarks: string
   }
 
   export interface TechnicalDetails_model {
@@ -152,6 +158,10 @@ export interface vendorBankDetail_model {
     fileid: string
     code: string
     filepath: string
+    ismfaccepted: string
+    mfaccrejremarks: any,
+    ismfaccepteddt: any
+   
   }
   export interface registeredVendorsdata {
     sno:any
