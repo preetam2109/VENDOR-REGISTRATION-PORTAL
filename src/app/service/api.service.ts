@@ -1909,7 +1909,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
             .set('ISAPPROVE', data.ISAPPROVE)
             .set('APPROVEREASON', data.APPROVEREASON)
             .set('USERID', data.USERID)
-          return this.http.put(
+          return this.http.post(
             `${this.VREGAPI}/Registration/UpdateApprovalStatus`,formData,  { params, responseType: 'text' }
           );
         }
@@ -1925,7 +1925,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
             .set('ISAPPROVE', data.ISAPPROVE)
             .set('APPROVEREASON', data.APPROVEREASON)
             .set('USERID', data.USERID)
-          return this.http.put(
+          return this.http.post(
             `${this.VREGAPI}/Registration/UpdateAnnualTurnoverApproval`,formData,  { params, responseType: 'text' }
           );
         }
@@ -1942,7 +1942,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
             .set('ISAPPROVE', data.ISAPPROVE)
             .set('APPROVEREASON', data.APPROVEREASON)
             .set('USERID', data.USERID)
-          return this.http.put(
+          return this.http.post(
             `${this.VREGAPI}/Registration/UpdateSupplierGSTApproval`,formData,  { params, responseType: 'text' }
           );
         }
@@ -1959,7 +1959,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
             .set('ISAPPROVE', data.ISAPPROVE)
             .set('APPROVEREASON', data.APPROVEREASON)
             .set('USERID', data.USERID)
-          return this.http.put(
+          return this.http.post(
             `${this.VREGAPI}/Registration/UpdateGSTReturnApproval`,formData,  { params, responseType: 'text' }
           );
         }
