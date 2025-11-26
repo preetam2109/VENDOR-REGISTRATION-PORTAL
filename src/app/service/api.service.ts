@@ -1844,6 +1844,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
     //https://dpdmis.in/VREGAPI/api/Registration/GetTechnicalDetails?mVrgeID=50
     return this.http.get(`${this.VREGAPI}/Registration/GetTechnicalDetails?mVrgeID=${mVrgeID}`);
   }
+
   GETIFSCCODE(ifsccode:any) {
     //https://ifsc.razorpay.com/SBIN0000461
     return this.http.get(`https://ifsc.razorpay.com/${ifsccode}`);
@@ -1882,6 +1883,86 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
           { params, responseType: 'text' }
         );
       }
+      PUT_GCPVerification(data: any, formData: FormData): Observable<any> {
+        // https://localhost:7053/api/Registration/GCPVerification?mGCPID=11&Iaccept=N&Remarks=sdgfsg&userID=12365
+        debugger
+      
+      
+          let params = new HttpParams()
+            .set('mGCPID', data.mGCPID)
+            .set('Iaccept', data.Iaccept)
+            .set('Remarks', data.Remarks)
+            .set('userID', data.userID)
+          return this.http.put(
+            `${this.VREGAPI}/Registration/GCPVerification`,formData,  { params, responseType: 'text' }
+          );
+        }
+        // BankMandateDetail
+      PUT_UpdateBankMandate(data: any, formData: FormData): Observable<any> {
+        // https://dpdmis.in/VREGAPI/api/Registration/UpdateApprovalStatus?ISAPPROVE=N&BANKACCOUNTID=659&USERID=111&APPROVEREASON=testing
+
+        debugger
+      
+      
+          let params = new HttpParams()
+            .set('BANKACCOUNTID', data.BANKACCOUNTID)
+            .set('ISAPPROVE', data.ISAPPROVE)
+            .set('APPROVEREASON', data.APPROVEREASON)
+            .set('USERID', data.USERID)
+          return this.http.put(
+            `${this.VREGAPI}/Registration/UpdateApprovalStatus`,formData,  { params, responseType: 'text' }
+          );
+        }
+        UpdateAnnualTurnoverApproval(data: any, formData: FormData): Observable<any> {
+        // https://dpdmis.in/VREGAPI/api/Registration/UpdateAnnualTurnoverApproval?ISAPPROVE=Y&ATID=44&USERID=111&APPROVEREASON=test
+
+
+        debugger
+      
+      
+          let params = new HttpParams()
+            .set('ATID', data.ATID)
+            .set('ISAPPROVE', data.ISAPPROVE)
+            .set('APPROVEREASON', data.APPROVEREASON)
+            .set('USERID', data.USERID)
+          return this.http.put(
+            `${this.VREGAPI}/Registration/UpdateAnnualTurnoverApproval`,formData,  { params, responseType: 'text' }
+          );
+        }
+        UpdateSupplierGSTApproval(data: any, formData: FormData): Observable<any> {
+        // https://dpdmis.in/VREGAPI/api/Registration/UpdateSupplierGSTApproval?ISAPPROVE=Y&GSTID=656&USERID=333&APPROVEREASON=test
+
+
+
+        debugger
+      
+      
+          let params = new HttpParams()
+            .set('GSTID', data.GSTID)
+            .set('ISAPPROVE', data.ISAPPROVE)
+            .set('APPROVEREASON', data.APPROVEREASON)
+            .set('USERID', data.USERID)
+          return this.http.put(
+            `${this.VREGAPI}/Registration/UpdateSupplierGSTApproval`,formData,  { params, responseType: 'text' }
+          );
+        }
+        UpdateGSTReturnApproval(data: any, formData: FormData): Observable<any> {
+        // https://dpdmis.in/VREGAPI/api/Registration/UpdateGSTReturnApproval?ISAPPROVE=Y&RETID=13&USERID=111&APPROVEREASON=test	
+
+
+
+        debugger
+      
+      
+          let params = new HttpParams()
+            .set('RETID', data.RETID)
+            .set('ISAPPROVE', data.ISAPPROVE)
+            .set('APPROVEREASON', data.APPROVEREASON)
+            .set('USERID', data.USERID)
+          return this.http.put(
+            `${this.VREGAPI}/Registration/UpdateGSTReturnApproval`,formData,  { params, responseType: 'text' }
+          );
+        }
   InsertMASGSTRETURNFILES(data: any, formData: FormData): Observable<any> {
 //post := https://localhost:7053/api/Registration/InsertMASGSTRETURNFILES?mGSTID=468&mVergID=50&mACCYRSETID=546&mGSTQTRID=1&mSupplierID=1936
 
@@ -1903,7 +1984,7 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
   InsertComplianceCertificate1(data: any, formData: FormData): Observable<any> {
 //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?
 // mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
-;
+
     let params = new HttpParams()
       .set('mlicid', data.mlicid)
       .set('mWHONO', data.mWHONO)
@@ -1919,6 +2000,23 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
       `${this.VREGAPI}/Registration/InsertComplianceCertificate`,formData,  { params, responseType: 'text' }
     );
   }
+  PUT_COMPlinceVerification(data: any, formData: FormData): Observable<any> {
+  // https://dpdmis.in/VREGAPI/api/Registration/COMPlinceVerification?mWHOID=31&Iaccept=N&Remarks=dsf&userID=2654
+  debugger
+
+
+    let params = new HttpParams()
+      .set('mWHOID', data.mWHOID)
+      .set('Iaccept', data.Iaccept)
+      .set('Remarks', data.Remarks)
+      .set('userID', data.userID)
+    return this.http.put(
+      `${this.VREGAPI}/Registration/COMPlinceVerification`,formData,  { params, responseType: 'text' }
+    );
+  }
+ 
+
+
   // campleny fynal submmit
   MASVREGWHOITEMTYPE2(data: any, formData: FormData): Observable<any> {
 //post := https://dpdmis.in/VREGAPI/api/Registration/MASVREGWHOITEMTYPE?vregid=50
@@ -1954,17 +2052,27 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
       { params, responseType: 'text' }
     );
   }
-  
-
+  PUT_TechnicalDetails(data: any, formData: FormData): Observable<any> {
+    //https://dpdmis.in/VREGAPI/api/Registration/PPCVerification?mFileID=341&Iaccept=Y&Remarks=Test&userID=123654
+    // debugger
+    let params = new HttpParams()
+      .set('mFileID', data.mFileID)
+      .set('Iaccept', data.Iaccept)
+      .set('Remarks', data.Remarks)
+      .set('userID', data.userID)
+     
+    return this.http.put(
+      `${this.VREGAPI}/Registration/PPCVerification`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
 public post(url: string, data: FormData, options?: any) {
-  // ;
   //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
    return this.http.post(this.VREGAPI + url, data, options); 
   }
 
   public post1(url: string, data: any, options?: any) {
-    ;
-
     const isFormData = data instanceof FormData;
     const headers = isFormData ? {} : { 'Content-Type': 'application/json' };
   
