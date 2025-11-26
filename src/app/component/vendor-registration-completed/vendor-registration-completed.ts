@@ -182,6 +182,17 @@ export class VendorRegistrationCompleted {
 //   // VendorRegistrationApproved
 //   this.router.navigate(['VendorRegistrationApproved'])
 //   }
+  onButtonClickT(vregid: any, supid: any) {
+    this.router.navigate(
+      ['ApprovalTechnicalCrt'],
+      { 
+        queryParams: {
+          vregid: vregid,
+          supid: supid
+        }
+      }
+    );
+  }
   onButtonClick(vregid: any, supid: any) {
     this.router.navigate(
       ['VendorRegistrationApproved'],

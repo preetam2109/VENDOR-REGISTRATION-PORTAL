@@ -1,0 +1,929 @@
+<div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
+    <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    <ng-template #sectionAContent>
+ <div class="card shadow rounded bg-light mx-auto ">
+      <div class="card-body p-3">
+          <div class="table-container">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="filter-field flex-grow-1">
+                  <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                    (keyup)="applyTextFilter($event)">
+                </div>
+                <div class="export-menu-container ms-2">
+
+                  <!-- <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick()"
+                  >Add <i class="bi bi-folder-plus"></i></button> -->
+                  <!-- <button mat-button [matMenuTriggerFor]="exportMenu" class="btn btn-sm btn-secondary">Export</button>
+                  <mat-menu #exportMenu="matMenu">
+                    <button mat-menu-item
+                      (click)="exporter.exportTable('xlsx', { fileName: 'PPC_List_', sheet: 'PPC_List_', Props: { Author: 'cgmsc' }})">Excel</button>
+                    <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                  </mat-menu> -->
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" matTableExporter
+                  class="table table-bordered table-hover table-sm align-middle  " #exporter="matTableExporter"matSort
+                  #sort="matSort">
+                  <!-- S.No Column -->
+                  <ng-container matColumnDef="sno">
+                      <th mat-header-cell *matHeaderCellDef style="width: 50px;">S.No</th>
+                      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="licno">
+                      <th mat-header-cell *matHeaderCellDef>Licence No.</th>
+                      <td mat-cell *matCellDef="let row">{{ row.licno }}</td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="unitname">
+                      <th mat-header-cell *matHeaderCellDef>Name of Unit</th>
+                      <td mat-cell *matCellDef="let row">{{ row.unitname }}</td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="entrydate">
+                      <th mat-header-cell *matHeaderCellDef>Entry Date</th>
+                      <td mat-cell *matCellDef="let row">{{ row.entrydate }}</td>
+                    </ng-container>
+
+
+
+                    <ng-container matColumnDef="issuingauthority">
+                      <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
+                      <td mat-cell *matCellDef="let element">{{ element.issuingauthority }}</td>
+                    </ng-container>
+                    <!-- Start Date -->
+                    <ng-container matColumnDef="startdate">
+                      <th mat-header-cell *matHeaderCellDef>Start Date</th>
+                      <td mat-cell *matCellDef="let element">{{ element.startdate }}</td>
+                    </ng-container>
+                    
+                    <!-- Issue Date -->
+                    <ng-container matColumnDef="issuedate">
+                      <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+                      <td mat-cell *matCellDef="let element">{{ element.issuedate }}</td>
+                    </ng-container>
+                    
+                    <!-- Expiry Date -->
+                    <ng-container matColumnDef="validitydate">
+                      <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                      <td mat-cell *matCellDef="let element">{{ element.validitydate }}</td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="noofitemppc">
+                      <th mat-header-cell *matHeaderCellDef>No. of Items (PPC)</th>
+                      <td mat-cell *matCellDef="let row" (click)="PPCErtificateItemDetails(row.fileid)" style="cursor: pointer; color: blue;" >{{ row.noofitemppc }}</td>
+                    </ng-container>
+                    
+                    <!-- File Name -->
+    <ng-container matColumnDef="filename">
+      <th mat-header-cell *matHeaderCellDef>File</th>
+      <td mat-cell *matCellDef="let row">
+        <button 
+          *ngIf="row.filename"
+          class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+          (click)="DownloadFileWithName(row.filepath,row.filename)"
+        >
+        <i
+        class="bi bi-filetype-pdf text-danger"></i>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ismfaccepted">
+      <th mat-header-cell *matHeaderCellDef>Accepted</th>
+    
+      <td mat-cell *matCellDef="let row">
+    
+        <span 
+          [ngClass]="{
+            'text-success fw-bold': row.ismfaccepted === 'Y',
+            'text-danger fw-bold': row.ismfaccepted === 'N',
+            'text-secondary': row.ismfaccepted === 'NA'
+          }"
+        >
+          {{ row.ismfaccepted === 'Y' ? 'YES' : row.ismfaccepted === 'N' ? 'NO' : 'NA' }}
+        </span>
+    
+      </td>
+    </ng-container>
+    
+  
+  <ng-container matColumnDef="mfaccrejremarks">
+    <th mat-header-cell *matHeaderCellDef>Remarks</th>
+    <td mat-cell *matCellDef="let row">{{ row.mfaccrejremarks }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="ismfaccepteddt">
+    <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
+    <td mat-cell *matCellDef="let row">{{ row.ismfaccepteddt }}</td>
+  </ng-container>
+
+
+
+      <!-- APPROVED COLUMN -->
+<ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+      Approved
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+  
+        <div class="d-flex justify-content-center align-items-center gap-4">
+             <!-- YES --> 
+             
+             <div class="form-check form-check-inline p-0 m-0">
+          <input class="form-check-input small-radio"
+                 type="radio"
+                 name="approve{{element.licid}}"
+                 [value]="'Y'"
+                 (change)="setApproval(element, 'Y')">
+          <label class="form-check-label tiny-text">YES</label>
+        </div>
+  
+        <!-- NO -->
+        <div class="form-check form-check-inline p-0 m-0">
+          <input class="form-check-input small-radio"
+                 type="radio"
+                 name="approve{{element.licid}}"
+                 [value]="'N'"
+                 
+                 (change)="setApproval(element, 'N')">
+          <label class="form-check-label tiny-text">NO</label>
+        </div>
+  
+      </div>
+  
+    </td>
+  </ng-container>
+  
+  
+  <!-- REMARK COLUMN -->
+ <!-- REMARK INPUT -->
+ <ng-container matColumnDef="Remark">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+      Remark
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+  
+      <textarea
+        class="form-control form-control-sm small-input mx-auto"
+        placeholder="Enter remark"
+        rows="2"
+        style=" max-width: 160px;"
+        [(ngModel)]="element.remark">
+      </textarea>
+  
+    </td>
+  </ng-container>
+  
+  
+  <!-- SAVE BUTTON -->
+  <ng-container matColumnDef="Save">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 80px;">
+      Action
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+      <button class="btn btn-outline-primary btn-sm py-0 px-2"
+              (click)="saveRow(element)">
+        Save
+      </button>
+    </td>
+  </ng-container>
+                    
+          
+                  
+                <!-- Header & Row Definition -->
+                <tr mat-header-row *matHeaderRowDef="[
+    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename','ismfaccepted','ismfaccepteddt','mfaccrejremarks', 'action',
+    'Remark',
+    'Save'
+              ]"></tr>
+  
+                <tr mat-row *matRowDef="let row; columns: [
+    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename','ismfaccepted','ismfaccepteddt','mfaccrejremarks', 'action',
+    'Remark',
+    'Save'
+              ]"></tr>
+                    
+                </table>
+              </div>
+              <mat-paginator #paginator [pageSizeOptions]="[5, 10, 30]" showFirstLastButtons></mat-paginator>
+            </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+
+
+
+
+
+
+  <div class="card shadow-lg p-4 border-0 bg-white rounded mt-4" *ngIf="onshowPP==true">
+    <div class="card-body border rounded px-3 py-3 pb-3 bg-light"
+      style="height: auto; overflow: hidden; position: relative;">
+      <div class="mb-3 Fon-family" style="text-align: justify;">
+    <form [formGroup]="productPerForm" (ngSubmit)="onSubmit()" >
+      <div class="row text-start ">
+        <!-- category -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
+          <div class="form-group" style="position: relative;">
+
+          <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
+            formControlName="mcid" [placeholder]="!productPerForm.get('mcid')?.value ? 'Choose Category' : ''"
+            [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onCategorySelectChange($event)" 
+            [ngStyle]="{
+              'border': (productPerForm.get('mcid')?.invalid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                ? '1px solid #dc3545'
+                : (productPerForm.get('mcid')?.valid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                  ? '1px solid #198754'
+                  : '',
+              'box-shadow': (productPerForm.get('mcid')?.invalid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                : (productPerForm.get('mcid')?.valid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
+                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                  : ''
+            }"
+            >
+          </ng-select>
+          <div class="text-danger mt-1">
+            <span
+              *ngIf="(productPerForm.get('mcid')?.touched || submitted) && productPerForm.get('mcid')?.errors?.['required']">
+              Category is required.
+            </span>
+        </div>
+        </div>
+        </div>
+        <!-- ItemType -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
+          <div class="form-group" style="position: relative;">
+
+          <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
+            formControlName="itemtypeid" [placeholder]="productPerForm.get('itemtypeid')?.value ? '': 'Select Item Type' "
+            [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onItemTypeChange($event)"  [ngStyle]="{
+              'border': (productPerForm.get('itemtypeid')?.invalid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                ? '1px solid #dc3545'
+                : (productPerForm.get('itemtypeid')?.valid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                  ? '1px solid #198754'
+                  : '',
+              'box-shadow': (productPerForm.get('itemtypeid')?.invalid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                : (productPerForm.get('itemtypeid')?.valid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
+                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                  : ''
+            }"
+            >
+          </ng-select>
+          <div class="text-danger mt-1">
+            <span
+              *ngIf="(productPerForm.get('itemtypeid')?.touched || submitted) && productPerForm.get('itemtypeid')?.errors?.['required']">
+              Item Type is required.
+            </span>
+        </div>
+        </div>
+        </div>
+        <!-- ItemGroup -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Item Group</label>
+          <div class="form-group" style="position: relative;">
+
+          <ng-select class="form-select w-auto" [items]="DDLItemGroup" bindLabel="groupname" bindValue="groupid"
+            formControlName="groupid" [placeholder]="productPerForm.get('groupid')?.value ? '': 'Select Item Group' "
+            [searchable]="true" [clearable]="true" appendTo=".form-group"  [ngStyle]="{
+              'border': (productPerForm.get('groupid')?.invalid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                ? '1px solid #dc3545'
+                : (productPerForm.get('groupid')?.valid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                  ? '1px solid #198754'
+                  : '',
+              'box-shadow': (productPerForm.get('groupid')?.invalid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                : (productPerForm.get('groupid')?.valid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
+                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                  : ''
+            }"
+            >
+          </ng-select>
+          <div class="text-danger mt-1">
+            <span
+              *ngIf="(productPerForm.get('groupid')?.touched || submitted) && productPerForm.get('groupid')?.errors?.['required']">
+              Item Group is required.
+            </span>
+        </div>
+        </div>
+        </div>
+
+            <!-- Licence Type -->
+            <div class="col-md-6 mb-3 ">
+              <label class="form-label fw-bold">Licence Type<span class="text-danger">*</span></label>
+          <div class="form-group" style="position: relative;">
+
+              <ng-select class="form-select w-auto" [items]="licenceTypes" bindLabel="lictypename" bindValue="lictypeid"
+                formControlName="mlictypeid" [placeholder]="productPerForm.get('mlictypeid')?.value ? '' : 'Choose Licence Type'"
+                [searchable]="true" [clearable]="true" appendTo=".form-group"  [ngStyle]="{
+                  'border': (productPerForm.get('mlictypeid')?.invalid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                    ? '1px solid #dc3545'
+                    : (productPerForm.get('mlictypeid')?.valid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                      ? '1px solid #198754'
+                      : '',
+                  'box-shadow': (productPerForm.get('mlictypeid')?.invalid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                    ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                    : (productPerForm.get('mlictypeid')?.valid && (productPerForm.get('mlictypeid')?.dirty || productPerForm.get('mlictypeid')?.touched))
+                      ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                      : ''
+                }"
+                >
+              </ng-select>
+              <div class="text-danger mt-1">
+                <span
+                  *ngIf="(productPerForm.get('mlictypeid')?.touched || submitted) && productPerForm.get('mlictypeid')?.errors?.['required']">
+                  Licence Type is required.
+                </span>
+            </div>
+            </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
+          <div class="form-group" style="position: relative;">
+
+              <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
+                formControlName="licid" [placeholder]="productPerForm.get('licid')?.value ? '' : 'Select Licence'"
+                [searchable]="true" [clearable]="true" appendTo=".form-group" (change)="onLicenceTypeChange($event)"  [ngStyle]="{
+                  'border': (productPerForm.get('licid')?.invalid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                    ? '1px solid #dc3545'
+                    : (productPerForm.get('licid')?.valid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                      ? '1px solid #198754'
+                      : '',
+                  'box-shadow': (productPerForm.get('licid')?.invalid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                    ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                    : (productPerForm.get('licid')?.valid && (productPerForm.get('licid')?.dirty || productPerForm.get('licid')?.touched))
+                      ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                      : ''
+                }"
+                >
+              </ng-select>
+              <div class="text-danger mt-1">
+                <span
+                  *ngIf="(productPerForm.get('licid')?.touched || submitted) && productPerForm.get('licid')?.errors?.['required']">
+                  Licence is required.
+                </span>
+            </div>
+            </div>
+            </div>
+
+            <!-- Issue Date -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">Issue Date <span class="text-danger">*</span></label>
+            
+              <input type="date" class="form-control"
+                formControlName="mIssueDate"
+                [ngStyle]="{
+                  'border': (productPerForm.get('mIssueDate')?.invalid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
+                    ? '1px solid #dc3545'
+                    : (productPerForm.get('mIssueDate')?.valid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
+                      ? '1px solid #198754'
+                      : '',
+                  'box-shadow': (productPerForm.get('mIssueDate')?.invalid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
+                    ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                    : (productPerForm.get('mIssueDate')?.valid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
+                      ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                      : ''
+                }"
+              />
+            
+              <div class="text-danger mt-1">
+                <span *ngIf="(productPerForm.get('mIssueDate')?.touched || submitted) && productPerForm.get('mIssueDate')?.errors?.['required']">
+                  Issue Date is required.
+                </span>
+              </div>
+            </div>
+            
+
+      <!-- Start Date -->
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Start Date <span class="text-danger">*</span></label>
+      
+        <input type="date" class="form-control"
+          formControlName="mStartDate"
+          [ngStyle]="{
+            'border': (productPerForm.get('mStartDate')?.invalid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
+              ? '1px solid #dc3545'
+              : (productPerForm.get('mStartDate')?.valid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
+                ? '1px solid #198754'
+                : '',
+            'box-shadow': (productPerForm.get('mStartDate')?.invalid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
+              ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+              : (productPerForm.get('mStartDate')?.valid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
+                ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                : ''
+          }"
+        />
+      
+        <div class="text-danger mt-1">
+          <span *ngIf="(productPerForm.get('mStartDate')?.touched || submitted) && productPerForm.get('mStartDate')?.errors?.['required']">
+            Start Date is required.
+          </span>
+        </div>
+      </div>
+      
+
+      <!-- Validity Date -->
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Valid Upto <span class="text-danger">*</span></label>
+      
+        <input type="date" class="form-control"
+          formControlName="mVALIDITYDATE"
+          [ngStyle]="{
+            'border': (productPerForm.get('mVALIDITYDATE')?.invalid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
+              ? '1px solid #dc3545'
+              : (productPerForm.get('mVALIDITYDATE')?.valid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
+                ? '1px solid #198754'
+                : '',
+            'box-shadow': (productPerForm.get('mVALIDITYDATE')?.invalid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
+              ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+              : (productPerForm.get('mVALIDITYDATE')?.valid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
+                ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                : ''
+          }"
+        />
+      
+        <div class="text-danger mt-1">
+          <span *ngIf="(productPerForm.get('mVALIDITYDATE')?.touched || submitted) && productPerForm.get('mVALIDITYDATE')?.errors?.['required']">
+            Validity Date is required.
+          </span>
+        </div>
+      </div>
+      
+      <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">Issuing Authority <span class="text-danger">*</span></label>
+      
+        <input type="text" class="form-control" placeholder="Enter Issuing Authority"
+          formControlName="mISSUINGAUTHORITY"
+          [ngStyle]="{
+            'border': (productPerForm.get('mISSUINGAUTHORITY')?.invalid && (productPerForm.get('mISSUINGAUTHORITY')?.dirty || productPerForm.get('mISSUINGAUTHORITY')?.touched))
+              ? '1px solid #dc3545'
+              : (productPerForm.get('mISSUINGAUTHORITY')?.valid && (productPerForm.get('mISSUINGAUTHORITY')?.dirty || productPerForm.get('mISSUINGAUTHORITY')?.touched))
+                ? '1px solid #198754'
+                : '',
+            'box-shadow': (productPerForm.get('mISSUINGAUTHORITY')?.invalid && (productPerForm.get('mISSUINGAUTHORITY')?.dirty || productPerForm.get('mISSUINGAUTHORITY')?.touched))
+              ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+              : (productPerForm.get('mISSUINGAUTHORITY')?.valid && (productPerForm.get('mISSUINGAUTHORITY')?.dirty || productPerForm.get('mISSUINGAUTHORITY')?.touched))
+                ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                : ''
+          }"
+        />
+      
+        <div class="text-danger mt-1">
+          <span *ngIf="(productPerForm.get('mISSUINGAUTHORITY')?.touched || submitted) && productPerForm.get('mISSUINGAUTHORITY')?.errors?.['required']">
+            Issuing Authority is required.
+          </span>
+        </div>
+      </div>
+      
+
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">Upload Product Permission<span class="text-danger">*</span></label>
+              <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)"
+              formControlName="Files" [ngClass]="{
+                'is-invalid': (productPerForm.get('Files')?.touched || submitted) && productPerForm.get('Files')?.invalid,
+                'is-valid': productPerForm.get('Files')?.valid && (productPerForm.get('Files')?.touched || submitted)
+              }" />
+      
+      <span class="text-danger"
+      *ngIf="(productPerForm.get('Files')?.touched || submitted) && productPerForm.get('Files')?.errors?.['required']">
+      Please upload the document.
+      </span>
+            </div>
+          
+        <!-- Submit -->
+        <div class="text-center mt-4 mb-1">
+          <button type="submit" class="btn btn-primary px-4" [disabled]="!productPerForm.valid">
+            Show
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between mt-4 p-3 rounded shadow-sm bg-light border" *ngIf="onshowPP==true" >
+
+      <!-- 📝 Instruction Box -->
+      <div class="alert alert-warning mb-2 mb-md-0 flex-grow-1 me-md-3 p-3 small" style="max-width: 650px;">
+        <strong>Note:</strong> Please ensure the <b>Item Code</b> is clearly written and highlighted in 
+        <span class="fw-bold text-warning">Yellow</span> or 
+        <span class="fw-bold text-danger">Pink</span> on the Product Permission Document. 
+        The uploaded document must be mapped with the corresponding 
+        <b>CGMSC Item Code</b> shown in the table below.
+      </div>
+    
+      <!-- ✅ Save Button -->
+      <div class="text-end">
+        <button type="button" class="btn btn-success fw-semibold shadow-sm px-4 py-2" (click)="saveAndUpdate()">
+          💾 Save & Update
+        </button>
+      </div>
+    </div>
+    
+    
+
+    <div class="card shadow rounded bg-light mx-auto mt-5" *ngIf="onshowPP==true">
+      <div class="card-body p-3">
+    
+        <!-- 🔍 Search -->
+        <div class="row mb-3">
+          <div class="col-md-4 ms-auto">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Search item name or code..."
+              [(ngModel)]="searchText"
+              (input)="filterTable()"
+            />
+          </div>
+        </div>
+    
+        <!-- 🧾 Table -->
+        <div class="table-responsive mt-3">
+          <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-light">
+              <tr>
+                <th><input type="checkbox" (change)="toggleAll($event)" /></th>
+                <th>S.No</th>
+                <th>Item Code</th>
+                <th>Item Type</th>
+                <th>Item Name</th>
+                <th>Strength</th>
+                <th>SKU</th>
+                <th scope="col" >Pharmacopoeia Name</th>
+                <th scope="col" >Enter Standard Batch Size (in nos)</th>
+                <th scope="col" style="width: 80px;">Page Number of Uploaded Product Permission</th>
+                <th scope="col">HSNCODE</th>
+                <th scope="col">GST Rate	Type of Drugs / Medicines</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of paginatedItems; let i = index"
+                style="text-align: start;"
+              >
+                <td>
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="item.selected"
+                    (change)="onItemSelect(item)"
+                  />
+                </td>
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                <td>{{ item.itemcode }}</td>
+                <td>{{ item.itemtypename }}</td>
+                <td>{{ item.itemname }}</td>
+                <td>{{ item.strength }}</td>
+                <td>{{ item.unit }}</td>
+                <td>
+                  <select
+                    class="form-select form-select-sm text-center"
+                    [(ngModel)]="item.pharmaid"
+                    name="pharma_{{ i }}"
+                    #pharmaRef="ngModel"
+                    required
+                    [ngClass]="{'is-invalid': (pharmaRef.invalid && (pharmaRef.touched || item._showErrors))}"
+                  >
+                    <option value="" disabled>Select Pharmacopoeia Name</option>
+                    <option *ngFor="let pharma of DDLMASPHARMACOPOEIA" [value]="pharma.pharmaid">
+                      {{ pharma.shortname }}
+                    </option>
+                  </select>
+                  <div *ngIf="pharmaRef.invalid && (pharmaRef.touched || item._showErrors)" class="text-danger small">
+                    Pharmacopoeia is required
+                  </div>
+                </td>
+                
+                
+                <td>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm text-center"
+                    [(ngModel)]="item.stndbatchqty"
+                    name="batch_{{ i }}"
+                    #batchRef="ngModel"
+                    required
+                    min="1"
+                    placeholder="Enter size"
+                    [ngClass]="{'is-invalid': (batchRef.invalid && (batchRef.touched || item._showErrors))}"
+                  />
+                  <div *ngIf="batchRef.invalid && (batchRef.touched || item._showErrors)" class="text-danger small">
+                    Batch size is required and must be ≥ 1
+                  </div>
+                </td>
+                
+                
+                <td style="width: 80px;">
+                  <input
+                    type="number"
+                    class="form-control form-control-sm text-center"
+                    [(ngModel)]="item.pageno"
+                    name="page_{{ i }}"
+                    #pageRef="ngModel"
+                    required
+                    placeholder="Enter page no."
+                    [ngClass]="{'is-invalid': (pageRef.invalid && (pageRef.touched || item._showErrors))}"
+                  />
+                  <div *ngIf="pageRef.invalid && (pageRef.touched || item._showErrors)" class="text-danger small">
+                    Page no. required
+                  </div>
+                </td>
+                
+                
+                <td>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm text-center"
+                    [(ngModel)]="item.hsncode"
+                    name="hsn_{{ i }}"
+                    #hsnRef="ngModel"
+                    required
+                    minlength="8"
+                    maxlength="8"
+                    pattern="^[0-9]{8}$"
+                    placeholder="Enter 8-digit HSN Code"
+                    [ngClass]="{'is-invalid': (hsnRef.invalid && (hsnRef.touched || item._showErrors))}"
+                  />
+                  <div *ngIf="hsnRef.invalid && (hsnRef.touched || item._showErrors)" class="text-danger small">
+                    <span *ngIf="hsnRef.errors?.['required']">HSN Code is required</span>
+                    <span *ngIf="hsnRef.errors?.['minlength'] || hsnRef.errors?.['maxlength']">HSN Code must be 8 digits</span>
+                    <span *ngIf="hsnRef.errors?.['pattern']">Only numeric digits allowed</span>
+                  </div>
+                </td>
+                
+                
+                
+              <td>
+<select
+  class="form-select form-select-sm text-center"
+  [(ngModel)]="item.gstper"
+  name="gst_{{ i }}"
+  #gstRef="ngModel"
+  required
+  [ngClass]="{'is-invalid': (gstRef.invalid && (gstRef.touched || item._showErrors))}"
+>
+  <option value="" disabled>Select GST %</option>
+  <option value="0">0%</option>
+  <option value="5">5%</option>
+  <option value="12">12%</option>
+  <option value="18">18%</option>
+  <option value="28">28%</option>
+</select>
+<div *ngIf="gstRef.invalid && (gstRef.touched || item._showErrors)" class="text-danger small">
+  GST rate is required
+</div>
+</td>
+
+                
+                
+              </tr>
+    
+              <!-- No data found -->
+              <tr *ngIf="paginatedItems.length === 0">
+                <td colspan="10" class="text-center text-muted">
+                  No items found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    
+        <!-- 📄 Pagination -->
+        <nav *ngIf="filteredItems.length > itemsPerPage">
+          <ul class="pagination justify-content-center mt-3 mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <button class="page-link" (click)="previousPage()">Previous</button>
+            </li>
+    
+            <li
+              class="page-item"
+              *ngFor="let page of totalPagesArray"
+              [class.active]="page === currentPage"
+            >
+              <button class="page-link" (click)="goToPage(page)">
+                {{ page }}
+              </button>
+            </li>
+    
+            <li
+              class="page-item"
+              [class.disabled]="currentPage === totalPagesArray.length"
+            >
+              <button class="page-link" (click)="nextPage()">Next</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    
+
+
+  
+
+
+
+ 
+</div>
+
+
+
+
+
+<ng-template class=" " #itemDetailsModal let-modal  >
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Details</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+         
+              <div class="card-body">
+                  <div class="row border mb-1">
+                      <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                          <strong>Reports : Product Provisional Certificate Item Details</strong>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 table-container mb-4">
+
+
+                  
+               
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterItemDetail($event)">
+                        </div>
+                        <div class="export-menu-container">
+                          <button mat-button [matMenuTriggerFor]="exportMenuPPI"class="btn btn-sm btn-secondary">Export</button>
+                          <mat-menu #exportMenuPPI="matMenu">
+                            <button mat-menu-item
+                              (click)="exporter.exportTable('xlsx', { fileName: 'PPItemDetail', sheet: 'PPItemDetail', Props: { Author: 'cgmsc' }})">Excel</button>
+                            <button mat-menu-item (click)="exportToPDFPPItemDetails()">PDF</button>
+                          </mat-menu>
+                        </div>
+                      </div>
+                
+                      <div class="table-responsive">
+                        <table  mat-table matTableExporter [dataSource]="dataSource2" #exporter="matTableExporter" matSort #sort1="matSort">
+                      
+                                   <!-- S.No Column -->
+<ng-container matColumnDef="sno">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+  <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+</ng-container>
+
+<!-- Item Code -->
+<ng-container matColumnDef="itemcode">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Code </th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+</ng-container>
+
+<!-- Item Name -->
+<ng-container matColumnDef="itemname">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+</ng-container>
+
+<!-- Strength -->
+<ng-container matColumnDef="strength">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Strength </th>
+  <td mat-cell *matCellDef="let element"> {{ element.strength }} </td>
+</ng-container>
+
+<!-- Unit -->
+<ng-container matColumnDef="unit">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+  <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+</ng-container>
+
+<!-- Category -->
+<ng-container matColumnDef="mcategory">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+  <td mat-cell *matCellDef="let element"> {{ element.mcategory }} </td>
+</ng-container>
+
+<!-- Item Type -->
+<ng-container matColumnDef="itemtypename">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Type </th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemtypename }} </td>
+</ng-container>
+
+<!-- Batch Quantity -->
+<ng-container matColumnDef="stndbatchqty">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch Qty </th>
+  <td mat-cell *matCellDef="let element"> {{ element.stndbatchqty }} </td>
+</ng-container>
+
+<!-- Page No -->
+<ng-container matColumnDef="pageno">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Page No </th>
+  <td mat-cell *matCellDef="let element"> {{ element.pageno }} </td>
+</ng-container>
+
+<!-- HSN Code -->
+<ng-container matColumnDef="hsncode">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> HSN Code </th>
+  <td mat-cell *matCellDef="let element"> {{ element.hsncode }} </td>
+</ng-container>
+
+<!-- Pharmacopoeia -->
+<ng-container matColumnDef="shortname">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Pharmacopoeia </th>
+  <td mat-cell *matCellDef="let element"> {{ element.shortname }} </td>
+</ng-container>
+
+<!-- GST % -->
+<ng-container matColumnDef="gstper">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> GST % </th>
+  <td mat-cell *matCellDef="let element"> {{ element.gstper }}%</td>
+</ng-container>
+
+<!-- Header Row -->
+<!-- <tr mat-header-row *matHeaderRowDef="['sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper']"></tr> -->
+
+<!-- Data Rows -->
+<!-- <tr mat-row *matRowDef="let row; columns: ['sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper'];"></tr> -->
+<tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+
+                      
+                        </table>
+                      </div>
+                       
+                      <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 30]" showFirstLastButtons></mat-paginator>
+                    </div>
+              </div>
+        
+             
+              
+          
+              
+          
+            </div>  
+    
+     
+    
+        
+    
+    
+
+
+
+    </div>
+
+
+  
+    <div class="d-grid gap-2 col-12 mx-auto  m-2">
+      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+          aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+
+
+
+
+
+
+    <!-- modal -->
+<div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header bg-dark text-white py-2 px-3">
+        <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe
+          [src]="sanitizedPdfUrl"
+          class="pdf-frame"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>

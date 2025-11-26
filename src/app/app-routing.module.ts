@@ -22,6 +22,7 @@ import { ManufacturingTabsUnder } from './component/VENDER_REG/manufacturing-tab
 import { VendorRegistrationCompleted } from './component/vendor-registration-completed/vendor-registration-completed';
 import { VendorRegistrationApproved } from './component/vendor-registration-approved/vendor-registration-approved';
 import { ApprovalTechnicalCertificate } from './component/VENDER_REG/approval-technical-certificate/approval-technical-certificate';
+import { ApprovalTechnicalSectionTabsUnder } from './component/VENDER_REG/TECHNICAL_APPROVAL/approval-technical-section-tabs-under/approval-technical-section-tabs-under';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -38,7 +39,8 @@ const routes: Routes = [
   {path:'otp',component:OtpComponent},
   {path:'VendorRegistrationCompleted',component:VendorRegistrationCompleted},
   {path:'VendorRegistrationApproved',component:VendorRegistrationApproved},
-  {path:'ApprovalTechnicalCrt',component:ApprovalTechnicalCertificate},
+  // {path:'ApprovalTechnicalCrt',component:ApprovalTechnicalCertificate},
+  {path:'ApprovalTechnicalCrt',component:ApprovalTechnicalSectionTabsUnder},
 
   {path:'logout',component:LogoutComponent,canActivate:[RouteGuardService]},
   { path: 'home',component: CategorySelectionComponent,canActivate:[RouteGuardService]}, 
