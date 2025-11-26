@@ -9,57 +9,47 @@ import { ManufacturingUnitUntiTab } from "../manufacturing-unit-unti-tab/manufac
 
 import { ManufacturingUnitRetentionTab } from "../manufacturing-unit-retention-tab/manufacturing-unit-retention-tab";
 import { ManufacturingUnitLicenceTab } from '../manufacturing-unit-licence-tab/manufacturing-unit-licence-tab';
+import { ManufacturingUnitLicenceTabApproval } from "../TECHNICAL_APPROVAL/manufacturing-unit-licence-tab-approval/manufacturing-unit-licence-tab-approval";
+import { ManufacturingUnitRetentionTabApproval } from "../TECHNICAL_APPROVAL/manufacturing-unit-retention-tab-approval/manufacturing-unit-retention-tab-approval";
 
 
 
 @Component({
   selector: 'app-approval-technical-certificate',
   standalone:true,
-  imports: [CommonModule, MatTabsModule, ManufacturingUnitUntiTab, ManufacturingUnitLicenceTab, ManufacturingUnitRetentionTab],
+  imports: [CommonModule, MatTabsModule, ManufacturingUnitUntiTab, ManufacturingUnitLicenceTab, ManufacturingUnitRetentionTab, ManufacturingUnitLicenceTabApproval, ManufacturingUnitRetentionTabApproval],
   templateUrl: './approval-technical-certificate.html',
   styleUrl: './approval-technical-certificate.css'
 })
 export class ApprovalTechnicalCertificate {
-  vregid:any
-  selectedTabIndex: number = 0;
-  // selectedTabIndex = 0;
+  vregid: any;
+selectedTabIndex: number = 0;
+
+constructor(private router: Router, private api: ApiService) {}
+
+ngOnInit(): void {
+  this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
+}
 
 onTabChanged(index: number) {
   this.selectedTabIndex = index;
 }
 
-
-  constructor(private router:Router,private api:ApiService){
-  
+GetVendorDetailsID(supplierId: any) {
+  this.api.getVendorDetailsID(supplierId).subscribe({
+    next: (res: any) => {
+      if (Array.isArray(res) && res.length > 0) {
+        this.vregid = res[0].vregid;
+        console.log('Vendor vregid:', this.vregid);
+        sessionStorage.setItem('vregid', this.vregid);
+      } else {
+        alert('⚠️ Please generate vendor registration number.');
+        this.router.navigate(['generate-registration']);
+      }
+    },
+    error: (err) => {
+      console.error('Error fetching vendor details:', err);
     }
-
-    ngOnInit(): void {
-      
-      this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
-    }
-    GetVendorDetailsID(supplierId: any) {
-      this.api.getVendorDetailsID(supplierId).subscribe({
-        next: (res: any) => {
-          if (Array.isArray(res) && res.length > 0) {
-            this.vregid=res[0].vregid;
-            console.log('Vendor vregid:', this.vregid);
-            sessionStorage.setItem('vregid',this.vregid)
-          
-          } else {
-            console.warn('No vendor details found.');
-            alert('⚠️ Please generate vendor registration number.');
-            this.router.navigate(['generate-registration']);
-  
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching vendor details:', err);
-        }
-      });
-    }
-    // selectedTabValue(event: any): void {
-      
-    //   this.selectedTabIndex = event.index;
-    // }
-   
-  }
+  });
+}
+}

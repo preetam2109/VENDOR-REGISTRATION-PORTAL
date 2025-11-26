@@ -1,0 +1,830 @@
+<div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
+
+
+
+    <div class="card shadow rounded bg-light mx-auto  mb-4">
+      <div class="card-body p-3">
+          <div class="table-container">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="filter-field flex-grow-1">
+                  <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                    (keyup)="applyTextFilter($event)">
+                </div>
+                <div class="export-menu-container ms-2">
+                  <!-- <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick()"
+                  >Add <i class="bi bi-folder-plus"></i></button> -->
+                  <!-- <button mat-button [matMenuTriggerFor]="exportMenu" class="btn btn-sm btn-secondary">Export</button>
+                  <mat-menu #exportMenu="matMenu">
+                    <button mat-menu-item
+                      (click)="exporter.exportTable('xlsx', { fileName: 'Market_Standing_Certificate_List', sheet: 'Market_Standing_Certificate_List', Props: { Author: 'cgmsc' }})">Excel</button>
+                    <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                  </mat-menu> -->
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" matTableExporter
+                  class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter"matSort
+                  #sort="matSort">
+             <!-- S.No Column -->
+  <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef style="width: 50px;">S.No</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+    
+    <!-- Licence No -->
+    <ng-container matColumnDef="licno">
+      <th mat-header-cell *matHeaderCellDef>Licence No</th>
+      <td mat-cell *matCellDef="let element">{{ element.licno }}</td>
+    </ng-container>
+   
+    <!-- Unit Name -->
+    <ng-container matColumnDef="unitname">
+      <th mat-header-cell *matHeaderCellDef>Unit Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.unitname }}</td>
+    </ng-container>
+    
+    <!-- Issue Date -->
+    <ng-container matColumnDef="issuedate">
+      <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.issuedate }}</td>
+    </ng-container>
+    
+    <!-- Start Date -->
+    <ng-container matColumnDef="startdate">
+      <th mat-header-cell *matHeaderCellDef>Start Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.startdate }}</td>
+    </ng-container>
+    
+    <!-- Validity Date -->
+    <ng-container matColumnDef="validitydate">
+      <th mat-header-cell *matHeaderCellDef>Validity Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.validitydate }}</td>
+    </ng-container>
+    
+    <!-- Total Items -->
+    <ng-container matColumnDef="cntitems">
+      <th mat-header-cell *matHeaderCellDef>Total Items</th>
+      <td mat-cell *matCellDef="let element" (click)="OnClickMSCCOPItemDetails(element.mscid)"style="cursor: pointer; color: blue;">{{ element.cntitems }}</td>
+    </ng-container>
+    
+                 <!-- File Name -->
+                 <ng-container matColumnDef="filename">
+                  <th mat-header-cell *matHeaderCellDef>File</th>
+                  <td mat-cell *matCellDef="let row">
+                    <button 
+                      *ngIf="row.filename"
+                      class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                      (click)="DownloadFileWithName(row.filepath,row.filename)"
+                    >
+                    <i
+                    class="bi bi-filetype-pdf text-danger"></i>
+                    </button>
+                  </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="mscissuingauthority">
+                  <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
+                  <td mat-cell *matCellDef="let element">{{ element.mscissuingauthority }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="ismscaccepted">
+                  <th mat-header-cell *matHeaderCellDef>Accepted</th>
+                
+                  <td mat-cell *matCellDef="let row">
+                
+                    <span 
+                      [ngClass]="{
+                        'text-success fw-bold': row.ismscaccepted === 'Y',
+                        'text-danger fw-bold': row.ismscaccepted === 'N',
+                        'text-secondary': row.ismscaccepted === 'NA'
+                      }"
+                    >
+                      {{ row.ismscaccepted === 'Y' ? 'YES' : row.ismscaccepted === 'N' ? 'NO' : 'NA' }}
+                    </span>
+                
+                  </td>
+                </ng-container>
+                
+              
+              <ng-container matColumnDef="mscaccrejremarks">
+                <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                <td mat-cell *matCellDef="let row">{{ row.mscaccrejremarks }}</td>
+              </ng-container>
+            
+              <ng-container matColumnDef="ismscaccepteddt">
+                <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
+                <td mat-cell *matCellDef="let row">{{ row.ismscaccepteddt }}</td>
+              </ng-container>
+
+              <!-- APPROVED COLUMN -->
+<ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+      Approved
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+  
+        <div class="d-flex justify-content-center align-items-center gap-4">
+             <!-- YES --> 
+             
+             <div class="form-check form-check-inline p-0 m-0">
+          <input class="form-check-input small-radio"
+                 type="radio"
+                 name="approve{{element.licid}}"
+                 [value]="'Y'"
+                 (change)="setApproval(element, 'Y')">
+          <label class="form-check-label tiny-text">YES</label>
+        </div>
+  
+        <!-- NO -->
+        <div class="form-check form-check-inline p-0 m-0">
+          <input class="form-check-input small-radio"
+                 type="radio"
+                 name="approve{{element.licid}}"
+                 [value]="'N'"
+                 
+                 (change)="setApproval(element, 'N')">
+          <label class="form-check-label tiny-text">NO</label>
+        </div>
+  
+      </div>
+  
+    </td>
+  </ng-container>
+  
+  
+  <!-- REMARK INPUT -->
+  <ng-container matColumnDef="Remark">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+      Remark
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+  
+      <textarea
+        class="form-control form-control-sm small-input mx-auto"
+        placeholder="Enter remark"
+        rows="2"
+        style=" max-width: 160px;"
+        [(ngModel)]="element.remark">
+      </textarea>
+  
+    </td>
+  </ng-container>
+  
+  
+  <!-- SAVE BUTTON -->
+  <ng-container matColumnDef="Save">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 80px;">
+      Action
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+      <button class="btn btn-outline-primary btn-sm py-0 px-2"
+              (click)="saveRow(element)">
+        Save
+      </button>
+    </td>
+  </ng-container>
+    
+  
+  
+  
+  <!-- Header and Row Definitions -->
+  <tr mat-header-row *matHeaderRowDef="[
+  'sno',
+    'licno',
+    'mscissuingauthority',
+    'unitname',
+    'issuedate',
+    'startdate',
+    'validitydate',
+    'cntitems',
+    'filename',
+    'ismscaccepted',
+    'ismscaccepteddt',
+    'mscaccrejremarks',
+    'action',
+    'Remark',
+    'Save'
+  ]"></tr>
+  
+  <tr mat-row *matRowDef="let row; columns: [
+  'sno',
+    'licno',
+    'mscissuingauthority',
+    'unitname',
+    'issuedate',
+    'startdate',
+    'validitydate',
+    'cntitems',
+    'filename',
+    'ismscaccepted',
+    'ismscaccepteddt',
+    'mscaccrejremarks',
+    'action',
+    'Remark',
+    'Save'
+  ];"></tr>
+  
+                    
+                </table>
+              </div>
+              <mat-paginator #paginator [pageSizeOptions]="[5, 10, 30]" showFirstLastButtons></mat-paginator>
+            </div>
+      </div>
+  </div>
+  
+  
+  
+  
+  <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowMSC == true">
+  
+    <div class="card-body border rounded px-3 py-3 pb-3 bg-light"
+      style="height: auto; overflow: hidden; position: relative;">
+      <div class="mb-3 Fon-family" style="text-align: justify;">
+  <form [formGroup]="MCCFillItemsForm" (ngSubmit)="onSubmitMCCFillItemsForm()">
+      <div class="row text-start ">
+           
+           <!-- category -->
+           <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
+              <div class="form-group" style="position: relative;">
+  
+              <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
+                formControlName="MCID" [placeholder]="!MCCFillItemsForm.get('MCID')?.value ? 'Choose Category' : ''"
+                [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onCategorySelectChange($event)" [ngStyle]="{
+                  'border': (MCCFillItemsForm.get('MCID')?.invalid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
+                    ? '1px solid #dc3545'
+                    : (MCCFillItemsForm.get('MCID')?.valid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
+                      ? '1px solid #198754'
+                      : '',
+                  'box-shadow': (MCCFillItemsForm.get('MCID')?.invalid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
+                    ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                    : (MCCFillItemsForm.get('MCID')?.valid && (MCCFillItemsForm.get('MCID')?.dirty || MCCFillItemsForm.get('MCID')?.touched))
+                      ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                      : ''
+                }"
+                >
+              </ng-select>
+              <div class="text-danger mt-1">
+                <span
+                  *ngIf="(MCCFillItemsForm.get('MCID')?.touched || submitted) && MCCFillItemsForm.get('MCID')?.errors?.['required']">
+                  Category is required.
+                </span>
+            </div>
+            </div>
+            </div>
+  
+        <!-- ItemType -->
+         <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
+          <div class="form-group" style="position: relative;">
+  
+          <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
+            formControlName="mItemTypeID" [placeholder]="MCCFillItemsForm.get('mItemTypeID')?.value ? '': 'Select Item Type' "
+            [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onmItemTypeIDSelectChange($event)" [ngStyle]="{
+              'border': (MCCFillItemsForm.get('mItemTypeID')?.invalid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
+                ? '1px solid #dc3545'
+                : (MCCFillItemsForm.get('mItemTypeID')?.valid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
+                  ? '1px solid #198754'
+                  : '',
+              'box-shadow': (MCCFillItemsForm.get('mItemTypeID')?.invalid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
+                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                : (MCCFillItemsForm.get('mItemTypeID')?.valid && (MCCFillItemsForm.get('mItemTypeID')?.dirty || MCCFillItemsForm.get('mItemTypeID')?.touched))
+                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                  : ''
+            }"
+            >
+          </ng-select>
+          <div class="text-danger mt-1">
+            <span
+              *ngIf="(MCCFillItemsForm.get('mItemTypeID')?.touched || submitted) && MCCFillItemsForm.get('mItemTypeID')?.errors?.['required']">
+              Item Type is required.
+            </span>
+        </div>
+        </div>
+        </div>
+        <!-- ItemGroup -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Item Group</label>
+          <div class="form-group" style="position: relative;">
+  
+          <ng-select class="form-select w-auto" [items]="DDLItemGroup" bindLabel="groupname" bindValue="groupid"
+            formControlName="mGroupID" [placeholder]="MCCFillItemsForm.get('mGroupID')?.value ? '': 'Select Item Group' "
+            [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onGroupSelectChange($event)" [ngStyle]="{
+              'border': (MCCFillItemsForm.get('mGroupID')?.invalid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
+                ? '1px solid #dc3545'
+                : (MCCFillItemsForm.get('mGroupID')?.valid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
+                  ? '1px solid #198754'
+                  : '',
+              'box-shadow': (MCCFillItemsForm.get('mGroupID')?.invalid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
+                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                : (MCCFillItemsForm.get('mGroupID')?.valid && (MCCFillItemsForm.get('mGroupID')?.dirty || MCCFillItemsForm.get('mGroupID')?.touched))
+                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                  : ''
+            }"
+            >
+          </ng-select>
+          <div class="text-danger mt-1">
+            <span
+              *ngIf="(MCCFillItemsForm.get('mGroupID')?.touched || submitted) && MCCFillItemsForm.get('mGroupID')?.errors?.['required']">
+              Item Group is required.
+            </span>
+        </div>
+        </div>
+        </div> 
+  
+        <!-- Action Buttons -->
+  <div class="text-center mt-4 mb-3">
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <button 
+          type="submit" 
+          class="btn btn-success px-4 py-2 fw-semibold shadow-sm" 
+          [disabled]="!MCCFillItemsForm.valid">
+          <i class="bi bi-eye me-2"></i> Show
+        </button>
+    
+        <button 
+          type="button" 
+          class="btn btn-primary px-4 py-2 fw-semibold shadow-sm" 
+          (click)="openMarketStandingModal()">
+          <i class="bi bi-save me-2"></i> Save
+        </button>
+      </div>
+    </div>
+    
+      </div>
+    </form>
+      </div> 
+      </div> 
+      </div> 
+        
+    
+  
+    <div class="card shadow rounded bg-light mx-auto mt-5"*ngIf="onshowMSC == true" >
+      <div class="card-body p-3">
+    
+        <!-- 🔍 Search -->
+        <div class="row mb-3">
+          <div class="col-md-4 ms-auto">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Search by Item Code or Name..."
+              [(ngModel)]="searchText"
+              (input)="filterTable()"
+            />
+          </div>
+        </div>
+    
+        <!-- 🧾 Table -->
+        <div class="table-responsive mt-3">
+          <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-light">
+              <tr>
+                <th><input type="checkbox" (change)="toggleAll($event)" /></th>
+                <th>S.No</th>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>Strength</th>
+                <th>SKU</th>
+                <th>Item Type</th>
+                <th>Category</th>
+                <th>Pharmacopoeia</th>
+                <th>Page No.</th>
+                
+              </tr>
+            </thead>
+    
+            <tbody>
+              <tr *ngFor="let item of paginatedItems; let i = index" style="text-align: start;">
+                <td>
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="item.selected"
+                    (change)="onItemSelect(item)"
+                  />
+                </td>
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                <td>{{ item.itemcode }}</td>
+                <td>{{ item.itemname }}</td>
+                <td>{{ item.strength }}</td>
+                <td>{{ item.unit }}</td>
+                <td>{{ item.itemtypename }}</td>
+                <td>{{ item.mcategory }}</td>
+                <td>{{ item.shortname }}</td>
+    
+              
+    
+                <td>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm text-center"
+                    [(ngModel)]="item.MSCPAGENO"
+                    name="mscpage_{{ i }}"
+                    #mscpageRef="ngModel"
+                    required
+                    placeholder="Enter page no."
+                    [ngClass]="{'is-invalid': (mscpageRef.invalid && (mscpageRef.touched || item._showErrors))}"
+                  />
+                  <div *ngIf="mscpageRef.invalid && (mscpageRef.touched || item._showErrors)" class="text-danger small">
+                    Page no. required
+                  </div>
+                </td>
+                
+    
+              
+    
+               
+              </tr>
+    
+              <!-- No data -->
+              <tr *ngIf="paginatedItems.length === 0">
+                <td colspan="13" class="text-center text-muted">No items found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    
+        <!-- 📄 Pagination -->
+        <nav *ngIf="filteredItems.length > itemsPerPage">
+          <ul class="pagination justify-content-center mt-3 mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <button class="page-link" (click)="previousPage()">Previous</button>
+            </li>
+            <li
+              class="page-item"
+              *ngFor="let page of totalPagesArray"
+              [class.active]="page === currentPage"
+            >
+              <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+            </li>
+            <li
+              class="page-item"
+              [class.disabled]="currentPage === totalPagesArray.length"
+            >
+              <button class="page-link" (click)="nextPage()">Next</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    
+  
+  
+   
+  
+  
+  
+      
+    </div>
+  
+  
+  
+  
+  
+  
+  <!-- Modal -->
+  <div class="modal fade custom-transparent-modal" id="marketStandingModal" tabindex="-1" aria-labelledby="marketStandingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 class="modal-title" id="marketStandingModalLabel">Add Market Standing Certificate</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body">
+          <form [formGroup]="marketStandingCForm" (ngSubmit)="onSubmit()">
+            <div class="row text-start">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
+                <ng-select class="form-select w-auto" [items]="ManLicDdllist"
+                           bindLabel="manfacname" bindValue="licid"
+                           formControlName="mlicid"
+                           [placeholder]="marketStandingCForm.get('licid')?.value ? '' : 'Select Licence'"
+                           [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                            'border': (marketStandingCForm.get('mlicid')?.invalid && (marketStandingCForm.get('mlicid')?.dirty || marketStandingCForm.get('mlicid')?.touched))
+                              ? '1px solid #dc3545'
+                              : (marketStandingCForm.get('mlicid')?.valid && (marketStandingCForm.get('mlicid')?.dirty || marketStandingCForm.get('mlicid')?.touched))
+                                ? '1px solid #198754'
+                                : '',
+                            'box-shadow': (marketStandingCForm.get('mlicid')?.invalid && (marketStandingCForm.get('mlicid')?.dirty || marketStandingCForm.get('mlicid')?.touched))
+                              ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                              : (marketStandingCForm.get('mlicid')?.valid && (marketStandingCForm.get('mlicid')?.dirty || marketStandingCForm.get('mlicid')?.touched))
+                                ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                                : ''
+                          }"
+                          >
+                        </ng-select>
+                        <div class="text-danger mt-1">
+                          <span
+                            *ngIf="(marketStandingCForm.get('mlicid')?.touched || submitted) && marketStandingCForm.get('mlicid')?.errors?.['required']">
+                            Licence is required.
+                          </span>
+                      </div>
+              </div>
+  
+              <!-- <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="MSCissuingauthority" placeholder="Enter Issuing Authority">
+              
+              </div> -->
+  
+  
+  
+  
+  
+  
+  
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issuing Authority <span class="text-danger">*</span></label>
+              
+                <input type="text" class="form-control" placeholder="Enter Issuing Authority"
+                  formControlName="MSCissuingauthority"
+                  [ngClass]="{
+                    'is-invalid': (marketStandingCForm.get('MSCissuingauthority')?.touched || submitted) && marketStandingCForm.get('MSCissuingauthority')?.invalid,
+                    'is-valid': marketStandingCForm.get('MSCissuingauthority')?.valid && (marketStandingCForm.get('MSCissuingauthority')?.touched || submitted)
+                  }">
+                   <span class="text-danger"
+                   *ngIf="(marketStandingCForm.get('MSCissuingauthority')?.touched || submitted) && marketStandingCForm.get('MSCissuingauthority')?.errors?.['required']">
+                   Issuing Authority is required.
+                 </span>
+              </div>
+  
+  
+  
+  
+  
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="ISSUEDATE" [ngClass]="{
+                  'is-invalid': (marketStandingCForm.get('ISSUEDATE')?.touched || submitted) && marketStandingCForm.get('ISSUEDATE')?.invalid,
+                  'is-valid': marketStandingCForm.get('ISSUEDATE')?.valid && (marketStandingCForm.get('ISSUEDATE')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(marketStandingCForm.get('ISSUEDATE')?.touched || submitted) && marketStandingCForm.get('ISSUEDATE')?.errors?.['required']">
+                 Issue Date is required.
+               </span>
+              </div>
+  
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mstartdate" [ngClass]="{
+                  'is-invalid': (marketStandingCForm.get('mstartdate')?.touched || submitted) && marketStandingCForm.get('mstartdate')?.invalid,
+                  'is-valid': marketStandingCForm.get('mstartdate')?.valid && (marketStandingCForm.get('mstartdate')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(marketStandingCForm.get('mstartdate')?.touched || submitted) && marketStandingCForm.get('mstartdate')?.errors?.['required']">
+                 Start Date is required.
+               </span>
+              </div>
+  
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mEXPDate" [ngClass]="{
+                  'is-invalid': (marketStandingCForm.get('mEXPDate')?.touched || submitted) && marketStandingCForm.get('mEXPDate')?.invalid,
+                  'is-valid': marketStandingCForm.get('mEXPDate')?.valid && (marketStandingCForm.get('mEXPDate')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(marketStandingCForm.get('mEXPDate')?.touched || submitted) && marketStandingCForm.get('mEXPDate')?.errors?.['required']">
+                 Valid Date is required.
+               </span>
+              </div>
+  
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Upload Certificate<span class="text-danger">*</span></label>
+                <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)" 
+                formControlName="Files" [ngClass]="{
+                  'is-invalid': (marketStandingCForm.get('Files')?.touched || submitted) && marketStandingCForm.get('Files')?.invalid,
+                  'is-valid': marketStandingCForm.get('Files')?.valid && (marketStandingCForm.get('Files')?.touched || submitted)
+                }" />
+        
+        <span class="text-danger"
+        *ngIf="(marketStandingCForm.get('Files')?.touched || submitted) && marketStandingCForm.get('Files')?.errors?.['required']">
+        Please upload the document.
+        </span>
+              </div>
+  
+              <div class="text-center mt-4 mb-1">
+                <button type="submit" class="btn btn-primary px-4" [disabled]="!marketStandingCForm.valid">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  
+  <ng-template class=" " #itemDetailsModal let-modal  >
+      <div class="row align-items-center p-2 m-2 ">
+        <div class="col-lg-6 col-md-8">
+          <!-- <h1>AS Completed Details</h1> -->
+          <h1 class="text-info-emphasis">Details</h1>
+        </div>
+        <div class="col-lg-6 col-md-4 text-end">
+          <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="" mat-dialog-content>
+        <div class="row card shadow card-body ">
+             
+                  <div class="card-body">
+                      <div class="row border mb-1">
+                          <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                              <strong>Reports : Market Standing Item Details</strong>
+                          </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12 table-container mb-4">
+    
+    
+                      
+                   
+                          <div class="d-flex justify-content-between align-items-center mb-3">
+    
+    
+    
+                            
+                            <div class="filter-field flex-grow-1">
+                              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter2($event)">
+                            </div>
+                            <div class="export-menu-container">
+                              <button mat-button [matMenuTriggerFor]="exportMenuPPI"class="btn btn-sm btn-secondary">Export</button>
+                              <mat-menu #exportMenuPPI="matMenu">
+                                <button mat-menu-item
+                                  (click)="exporter.exportTable('xlsx', { fileName: 'MarketStandingItemDetails_', sheet: 'MarketStandingItemDetails_', Props: { Author: 'cgmsc' }})">Excel</button>
+                                <button mat-menu-item (click)="exportToPDF2()">PDF</button>
+                              </mat-menu>
+                            </div>
+                          </div>
+                    
+                          <div class="table-responsive">
+                            <table  mat-table matTableExporter [dataSource]="dataSource2" #exporter="matTableExporter" matSort #sort1="matSort">
+                          
+  <!-- S.No Column -->
+  <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+      <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+    </ng-container>
+    
+    <!-- fileid -->
+    <ng-container matColumnDef="fileid">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> File ID </th>
+      <td mat-cell *matCellDef="let element"> {{ element.fileid }} </td>
+    </ng-container>
+    
+    <!-- gstper -->
+    <ng-container matColumnDef="gstper">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> GST (%) </th>
+      <td mat-cell *matCellDef="let element"> {{ element.gstper }} </td>
+    </ng-container>
+    
+    <!-- hsncode -->
+    <ng-container matColumnDef="hsncode">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> HSN Code </th>
+      <td mat-cell *matCellDef="let element"> {{ element.hsncode }} </td>
+    </ng-container>
+    
+    <!-- itemcode -->
+    <ng-container matColumnDef="itemcode">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Code </th>
+      <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+    </ng-container>
+    
+    <!-- itemid -->
+    <ng-container matColumnDef="itemid">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Item ID </th>
+      <td mat-cell *matCellDef="let element"> {{ element.itemid }} </td>
+    </ng-container>
+    
+    <!-- itemname -->
+    <ng-container matColumnDef="itemname">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+      <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+    </ng-container>
+    
+    <!-- itemtypename -->
+    <ng-container matColumnDef="itemtypename">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Type </th>
+      <td mat-cell *matCellDef="let element"> {{ element.itemtypename }} </td>
+    </ng-container>
+    
+    <!-- mcategory -->
+    <ng-container matColumnDef="mcategory">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+      <td mat-cell *matCellDef="let element"> {{ element.mcategory }} </td>
+    </ng-container>
+    
+    <!-- pageno -->
+    <ng-container matColumnDef="pageno">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Page No </th>
+      <td mat-cell *matCellDef="let element"> {{ element.pageno }} </td>
+    </ng-container>
+    
+    <!-- ppcid -->
+    <ng-container matColumnDef="ppcid">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> PPC ID </th>
+      <td mat-cell *matCellDef="let element"> {{ element.ppcid }} </td>
+    </ng-container>
+    
+    <!-- shortname -->
+    <ng-container matColumnDef="shortname">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Short Name </th>
+      <td mat-cell *matCellDef="let element"> {{ element.shortname }} </td>
+    </ng-container>
+    
+    <!-- stndbatchqty -->
+    <ng-container matColumnDef="stndbatchqty">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Std Batch Qty </th>
+      <td mat-cell *matCellDef="let element"> {{ element.stndbatchqty }} </td>
+    </ng-container>
+    
+    <!-- strength -->
+    <ng-container matColumnDef="strength">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Strength </th>
+      <td mat-cell *matCellDef="let element"> {{ element.strength }} </td>
+    </ng-container>
+    
+    <!-- unit -->
+    <ng-container matColumnDef="unit">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+      <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+    </ng-container>
+    
+    <!-- Header Row -->
+    <tr mat-header-row *matHeaderRowDef="[
+      'sno',  'gstper', 'hsncode', 'itemcode',  'itemname',
+      'itemtypename', 'mcategory', 'pageno', 'shortname',
+      'stndbatchqty', 'strength', 'unit'
+    ]"></tr>
+    
+    <!-- Data Rows -->
+    <tr mat-row *matRowDef="let row; columns: [
+      'sno',  'gstper', 'hsncode', 'itemcode',  'itemname',
+      'itemtypename', 'mcategory', 'pageno', 'shortname',
+      'stndbatchqty', 'strength', 'unit'
+    ];"></tr>
+      
+                          
+                            </table>
+                          </div>
+                           
+                          <mat-paginator #paginator1 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                        </div>
+                  </div>
+            
+                 
+                  
+              
+                  
+              
+                </div>  
+        
+         
+        
+            
+        
+        
+    
+    
+    
+        </div>
+    
+    
+      
+        <div class="d-grid gap-2 col-12 mx-auto  m-2">
+          <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+            <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+              aria-hidden="true">
+              exit_to_app
+            </mat-icon>
+          </button>
+        </div>
+      </ng-template>
+  
+  
+  
+  
+  
+       
+    <!-- modal -->
+    <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content border-0 shadow-none">
+          <div class="modal-header bg-dark text-white py-2 px-3">
+            <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-0">
+            <iframe
+              [src]="sanitizedPdfUrl"
+              class="pdf-frame"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>

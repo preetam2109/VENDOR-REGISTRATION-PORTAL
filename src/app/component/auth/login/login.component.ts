@@ -613,7 +613,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
 
 
 async handleCgmsclLogin() {
-  
+  debugger
   // Clear storage
   sessionStorage.clear();
   localStorage.clear();
