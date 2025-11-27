@@ -342,6 +342,7 @@
 
                                                     <td mat-cell *matCellDef="let element" class="text-center">
                                                         <span class="d-flex  flex-row-reverse align-items-center">
+
                                                             <div class="form-check text-center">
                                                                 <input class="form-check-input " type="radio"
                                                                     name="flexRadioDefault" id="iaccept1"
@@ -351,6 +352,17 @@
                                                                 <label class="form-check-label"
                                                                     [for]="'status-yes-' + element.atid">Yes</label>
                                                                 <!-- <label class="form-check-label " for="flexRadioDefault1">
+
+                                                        <div class="form-check text-center">
+                                                        <input class="form-check-input " type="radio" name="flexRadioDefault" id="iaccept1"
+                                                        [name]="'status-' + element.bankaccountid"          
+                                                        [id]="'status-yes-' + element.bankaccountid"
+                                                        value="Y"
+                                                        [(ngModel)]="element.ISAPPROVE"
+                                                        >
+                                                        <label class="form-check-label" [for]="'status-yes-' + element.bankaccountid">Yes</label>
+                                                        <!-- <label class="form-check-label " for="flexRadioDefault1">
+
                                                             Accept
                                                         </label> -->
                                                             </div>

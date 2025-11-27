@@ -309,7 +309,7 @@ refreshMatTable() {
     //#region BankMandateDetail
     GETBankMandateDetail(){
       try{
-        // debugger
+        // 
         this.spinner.show();
       // this.api.Massupplieraccnos(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
       // this.vregid= params['vregid'];
@@ -353,7 +353,7 @@ refreshMatTable() {
 //  PUT_UpdateBankMandate(data: any, formData: FormData): Observable<any> {
         // https://dpdmis.in/VREGAPI/api/Registration/UpdateApprovalStatus?ISAPPROVE=N&BANKACCOUNTID=659&USERID=111&APPROVEREASON=testing
         // PUT_UpdateBankMandate(element: any) {
-        //   // debugger
+        //   // 
          
         //   if (!element.ISAPPROVE || !element.APPROVEREASON?.trim()) {
         //     this.toastr.error('Please fill all required fields before Update.', 'Error');
@@ -540,7 +540,7 @@ applyTextFilter(event: Event) {
   this.dataSource.filter = filterValue.trim().toLowerCase();
 }
 // UpdateAnnualTurnoverApproval(element: any) {
-//   // debugger
+//   // 
  
 //           // https://dpdmis.in/VREGAPI/api/Registration/UpdateAnnualTurnoverApproval?ISAPPROVE=Y&ATID=44&USERID=111&APPROVEREASON=test
 //   // if(element.Iaccept == undefined && element.Remark  == undefined){
@@ -723,7 +723,7 @@ callUpdateGSTAPI(data: any, formData: FormData) {
 
 // UpdateSupplierGSTApproval(element: any) {
 //           // https://dpdmis.in/VREGAPI/api/Registration/UpdateSupplierGSTApproval?ISAPPROVE=Y&GSTID=656&USERID=333&APPROVEREASON=test
-//   // debugger
+//   // 
 //   // if(element.Iaccept == undefined && element.Remark  == undefined){
 //   //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 //   //   return;
@@ -849,7 +849,7 @@ callGSTReturnUpdateAPI(data: any, formData: FormData) {
 
 // UpdateGSTReturnApproval(element: any) {
 //           // https://dpdmis.in/VREGAPI/api/Registration/UpdateGSTReturnApproval?ISAPPROVE=Y&RETID=13&USERID=111&APPROVEREASON=test	
-//   // debugger
+//   // 
 //   // if(element.Iaccept == undefined && element.Remark  == undefined){
 //   //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 //   //   return;
@@ -976,7 +976,7 @@ callTechnicalDetailsUpdateAPI(data: any, formData: FormData) {
 }
 
 //     PUT_TechnicalDetails(element: any) {
-// // debugger
+// // 
 // // if(element.Iaccept == undefined && element.Remark  == undefined){
 // //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 // //   return;
@@ -1119,7 +1119,7 @@ callComplianceVerificationAPI(data: any, formData: FormData) {
 
 // https://dpdmis.in/VREGAPI/api/Registration/COMPlinceVerification?mWHOID=31&Iaccept=N&Remarks=dsf&userID=2654
 // PUT_COMPlinceVerification(element: any) {
-//   // debugger
+//   // 
 //   // if(element.Iaccept == undefined && element.Remar k  == undefined){
 //   //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 //   //   return;
@@ -1255,7 +1255,7 @@ callGCPVerificationAPI(data: any, formData: FormData) {
 
 
 // PUT_GCPVerification(element:any){
-//   // debugger
+//   // 
 // // if(element.Iaccept == undefined && element.Remark  == undefined){
 // //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 // //   return;

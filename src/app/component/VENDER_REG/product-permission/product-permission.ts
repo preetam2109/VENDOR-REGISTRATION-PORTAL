@@ -347,14 +347,14 @@ formatDate(dateString: string): string {
   
 
   getLicenceDatesById(licid: any) {
-debugger
+
     const supplierId = sessionStorage.getItem('facilityid');
     const vregid = sessionStorage.getItem('vregid');
   
     this.api.getmANUFACLICDetails(supplierId, vregid).subscribe((res: any[]) => {
   
       const selectedLic = res.find(item => item.licid == licid);
-  debugger
+  
       if (selectedLic) {
         // Convert dd-mm-yyyy → yyyy-mm-dd
         const issue = this.formatToInputDate(selectedLic.issuedate);

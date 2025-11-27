@@ -177,12 +177,12 @@ this.GetPovLicenceDetails();
   }
 
   setApproval(element: any, value: 'Y' | 'N') {
-    debugger
+    
     element.approval = value; // store selected value in row
   }
   
   saveRow(element: any) {
-    debugger;
+    ;
   
     const mPROVID = element.provid;     // provid from row
     const Iaccept = element.approval;   // 'Y' or 'N'

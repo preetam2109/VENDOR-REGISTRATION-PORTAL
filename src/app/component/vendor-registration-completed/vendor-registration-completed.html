@@ -397,7 +397,7 @@
                         'authSigEmailId','status','action' -->
                         <ng-container matColumnDef="pancardno">
                           <th mat-header-cell *matHeaderCellDef mat-sort-header>PAN No</th>
-                          <td mat-cell *matCellDef="let element" class="text-center"> {{element.pancardno}} </td>
+                          <td mat-cell *matCellDef="let element" class="text-center" (click)="loadVendorDetails(element.supplierid)" style="color: rgb(50, 50, 249);"> {{element.pancardno}} </td>
                         </ng-container>
                         <ng-container matColumnDef="authName">
                           <th mat-header-cell *matHeaderCellDef mat-sort-header>Authorized Representative Name</th>
@@ -449,12 +449,12 @@
                           <td mat-cell *matCellDef="let element" class="text-center">
                             <span class="d-flex  flex-row-reverse p-2 ">
                               <button
-                                class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                class="btn btn-sm text-dark align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
                                 mat-button (click)="onButtonClick(element.vregid,element.supplierid)">
                                 <!-- <i class="bi bi-pencil-square text-primary"></i> -->Finance
                               </button>
                               <button
-                                class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                class="btn btn-sm text-dark align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
                                 mat-button (click)="onButtonClickT(element.vregid,element.supplierid)">
                                 <!-- <i class="bi bi-pencil-square text-primary"></i> -->Technical
                               </button>
@@ -472,5 +472,27 @@
           </div>
           <!-- END DATA TABLE -->
       </div>
+  </div>
+</div>
+
+
+
+
+ <!-- modal -->
+ <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header bg-dark text-white py-2 px-3">
+        <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe
+          [src]="sanitizedPdfUrl"
+          class="pdf-frame"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
   </div>
 </div>

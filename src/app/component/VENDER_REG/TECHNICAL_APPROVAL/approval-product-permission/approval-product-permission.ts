@@ -140,12 +140,12 @@ export class ApprovalProductPermission {
 
 
   setApproval(element: any, value: 'Y' | 'N') {
-    debugger
+    
     element.approval = value; // store selected value in row
   }
   
   saveRow(element: any) {
-    debugger;
+    ;
   
     const mFileID = element.fileid;     // file id from row
     const Iaccept = element.approval;   // 'Y' or 'N'
@@ -423,7 +423,7 @@ formatDate(dateString: string): string {
   
 
   getLicenceDatesById(licid: any) {
-debugger
+
     const supplierId = this.SupID;
     const vregid = this.vregid;
     // this.SupID, this.vregid,
@@ -431,7 +431,7 @@ debugger
     this.api.getmANUFACLICDetails(supplierId, vregid).subscribe((res: any[]) => {
   
       const selectedLic = res.find(item => item.licid == licid);
-  debugger
+  
       if (selectedLic) {
         // Convert dd-mm-yyyy → yyyy-mm-dd
         const issue = this.formatToInputDate(selectedLic.issuedate);
