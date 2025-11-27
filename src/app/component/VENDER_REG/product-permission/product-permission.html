@@ -1,3 +1,4 @@
+
 <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
       <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
         <mat-spinner diameter="40"></mat-spinner>
@@ -299,8 +300,13 @@
                 <label class="form-label fw-bold">Issue Date <span class="text-danger">*</span></label>
               
                 <input type="date" class="form-control"
-                  formControlName="mIssueDate"
-                  [ngStyle]="{
+                  formControlName="mIssueDate"  (change)="validateDates()" [max]="today" 
+                  [ngClass]="{
+                    'is-invalid': (productPerForm.get('mIssueDate')?.touched || submitted) && productPerForm.get('mIssueDate')?.invalid,
+                    'is-valid': productPerForm.get('mIssueDate')?.valid && (productPerForm.get('mIssueDate')?.touched || submitted)
+                  }" 
+                />
+                  <!-- [ngStyle]="{
                     'border': (productPerForm.get('mIssueDate')?.invalid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
                       ? '1px solid #dc3545'
                       : (productPerForm.get('mIssueDate')?.valid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
@@ -311,8 +317,7 @@
                       : (productPerForm.get('mIssueDate')?.valid && (productPerForm.get('mIssueDate')?.dirty || productPerForm.get('mIssueDate')?.touched))
                         ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
                         : ''
-                  }"
-                />
+                  }" -->
               
                 <div class="text-danger mt-1">
                   <span *ngIf="(productPerForm.get('mIssueDate')?.touched || submitted) && productPerForm.get('mIssueDate')?.errors?.['required']">
@@ -327,8 +332,13 @@
           <label class="form-label fw-bold">Start Date <span class="text-danger">*</span></label>
         
           <input type="date" class="form-control"
-            formControlName="mStartDate"
-            [ngStyle]="{
+            formControlName="mStartDate"  (change)="validateDates()" [max]="today"
+            [ngClass]="{
+              'is-invalid': (productPerForm.get('mStartDate')?.touched || submitted) && (productPerForm.get('mStartDate')?.invalid|| starterrorMsg),
+              'is-valid': productPerForm.get('mStartDate')?.valid && (productPerForm.get('mStartDate')?.touched || submitted) && !starterrorMsg
+            }" 
+          />
+            <!-- [ngStyle]="{
               'border': (productPerForm.get('mStartDate')?.invalid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
                 ? '1px solid #dc3545'
                 : (productPerForm.get('mStartDate')?.valid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
@@ -339,13 +349,15 @@
                 : (productPerForm.get('mStartDate')?.valid && (productPerForm.get('mStartDate')?.dirty || productPerForm.get('mStartDate')?.touched))
                   ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
                   : ''
-            }"
-          />
+            }" -->
         
           <div class="text-danger mt-1">
             <span *ngIf="(productPerForm.get('mStartDate')?.touched || submitted) && productPerForm.get('mStartDate')?.errors?.['required']">
               Start Date is required.
             </span>
+          </div>
+          <div class="text-danger mt-1">
+            <p class="text-danger">{{ starterrorMsg }}</p>
           </div>
         </div>
         
@@ -355,8 +367,13 @@
           <label class="form-label fw-bold">Valid Upto <span class="text-danger">*</span></label>
         
           <input type="date" class="form-control"
-            formControlName="mVALIDITYDATE"
-            [ngStyle]="{
+            formControlName="mVALIDITYDATE"  (change)="validateDates()"
+          
+            [ngClass]="{
+              'is-invalid': (productPerForm.get('mVALIDITYDATE')?.touched || submitted) && (productPerForm.get('mVALIDITYDATE')?.invalid || validityerrorMsg),
+              'is-valid': productPerForm.get('mVALIDITYDATE')?.valid && (productPerForm.get('mVALIDITYDATE')?.touched || submitted) && !validityerrorMsg
+            }">
+              <!-- [ngStyle]="{
               'border': (productPerForm.get('mVALIDITYDATE')?.invalid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
                 ? '1px solid #dc3545'
                 : (productPerForm.get('mVALIDITYDATE')?.valid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
@@ -367,14 +384,17 @@
                 : (productPerForm.get('mVALIDITYDATE')?.valid && (productPerForm.get('mVALIDITYDATE')?.dirty || productPerForm.get('mVALIDITYDATE')?.touched))
                   ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
                   : ''
-            }"
-          />
-        
-          <div class="text-danger mt-1">
-            <span *ngIf="(productPerForm.get('mVALIDITYDATE')?.touched || submitted) && productPerForm.get('mVALIDITYDATE')?.errors?.['required']">
-              Validity Date is required.
-            </span>
+            }" -->
+            <div class="text-danger mt-1">
+              <span *ngIf="(productPerForm.get('mVALIDITYDATE')?.touched || submitted) && productPerForm.get('mVALIDITYDATE')?.errors?.['required']">
+                Validity Date is required.
+              </span>
+            </div>
+           <div class="text-danger mt-1">
+            <p class="text-danger">{{ validityerrorMsg }}</p>
           </div>
+        
+         
         </div>
         
         <div class="col-md-6 mb-3">

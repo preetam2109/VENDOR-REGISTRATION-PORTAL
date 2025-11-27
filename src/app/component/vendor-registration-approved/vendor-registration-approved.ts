@@ -30,10 +30,15 @@ import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
- imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
-    MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
-      MatTableExporterModule
+ imports: [ NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
+  MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
+    MatTableExporterModule
   ],
+//  imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
+//     MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
+//       MatTableExporterModule
+//   ],
+ 
   selector: 'app-vendor-registration-approved',
   templateUrl: './vendor-registration-approved.html',
   styleUrl: './vendor-registration-approved.css'
@@ -41,6 +46,8 @@ import Swal from 'sweetalert2';
 export class VendorRegistrationApproved {
   loadingSectionA:boolean=false;
   Remark:any;
+  url:any;
+  savedScrollPos: number = 0;
   sanitizedPdfUrl!: SafeResourceUrl;
   activeSection: string = 'A';
   isCollapsed = false;
@@ -138,6 +145,7 @@ export class VendorRegistrationApproved {
     ];
    vregid:any;
    SupID:any;
+   selectedTabIndex: number = 0;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
     private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,private route: ActivatedRoute,private datePipe: DatePipe
   ){
@@ -180,23 +188,24 @@ export class VendorRegistrationApproved {
       } catch {
         return '-';
       }
-      // if (!dateString) return '-';
-    
-      // // 26-NOV-25 → 26-NOV-2025
-      // const parts = dateString.split(' ');
-      // let datePart = parts[0]; // 26-NOV-25
-      // const timePart = parts[1]; // 05.39.44.839369000
-      // const ampm = parts[2];     // AM
-    
-      // // Fix date year
-      // const [day, mon, year] = datePart.split('-');
-      // const fullYear = '20' + year;
-      // const dateFormatted = `${day}-${mon}-${fullYear} ${timePart.replace(/\./g, ':')} ${ampm}`;
-    
-      // const d = new Date(dateFormatted);
-      // return isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB'); // dd/MM/yyyy
   }
-    
+  ngAfterViewInit() {
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    // this.dataSource1.paginator = this.paginator1;
+    // this.dataSource1.sort = this.sort1;
+    // this.dataSource2.paginator = this.paginator2;
+    // this.dataSource2.sort = this.sort2;
+    // this.dataSource3.paginator = this.paginator3;
+    // this.dataSource3.sort = this.sort3;
+    // this.dataSource4.paginator = this.paginator4;
+    // this.dataSource4.sort = this.sort4;
+    // this.dataSource5.paginator = this.paginator5;
+    // this.dataSource5.sort = this.sort5;
+    // this.dataSource6.paginator = this.paginator6;
+    // this.dataSource6.sort = this.sort6;
+ 
+  }
 ngOnInit() {
   this.route.queryParams.subscribe(params => {
     this.vregid= params['vregid'];
@@ -215,7 +224,86 @@ ngOnInit() {
   this.GetComplienceCertificateDetails();
   this.GetGCPDetails();
 
+  const modalEl = document.getElementById('pdfModal2');
+
+  modalEl?.addEventListener('hidden.bs.modal', () => {
+    // setTimeout(() => {
+    
+    // }, 50);
+    this.refreshMatTable();
+  });
+ 
+
+
 }
+
+selectedTabValue(event: any): void {
+  // debugger;
+  this.selectedTabIndex = event.index;
+  if (this.selectedTabIndex === 0) {
+    // this.GETBankMandateDetail();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource1.paginator = this.paginator1;
+    this.dataSource2.sort = this.sort2;
+    this.dataSource2.paginator = this.paginator2;
+    this.dataSource2.sort = this.sort2;
+    this.dataSource3.paginator = this.paginator3;
+    this.dataSource3.sort = this.sort3;
+  } 
+  if (this.selectedTabIndex === 1) {
+      // this.GetAnnualTurnover();
+    this.dataSource4.paginator = this.paginator4;
+    this.dataSource4.sort = this.sort4;
+  } 
+  if (this.selectedTabIndex === 2) {
+    this.dataSource5.paginator = this.paginator5;
+    this.dataSource5.sort = this.sort5;
+    //   this.GETMassuppliergstDetails();
+  } 
+  if (this.selectedTabIndex === 3) {
+    this.dataSource6.paginator = this.paginator6;
+    this.dataSource6.sort = this.sort6;
+    // this.GstReturnDetails();
+  } 
+  //  else {
+  // }
+}
+refreshMatTable() {
+  // this.GETBankMandateDetail();
+//  debugger;
+  setTimeout(() => {
+    if (this.dataSource) {
+      // this.dataSource1.paginator = this.paginator1;
+      // this.dataSource1.sort = this.sort1;
+      // console.log('this.url2=:',this.url);
+      // this.url='';
+      // console.log('this.url3=:',this.url);
+      window.URL.revokeObjectURL(this.url);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.dataSource1.paginator = this.paginator1;
+      this.dataSource1.sort = this.sort1;   
+      this.dataSource2.paginator = this.paginator2;
+      this.dataSource2.sort = this.sort2; 
+      this.dataSource3.paginator = this.paginator3;
+      this.dataSource3.sort = this.sort3; 
+      this.dataSource4.paginator = this.paginator4;
+      this.dataSource4.sort = this.sort4; 
+      this.dataSource5.paginator = this.paginator5;
+      this.dataSource5.sort = this.sort5;
+      this.dataSource6.paginator = this.paginator6;
+      this.dataSource6.sort = this.sort6;  
+      this.cdr.detectChanges();
+    
+    }
+    // setTimeout(() => {
+    //   window.scrollTo(0, this.savedScrollPos);
+    // }, 10);
+    
+  }, 200);
+}
+  
 
 
     //#region BankMandateDetail
@@ -237,7 +325,7 @@ ngOnInit() {
                 sno: index + 1,
               })
             );
-            console.log('BankMandateDetail=:', this.dispatchData1);
+            // console.log('BankMandateDetail=:', this.dispatchData1);
             this.dataSource1.data = this.dispatchData1;
             this.dataSource1.paginator = this.paginator1;
             this.dataSource1.sort = this.sort1;
@@ -350,11 +438,12 @@ ngOnInit() {
         
 
     openmarqModal(pdfUrl: string): void {
-     
+      // debugger;
+      // this.savedScrollPos = window.scrollY; 
       this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
       document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
     
-      const modalEl = document.getElementById('pdfModal')!;
+      const modalEl = document.getElementById('pdfModal2')!;
       document.body.appendChild(modalEl);
       (modalEl as HTMLElement).style.zIndex = '99999';
     
@@ -364,23 +453,25 @@ ngOnInit() {
         focus: true
       });
       modal.show();
+      
       this.loadingSectionA=false;
+    
     }
     DownloadFileWithName(mFilePath: string, mFileName: string) {
       this.loadingSectionA=true;
-  
-      // Encode file path and file name to handle special characters (like spaces, \ etc.)
+      debugger;
       const encodedPath = encodeURIComponent(mFilePath);
       const encodedName = encodeURIComponent(mFileName);
     
-      // Build dynamic API URL
       const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
     
       this.api.DownloadFileWithName(apiUrl).subscribe({
         next: (res: Blob) => {
           const blob = new Blob([res], { type: 'application/pdf' });
-          const url = window.URL.createObjectURL(blob);
-          this.openmarqModal(url);
+          this.url = window.URL.createObjectURL(blob);
+          this.openmarqModal(this.url);
+          // console.log('this.url1=:',this.url);
+          // console.log('resurl=:',res);
           // Create a temporary link element for download
           // const a = document.createElement('a');
           // a.href = url;
@@ -388,7 +479,7 @@ ngOnInit() {
           // a.click();
     
           // // Clean up URL object after use
-          // window.URL.revokeObjectURL(url);
+          
         },
         error: (err) => {
           this.loadingSectionA=false;
@@ -810,7 +901,7 @@ callGSTReturnUpdateAPI(data: any, formData: FormData) {
             );
             // this.TechnicalDetailsData=res;
             // this.TechnicalDetails=this.dispatchData;
-            // console.log('TechnicalDetails=:', this.dispatchData4);
+            console.log('TechnicalDetails=:', this.dispatchData4);
             this.dataSource4.data = this.dispatchData4;
             this.dataSource4.paginator = this.paginator4;
             this.dataSource4.sort = this.sort4;

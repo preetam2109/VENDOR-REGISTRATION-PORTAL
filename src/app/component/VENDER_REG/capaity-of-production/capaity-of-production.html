@@ -471,7 +471,7 @@
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="ISSUEDATE" [ngClass]="{
+              <input type="date" class="form-control" formControlName="ISSUEDATE" (change)="validateDates()" [max]="today" [ngClass]="{
                 'is-invalid': (marketStandingCForm.get('ISSUEDATE')?.touched || submitted) && marketStandingCForm.get('ISSUEDATE')?.invalid,
                 'is-valid': marketStandingCForm.get('ISSUEDATE')?.valid && (marketStandingCForm.get('ISSUEDATE')?.touched || submitted)
               }">
@@ -483,26 +483,34 @@
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mstartdate" [ngClass]="{
-                'is-invalid': (marketStandingCForm.get('mstartdate')?.touched || submitted) && marketStandingCForm.get('mstartdate')?.invalid,
-                'is-valid': marketStandingCForm.get('mstartdate')?.valid && (marketStandingCForm.get('mstartdate')?.touched || submitted)
+              <input type="date" class="form-control" formControlName="mstartdate" (change)="validateDates()" [max]="today"
+               [ngClass]="{
+                'is-invalid': (marketStandingCForm.get('mstartdate')?.touched || submitted) && (marketStandingCForm.get('mstartdate')?.invalid ||starterrorMsg),
+                'is-valid': marketStandingCForm.get('mstartdate')?.valid && (marketStandingCForm.get('mstartdate')?.touched || submitted)&& !starterrorMsg
               }">
                <span class="text-danger"
                *ngIf="(marketStandingCForm.get('mstartdate')?.touched || submitted) && marketStandingCForm.get('mstartdate')?.errors?.['required']">
                Start Date is required.
              </span>
+             <div class="text-danger mt-1">
+              <p class="text-danger">{{ starterrorMsg }}</p>
+            </div>
             </div>
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mEXPDate" [ngClass]="{
-                'is-invalid': (marketStandingCForm.get('mEXPDate')?.touched || submitted) && marketStandingCForm.get('mEXPDate')?.invalid,
-                'is-valid': marketStandingCForm.get('mEXPDate')?.valid && (marketStandingCForm.get('mEXPDate')?.touched || submitted)
+              <input type="date" class="form-control" formControlName="mEXPDate" (change)="validateDates()"
+               [ngClass]="{
+                'is-invalid': (marketStandingCForm.get('mEXPDate')?.touched || submitted) && (marketStandingCForm.get('mEXPDate')?.invalid|| validityerrorMsg),
+                'is-valid': marketStandingCForm.get('mEXPDate')?.valid && (marketStandingCForm.get('mEXPDate')?.touched || submitted)&& !validityerrorMsg
               }">
                <span class="text-danger"
                *ngIf="(marketStandingCForm.get('mEXPDate')?.touched || submitted) && marketStandingCForm.get('mEXPDate')?.errors?.['required']">
                Valid Date is required.
              </span>
+             <div class="text-danger mt-1">
+              <p class="text-danger">{{ validityerrorMsg }}</p>
+            </div>
             </div>
 
             <div class="col-md-6 mb-3">

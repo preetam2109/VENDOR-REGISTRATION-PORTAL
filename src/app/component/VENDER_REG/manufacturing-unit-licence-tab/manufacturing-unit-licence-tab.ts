@@ -29,15 +29,16 @@ declare var bootstrap: any;
   styleUrl: './manufacturing-unit-licence-tab.css'
 })
 export class ManufacturingUnitLicenceTab {
-
+  today: string = new Date().toISOString().split("T")[0];
+  errorMsg:any;
+  validityerrorMsg:any;
+  starterrorMsg:any;
   isCollapsed = false;
   isCollapsed1 = true;
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
   submitted = false;
-
-
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
@@ -1007,7 +1008,33 @@ onFileSelectedRetention(event: any) {
   }
   
 
-
+  validateDates() {
+    // debugger;
+      const start = new Date(this.licForm.value.mStartDate);
+      const issue = new Date(this.licForm.value.mISSUEDATE);
+      const validity = new Date(this.licForm.value.mVALIDITYDATE);
+      this.validityerrorMsg = "";
+      this.starterrorMsg = "";
+    
+      // Rule 1: Start Date must be >= Issue Date
+      if (start < issue) {
+        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+      if (validity < start) {
+        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
+        return false;
+      }
+    
+      if (validity < issue) {
+        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      return true;
+    }
   
 
 

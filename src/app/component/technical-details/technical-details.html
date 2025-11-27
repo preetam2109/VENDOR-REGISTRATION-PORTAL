@@ -467,23 +467,20 @@
     </div>
 </div> -->
 
-<div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
-      <div class="modal-content border-0 shadow-none">
-        <div class="modal-header bg-dark text-white py-2 px-3">
-          <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body p-0">
-          <iframe
-            [src]="sanitizedPdfUrl"
-            class="pdf-frame"
-            allowfullscreen
-          ></iframe>
-        </div>
+<div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header bg-dark text-white py-2 px-3">
+        <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe [src]="sanitizedPdfUrl" class="pdf-frame" allowfullscreen></iframe>
       </div>
     </div>
   </div>
+</div>
 
 
   <!-- <div class="col-12 col-md-12 p-2">

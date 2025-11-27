@@ -370,7 +370,8 @@
                 <!-- Issue Date -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-                  <input type="date" class="form-control" formControlName="mISSUEDATE" [ngClass]="{
+                  <input type="date" class="form-control" formControlName="mISSUEDATE" (change)="validateDates()" [max]="today" 
+                   [ngClass]="{
                     'is-invalid': (licForm.get('mISSUEDATE')?.touched || submitted) && licForm.get('mISSUEDATE')?.invalid,
                     'is-valid': licForm.get('mISSUEDATE')?.valid && (licForm.get('mISSUEDATE')?.touched || submitted)
                   }">
@@ -386,14 +387,29 @@
                 <!-- Start Date -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-                  <input type="date" class="form-control" formControlName="mStartDate" [ngClass]="{
+                  <input type="date" class="form-control" formControlName="mStartDate" (change)="validateDates()" [max]="today" 
+                  [ngClass]="{
+                    'is-invalid': (licForm.get('mStartDate')?.touched || submitted) && (licForm.get('mStartDate')?.invalid || starterrorMsg),
+                    'is-valid': licForm.get('mStartDate')?.valid && (licForm.get('mStartDate')?.touched || submitted) && !starterrorMsg
+                  }">
+                  <!-- [ngClass]="{
                     'is-invalid': (licForm.get('mStartDate')?.touched || submitted) && licForm.get('mStartDate')?.invalid,
                     'is-valid': licForm.get('mStartDate')?.valid && (licForm.get('mStartDate')?.touched || submitted)
-                  }">
+                  }"> -->
+                   <!-- [ngClass]="{
+                    'is-invalid': 
+                       (mEXPDateee.touched || GCPForm.submitted) && (mEXPDateee.invalid || starterrorMsg),
+            
+                    'is-valid': 
+                    mEXPDateee.valid && (mEXPDateee.touched || GCPForm.submitted) && !starterrorMsg
+                 }"> -->
                    <span class="text-danger"
                    *ngIf="(licForm.get('mStartDate')?.touched || submitted) && licForm.get('mStartDate')?.errors?.['required']">
                    Start Date is required.
                  </span>
+                 <div class="text-danger mt-1">
+                  <p class="text-danger">{{ starterrorMsg }}</p>
+                </div>
                   <!-- <small class="text-danger" *ngIf="licForm.get('mStartDate')?.touched && licForm.get('mStartDate')?.invalid">
                     Start Date is required.
                   </small> -->
@@ -402,14 +418,18 @@
                 <!-- Validity Date -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">End Date<span class="text-danger">*</span></label>
-                  <input type="date" class="form-control" formControlName="mVALIDITYDATE" [ngClass]="{
-                    'is-invalid': (licForm.get('mVALIDITYDATE')?.touched || submitted) && licForm.get('mVALIDITYDATE')?.invalid,
-                    'is-valid': licForm.get('mVALIDITYDATE')?.valid && (licForm.get('mVALIDITYDATE')?.touched || submitted)
+                  <input type="date" class="form-control" formControlName="mVALIDITYDATE" (change)="validateDates()"
+                  [ngClass]="{
+                    'is-invalid': (licForm.get('mVALIDITYDATE')?.touched || submitted) && (licForm.get('mVALIDITYDATE')?.invalid ||validityerrorMsg),
+                    'is-valid': licForm.get('mVALIDITYDATE')?.valid && (licForm.get('mVALIDITYDATE')?.touched || submitted) && !validityerrorMsg
                   }">
                    <span class="text-danger"
                    *ngIf="(licForm.get('mVALIDITYDATE')?.touched || submitted) && licForm.get('mVALIDITYDATE')?.errors?.['required']">
                    End Date  is required.
                  </span>
+                 <div class="text-danger mt-1">
+                  <p class="text-danger">{{ validityerrorMsg }}</p>
+                  </div>
                   <!-- <small class="text-danger"
                     *ngIf="licForm.get('mVALIDITYDATE')?.touched && licForm.get('mVALIDITYDATE')?.invalid">
                     End Date is required.

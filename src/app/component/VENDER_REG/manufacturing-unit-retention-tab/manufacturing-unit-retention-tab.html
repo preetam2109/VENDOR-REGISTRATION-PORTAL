@@ -1,6 +1,7 @@
 
   
   <!-- Retention page -->
+
   <div class="">
     <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
         <mat-spinner diameter="40"></mat-spinner>
@@ -280,7 +281,8 @@
               <!-- Issue Date -->
       <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-        <input type="date" class="form-control" formControlName="mISSUEDATE"  [ngClass]="{
+        <input type="date" class="form-control" formControlName="mISSUEDATE" (change)="validateDates()" [max]="today" 
+        [ngClass]="{
           'is-invalid': (retForm.get('mISSUEDATE')?.touched || submitted) && retForm.get('mISSUEDATE')?.invalid,
           'is-valid': retForm.get('mISSUEDATE')?.valid && (retForm.get('mISSUEDATE')?.touched || submitted)
         }">
@@ -296,14 +298,18 @@
       <!-- Start Date -->
       <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-        <input type="date" class="form-control" formControlName="mStartDate" [ngClass]="{
-          'is-invalid': (retForm.get('mStartDate')?.touched || submitted) && retForm.get('mStartDate')?.invalid,
-          'is-valid': retForm.get('mStartDate')?.valid && (retForm.get('mStartDate')?.touched || submitted)
+        <input type="date" class="form-control" formControlName="mStartDate"  (change)="validateDates()" [max]="today" 
+         [ngClass]="{
+          'is-invalid': (retForm.get('mStartDate')?.touched || submitted) && (retForm.get('mStartDate')?.invalid || starterrorMsg),
+          'is-valid': retForm.get('mStartDate')?.valid && (retForm.get('mStartDate')?.touched || submitted) && !starterrorMsg
         }">
          <span class="text-danger"
          *ngIf="(retForm.get('mStartDate')?.touched || submitted) && retForm.get('mStartDate')?.errors?.['required']">
          Start Date is required.
        </span>
+       <div class="text-danger mt-1">
+        <p class="text-danger">{{ starterrorMsg }}</p>
+      </div>
            <!-- >
         <small class="text-danger" *ngIf="retForm.get('mStartDate')?.touched && retForm.get('mStartDate')?.invalid">
           Start Date is required.
@@ -313,14 +319,18 @@
       <!-- Validity Date -->
       <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Valid Upto<span class="text-danger">*</span></label>
-        <input type="date" class="form-control" formControlName="mVALIDITYDATE" [ngClass]="{
-          'is-invalid': (retForm.get('mVALIDITYDATE')?.touched || submitted) && retForm.get('mVALIDITYDATE')?.invalid,
-          'is-valid': retForm.get('mVALIDITYDATE')?.valid && (retForm.get('mVALIDITYDATE')?.touched || submitted)
+        <input type="date" class="form-control" formControlName="mVALIDITYDATE" (change)="validateDates()"
+        [ngClass]="{
+          'is-invalid': (retForm.get('mVALIDITYDATE')?.touched || submitted) && (retForm.get('mVALIDITYDATE')?.invalid || validityerrorMsg),
+          'is-valid': retForm.get('mVALIDITYDATE')?.valid && (retForm.get('mVALIDITYDATE')?.touched || submitted) && !validityerrorMsg
         }">
          <span class="text-danger"
          *ngIf="(retForm.get('mVALIDITYDATE')?.touched || submitted) && retForm.get('mVALIDITYDATE')?.errors?.['required']">
          Valid Upto date is required.
        </span>
+       <div class="text-danger mt-1">
+        <p class="text-danger">{{ validityerrorMsg }}</p>
+        </div>
         <!-- <small class="text-danger" *ngIf="retForm.get('mVALIDITYDATE')?.touched && retForm.get('mVALIDITYDATE')?.invalid">
           Valid Upto date is required.
         </small> -->
