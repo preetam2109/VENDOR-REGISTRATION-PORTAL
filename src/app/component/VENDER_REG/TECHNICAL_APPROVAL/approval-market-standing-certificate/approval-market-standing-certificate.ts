@@ -20,21 +20,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
+
 declare var bootstrap: any;
 @Component({
-  selector: 'app-capaity-of-production',
-  imports: [MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
+  selector: 'app-approval-market-standing-certificate',
   standalone:true,
-  templateUrl: './capaity-of-production.html',
-  styleUrl: './capaity-of-production.css'
+  imports: [MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
+  templateUrl: './approval-market-standing-certificate.html',
+  styleUrl: './approval-market-standing-certificate.css'
 })
-export class CapaityOfProduction {
+export class ApprovalMarketStandingCertificate {
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
 
-  today: string = new Date().toISOString().split("T")[0];
-  validityerrorMsg:any;
-  starterrorMsg:any;
+
   
 
   mSCDetailsList:any[]=[];
@@ -78,23 +79,36 @@ export class CapaityOfProduction {
   paginatedItems: any[] = [];
   searchText: string = '';
 
+  sanitizedPdfUrl!: SafeResourceUrl;
+
+
   onshowMSC:boolean=false;
+  userid:any;
+  SupID:any
 
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('sort') sort!: MatSort;
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
-  sanitizedPdfUrl!: SafeResourceUrl;
 
-  constructor(private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
+  constructor(private route: ActivatedRoute,private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
 
   }
 
   ngOnInit() {
-    this.vregid = sessionStorage.getItem('vregid');
+    this.userid=sessionStorage.getItem('userid');
+    this.route.queryParams.subscribe(params => {
+      this.vregid= params['vregid'];
+      this.SupID=  params['supid'];
+  
+      console.log("VRegID:",  this.vregid);
+      console.log("SupID:",  this.SupID);
+      // console.log("VRegID:", params['vregid']);
+      // console.log("SupID:", params['supid']);
+    });
     this.GetLicenceTypes()
     this.GetMasitemmaincategoryDDL()
     this.GetMasitemTypeDDL();
@@ -106,12 +120,14 @@ export class CapaityOfProduction {
     this.marketStandingCForm = this.fb.group({
       mlicid: ['', Validators.required],         // Category
       mVregid: [this.vregid, Validators.required],
-      mCopno: ['', Validators.required],         // Category
       ISSUEDATE: ['', Validators.required],      // Item Group
       mstartdate: ['', Validators.required],   // Licence Type
-      mEXPDate: ['', Validators.required],        // Licence
-      copissuingauthority: ['', Validators.required],        // Licence
+      mEXPDate: ['', Validators.required],
+      MSCissuingauthority:['',Validators.required],        // Licence
+
+             // Licence
       Files: [null, Validators.required],
+
     });
     this.MCCFillItemsForm = this.fb.group({
       mVregid: [this.vregid, Validators.required],
@@ -129,9 +145,74 @@ export class CapaityOfProduction {
 
   }
 
+  setApproval(element: any, value: 'Y' | 'N') {
+    debugger
+    element.approval = value; // store selected value in row
+  }
+  
+  saveRow(element: any) {
+    debugger;
+  
+    const mMSCID = element.mscid;
+    const Iaccept = element.approval; // 'Y' or 'N'
+    const Remarks = element.remark || '';
+  
+    // Validation
+    if (!Iaccept) {
+      this.toastr.error("Please select YES or NO before saving.");
+      return;
+    }
+    if (!Remarks) {
+      this.toastr.error("Please write remark before saving.");
+      return;
+    }
+  
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this MSC?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callMSCAPI(mMSCID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop further execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.callMSCAPI(mMSCID, Iaccept, Remarks);
+    }
+  }
+  callMSCAPI(mMSCID: any, Iaccept: string, Remarks: string) {
+    this.api.MSCVerification(mMSCID, Iaccept, Remarks, this.userid).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
+          this.toastr.success("Successfully Approved Certificate");
+        }
+        this.GetmSCDetailsList();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Error while saving.");
+      }
+    });
+  }
+  
+  
+
   onshowButtonClick(){
-    this.onshowMSC = true;
-}
+        this.onshowMSC = true;
+    }
 
   DownloadFileWithName(mFilePath: string, mFileName: string) {
    
@@ -194,6 +275,7 @@ export class CapaityOfProduction {
   }
 
 
+
   //    ngAfterViewChecked() {
   //   console.log('Form valid:', this.marketStandingCForm.valid);
   //   console.log('Form values:', this.marketStandingCForm.value);
@@ -204,7 +286,7 @@ export class CapaityOfProduction {
  
   GetmMANLICDDL() {
 
-    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'), sessionStorage.getItem('vregid'), 0).subscribe((res: any[]) => {
+    this.api.getmMANLICDDL(this.SupID, this.vregid, 0).subscribe((res: any[]) => {
       if (res && res.length > 0) {
         this.ManLicDdllist = res.map(item => ({
           licid: item.licid,
@@ -349,8 +431,8 @@ export class CapaityOfProduction {
   
 
 
-
   onSubmit() {
+    
     this.submitted = true;
   
     if (this.marketStandingCForm.invalid) {
@@ -378,16 +460,16 @@ export class CapaityOfProduction {
       mEXPDate: this.formatDate(this.marketStandingCForm.value.mEXPDate),
     };
   
-    // Step 1: Validate selected items (including COPPAGENO) BEFORE insert
+    // Step 1: Validate selected items (including MSCPAGENO) BEFORE insert
     if (this.selectedItems.length === 0) {
       this.toastr.warning('No items selected!');
       this.resetSubmitState();
       return;
     }
   
-    const invalidItems = this.selectedItems.filter(item => !item.COPPAGENO || item.COPPAGENO <= 0);
+    const invalidItems = this.selectedItems.filter(item => !item.MSCPAGENO || item.MSCPAGENO <= 0);
     if (invalidItems.length > 0) {
-      this.toastr.error('COP Page No. is required and must be ≥ 1 for all selected items. Please fill and try again.');
+      this.toastr.error('MSC Page No. is required and must be ≥ 1 for all selected items. Please fill and try again.');
       // Highlight errors in UI
       invalidItems.forEach(item => item._showErrors = true);
       this.resetSubmitState(); // Reset flags but keep form/items for retry
@@ -396,17 +478,17 @@ export class CapaityOfProduction {
   
     // All validations passed - proceed with insert
     try {
-      this.api.InsertCOP(params, formData).subscribe({
+      this.api.InsertMakrketStanding(params, formData).subscribe({
         next: (res) => {
-          // Assuming res is the COP ID (string/number); adjust if it's res.id or similar
-          const copId = res.toString(); // Coerce to string for sessionStorage
-          sessionStorage.setItem('COPID', copId);
+          // Assuming res is the MSC ID (string/number); adjust if it's res.id or similar
+          const mscId = res.toString(); // Coerce to string for sessionStorage
+          sessionStorage.setItem('mscid', mscId);
   
-          this.toastr.success('Capacity of Production Certificate saved successfully!');
+          this.toastr.success('Market Standing Certificate saved successfully!');
           console.log('API Response:', res);
   
-          // Step 2: Chain to updates using the fresh COP ID
-          this.performUpdates(copId);
+          // Step 2: Chain to updates using the fresh MSC ID
+          this.performUpdates(mscId);
         },
         error: (err) => {
           console.error('Error:', err);
@@ -421,14 +503,14 @@ export class CapaityOfProduction {
     }
   }
   
-  private performUpdates(copId: string) {
+  private performUpdates(mscId: string) {
     let completedUpdates = 0;
     const totalUpdates = this.selectedItems.length;
     let updateErrors = 0; // Track errors for final messaging
   
     this.selectedItems.forEach(item => {
       // Per-item safety check (defensive, since pre-validated)
-      if (!item.ppcid || !item.COPPAGENO || item.COPPAGENO <= 0) {
+      if (!item.ppcid || !item.MSCPAGENO || item.MSCPAGENO <= 0) {
         console.warn('⚠️ Skipping invalid item:', item);
         completedUpdates++;
         if (completedUpdates === totalUpdates) {
@@ -437,7 +519,7 @@ export class CapaityOfProduction {
         return;
       }
   
-      this.api.UpdaetCOPItems(item.ppcid, copId, item.COPPAGENO).subscribe({
+      this.api.UpdaetMSCMCCFillItems(item.ppcid, mscId, item.MSCPAGENO).subscribe({
         next: (res) => {
           console.log(`✅ Updated successfully for PPCID: ${item.ppcid}`);
           completedUpdates++;
@@ -463,7 +545,7 @@ export class CapaityOfProduction {
   }
   
   private finalizeSubmit() {
-    // Refresh main data (adjust method name if needed, e.g., GetCOPDetailsList())
+    // Refresh main data
     this.GetmSCDetailsList();
   
     // Full reset: Forms, file, selections, and item fields (but preserve list structure)
@@ -492,7 +574,7 @@ export class CapaityOfProduction {
       this.MCCFillItemsLIst.forEach(item => {
         item.selected = false; // Uncheck checkboxes
         item._showErrors = false; // Hide validation errors
-        item.COPPAGENO = null; // Reset the page no. field (matches HTML input)
+        item.MSCPAGENO = null; // Reset the page no. field (matches HTML input)
         // Add resets for other fields if present, e.g.:
         // item.otherField = null;
       });
@@ -513,11 +595,10 @@ export class CapaityOfProduction {
   
   private resetSubmitState(): void {
     this.submitted = false;
-    // this.onshowMSC = false; 
-    // Reset modal state on error
+    // this.onshowMSC = false;
+     // Reset modal state on error
     // Do NOT reset forms/selections on error—allow retry
   }
-
 
   filterTable() {
     const text = this.searchText.toLowerCase();
@@ -595,6 +676,7 @@ export class CapaityOfProduction {
 
 
   onSubmitMCCFillItemsForm() {
+   
     this.api.GETMCCFillItems(this.vregid, this.mcid, 0, 0).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {
@@ -602,7 +684,7 @@ export class CapaityOfProduction {
             this.selectedItems.map(item => [item.itemid, item])
           );
   
-          // ✅ Map API response while preserving selections and COPPAGENO etc.
+          // ✅ Map API response while preserving selections and MSCPAGENO etc.
           this.MCCFillItemsLIst = res.map(item => {
             const prev = existingSelections.get(item.itemid);
             return {
@@ -620,7 +702,7 @@ export class CapaityOfProduction {
               hsncode: item.hsncode || '',
               shortname: item.shortname || '',
               gstper: item.gstper || '',
-              COPPAGENO: prev ? prev.COPPAGENO : item.COPPAGENO || '',
+              MSCPAGENO: prev ? prev.MSCPAGENO : item.MSCPAGENO || '',
               selected: prev ? prev.selected : false,
               _showErrors: false
             };
@@ -632,7 +714,6 @@ export class CapaityOfProduction {
         } else {
           this.MCCFillItemsLIst = [];
           this.toastr.warning('⚠️ No items found for given parameters');
-
           console.warn('⚠️ No items found for given parameters');
         }
       },
@@ -673,12 +754,12 @@ applyTextFilter2(event: Event) {
 
 GetmSCDetailsList() {
   this.spinner.show();
-  this.api.GetCOPDetails(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
+  this.api.getmSCDetailsList(this.vregid,this.SupID).subscribe((res: any) => {
       this.mSCDetailsList = res.map((item: any, index: number) => ({
         ...item,
         sno: index + 1
       }));
-      console.log('With S.No:', this.mSCDetailsList);
+      console.log('IA With S.No:', this.mSCDetailsList);
       this.dataSource.data = this.mSCDetailsList;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -696,7 +777,7 @@ GetmSCDetailsList() {
 
 
 exportToPDF() {
-  
+  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
   
   // 🕒 Add title and timestamp
@@ -705,7 +786,7 @@ exportToPDF() {
   const formattedTime = now.toLocaleTimeString();
   
   doc.setFontSize(14);
-  doc.text('Capacity of Production Certificate List', 140, 10, { align: 'center' });
+  doc.text('Market Standing Certificate List', 140, 10, { align: 'center' });
   doc.setFontSize(10);
   doc.text(`Generated on: ${formattedDate} ${formattedTime}`, 140, 16, { align: 'center' });
   
@@ -722,35 +803,23 @@ exportToPDF() {
     'S.No',
     'Licence No',
     'Unit Name',
-    'COP No',
     'Issue Date',
     'Start Date',
     'Validity Date',
-    'COP ID',
-    'Vendor Reg ID',
-    'File Name',
-    'Extension',
-    'Licence ID',
-    'File Path',
-    'Count Items'
+    'Total Items',
+    'File Name'
   ];
   
   // ✅ Map table rows
   const rows = dataList.map((row: any, index: number) => [
     index + 1,
-    row.licNo || '',
-    row.unitName || '',
-    row.copNo || '',
-    row.issueDate || '',
-    row.startDate || '',
-    row.validityDate || '',
-    row.copId || '',
-    row.vRegID || '',
-    row.fileName || '',
-    row.ext || '',
-    row.licId || '',
-    row.filePath || '',
-    row.cntItems || ''
+    row.licno || '',
+    row.unitname || '',
+    row.issuedate || '',
+    row.startdate || '',
+    row.validitydate || '',
+    row.cntitems || '',
+    row.filename || ''
   ]);
   
   // 🧾 Generate the table
@@ -768,20 +837,15 @@ exportToPDF() {
       fontSize: 9,
       cellPadding: 2,
       textColor: [0, 0, 0],
-      overflow: 'linebreak'
-    },
-    columnStyles: {
-      12: { cellWidth: 60 }, // filePath column wider
     },
     margin: { top: 20, left: 10, right: 10 },
   });
   
   // 💾 Save the generated PDF
-  doc.save(`Capacity_Of_Production_List_${formattedDate}.pdf`);
+  doc.save(`Market_Standing_Certificate_List_${formattedDate}.pdf`);
 }
-
 exportToPDF2() {
-  
+  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4 sheet
 
   // 🕒 Title and Timestamp
@@ -790,7 +854,7 @@ exportToPDF2() {
   const formattedTime = now.toLocaleTimeString();
 
   doc.setFontSize(14);
-  doc.text('Capacity of Production Certificate Item Details', 140, 10, { align: 'center' });
+  doc.text('Market Standing Certificate Item Details', 140, 10, { align: 'center' });
   doc.setFontSize(10);
   doc.text(`Generated on: ${formattedDate} ${formattedTime}`, 140, 16, { align: 'center' });
 
@@ -867,7 +931,7 @@ exportToPDF2() {
 OnClickMSCCOPItemDetails(mFileID:any){
   
   this.spinner.show();
-  this.api.GetMSCCOPItemDetails(sessionStorage.getItem('vregid'),mFileID,'COP').subscribe((res: any) => {
+  this.api.GetMSCCOPItemDetails(this.vregid,mFileID,'MSC').subscribe((res: any) => {
       this.MSCCOPItemList = res.map((item: any, index: number) => ({
         ...item,
         sno: index + 1
@@ -907,35 +971,6 @@ openDialog() {
    }
 
 
-
-   validateDates() {
-    // debugger;
-     
-      const start = new Date(this.marketStandingCForm.value.mstartdate);
-      const issue = new Date(this.marketStandingCForm.value.ISSUEDATE);
-      const validity = new Date(this.marketStandingCForm.value.mEXPDate);
-      this.validityerrorMsg = "";
-      this.starterrorMsg = "";
-    
-      // Rule 1: Start Date must be >= Issue Date
-      if (start < issue) {
-        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
-      if (validity < start) {
-        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
-        return false;
-      }
-    
-      if (validity < issue) {
-        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      return true;
-    }
 
 
   }

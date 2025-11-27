@@ -20,21 +20,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 declare var bootstrap: any;
+import Swal from 'sweetalert2';
+
+
 @Component({
-  selector: 'app-capaity-of-production',
+  selector: 'app-approval-capaity-of-production',
   imports: [MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
   standalone:true,
-  templateUrl: './capaity-of-production.html',
-  styleUrl: './capaity-of-production.css'
+  templateUrl: './approval-capaity-of-production.html',
+  styleUrl: './approval-capaity-of-production.css'
 })
-export class CapaityOfProduction {
+export class ApprovalCapaityOfProduction {
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
 
-  today: string = new Date().toISOString().split("T")[0];
-  validityerrorMsg:any;
-  starterrorMsg:any;
+
   
 
   mSCDetailsList:any[]=[];
@@ -79,6 +81,8 @@ export class CapaityOfProduction {
   searchText: string = '';
 
   onshowMSC:boolean=false;
+  userid:any
+  SupID:any
 
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -87,14 +91,23 @@ export class CapaityOfProduction {
   @ViewChild('sort1') sort1!: MatSort;
   sanitizedPdfUrl!: SafeResourceUrl;
 
-  constructor(private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
+  constructor(private route: ActivatedRoute,private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
 
   }
 
   ngOnInit() {
-    this.vregid = sessionStorage.getItem('vregid');
+    this.userid=sessionStorage.getItem('userid');
+    this.route.queryParams.subscribe(params => {
+      this.vregid= params['vregid'];
+      this.SupID=  params['supid'];
+  
+      console.log("VRegID:",  this.vregid);
+      console.log("SupID:",  this.SupID);
+      // console.log("VRegID:", params['vregid']);
+      // console.log("SupID:", params['supid']);
+    });
     this.GetLicenceTypes()
     this.GetMasitemmaincategoryDDL()
     this.GetMasitemTypeDDL();
@@ -128,6 +141,75 @@ export class CapaityOfProduction {
     })
 
   }
+
+  setApproval(element: any, value: 'Y' | 'N') {
+    debugger
+    element.approval = value; // store selected value in row
+  }
+  
+  saveRow(element: any) {
+    debugger;
+  
+    const mCOPID = element.copId;
+    const Iaccept = element.approval; // 'Y' or 'N'
+    const Remarks = element.remark || '';
+  
+    // Validation
+    if (!Iaccept) {
+      this.toastr.error("Please select YES or NO before saving.");
+      return;
+    }
+    if (!Remarks) {
+      this.toastr.error("Please write remark before saving.");
+      return;
+    }
+  
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this COP?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callCOPAPI(mCOPID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop further execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.callCOPAPI(mCOPID, Iaccept, Remarks);
+    }
+  }
+  
+  
+  // API call extracted separately (cleaner)
+  callCOPAPI(mCOPID: any, Iaccept: string, Remarks: string) {
+  
+    this.api.COPVerification(mCOPID, Iaccept, Remarks, this.userid).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success('Successfully Rejected Certificate');
+        } else {
+          this.toastr.success(res);
+        }
+        this.GetmSCDetailsList();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Error while saving.");
+      }
+    });
+  
+  }
+  
 
   onshowButtonClick(){
     this.onshowMSC = true;
@@ -672,8 +754,9 @@ applyTextFilter2(event: Event) {
 }
 
 GetmSCDetailsList() {
+  
   this.spinner.show();
-  this.api.GetCOPDetails(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
+  this.api.GetCOPDetails(this.vregid,this.SupID).subscribe((res: any) => {
       this.mSCDetailsList = res.map((item: any, index: number) => ({
         ...item,
         sno: index + 1
@@ -867,7 +950,7 @@ exportToPDF2() {
 OnClickMSCCOPItemDetails(mFileID:any){
   
   this.spinner.show();
-  this.api.GetMSCCOPItemDetails(sessionStorage.getItem('vregid'),mFileID,'COP').subscribe((res: any) => {
+  this.api.GetMSCCOPItemDetails(this.vregid,mFileID,'COP').subscribe((res: any) => {
       this.MSCCOPItemList = res.map((item: any, index: number) => ({
         ...item,
         sno: index + 1
@@ -907,35 +990,6 @@ openDialog() {
    }
 
 
-
-   validateDates() {
-    // debugger;
-     
-      const start = new Date(this.marketStandingCForm.value.mstartdate);
-      const issue = new Date(this.marketStandingCForm.value.ISSUEDATE);
-      const validity = new Date(this.marketStandingCForm.value.mEXPDate);
-      this.validityerrorMsg = "";
-      this.starterrorMsg = "";
-    
-      // Rule 1: Start Date must be >= Issue Date
-      if (start < issue) {
-        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
-      if (validity < start) {
-        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
-        return false;
-      }
-    
-      if (validity < issue) {
-        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      return true;
-    }
 
 
   }

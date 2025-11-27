@@ -15,8 +15,8 @@
                   (keyup)="applyTextFilterManLic($event)" />
               </div>
               <div class="export-menu-container ms-2">
-                <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClickLICENCE()"
-                >Add <i class="bi bi-folder-plus"></i></button>
+                <!-- <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClickLICENCE()"
+                >Add <i class="bi bi-folder-plus"></i></button> -->
               </div>
             </div>
   
@@ -104,7 +104,7 @@
                   <th mat-header-cell *matHeaderCellDef>Entry Date</th>
                   <td mat-cell *matCellDef="let row">{{ row.entrydate }}</td>
                 </ng-container>
-
+                <!-- Entry Date -->
                 <ng-container matColumnDef="isaccepted">
                     <th mat-header-cell *matHeaderCellDef>Accepted</th>
                   
@@ -133,6 +133,89 @@
                   <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
                   <td mat-cell *matCellDef="let row">{{ row.isaccepteddt }}</td>
                 </ng-container>
+
+
+  <!-- APPROVED COLUMN -->
+<ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+      Approved
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+  
+      <div class="d-flex flex-column justify-content-center align-items-center gap-1">
+  
+        <!-- YES -->
+        <div class="form-check p-0 m-0">
+          <input class="form-check-input small-radio"
+                 type="radio"
+                 name="approve{{element.licid}}"
+                 [value]="'Y'"
+                 (change)="setApproval(element, 'Y')">
+          <label class="form-check-label tiny-text">YES</label>
+        </div>
+  
+        <!-- NO -->
+        <div class="form-check p-0 m-0">
+          <input class="form-check-input small-radio"
+                 type="radio"
+                 name="approve{{element.licid}}"
+                 [value]="'N'"
+                 
+                 (change)="setApproval(element, 'N')">
+          <label class="form-check-label tiny-text">NO</label>
+        </div>
+  
+      </div>
+  
+    </td>
+  </ng-container>
+  
+  
+  <!-- REMARK COLUMN -->
+  <!-- REMARK INPUT -->
+  <ng-container matColumnDef="Remark">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+      Remark
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+  
+      <textarea
+        class="form-control form-control-sm small-input mx-auto"
+        placeholder="Enter remark"
+        rows="2"
+        style=" max-width: 160px;"
+        [(ngModel)]="element.remark">
+      </textarea>
+  
+    </td>
+  </ng-container>
+  
+  
+  <!-- SAVE BUTTON -->
+  <ng-container matColumnDef="Save">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 80px;">
+      Action
+    </th>
+  
+    <td mat-cell *matCellDef="let element" class="text-center p-0">
+      <button class="btn btn-outline-primary btn-sm py-0 px-2"
+              (click)="saveRow(element)">
+        Save
+      </button>
+    </td>
+  </ng-container>
+  
+  
+
+
+
+
+
+
+
+                  
   
                 <!-- File Name -->
                 <!-- <ng-container matColumnDef="filename">
@@ -176,8 +259,13 @@
                 'lictypename',
                 'statename',
                 'entrydate',
+                'isaccepteddt',
                 'filename',
-             
+                'isaccepted',
+                'accrejremarks',
+                'action',
+                'Remark',
+                'Save'
               ]"></tr>
   
                 <tr mat-row *matRowDef="let row; columns: [
@@ -195,8 +283,13 @@
                 'lictypename',
                 'statename',
                 'entrydate',
+                'isaccepteddt',
                 'filename',
-              
+                'isaccepted',
+                'accrejremarks',
+                'action',
+                'Remark',
+                'Save'
               ]"></tr>
               </table>
             </div>
@@ -370,8 +463,7 @@
                 <!-- Issue Date -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-                  <input type="date" class="form-control" formControlName="mISSUEDATE" (change)="validateDates()" [max]="today" 
-                   [ngClass]="{
+                  <input type="date" class="form-control" formControlName="mISSUEDATE" [ngClass]="{
                     'is-invalid': (licForm.get('mISSUEDATE')?.touched || submitted) && licForm.get('mISSUEDATE')?.invalid,
                     'is-valid': licForm.get('mISSUEDATE')?.valid && (licForm.get('mISSUEDATE')?.touched || submitted)
                   }">
@@ -387,29 +479,14 @@
                 <!-- Start Date -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-                  <input type="date" class="form-control" formControlName="mStartDate" (change)="validateDates()" [max]="today" 
-                  [ngClass]="{
-                    'is-invalid': (licForm.get('mStartDate')?.touched || submitted) && (licForm.get('mStartDate')?.invalid || starterrorMsg),
-                    'is-valid': licForm.get('mStartDate')?.valid && (licForm.get('mStartDate')?.touched || submitted) && !starterrorMsg
-                  }">
-                  <!-- [ngClass]="{
+                  <input type="date" class="form-control" formControlName="mStartDate" [ngClass]="{
                     'is-invalid': (licForm.get('mStartDate')?.touched || submitted) && licForm.get('mStartDate')?.invalid,
                     'is-valid': licForm.get('mStartDate')?.valid && (licForm.get('mStartDate')?.touched || submitted)
-                  }"> -->
-                   <!-- [ngClass]="{
-                    'is-invalid': 
-                       (mEXPDateee.touched || GCPForm.submitted) && (mEXPDateee.invalid || starterrorMsg),
-            
-                    'is-valid': 
-                    mEXPDateee.valid && (mEXPDateee.touched || GCPForm.submitted) && !starterrorMsg
-                 }"> -->
+                  }">
                    <span class="text-danger"
                    *ngIf="(licForm.get('mStartDate')?.touched || submitted) && licForm.get('mStartDate')?.errors?.['required']">
                    Start Date is required.
                  </span>
-                 <div class="text-danger mt-1">
-                  <p class="text-danger">{{ starterrorMsg }}</p>
-                </div>
                   <!-- <small class="text-danger" *ngIf="licForm.get('mStartDate')?.touched && licForm.get('mStartDate')?.invalid">
                     Start Date is required.
                   </small> -->
@@ -418,18 +495,14 @@
                 <!-- Validity Date -->
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">End Date<span class="text-danger">*</span></label>
-                  <input type="date" class="form-control" formControlName="mVALIDITYDATE" (change)="validateDates()"
-                  [ngClass]="{
-                    'is-invalid': (licForm.get('mVALIDITYDATE')?.touched || submitted) && (licForm.get('mVALIDITYDATE')?.invalid ||validityerrorMsg),
-                    'is-valid': licForm.get('mVALIDITYDATE')?.valid && (licForm.get('mVALIDITYDATE')?.touched || submitted) && !validityerrorMsg
+                  <input type="date" class="form-control" formControlName="mVALIDITYDATE" [ngClass]="{
+                    'is-invalid': (licForm.get('mVALIDITYDATE')?.touched || submitted) && licForm.get('mVALIDITYDATE')?.invalid,
+                    'is-valid': licForm.get('mVALIDITYDATE')?.valid && (licForm.get('mVALIDITYDATE')?.touched || submitted)
                   }">
                    <span class="text-danger"
                    *ngIf="(licForm.get('mVALIDITYDATE')?.touched || submitted) && licForm.get('mVALIDITYDATE')?.errors?.['required']">
                    End Date  is required.
                  </span>
-                 <div class="text-danger mt-1">
-                  <p class="text-danger">{{ validityerrorMsg }}</p>
-                  </div>
                   <!-- <small class="text-danger"
                     *ngIf="licForm.get('mVALIDITYDATE')?.touched && licForm.get('mVALIDITYDATE')?.invalid">
                     End Date is required.

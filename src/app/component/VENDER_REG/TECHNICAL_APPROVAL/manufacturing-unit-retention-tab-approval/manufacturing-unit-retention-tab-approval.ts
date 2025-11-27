@@ -18,16 +18,17 @@ import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var bootstrap: any;
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-manufacturing-unit-retention-tab',
+  selector: 'app-manufacturing-unit-retention-tab-approval',
   standalone:true,
   imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
-  templateUrl: './manufacturing-unit-retention-tab.html',
-  styleUrl: './manufacturing-unit-retention-tab.css'
+  templateUrl: './manufacturing-unit-retention-tab-approval.html',
+  styleUrl: './manufacturing-unit-retention-tab-approval.css'
 })
-export class ManufacturingUnitRetentionTab {
+export class ManufacturingUnitRetentionTabApproval {
 
   isCollapsed = false;
   isCollapsed1 = true;
@@ -35,9 +36,6 @@ export class ManufacturingUnitRetentionTab {
   isCollapsed3 = true;
   isEventOpen = false;
 
-  today: string = new Date().toISOString().split("T")[0];
-  validityerrorMsg:any;
-  starterrorMsg:any;
 
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
@@ -50,6 +48,7 @@ export class ManufacturingUnitRetentionTab {
   lictypeid:any;
   stateid:any;
   vregid: any;
+  SupID: any;
 
   selectedPanFile: File | null = null;
   selectedRetFile: File | null = null;
@@ -90,13 +89,25 @@ export class ManufacturingUnitRetentionTab {
   @ViewChild('sort2') sort2!: MatSort;
   
 
-  constructor(private sanitizer: DomSanitizer,private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
+  constructor(private sanitizer: DomSanitizer,private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder,private route: ActivatedRoute){
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
     this.dataSource3 = new MatTableDataSource<any>([]);
   }
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      this.vregid= params['vregid'];
+      this.SupID=  params['supid'];
+  
+      console.log("VRegID:",  this.vregid);
+      console.log("SupID:",  this.SupID);
+      // console.log("VRegID:", params['vregid']);
+      // console.log("SupID:", params['supid']);
+    });
+
+
 
 
     this.GetLicenceTypes()
@@ -164,6 +175,72 @@ this.GetPovLicenceDetails();
 
 
   }
+
+  setApproval(element: any, value: 'Y' | 'N') {
+    debugger
+    element.approval = value; // store selected value in row
+  }
+  
+  saveRow(element: any) {
+    debugger;
+  
+    const mPROVID = element.provid;     // provid from row
+    const Iaccept = element.approval;   // 'Y' or 'N'
+    const Remarks = element.remark || '';
+  
+    // Validation
+    if (!Iaccept) {
+      this.toastr.error("Please select YES or NO before saving.");
+      return;
+    }
+    if (!Remarks) {
+      this.toastr.error("Please write remark before saving.");
+      return;
+    }
+  
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this Provisional License?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callPROVLICAPI(mPROVID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.callPROVLICAPI(mPROVID, Iaccept, Remarks);
+    }
+  }
+  callPROVLICAPI(mPROVID: any, Iaccept: string, Remarks: string) {
+    this.api.PROVLICVerification(mPROVID, Iaccept, Remarks).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
+          this.toastr.success(res);
+        }
+  
+        this.GetPovLicenceDetails();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Error while saving.");
+      }
+    });
+  }
+  
+  
 
   getMasformTypes(){
     
@@ -285,10 +362,10 @@ this.GetPovLicenceDetails();
   getManufacturingDetails() {
 
       this.spinner.show();
-      const supplierId = sessionStorage.getItem('facilityid');
+      const supplierId = this.SupID
       
     
-      this.api.getManufacturingDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
+      this.api.getManufacturingDetails(supplierId, this.vregid).subscribe((res: any) => {
           console.log('Raw API response:', res);
     
           this.manufacturingList = res.map((item: any, index: number) => ({
@@ -320,8 +397,8 @@ this.GetPovLicenceDetails();
   GetPovLicenceDetails() {
       
       this.spinner.show();
-      const supplierId = sessionStorage.getItem('facilityid');
-      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
+      const supplierId = this.SupID;
+      this.api.getPovLicenceDetails(supplierId, this.vregid,0).subscribe((res: any) => {
           console.log('Raw API response:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
@@ -956,36 +1033,7 @@ onFileSelectedRetention(event: any) {
     doc.save('Retention_List.pdf');
   }
   
-  validateDates() {
-    // debugger;
-    // mISSUEDATE: this.formatDate(this.retForm.value.mISSUEDATE),
-    // mStartDate: this.formatDate(this.retForm.value.mStartDate),
-    // mVALIDITYDATE: this.formatDate(this.retForm.value.mVALIDITYDATE),
-      const start = new Date(this.retForm.value.mStartDate);
-      const issue = new Date(this.retForm.value.mISSUEDATE);
-      const validity = new Date(this.retForm.value.mVALIDITYDATE);
-      this.validityerrorMsg = "";
-      this.starterrorMsg = "";
-    
-      // Rule 1: Start Date must be >= Issue Date
-      if (start < issue) {
-        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
-      if (validity < start) {
-        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
-        return false;
-      }
-    
-      if (validity < issue) {
-        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      return true;
-    }
+
 
   
 

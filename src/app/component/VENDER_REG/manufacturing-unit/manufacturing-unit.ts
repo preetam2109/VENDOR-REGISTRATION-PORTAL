@@ -17,6 +17,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ManufacturingTabsUnder } from "../manufacturing-tabs-under/manufacturing-tabs-under";
+import { ApprovalTechnicalCertificate } from "../approval-technical-certificate/approval-technical-certificate";
 declare var bootstrap: any;
 
 
@@ -24,7 +25,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-manufacturing-unit',
   standalone: true,
-  imports: [MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, ManufacturingTabsUnder],
+  imports: [MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, ManufacturingTabsUnder, ApprovalTechnicalCertificate],
   templateUrl: './manufacturing-unit.html',
   styleUrl: './manufacturing-unit.css'
 })

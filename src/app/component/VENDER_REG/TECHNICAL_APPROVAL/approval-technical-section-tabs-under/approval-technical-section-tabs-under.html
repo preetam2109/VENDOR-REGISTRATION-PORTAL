@@ -1,0 +1,53 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+      <!-- <strong style="text-align: center;">CME Lifting Status  </strong> -->
+    </h1>
+    </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="Manufacturing Details">
+      <ng-template matTabContent>
+        <!-- <app-manufacturing-unit *ngIf="selectedTabIndex === 0"></app-manufacturing-unit> -->
+        <app-approval-technical-certificate *ngIf="selectedTabIndex === 0"></app-approval-technical-certificate>
+<!-- <app-approval-technical-certificate></app-approval-technical-certificate> -->
+
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Product Permission Mapping With CGMSCL">
+      <ng-template matTabContent>
+        <app-approval-product-permission *ngIf="selectedTabIndex === 1"></app-approval-product-permission>
+      </ng-template>
+    </mat-tab>
+    <!-- <mat-tab label="Import Licence">
+      <ng-template matTabContent>
+        <app-retention *ngIf="selectedTabIndex === 2"></app-retention>
+      </ng-template>
+    </mat-tab> -->
+    <mat-tab label="Market Standing Certificate">
+      <ng-template matTabContent>
+        <app-approval-market-standing-certificate *ngIf="selectedTabIndex === 2"></app-approval-market-standing-certificate>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Capacity Of Production">
+      <ng-template matTabContent>
+        <app-approval-capaity-of-production *ngIf="selectedTabIndex === 3"></app-approval-capaity-of-production>
+      </ng-template>
+    </mat-tab>
+    <!-- <mat-tab label="Confirmation">
+      <ng-template matTabContent>
+        <app-confirmation *ngIf="selectedTabIndex === 4"></app-confirmation>
+      </ng-template>
+    </mat-tab> -->
+    <!-- <mat-tab label="CME Without Ai ">
+      <ng-template matTabContent>
+        <app-cgmscstock-details-ayush *ngIf="selectedTabIndex === 3"></app-cgmscstock-details-ayush>
+      </ng-template>
+    </mat-tab> -->
+   
+    
+  </mat-tab-group>
+  
+  </div>
+  

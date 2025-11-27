@@ -32,7 +32,9 @@ export class MarketStandingCertificate {
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
 
-
+  today: string = new Date().toISOString().split("T")[0];
+  validityerrorMsg:any;
+  starterrorMsg:any;
   
 
   mSCDetailsList:any[]=[];
@@ -892,6 +894,36 @@ openDialog() {
    }
 
 
+   validateDates() {
+    // debugger;
+    // ISSUEDATE: ['', Validators.required],      // Item Group
+    // mstartdate: ['', Validators.required],   // Licence Type
+    // mEXPDate: ['', Validators.required],  
+      const start = new Date(this.marketStandingCForm.value.mstartdate);
+      const issue = new Date(this.marketStandingCForm.value.ISSUEDATE);
+      const validity = new Date(this.marketStandingCForm.value.mEXPDate);
+      this.validityerrorMsg = "";
+      this.starterrorMsg = "";
+    
+      // Rule 1: Start Date must be >= Issue Date
+      if (start < issue) {
+        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+      if (validity < start) {
+        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
+        return false;
+      }
+    
+      if (validity < issue) {
+        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      return true;
+    }
 
 
   }

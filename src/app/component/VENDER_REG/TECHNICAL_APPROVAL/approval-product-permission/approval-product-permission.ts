@@ -21,29 +21,24 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-product-permission',
+  selector: 'app-approval-product-permission',
   standalone: true,
   imports: [MatProgressSpinnerModule,MatDialogModule,MatTableExporterModule, MatSortModule, DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
-  templateUrl: './product-permission.html',
-  styleUrl: './product-permission.css'
+  templateUrl: './approval-product-permission.html',
+  styleUrl: './approval-product-permission.css'
 })
-export class ProductPermission {
+export class ApprovalProductPermission {
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
-
-  today: string = new Date().toISOString().split("T")[0];
-  validityerrorMsg:any;
-  starterrorMsg:any;
-  
   sanitizedPdfUrl!: SafeResourceUrl;
   loadingSectionA:boolean=false;
   manufacturingLicList: any[] = [];
-  
-  
   isCollapsed = false;
   isCollapsed1 = true;
   isCollapsed2 = true;
@@ -52,7 +47,6 @@ export class ProductPermission {
   submitted = false;
   vregid = sessionStorage.getItem('vregid');
   productPerForm!: FormGroup;
-
   mcid=1
   licenceTypes: any[] = [];
   DDLcategory: any[] = [];
@@ -62,7 +56,7 @@ export class ProductPermission {
   ManLicDdllist: any
   mTypeID: any;
   licid: any;
-
+  userid:any
   selectedPanFile: File | null = null;
 
   masItemsList: any[] = [];
@@ -70,7 +64,7 @@ export class ProductPermission {
 
   isSaving = false;
 
-
+  SupID:any
   itemsPerPage: number = 100;
   currentPage: number = 1;
   totalPagesArray: number[] = [];
@@ -90,21 +84,34 @@ export class ProductPermission {
   @ViewChild('sort1') sort1!: MatSort;
 
 
-  displayedColumns: string[] = [
-    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename'
-  ];
+  // displayedColumns: string[] = [
+  //   'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename','ismfaccepted','ismfaccepteddt','mfaccrejremarks', 'action',
+  //   'Remark',
+  //   'Save'
+  // ];
   displayedColumns2: string[] = [
     'sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper'
   ];
 
-  constructor(private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
+  constructor(private route: ActivatedRoute,private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
 
   }
 
   ngOnInit() {
-    this.vregid = sessionStorage.getItem('vregid');
+    this.userid=sessionStorage.getItem('userid');
+    this.route.queryParams.subscribe(params => {
+      this.vregid= params['vregid'];
+      this.SupID=  params['supid'];
+  
+      console.log("VRegID:",  this.vregid);
+      console.log("SupID:",  this.SupID);
+      // console.log("VRegID:", params['vregid']);
+      // console.log("SupID:", params['supid']);
+    });
+
+    // this.vregid = sessionStorage.getItem('vregid');
     this.GetLicenceTypes()
     this.GetMasitemmaincategoryDDL()
     this.GetMasitemTypeDDL();
@@ -130,6 +137,75 @@ export class ProductPermission {
     });
 
   }
+
+
+  setApproval(element: any, value: 'Y' | 'N') {
+    debugger
+    element.approval = value; // store selected value in row
+  }
+  
+  saveRow(element: any) {
+    debugger;
+  
+    const mFileID = element.fileid;     // file id from row
+    const Iaccept = element.approval;   // 'Y' or 'N'
+    const Remarks = element.remark || '';
+  
+    // Validation
+    if (!Iaccept) {
+      this.toastr.error("Please select YES or NO before saving.");
+      return;
+    }
+    if (!Remarks) {
+      this.toastr.error("Please write remark before saving.");
+      return;
+    }
+  
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this PPC Certificate?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.callPPCAPI(mFileID, Iaccept, Remarks);
+        }
+      });
+  
+      return;
+    }
+  
+    // If YES → directly approve
+    if (Iaccept === 'Y') {
+      this.callPPCAPI(mFileID, Iaccept, Remarks);
+    }
+  }
+
+  callPPCAPI(mFileID: any, Iaccept: string, Remarks: string) {
+    this.api.PPCVerification(mFileID, Iaccept, Remarks, this.userid).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
+          this.toastr.success(res);
+        }
+        this.GETtPPCertificate();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Error while saving.");
+      }
+    });
+  }
+  
+  
+
+
 
 
     ngAfterViewChecked() {
@@ -201,7 +277,7 @@ formatDate(dateString: string): string {
   }
   GetmMANLICDDL() {
 
-    this.api.getmMANLICDDL(sessionStorage.getItem('facilityid'), sessionStorage.getItem('vregid'), 0).subscribe((res: any[]) => {
+    this.api.getmMANLICDDL(this.SupID, this.vregid, 0).subscribe((res: any[]) => {
       if (res && res.length > 0) {
         this.ManLicDdllist = res.map(item => ({
           licid: item.licid,
@@ -348,8 +424,9 @@ formatDate(dateString: string): string {
 
   getLicenceDatesById(licid: any) {
 debugger
-    const supplierId = sessionStorage.getItem('facilityid');
-    const vregid = sessionStorage.getItem('vregid');
+    const supplierId = this.SupID;
+    const vregid = this.vregid;
+    // this.SupID, this.vregid,
   
     this.api.getmANUFACLICDetails(supplierId, vregid).subscribe((res: any[]) => {
   
@@ -689,7 +766,7 @@ debugger
 
   GETtPPCertificate() {
     this.spinner.show();
-    this.api.GetPPCertificate(sessionStorage.getItem('vregid')).subscribe((res: any) => {
+    this.api.GetPPCertificate(this.vregid).subscribe((res: any) => {
         this.PPCertificateList = res.map((item: any, index: number) => ({
           ...item,
           sno: index + 1
@@ -710,7 +787,7 @@ debugger
   }
   PPCErtificateItemDetails(fileid:any) {
     this.spinner.show();
-    this.api.PPCertificateItemDetails(sessionStorage.getItem('vregid'),fileid).subscribe((res: any) => {
+    this.api.PPCertificateItemDetails(this.vregid,fileid).subscribe((res: any) => {
         this.PPCertificateItemDetails = res.map((item: any, index: number) => ({
           ...item,
           sno: index + 1
@@ -751,6 +828,7 @@ debugger
      }
 
   exportToPDF() {
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -815,6 +893,7 @@ debugger
   
 
   exportToPDFPPItemDetails() {
+    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -907,38 +986,5 @@ debugger
     }
   }
   
-  validateDates() {
-    // debugger;
-    //   mIssueDate: ['',Validators.required],
-      // mStartDate: ['',Validators.required],
-      // mVALIDITYDATE: ['',Validators.required/],
-      const start = new Date(this.productPerForm.value.mStartDate);
-      const issue = new Date(this.productPerForm.value.mIssueDate);
-      const validity = new Date(this.productPerForm.value.mVALIDITYDATE);
-      this.validityerrorMsg = "";
-      this.starterrorMsg = "";
-    
-      // Rule 1: Start Date must be >= Issue Date
-      if (start < issue) {
-        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
-      if (validity < start) {
-        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
-        return false;
-      }
-    
-      if (validity < issue) {
-        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      return true;
-    }
-
-  
-
 
 }
