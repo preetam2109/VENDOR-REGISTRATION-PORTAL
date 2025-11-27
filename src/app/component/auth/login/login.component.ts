@@ -193,6 +193,7 @@ browserInfo: any;
         sessionStorage.setItem('roleId', this.roleid);
         sessionStorage.setItem('userid', this.userid);
         sessionStorage.setItem('authenticatedUser', this.emailid);
+        sessionStorage.setItem('siMobile', this.siMobile);
 
   
       // Log individual values to ensure they are being set correctly
@@ -222,6 +223,7 @@ browserInfo: any;
 
       sessionStorage.setItem('roleId', this.roleid);
       sessionStorage.setItem('userid', this.userid);
+      sessionStorage.setItem('siMobile', this.siMobile);
 
  
     } else {

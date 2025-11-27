@@ -20,6 +20,8 @@ import { registeredVendorsdata } from 'src/app/Model/VendorRegisDetail';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+declare var bootstrap: any;
 @Component({
   selector: 'app-vendor-registration-completed',
    standalone: true,
@@ -37,7 +39,7 @@ export class VendorRegistrationCompleted {
   vendorDetails: any[] = [];
   showButtons:boolean=true;
   // registeredVendorsdata
-
+  sanitizedPdfUrl!: SafeResourceUrl;
  dataSource!: MatTableDataSource<registeredVendorsdata>;
     @ViewChild('paginator') paginator!: MatPaginator;
     @ViewChild('sort') sort!: MatSort;
@@ -66,7 +68,7 @@ export class VendorRegistrationCompleted {
         // supplierid: string
       ];
 
-  constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
+  constructor(private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
         private cdr: ChangeDetectorRef, private router: Router){
     // this.form1 = this.fb.group({ name: ['', Validators.required] });
     // this.form2 = this.fb.group({ review: ['', Validators.required] });
@@ -76,6 +78,80 @@ export class VendorRegistrationCompleted {
   ngOnInit() {
     this.GetVendorDetailsID();
     
+  }
+  loadVendorDetails(supplierid:any) {
+  
+    this.api.getVendorDetails(supplierid).subscribe({
+      next: (res: any) => {
+        if (res && res.length > 0) {
+           const mFilePath=res[0].filepath
+           const mFileName=res[0].filename
+           this.DownloadFileWithName(mFilePath,mFileName)
+        }
+      },
+      error: (err) => {
+        console.error("Error loading vendor details:", err);
+        alert("Failed to load vendor details");
+      }
+    });
+  }
+  DownloadFileWithName(mFilePath: string, mFileName: string) {
+  
+
+    // Encode file path and file name to handle special characters (like spaces, \ etc.)
+    const encodedPath = encodeURIComponent(mFilePath);
+    const encodedName = encodeURIComponent(mFileName);
+  
+    // Build dynamic API URL
+    const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+  
+    this.api.DownloadFileWithName(apiUrl).subscribe({
+      next: (res: Blob) => {
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        this.openmarqModal(url);
+        // Create a temporary link element for download
+        // const a = document.createElement('a');
+        // a.href = url;
+        // a.download = mFileName;
+        // a.click();
+  
+        // // Clean up URL object after use
+        // window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        if (err.status === 0 && err.statusText === 'Unknown Error') {
+          // ✅ Show toaster or alert message
+          this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+        } else if (err.status === 404) {
+          this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+        } else {
+          this.toastr.error('Something went wrong while downloading the file.', 'Error');
+        }
+        console.error('Download error:', err);
+      }
+    });
+  }
+  openmarqModal(pdfUrl: string): void {
+    this.sanitizedPdfUrl =
+      this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+  
+    // Remove any leftover backdrops (from previous opens)
+    document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+  
+    const modalEl = document.getElementById('pdfModal')!;
+    // ensure modal appended to body so it sits above other layout elements
+    document.body.appendChild(modalEl);
+  
+    // Optional: force z-index higher than anything else on page
+    (modalEl as HTMLElement).style.zIndex = '99999';
+  
+    const modal = new bootstrap.Modal(modalEl, {
+      backdrop: false, // no backdrop
+      keyboard: true,
+      focus: true,
+    });
+    modal.show();
   }
   onClick(status:any){
     if(status=='Complete'){

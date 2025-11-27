@@ -2506,6 +2506,18 @@ COPVerification(mCOPID:any,Iaccept:any,Remarks:any,userID:any){
   { responseType: 'text' } // options, not body
 );
 }
+
+
+RegistrationComplete(dtsenton: string, vregId: number) {
+  debugger
+  const params = {
+    dtsenton: dtsenton,
+    vregId: vregId
+  };
+
+  return this.http.post(`${this.VREGAPI}/Registration/RegistrationComplete`, { params });
+}
+
   
 
 }

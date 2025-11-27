@@ -21,23 +21,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
-
 @Component({
-  selector: 'app-manufacturing-unit-licence-tab-approval',
+  selector: 'app-confirm-lic-tab',
   standalone:true,
   imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, NgSelectModule, FormsModule, MatPaginatorModule, MatTableModule, CommonModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
-  templateUrl: './manufacturing-unit-licence-tab-approval.html',
-  styleUrl: './manufacturing-unit-licence-tab-approval.css'
+  templateUrl: './confirm-lic-tab.html',
+  styleUrl: './confirm-lic-tab.css'
 })
-export class ManufacturingUnitLicenceTabApproval {
-
+export class ConfirmLicTab {
   isCollapsed = false;
   isCollapsed1 = true;
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
   submitted = false;
-  url:any
+
 
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
@@ -105,15 +103,10 @@ export class ManufacturingUnitLicenceTabApproval {
 
   ngOnInit() {
 
-    this.route.queryParams.subscribe(params => {
-      this.vregid= params['vregid'];
-      this.SupID=  params['supid'];
   
-      console.log("VRegID:",  this.vregid);
-      console.log("SupID:",  this.SupID);
-      // console.log("VRegID:", params['vregid']);
-      // console.log("SupID:", params['supid']);
-    });
+      this.vregid= sessionStorage.getItem('vregid');
+      this.SupID=  sessionStorage.getItem('facilityid');
+  
     // sessionStorage.setItem('facilityid',this.SupID)
     // sessionStorage.setItem('vregid',this.vregid)
 
@@ -177,38 +170,8 @@ this.retForm = this.fb.group({
 });
 
 
-const modalEl = document.getElementById('pdfModalunitLicApproval');
 
-  modalEl?.addEventListener('hidden.bs.modal', () => {
-    this.refreshMatTable();
-  });
 
-  }
-
-  refreshMatTable() {
-    // this.GETBankMandateDetail();
-  
-    setTimeout(() => {
-      debugger;
-      if (this.dataSource) {
-        // this.dataSource1.paginator = this.paginator1;
-        // this.dataSource1.sort = this.sort1;
-       
-        this.url='';
-        
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        
-        this.dataSource2.paginator = this.paginator1;
-        this.dataSource2.sort = this.sort1; 
-
-        this.dataSource3.paginator = this.paginator2;
-        this.dataSource3.sort = this.sort2; 
-        
-        this.cdr.detectChanges();
-      }
-      
-    }, 200);
   }
 
   setApproval(element: any, value: 'Y' | 'N') {
@@ -217,7 +180,7 @@ const modalEl = document.getElementById('pdfModalunitLicApproval');
   }
   
   saveRow(element: any) {
-    
+    ;
   
     const mLicID = element.licid;     // licid from row
     const Iaccept = element.approval; // 'Y' or 'N'
@@ -605,7 +568,7 @@ validateStartEnd(form: FormGroup) {
       // Remove any leftover backdrops (from previous opens)
       document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
   
-      const modalEl = document.getElementById('pdfModalunitLicApproval')!;
+      const modalEl = document.getElementById('pdfModal')!;
       // ensure modal appended to body so it sits above other layout elements
       document.body.appendChild(modalEl);
   

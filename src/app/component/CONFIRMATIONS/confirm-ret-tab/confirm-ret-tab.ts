@@ -16,28 +16,25 @@ import autoTable from 'jspdf-autotable';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CollapseModule } from 'src/app/collapse';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+declare var bootstrap: any;
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
-declare var bootstrap: any;
-
 @Component({
-  selector: 'app-manufacturing-unit-licence-tab-approval',
+  selector: 'app-confirm-ret-tab',
   standalone:true,
-  imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, NgSelectModule, FormsModule, MatPaginatorModule, MatTableModule, CommonModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
-  templateUrl: './manufacturing-unit-licence-tab-approval.html',
-  styleUrl: './manufacturing-unit-licence-tab-approval.css'
+  imports: [MatProgressSpinnerModule,MatTableExporterModule,MatSortModule,DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule, MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, ReactiveFormsModule, MatMenuModule,CollapseModule,NgbCollapseModule],
+  templateUrl: './confirm-ret-tab.html',
+  styleUrl: './confirm-ret-tab.css'
 })
-export class ManufacturingUnitLicenceTabApproval {
-
+export class ConfirmRetTab {
   isCollapsed = false;
   isCollapsed1 = true;
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
-  submitted = false;
-  url:any
+
 
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
@@ -56,7 +53,6 @@ export class ManufacturingUnitLicenceTabApproval {
   selectedRetFile: File | null = null;
 
 
-  loadingSectionA:boolean=false;
 
   licForm!: FormGroup;
 
@@ -79,14 +75,10 @@ export class ManufacturingUnitLicenceTabApproval {
 
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
+  onshowRETE:boolean=false;
+  submitted:boolean=false;
 
-  MasimportertypeDDL: any
-
-
-  showImporterType: boolean = false;
-  showFormType: boolean = true;
-
-  Remark:any
+  loadingSectionA:boolean=false;
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('sort') sort!: MatSort;
@@ -96,8 +88,7 @@ export class ManufacturingUnitLicenceTabApproval {
   @ViewChild('sort2') sort2!: MatSort;
   
 
-  constructor(private sanitizer: DomSanitizer,private cdr:ChangeDetectorRef,private route: ActivatedRoute,
-    private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
+  constructor(private sanitizer: DomSanitizer,private cdr:ChangeDetectorRef,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder,private route: ActivatedRoute){
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource2 = new MatTableDataSource<any>([]);
     this.dataSource3 = new MatTableDataSource<any>([]);
@@ -105,24 +96,17 @@ export class ManufacturingUnitLicenceTabApproval {
 
   ngOnInit() {
 
-    this.route.queryParams.subscribe(params => {
-      this.vregid= params['vregid'];
-      this.SupID=  params['supid'];
-  
-      console.log("VRegID:",  this.vregid);
-      console.log("SupID:",  this.SupID);
-      // console.log("VRegID:", params['vregid']);
-      // console.log("SupID:", params['supid']);
-    });
-    // sessionStorage.setItem('facilityid',this.SupID)
-    // sessionStorage.setItem('vregid',this.vregid)
+    this.vregid= sessionStorage.getItem('vregid');
+    this.SupID=  sessionStorage.getItem('facilityid');
+
+
 
 
     this.GetLicenceTypes()
     this.GetMassStates()
 
     this.unitForm = this.fb.group({
-      mSupplierID: [this.SupID || '', Validators.required],
+      mSupplierID: [sessionStorage.getItem('facilityid') || '', Validators.required],
       mVregid: [this.vregid, Validators.required],
       mStateId: ['', Validators.required],
       mUNITNAME: ['', Validators.required],
@@ -133,7 +117,22 @@ export class ManufacturingUnitLicenceTabApproval {
       mUNITINCHARGEEMAIL: ['', [Validators.required, Validators.email]],
       mlictypeid: ['', Validators.required]
     });
-    this.GetVendorDetailsID(this.SupID);
+
+
+    this.retForm = this.fb.group({
+      mLICID: ['', Validators.required],
+      mISSUEDATE: ['', Validators.required],
+      mStartDate: ['', Validators.required],
+      mVALIDITYDATE: ['', Validators.required],
+      mVregid: [this.vregid, Validators.required],
+      mretid: ['', Validators.required],
+      mFormID: ['', Validators.required],
+      mProIssuingAuthority: ['', Validators.required],
+      Files: [null, Validators.required],
+    });
+
+
+    this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
     this.getManufacturingDetails();
 
 
@@ -141,7 +140,6 @@ export class ManufacturingUnitLicenceTabApproval {
 // licence
 
 this.getMasformTypes();
-this.GETtMasimportertype();
 
 this.licForm = this.fb.group({
   mSUPPLIERID: [sessionStorage.getItem('facilityid') || '', Validators.required],
@@ -153,11 +151,7 @@ this.licForm = this.fb.group({
   mISSUEDATE: ['', Validators.required],
   mStartDate: ['', Validators.required],
   mVALIDITYDATE: ['', Validators.required],
-  mLicIssuingAuthority: ['', Validators.required],
-  Files: [null, Validators.required],
-
-
-  
+  LicIssuingAuthority: ['', Validators.required],
 });
 this.GetmANUFACLICDetails()
 
@@ -166,49 +160,12 @@ this.GetmANUFACLICDetails()
 this.GetmMANLICDDL();
 this.GetMasRetentionTypeDDL();
 this.GetPovLicenceDetails();
-this.retForm = this.fb.group({
-  mLICID: ['', Validators.required],
-  mISSUEDATE: ['', Validators.required],
-  mStartDate: ['', Validators.required],
-  mVALIDITYDATE: ['', Validators.required],
-  mVregid: [sessionStorage.getItem('vregid'), Validators.required],
-  mretid: ['', Validators.required],
-  mFormID: ['', Validators.required]
-});
 
 
-const modalEl = document.getElementById('pdfModalunitLicApproval');
 
-  modalEl?.addEventListener('hidden.bs.modal', () => {
-    this.refreshMatTable();
-  });
 
-  }
 
-  refreshMatTable() {
-    // this.GETBankMandateDetail();
-  
-    setTimeout(() => {
-      debugger;
-      if (this.dataSource) {
-        // this.dataSource1.paginator = this.paginator1;
-        // this.dataSource1.sort = this.sort1;
-       
-        this.url='';
-        
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        
-        this.dataSource2.paginator = this.paginator1;
-        this.dataSource2.sort = this.sort1; 
 
-        this.dataSource3.paginator = this.paginator2;
-        this.dataSource3.sort = this.sort2; 
-        
-        this.cdr.detectChanges();
-      }
-      
-    }, 200);
   }
 
   setApproval(element: any, value: 'Y' | 'N') {
@@ -217,10 +174,10 @@ const modalEl = document.getElementById('pdfModalunitLicApproval');
   }
   
   saveRow(element: any) {
-    
+    ;
   
-    const mLicID = element.licid;     // licid from row
-    const Iaccept = element.approval; // 'Y' or 'N'
+    const mPROVID = element.provid;     // provid from row
+    const Iaccept = element.approval;   // 'Y' or 'N'
     const Remarks = element.remark || '';
   
     // Validation
@@ -237,7 +194,7 @@ const modalEl = document.getElementById('pdfModalunitLicApproval');
     if (Iaccept === 'N') {
       Swal.fire({
         title: "Are you sure?",
-        text: "Do you really want to reject this License?",
+        text: "Do you really want to reject this Provisional License?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Yes, Reject",
@@ -245,21 +202,20 @@ const modalEl = document.getElementById('pdfModalunitLicApproval');
         confirmButtonColor: "#d33"
       }).then((result) => {
         if (result.isConfirmed) {
-          this.callLICAPI(mLicID, Iaccept, Remarks);
+          this.callPROVLICAPI(mPROVID, Iaccept, Remarks);
         }
       });
   
-      return; // stop further execution
+      return; // stop execution
     }
   
     // If YES → directly call API
     if (Iaccept === 'Y') {
-      this.callLICAPI(mLicID, Iaccept, Remarks);
+      this.callPROVLICAPI(mPROVID, Iaccept, Remarks);
     }
   }
-
-  callLICAPI(mLicID: any, Iaccept: string, Remarks: string) {
-    this.api.LICVerification(mLicID, Iaccept, Remarks).subscribe({
+  callPROVLICAPI(mPROVID: any, Iaccept: string, Remarks: string) {
+    this.api.PROVLICVerification(mPROVID, Iaccept, Remarks).subscribe({
       next: (res: any) => {
         if (Iaccept === 'N') {
           this.toastr.success("Successfully Rejected Certificate");
@@ -267,7 +223,7 @@ const modalEl = document.getElementById('pdfModalunitLicApproval');
           this.toastr.success(res);
         }
   
-        this.GetmANUFACLICDetails();
+        this.GetPovLicenceDetails();
       },
       error: (err) => {
         console.error(err);
@@ -277,77 +233,22 @@ const modalEl = document.getElementById('pdfModalunitLicApproval');
   }
   
   
-  
 
-  // ISSUE DATE vs START DATE
-validateIssueStart(form: FormGroup) {
-  const issue = form.get('mISSUEDATE')?.value;
-  const start = form.get('mStartDate')?.value;
-
-  if (!issue || !start) return null;
-
-  return new Date(start) >= new Date(issue)
-    ? null
-    : { issueStartError: true };
-}
-
-// START DATE vs END DATE
-validateStartEnd(form: FormGroup) {
-  const start = form.get('mStartDate')?.value;
-  const end = form.get('mVALIDITYDATE')?.value;
-
-  if (!start || !end) return null;
-
-  return new Date(end) > new Date(start)
-    ? null
-    : { startEndError: true };
-}
-
-  onLicenceTypeChange(selected: any) {
-    const selectedValue = selected.lictypename;   // or selected.lictypeid
-  
-    if (selectedValue === "Importer") {
-      this.showImporterType = true;
-      this.showFormType = false;
-    } else {
-      this.showImporterType = false;
-      this.showFormType = true;
-    }
-  }
-  
-
-
-  GETtMasimportertype(){
-    this.api.GetMasimportertype().subscribe((res: any[]) => {
-      if (res && res.length > 0) {
-        this.MasimportertypeDDL=res.map(item => ({
-          imptypeid: item.imptypeid,
-          imptypename: item.imptypename,
-        }));
-
-        console.log('imptypename items', res)
-      } else {
-        console.error('No imptypename found or incorrect structure:', res);
-      }
-    });
-  }
-  getMasformTypes() {
+  getMasformTypes(){
     
-    this.api.getMasformTypes().subscribe((res: any[]) => {
-  
-      const hideIds = ["7"];  // ⬅️ IDs you want to hide
-  
-      this.formList = res
-        .filter(item => !hideIds.includes(item.formid))  // Remove those rows
-        .map(item => ({
+    this.api.getMasformTypes().subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+        this.formList = res.map(item => ({
           formid: item.formid,
-          formname: item.formname,
+          formname : item.formname,
         }));
-  
-      console.log('Filtered formList cg', this.formList);
-    });
+        
+        console.log('formname items', res)
+      } else {
+        console.error('No formname found or incorrect structure:', res);
+      }
+    }); 
   }
-  
   onRetentionChange(selected: any) {
     const retid = selected?.retid ?? selected; // handles both cases
   
@@ -410,6 +311,9 @@ validateStartEnd(form: FormGroup) {
           this.unitForm.patchValue({
             mVregid: vregid
           });
+          this.retForm.patchValue({
+            mVregid: vregid
+          });
           this.licForm.patchValue({
             mVregid: vregid
           });
@@ -424,18 +328,21 @@ validateStartEnd(form: FormGroup) {
   }
   
   onshowButtonClick(){
+    this.GetLicenceTypes();
+    this.GetmMANLICDDL();
+    this.GetMasRetentionTypeDDL();
     
     //  this.isCollapsed = true;
       // isCollapsed1 = true;
-
-        this.onshowUNIT = true;
+        // console.log("Checking the vregid ",this.vregid);
+        this.onshowRETE = true;
      
   
     }
     onshowButtonClickLICENCE() {
       // ;
       // if (val === 0) {
-        this.onshowLICENCE = true;
+        this.onshowRETE = true;
       //   this.isCollapsed1 = false;
       // } else {
       //   this.onshowLICENCE = false;
@@ -447,7 +354,7 @@ validateStartEnd(form: FormGroup) {
   getManufacturingDetails() {
 
       this.spinner.show();
-      const supplierId = this.SupID;
+      const supplierId = this.SupID
       
     
       this.api.getManufacturingDetails(supplierId, this.vregid).subscribe((res: any) => {
@@ -482,8 +389,8 @@ validateStartEnd(form: FormGroup) {
   GetPovLicenceDetails() {
       
       this.spinner.show();
-      const supplierId = sessionStorage.getItem('facilityid');
-      this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
+      const supplierId = this.SupID;
+      this.api.getPovLicenceDetails(supplierId, this.vregid,0).subscribe((res: any) => {
           console.log('Raw API response:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
@@ -506,9 +413,9 @@ validateStartEnd(form: FormGroup) {
     GetmANUFACLICDetails() {
 
       this.spinner.show();
-      const supplierId = this.SupID
+      const supplierId = sessionStorage.getItem('facilityid');
     
-      this.api.getmANUFACLICDetails(supplierId,this.vregid).subscribe((res: any) => {
+      this.api.getmANUFACLICDetails(supplierId,sessionStorage.getItem('vregid')).subscribe((res: any) => {
           console.log('Raw API response:', res);
     
           this.manufacturingLicList = res.map((item: any, index: number) => ({
@@ -605,7 +512,7 @@ validateStartEnd(form: FormGroup) {
       // Remove any leftover backdrops (from previous opens)
       document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
   
-      const modalEl = document.getElementById('pdfModalunitLicApproval')!;
+      const modalEl = document.getElementById('pdfModal')!;
       // ensure modal appended to body so it sits above other layout elements
       document.body.appendChild(modalEl);
   
@@ -709,14 +616,13 @@ validateStartEnd(form: FormGroup) {
 
 
   // ngAfterViewChecked() {
-  //   console.log('Form valid:', this.licForm.valid);
-  //   console.log('Form values:', this.licForm.value);
+  //   console.log('Form valid:', this.retForm.valid);
+  //   console.log('Form values:', this.retForm.value);
   // }
   
   onSubmitLicence() {
-    this.loadingSectionA = true;
     
-   this.submitted = true;
+
     const formData = new FormData();
 
     // Append file if selected
@@ -752,33 +658,18 @@ validateStartEnd(form: FormGroup) {
       this.api.postManufacturingLic(params,formData).subscribe({
         next: (res) => {
           this.toastr.success('Manufacturing Licence saved successfully!');
-          this.loadingSectionA = false;
           console.log('API Response:', res);
           this.licForm.reset();
-          this.submitted = false;
-          // Re-patch mVregid after reset to pre-fill for next entry
-          this.licForm.patchValue({
-            mVregid: this.vregid,
-            mSUPPLIERID: sessionStorage.getItem('facilityid')
-          });
-      
-
-          
           this.GetmANUFACLICDetails();
-          this.onshowLICENCE=false;
-
 
 
         },
         error: (err) => {
-          this.loadingSectionA = false;
-
           console.error('Error:', err);
           this.toastr.error('Failed to save data!');
         }
       });
     } catch (error) {
-      this.loadingSectionA = false;
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }
@@ -786,7 +677,9 @@ validateStartEnd(form: FormGroup) {
 
   onSubmitRetention() {
     
-  
+    this.loadingSectionA = true;
+    
+    this.submitted=true;
     const formData = new FormData();
   
     // Append file if selected
@@ -801,7 +694,7 @@ validateStartEnd(form: FormGroup) {
   
     // Patch vregid if needed
     this.retForm.patchValue({
-      mVregid: this.vregid,
+      mVregid: this.vregid
     });
   
     // Format dates to dd-MM-yyyy
@@ -817,16 +710,29 @@ validateStartEnd(form: FormGroup) {
         next: (res) => {
           this.toastr.success('Retention Certificate saved successfully!');
           console.log('API Response:', res);
-          this.retForm.reset();
-          this.GetPovLicenceDetails();
+    this.loadingSectionA = false;
 
+          this.retForm.reset();
+          this.submitted=false;
+
+          // Re-patch mVregid after reset to pre-fill for next entry
+          this.retForm.patchValue({
+          mVregid: this.vregid
+          });
+
+          this.GetPovLicenceDetails();
+          this.onshowRETE=false;
         },
         error: (err) => {
+          this.loadingSectionA = false
+
           console.error('Error:', err);
           this.toastr.error('Failed to save data!');
         }
       });
     } catch (error) {
+      this.loadingSectionA = false
+
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }

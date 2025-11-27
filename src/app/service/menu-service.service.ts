@@ -1026,6 +1026,7 @@ export class MenuServiceService {
         { label: 'Compliance Details', route: '/ComplianceDetails'},
         { label: 'Global Company Prefix', route: '/GlobalCompanyPrefix'},
         { label: 'Complete Registration', route: '/confirmation'},
+        { label: 'Confirmation', route: '/final-confirmation'},
         // { label: 'Manufacturing Licence', route: '/' },
         // { label: 'Product Permission', route: '/home' },
         // { label: 'Import Licence', route: '/import-Licence' }, 

@@ -161,6 +161,8 @@
               name="phonE1"
               [(ngModel)]="vendor.phonE1"
               required
+              readonly
+              disabled=""
               pattern="^[0-9]{10}$"
               #phonE1="ngModel"
               [ngClass]="{

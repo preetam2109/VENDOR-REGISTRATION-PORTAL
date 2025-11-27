@@ -80,24 +80,24 @@ export class ConfirmBankDetailsTab {
           
     displayedColumns1: string[] = [
 
-      'sno','accountname','accountno','bankname','branch','ifsccode','filename','isapprove','approvedt','approvereason','Remark','action', 'Save',
+      'sno','accountname','accountno','bankname','branch','ifsccode','filename','isapprove','approvedt','approvereason'
 
       // 'defaultacc',
     ];
     displayedColumns: string[] = [
-      'sno','accyear','turnoveramt','udinno','filename','isapprove','approvedt','approvereason','Remark','action', 'Save',
+      'sno','accyear','turnoveramt','udinno','filename','isapprove','approvedt','approvereason'
       // ,'action'
     ];
     displayedColumns2: string[] = [
-      'sno','statename','gstno','filename','isapprove','approvedt','approvereason','Remark','action', 'Save',
+      'sno','statename','gstno','filename','isapprove','approvedt','approvereason'
       // ,'action'
     ];
     displayedColumns3: string[] = [
-      'sno','gstno','accyear','filename','isapprove','approvedt','approvereason','Remark','action', 'Save',
+      'sno','gstno','accyear','filename','isapprove','approvedt','approvereason'
       // ,'action'
     ];
     displayedColumns4: string[] = [
-      'sno','code','filename','ismfaccepted','mfaccrejremarks','ismfaccepteddt','Remark','action','Save'
+      'sno','code','filename','ismfaccepted','mfaccrejremarks','ismfaccepteddt'
       // ,'action',
       // 'fileid','vregid','mscid', 'ext','filepath',
     ];
@@ -109,7 +109,7 @@ export class ConfirmBankDetailsTab {
        'validitydate',
        'remarks',
        'whotype',
-       'filename','iswhoaccepted','iswhoaccepteddt','whoaccrejremarks','Remark','action','Save'
+       'filename','iswhoaccepted','iswhoaccepteddt','whoaccrejremarks'
        // 'comid',
        // 'vregid',
        // 'supplierid',
@@ -120,7 +120,7 @@ export class ConfirmBankDetailsTab {
      ];
      displayedColumns6: string[] = [
       'sno','gcpno','issuedate','startdate',
-      'expdate','filename','isgcpaccepted','isgcpaccepteddt','gcpaccrejremarks','Remark','action', 'Save',
+      'expdate','filename','isgcpaccepted','isgcpaccepteddt','gcpaccrejremarks'
    
       // 'action'
       // 'gcpid','vregid','entrydate'
