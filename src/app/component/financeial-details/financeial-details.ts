@@ -521,7 +521,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
-    debugger;
+    // debugger;
  
 // 
         this.loadingSectionA = true;
@@ -853,9 +853,11 @@ InsertGSTCertificate(GSTForm: NgForm) {
   
     this.api.DownloadFileWithName(apiUrl).subscribe({
       next: (res: Blob) => {
-        const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        this.openmarqModal(url);
+        const pdfURL = URL.createObjectURL(res);
+        window.open(pdfURL, "_blank");
+        // const blob = new Blob([res], { type: 'application/pdf' });
+        // const url = window.URL.createObjectURL(blob);
+        // this.openmarqModal(url);
         // Create a temporary link element for download
         // const a = document.createElement('a');
         // a.href = url;
