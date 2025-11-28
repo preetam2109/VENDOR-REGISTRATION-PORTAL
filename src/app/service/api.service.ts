@@ -166,7 +166,6 @@ export class ApiService {
   }
   overAllComplaintsSolvedorUnsolved(district: string) {
 
-    // https://cgmsc.gov.in/EMIS_API/getTotalSolvedOrUnsolved?district=jashpur
     return this.http.get<Complaints[]>(`${this.EMIS_API}/getTotalSolvedOrUnsolved?district=${district}`)
   }
 
@@ -177,11 +176,9 @@ export class ApiService {
     return this.http.get<dispatchPendingSummary[]>(`${this.EMIS_API}/api/DispatchPendingSummary/getDispatchPendingSummary`)
 
   }
-  //emd status summary
   getEmdStatusSummary() {
     return this.http.get<DPDMISSupemdSummary[]>(`${this.CGMSCHO_API2}/EMD/DPDMISSupemdSummary`)
   }
-  //emd status datails
   getEmdStatus() {
     return this.http.get<EmdStatusDetail[]>(`${this.CGMSCHO_API2}/EMD/DPDMISEMDDetails`)
   }
@@ -189,7 +186,6 @@ export class ApiService {
     return this.http.get<DPDMISEMDTenderwisePending[]>(`${this.CGMSCHO_API2}/EMD/DPDMISEMDTenderwisePending`)
 
   }
-  //  getemdDashboerd
   DPDMISEMDDashboardSummary() {
     return this.http.get<DPDMISEMDDashboard[]>(`${this.CGMSCHO_API2}/EMD/DPDMISEMDDashboard`)
   }
@@ -223,7 +219,6 @@ export class ApiService {
     return this.http.get<DhsSummary[]>(`${this.EMIS_API}/api/DHS/getDHS_summary_yearWise?fromDate=${fromDate}&toDate=${toDate}`);
   }
 
-  //whstock abstracts
   getWHStockData(mcatid: number, warehouseId: number): Observable<any> {
 
     const params = new HttpParams()
@@ -240,7 +235,6 @@ export class ApiService {
       EDLNedl: EDLNedl,
       mitemid: mitemid.toString(),
       WHID: WHID,
-      // WHID: WHID.toString(),
       searchP: searchP.toString(),
       userid: userid.toString(),
       coll_cmho: coll_cmho.toString(),
@@ -249,7 +243,6 @@ export class ApiService {
     return this.http.get<CGMSCStockDetails[]>(`${this.CGMSCHO_API2}/HO/CGMSCItemStock`, { params });
   }
 
-  //indent pending at Warehouse  api
   getIndentPendingAtWHData(per: string = 'All', clause: number = 1): Observable<any> {
 
     return this.http.get<any>(`${this.CGMSCHO_API2}/Warehouse/IndentPending?per=${per}&clause=${clause}`);
@@ -264,13 +257,11 @@ export class ApiService {
   }
 
 
-  // Method for ReagIndentPending with mmid
   getReagIndentPending(mmid: any) {
     return this.http.get<ReagIndentPending[]>(`${this.CGMSCHO_API2}/Warehouse/ReagIndentPending?mmid=${mmid}`);
   }
 
 
-  // Method for ReagIndentPendingEQ
   getReagIndentPendingEQ() {
 
     return this.http.get<ReagIndentPendingEQSummary[]>(`${this.CGMSCHO_API2}/Warehouse/ReagIndentPendingEQ`);
@@ -280,7 +271,6 @@ export class ApiService {
 
 
 
-  //this is for popuo WarehouseWiseStock
   getWarehouseWiseStock(mitemid: number, whid: number): Observable<any> {
 
     const params = new HttpParams()
@@ -290,7 +280,6 @@ export class ApiService {
     return this.http.get<WarehouseWiseStock>(`${this.CGMSCHO_API2}/HO/WarehouseWiseStock`, { params });
 
   }
-  // NearExpReport
   getNearExpReport(mcid: number, nexppara: number): Observable<any> {
 
     const params = new HttpParams()
@@ -311,7 +300,6 @@ export class ApiService {
 
   }
 
-  //reagIndentIssue
 
   getReagIndentIssueMMID() {
     return this.http.get<ReagIndentIssueMMID[]>(`${this.CGMSCHO_API2}/Warehouse/ReagIndentIssueMMID`);
@@ -323,14 +311,12 @@ export class ApiService {
 
   }
 
-  //getPipelineDetails
   getPipelineDetails(ponoid: number, itemid: number, mcid: number, whid: number, userid: number): Observable<any> {
 
 
     return this.http.get<PipelineDetails[]>(`${this.CGMSCHO_API2}/HO/getPipelineDetails?ponoid=${ponoid}&itemid=${itemid}&mcid=${mcid}&whid=${whid}&userid=${userid}`);
   }
 
-  // getgetItemDetails 
   getItemDetails(mcid: number, itemid: number, groupid: number, itemtypeid: number, edltype: number, edlcat: number, yearid: number, dhsai: number, dmai: number, totalai: number, redycnt: number, uqccnt: number, pipelinecnt: number, rccnt: number, whid: number): Observable<any> {
     const params = {
       mcid: mcid.toString(),
@@ -353,7 +339,6 @@ export class ApiService {
     return this.http.get<ItemDetailsPopup[]>(`${this.CGMSCHO_API2}/HO/getItemDetailsWithHOD`, { params });
   }
 
-  //GetRaisedPicks
   GetRaisedPicks() {
     return this.http.get<GetRaisedPicks[]>(`${this.CGMSCHO_API2}/Courier/GetRaisedPicks`)
   }
@@ -368,7 +353,6 @@ export class ApiService {
     return this.http.get<PendingToDrop>(`${this.CGMSCHO_API2}/Courier/GetPendingToDrop?warehouseid=${warehouseid}`);
   }
 
-  //NOCApprovedSummary
   getNOCApprovedSummary() {
     return this.http.get<NOCApprovedSummary[]>(`${this.CGMSCHO_API2}/NOC/CGMSCNOCApprovedSummary`)
   }
@@ -434,7 +418,6 @@ export class ApiService {
   }
 
   getPipelineDetailsGrid(ponoid: any, itemid: number, mcid: number, whid: any, userid: any, supid: any): Observable<any> {
-    // Construct the query parameters
     const params = new HttpParams()
       .set('ponoid', ponoid.toString())
       .set('itemid', itemid.toString())
@@ -596,7 +579,6 @@ export class ApiService {
 
 
   getDropAppWarehousePerformance(fromdt: any, todate: any): Observable<any> {
-    // 01-Nov-2024
     return this.http.get<DropAppWarehousePerformance[]>(`${this.CGMSCHO_API2}/TimeTaken/DropAppWarehousePerformance?fromdt=${fromdt}&todate=${todate}`);
 
   }
@@ -2510,12 +2492,15 @@ COPVerification(mCOPID:any,Iaccept:any,Remarks:any,userID:any){
 
 RegistrationComplete(dtsenton: string, vregId: number) {
   debugger
-  const params = {
-    dtsenton: dtsenton,
-    vregId: vregId
-  };
+  // const params = {
+  //   dtsenton: dtsenton,
+  //   vregId: vregId
+  // };
 
-  return this.http.post(`${this.VREGAPI}/Registration/RegistrationComplete`, { params });
+  return this.http.put(`${this.VREGAPI}/Registration/RegistrationComplete?dtsenton=${dtsenton}&vregId=${vregId}`,
+  {}, // empty body
+  { responseType: 'text' } // options, not body
+);
 }
 
   

@@ -189,7 +189,7 @@ const modalEl = document.getElementById('pdfModalunitLicApproval');
     // this.GETBankMandateDetail();
   
     setTimeout(() => {
-      debugger;
+      ;
       if (this.dataSource) {
         // this.dataSource1.paginator = this.paginator1;
         // this.dataSource1.sort = this.sort1;
