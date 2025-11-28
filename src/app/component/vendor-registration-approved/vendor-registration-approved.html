@@ -1,4 +1,11 @@
 <!-- FINANCIAL DETAILS -->
+<!-- <div *ngIf="loadingSectionA; else sectionAContentA" class="spinner-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  <ng-template #sectionAContentA>
+
+
+</ng-template> -->
 <div class=" card container-fluid text-center" style="background-color: aliceblue;">
     <h3 class="mb-2 Heading-font-family pt-1">FINANCIAL DETAILS</h3>
   </div>
@@ -7,6 +14,7 @@
     <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
         <!--  FINANCIAL DETAILS Tab -->
         <mat-tab label="FINANCIAL DETAILS">
+         
             <ng-template matTabContent>
                 <div class="card card-body">
                     <div class=" card container-fluid2 text-center" style="background-color: rgb(255, 238, 253);">
@@ -38,7 +46,7 @@
                                                 </mat-menu>
                                               </div> -->
                                         </div>
-
+                                      
 
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-striped border rounded " mat-table
@@ -117,6 +125,7 @@
                                                         <!-- {{element.approvedt}} -->
                                                     </td>
                                                 </ng-container>
+                                               
                                                 <ng-container matColumnDef="filename">
                                                     <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th> -->
                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>View
@@ -1497,13 +1506,7 @@
     </mat-tab-group>
 </div>
 
-<!-- <div *ngIf="loadingSectionA; else sectionAContentA" class="spinner-container">
-    <mat-spinner diameter="40"></mat-spinner>
-  </div>
-  <ng-template #sectionAContentA>
 
-
-</ng-template> -->
 <!-- Modal PDF-->
 <div class="modal fade custom-transparent-modal" id="pdfModal2" tabindex="-1" aria-labelledby="pdfModalLabel"
     aria-hidden="true">
@@ -1517,8 +1520,31 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body p-0">
-                <iframe [src]="sanitizedPdfUrl" class="pdf-frame" allowfullscreen></iframe>
+                <embed [src]="sanitizedPdfUrl"
+       type="application/pdf"
+       class="pdf-frame">
+                <!-- <iframe [src]="sanitizedPdfUrl" class="pdf-frame" allowfullscreen></iframe> -->
             </div>
         </div>
     </div>  
 </div>
+
+<!-- modal -->
+<div class="modal fade custom-transparent-modal" id="pdfModal1" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-none">
+        <div class="modal-header bg-dark text-white py-2 px-3">
+          <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <iframe
+            id="pdfIframe"
+            [src]="sanitizedPdfUrl"
+            class="pdf-frame"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
