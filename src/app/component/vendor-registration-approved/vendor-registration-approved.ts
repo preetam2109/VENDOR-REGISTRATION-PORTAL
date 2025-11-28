@@ -217,8 +217,8 @@ ngOnInit() {
     // console.log("VRegID:", params['vregid']);
     // console.log("SupID:", params['supid']);
   });
-  window.URL.revokeObjectURL(this.url);
-  console.log('this.url7=:',this.url);
+  // window.URL.revokeObjectURL(this.url);
+  // console.log('this.url7=:',this.url);
   this.GetAnnualTurnover();
   this.GETBankMandateDetail();
   this.GETMassuppliergstDetails();
@@ -227,7 +227,7 @@ ngOnInit() {
   this.GetComplienceCertificateDetails();
   this.GetGCPDetails();
 
-  const modalEl = document.getElementById('pdfModal2');
+  // const modalEl = document.getElementById('pdfModal2');
 
   // modalEl?.addEventListener('hidden.bs.modal', () => {
   //   // setTimeout(() => {
@@ -243,19 +243,19 @@ ngOnInit() {
   //   this.refreshMatTable();
   // });
   
-  modalEl?.addEventListener('hidden.bs.modal', () => {
-    if (this.url) {
-      URL.revokeObjectURL(this.url);
-      this.url = '';
-    }
-    this.refreshMatTable();
-  });
+  // modalEl?.addEventListener('hidden.bs.modal', () => {
+  //   if (this.url) {
+  //     URL.revokeObjectURL(this.url);
+  //     this.url = '';
+  //   }
+  //   this.refreshMatTable();
+  // });
   
 
 }
 
 selectedTabValue(event: any): void {
-  debugger;
+  ;
   console.log('this.url6=:',this.url);
   this.selectedTabIndex = event.index;
   if (this.selectedTabIndex === 0) {
@@ -319,7 +319,7 @@ refreshMatTable() {
 
 // refreshMatTable() {
 //   // this.GETBankMandateDetail();
-//  debugger;
+//  ;
 //   setTimeout(() => {
 //     if (this.dataSource) {
 //       console.log('this.url4=:',this.url);
@@ -488,7 +488,7 @@ refreshMatTable() {
         
 
     // openmarqModal(pdfUrl: string): void {
-    //   debugger;
+    //   ;
     //   console.log('this.url3=:',pdfUrl);
     //   // this.savedScrollPos = window.scrollY; 
     //   this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
@@ -641,7 +641,7 @@ refreshMatTable() {
     
     DownloadFileWithName1(mFilePath: string, mFileName: string) {
       // this.loadingSectionA=true;
-      debugger;
+      ;
       this.spinner.show();
       console.log('this.url1=:',this.url);
       // window.URL.revokeObjectURL(this.url);
