@@ -521,7 +521,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
-    // debugger;
+    ;
  
 // 
         this.loadingSectionA = true;

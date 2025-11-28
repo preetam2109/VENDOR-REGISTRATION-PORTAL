@@ -255,8 +255,8 @@ ngOnInit() {
 }
 
 selectedTabValue(event: any): void {
-  // debugger;
-  // console.log('this.url6=:',this.url);
+  ;
+  console.log('this.url6=:',this.url);
   this.selectedTabIndex = event.index;
   if (this.selectedTabIndex === 0) {
     // this.GETBankMandateDetail();
@@ -319,7 +319,7 @@ refreshMatTable() {
 
 // refreshMatTable() {
 //   // this.GETBankMandateDetail();
-//  debugger;
+//  ;
 //   setTimeout(() => {
 //     if (this.dataSource) {
 //       console.log('this.url4=:',this.url);
@@ -488,7 +488,7 @@ refreshMatTable() {
         
 
     // openmarqModal(pdfUrl: string): void {
-    //   debugger;
+    //   ;
     //   console.log('this.url3=:',pdfUrl);
     //   // this.savedScrollPos = window.scrollY; 
     //   this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
@@ -641,7 +641,7 @@ refreshMatTable() {
     
     DownloadFileWithName(mFilePath: string, mFileName: string) {
       // this.loadingSectionA=true;
-      // debugger;
+      ;
       this.spinner.show();
       console.log('this.url1=:',this.url);
       // window.URL.revokeObjectURL(this.url);

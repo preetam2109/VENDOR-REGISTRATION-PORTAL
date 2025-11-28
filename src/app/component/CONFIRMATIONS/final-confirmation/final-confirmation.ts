@@ -26,7 +26,7 @@ export class FinalConfirmation implements OnInit {
   siMobile=sessionStorage.getItem('siMobile')
   sendingOTP: boolean = false;
   submitting: boolean = false;
-  serverOtp:any="99989";
+  serverOtp:any;
   constructor(private api: ApiService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class FinalConfirmation implements OnInit {
   // ---------------- SEND OTP ----------------
 
   sendOTP() {
-    debugger;
+    
   
     if (!this.siMobile) {
       this.toastr.error("Mobile number is missing.");
@@ -66,7 +66,7 @@ export class FinalConfirmation implements OnInit {
         });
   
         this.serverOtp = res?.message || '';  
-        console.log('Server OTP:', this.serverOtp);
+        // console.log('Server OTP:', this.serverOtp);
       },
       (err: any) => {
         Swal.close();
@@ -86,7 +86,7 @@ export class FinalConfirmation implements OnInit {
   
   // ---------------- SUBMIT DECLARATION ----------------
   submitDeclaration() {
-    debugger;
+    ;
   
     // STEP 1: OTP Validation
     if (!this.otpValue || this.otpValue.length !== 5) {
@@ -116,13 +116,12 @@ export class FinalConfirmation implements OnInit {
   
     
   
-  //     const formattedDate = this.getOracleFormattedDate();
+      const formattedDate = this.getOracleDateTimeFormat();
   // console.log('dsdsadasdsd',formattedDate)
-  const now = new Date();
-const formatted = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:mm:ss
-console.log(formatted);
+
+console.log(formattedDate);
       // STEP 4: API CALL
-      this.api.RegistrationComplete(formatted, this.vregid).subscribe({
+      this.api.RegistrationComplete(formattedDate, this.vregid).subscribe({
         next: (res: any) => {
   
           Swal.fire({
@@ -131,6 +130,8 @@ console.log(formatted);
             icon: "success",
             confirmButtonColor: "#3085d6"
           });
+
+
   
           this.submitting = false;
         },
@@ -142,24 +143,48 @@ console.log(formatted);
   
     });
   }
-  getOracleFormattedDate(): string {
+  getOracleFormattedDateOnly(): string {
     const now = new Date();
   
     const day = now.getDate().toString().padStart(2, '0');
-    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const monthNames = [
+      "JAN","FEB","MAR","APR","MAY","JUN",
+      "JUL","AUG","SEP","OCT","NOV","DEC"
+    ];
     const month = monthNames[now.getMonth()];
     const year = now.getFullYear();
   
-    let hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
+    return `${day}-${month}-${year}`;
+  }
+
+  getOracleDateTimeFormat(): string {
+    const now = new Date();
   
-    // convert 24h → 12h format
-    hours = hours % 12 || 12;
+    // Day
+    const day = now.getDate().toString().padStart(2, "0");
+  
+    // Month (First letter capital, rest small)
+    const monthNames = [
+      "Jan","Feb","Mar","Apr","May","Jun",
+      "Jul","Aug","Sep","Oct","Nov","Dec"
+    ];
+    const month = monthNames[now.getMonth()];
+  
+    // Year
+    const year = now.getFullYear();
+  
+    // Time
+    let hours: number | string = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    const seconds = now.getSeconds().toString().padStart(2, "0");
+  
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // convert to 12-hour format
+    hours = hours.toString().padStart(2, "0");
   
     return `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
   }
+  
   
   
   
