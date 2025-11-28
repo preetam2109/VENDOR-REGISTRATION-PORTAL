@@ -44,7 +44,7 @@ export class VendorRegistrationCompleted {
     @ViewChild('paginator') paginator!: MatPaginator;
     @ViewChild('sort') sort!: MatSort;
       dispatchData: registeredVendorsdata[] = [];
- 
+      currentBlobUrl: string | null = null; // Track current URL for revocation
 
       displayedColumns: string[] = [
         'sno','vregno','regdate','supplierName','pancardno','phone1',
@@ -96,32 +96,28 @@ export class VendorRegistrationCompleted {
     });
   }
   DownloadFileWithName(mFilePath: string, mFileName: string) {
-  
-
     // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
     const encodedName = encodeURIComponent(mFileName);
-  
+
     // Build dynamic API URL
     const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
-  
+
     this.api.DownloadFileWithName(apiUrl).subscribe({
       next: (res: Blob) => {
+        // Revoke previous URL if exists (prevents stale blobs)
+        if (this.currentBlobUrl) {
+          window.URL.revokeObjectURL(this.currentBlobUrl);
+        }
+
         const blob = new Blob([res], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
-        this.openmarqModal(url);
-        // Create a temporary link element for download
-        // const a = document.createElement('a');
-        // a.href = url;
-        // a.download = mFileName;
-        // a.click();
-  
-        // // Clean up URL object after use
-        // window.URL.revokeObjectURL(url);
+        this.currentBlobUrl = url; // Track for later revocation
+
+        this.openmarqModal(url, mFileName); // Pass filename if needed for title
       },
       error: (err) => {
         if (err.status === 0 && err.statusText === 'Unknown Error') {
-          // ✅ Show toaster or alert message
           this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
         } else if (err.status === 404) {
           this.toastr.warning('Requested file not found on the server.', 'File Not Found');
@@ -132,27 +128,48 @@ export class VendorRegistrationCompleted {
       }
     });
   }
-  openmarqModal(pdfUrl: string): void {
-    this.sanitizedPdfUrl =
-      this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
-  
+
+  openmarqModal(pdfUrl: string, fileName: string = 'PDF Preview'): void {
+    this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+
     // Remove any leftover backdrops (from previous opens)
     document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
-  
+
     const modalEl = document.getElementById('pdfModal')!;
-    // ensure modal appended to body so it sits above other layout elements
+    // Ensure modal appended to body so it sits above other layout elements
     document.body.appendChild(modalEl);
-  
+
     // Optional: force z-index higher than anything else on page
     (modalEl as HTMLElement).style.zIndex = '99999';
-  
+
     const modal = new bootstrap.Modal(modalEl, {
       backdrop: false, // no backdrop
       keyboard: true,
       focus: true,
     });
     modal.show();
+
+    // Add event listener for modal close to revoke URL and clean up
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      if (this.currentBlobUrl) {
+        window.URL.revokeObjectURL(this.currentBlobUrl);
+        this.currentBlobUrl = null;
+      }
+      // Clear iframe src to prevent stale display
+      const iframe = modalEl.querySelector('iframe');
+      if (iframe) {
+        (iframe as HTMLIFrameElement).src = '';
+      }
+      this.sanitizedPdfUrl = ''; // Reset sanitizer
+    }, { once: true }); // Listener only for this open
+
+    // Update title if passed
+    const titleEl = modalEl.querySelector('.modal-title');
+    if (titleEl) {
+      titleEl.textContent = fileName || 'PDF Preview';
+    }
   }
+
   onClick(status:any){
     if(status=='Complete'){
       return

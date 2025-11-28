@@ -26,7 +26,7 @@ export class FinalConfirmation implements OnInit {
   siMobile=sessionStorage.getItem('siMobile')
   sendingOTP: boolean = false;
   submitting: boolean = false;
-
+  serverOtp:any="99989";
   constructor(private api: ApiService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
@@ -36,94 +36,115 @@ export class FinalConfirmation implements OnInit {
 
   // ---------------- SEND OTP ----------------
 
-
-  sendOTP(): void {
-    debugger
-    if (!this.vregid) {
-          this.toastr.error("VReg ID is missing.");
-          return;
-        }
-    
-        this.sendingOTP = true;
-    // Show a loading indicator
+  sendOTP() {
+    debugger;
+  
+    if (!this.siMobile) {
+      this.toastr.error("Mobile number is missing.");
+      return;
+    }
+  
     Swal.fire({
       title: 'Sending OTP...',
-      text: 'Please wait while we send the OTP to your registered mobile number \n'+this.siMobile,
+      text: 'Please wait while we send the OTP to your registered mobile number \n' + this.siMobile,
       icon: 'info',
       allowOutsideClick: false,
       showConfirmButton: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
+      didOpen: () => Swal.showLoading()
     });
   
-    // Call API to send OTP
-    this.api.getOTPSaved(this.userid,this.ipAddress).subscribe(
+    this.api.GETotp(this.siMobile).subscribe(
       (res: any) => {
-        // Close the loading indicator
+  
         Swal.close();
   
-        // Show success alert
         Swal.fire({
           title: 'OTP Sent!',
-          text: 'An OTP has been sent to your registered mobile number \n'+this.siMobile,
+          text: 'An OTP has been sent to your registered mobile number \n' + this.siMobile,
           icon: 'success',
-          confirmButtonText: 'OK',
-        }).then(() => {
-          // Navigate to the OTP page after confirmation
-          // this.router.navigate(['/otp']); // Replace with your route
+          confirmButtonText: 'OK'
         });
+  
+        this.serverOtp = res?.message || '';  
+        console.log('Server OTP:', this.serverOtp);
       },
-      (error: any) => {
-        // Handle error and show failure alert
-        this.sendingOTP = false;
-
+      (err: any) => {
+        Swal.close();
+  
         Swal.fire({
           title: 'Error!',
           text: 'Failed to send OTP. Please try again later.',
           icon: 'error',
-          confirmButtonText: 'OK',
+          confirmButtonText: 'OK'
         });
+  
+        console.error('OTP Error:', err);
       }
     );
   }
-
-
-
-
-  // sendOTP() {
-  //   if (!this.vregid) {
-  //     this.toastr.error("VReg ID is missing.");
-  //     return;
-  //   }
-
-  //   this.sendingOTP = true;
-
-  //   this.api.VerifyOTPLogin(this.vregid).subscribe({
-  //     next: (res: any) => {
-  //       this.toastr.success("OTP sent to registered mobile number.");
-  //       this.sendingOTP = false;
-  //     },
-  //     error: () => {
-  //       this.toastr.error("Failed to send OTP.");
-  //       this.sendingOTP = false;
-  //     }
-  //   });
-  // }
-
+  
+  
   // ---------------- SUBMIT DECLARATION ----------------
   submitDeclaration() {
-debugger
-    // Validate OTP
+    debugger;
+  
+    // STEP 1: OTP Validation
     if (!this.otpValue || this.otpValue.length !== 5) {
       this.toastr.error("Please enter a valid 5-digit OTP.");
       return;
     }
   
-    this.submitting = true;
+    if (this.serverOtp !== this.otpValue) {
+      this.toastr.error("Invalid OTP, please try again.");
+      return;
+    }
   
-    // Format current date like 10-Nov-2025 02:45:23 PM
+    // STEP 2: Warning BEFORE final submission
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Once submitted, you cannot edit or make any changes further.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Submit",
+      cancelButtonText: "Cancel"
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+  
+      this.submitting = true;
+  
+    
+  
+  //     const formattedDate = this.getOracleFormattedDate();
+  // console.log('dsdsadasdsd',formattedDate)
+  const now = new Date();
+const formatted = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:mm:ss
+console.log(formatted);
+      // STEP 4: API CALL
+      this.api.RegistrationComplete(formatted, this.vregid).subscribe({
+        next: (res: any) => {
+  
+          Swal.fire({
+            title: "Success!",
+            text: "Vendor Declaration submitted successfully.",
+            icon: "success",
+            confirmButtonColor: "#3085d6"
+          });
+  
+          this.submitting = false;
+        },
+        error: () => {
+          this.toastr.error("Failed to complete declaration.");
+          this.submitting = false;
+        }
+      });
+  
+    });
+  }
+  getOracleFormattedDate(): string {
     const now = new Date();
+  
     const day = now.getDate().toString().padStart(2, '0');
     const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const month = monthNames[now.getMonth()];
@@ -134,27 +155,12 @@ debugger
     const seconds = now.getSeconds().toString().padStart(2, '0');
     const ampm = hours >= 12 ? 'PM' : 'AM';
   
+    // convert 24h → 12h format
     hours = hours % 12 || 12;
   
-    const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
-  
-    // API Call
-    this.api.RegistrationComplete(formattedDate, this.vregid).subscribe({
-      next: (res: any) => {
-        Swal.fire({
-          title: "Success!",
-          text: "Vendor Declaration submitted successfully.",
-          icon: "success",
-          confirmButtonColor: "#3085d6"
-        });
-        this.submitting = false;
-      },
-      error: () => {
-        this.toastr.error("Failed to submit declaration.");
-        this.submitting = false;
-      }
-    });
-  
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
   }
+  
+  
   
 }
