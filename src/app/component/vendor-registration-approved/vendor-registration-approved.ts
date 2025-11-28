@@ -27,7 +27,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-
 @Component({
   standalone: true,
  imports: [ NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
@@ -146,6 +145,8 @@ export class VendorRegistrationApproved {
    vregid:any;
    SupID:any;
    selectedTabIndex: number = 0;
+  //  sanitizedPdfUrl!: SafeResourceUrl;
+   currentBlobUrl: string | null = null; 
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
     private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,private route: ActivatedRoute,private datePipe: DatePipe
   ){
@@ -211,11 +212,13 @@ ngOnInit() {
     this.vregid= params['vregid'];
     this.SupID=  params['supid'];
 
-    console.log("VRegID:",  this.vregid);
-    console.log("SupID:",  this.SupID);
+    // console.log("VRegID:",  this.vregid);
+    // console.log("SupID:",  this.SupID);
     // console.log("VRegID:", params['vregid']);
     // console.log("SupID:", params['supid']);
   });
+  window.URL.revokeObjectURL(this.url);
+  console.log('this.url7=:',this.url);
   this.GetAnnualTurnover();
   this.GETBankMandateDetail();
   this.GETMassuppliergstDetails();
@@ -226,22 +229,38 @@ ngOnInit() {
 
   const modalEl = document.getElementById('pdfModal2');
 
-  modalEl?.addEventListener('hidden.bs.modal', () => {
-    // setTimeout(() => {
+  // modalEl?.addEventListener('hidden.bs.modal', () => {
+  //   // setTimeout(() => {
     
-    // }, 50);
+  //   // }, 50);
+  //   this.refreshMatTable();
+  // });
+  // modalEl?.addEventListener('hidden.bs.modal', () => {
+  //   if (this.url) {
+  //     window.URL.revokeObjectURL(this.url);
+  //     this.url = '';
+  //   }
+  //   this.refreshMatTable();
+  // });
+  
+  modalEl?.addEventListener('hidden.bs.modal', () => {
+    if (this.url) {
+      URL.revokeObjectURL(this.url);
+      this.url = '';
+    }
     this.refreshMatTable();
   });
- 
-
+  
 
 }
 
 selectedTabValue(event: any): void {
-  // debugger;
+  debugger;
+  console.log('this.url6=:',this.url);
   this.selectedTabIndex = event.index;
   if (this.selectedTabIndex === 0) {
     // this.GETBankMandateDetail();
+    window.URL.revokeObjectURL(this.url);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource1.paginator = this.paginator1;
@@ -253,15 +272,18 @@ selectedTabValue(event: any): void {
   } 
   if (this.selectedTabIndex === 1) {
       // this.GetAnnualTurnover();
+      window.URL.revokeObjectURL(this.url);
     this.dataSource4.paginator = this.paginator4;
     this.dataSource4.sort = this.sort4;
   } 
   if (this.selectedTabIndex === 2) {
+    window.URL.revokeObjectURL(this.url);
     this.dataSource5.paginator = this.paginator5;
     this.dataSource5.sort = this.sort5;
     //   this.GETMassuppliergstDetails();
   } 
   if (this.selectedTabIndex === 3) {
+    window.URL.revokeObjectURL(this.url);
     this.dataSource6.paginator = this.paginator6;
     this.dataSource6.sort = this.sort6;
     // this.GstReturnDetails();
@@ -270,39 +292,67 @@ selectedTabValue(event: any): void {
   // }
 }
 refreshMatTable() {
-  // this.GETBankMandateDetail();
-//  debugger;
   setTimeout(() => {
     if (this.dataSource) {
-      // this.dataSource1.paginator = this.paginator1;
-      // this.dataSource1.sort = this.sort1;
-      // console.log('this.url2=:',this.url);
-      // this.url='';
-      // console.log('this.url3=:',this.url);
-      window.URL.revokeObjectURL(this.url);
+      // ❌ REMOVE THIS — causes PDF preview issues
+      // window.URL.revokeObjectURL(this.url);
+
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.dataSource1.paginator = this.paginator1;
-      this.dataSource1.sort = this.sort1;   
+      this.dataSource1.sort = this.sort1;
       this.dataSource2.paginator = this.paginator2;
-      this.dataSource2.sort = this.sort2; 
+      this.dataSource2.sort = this.sort2;
       this.dataSource3.paginator = this.paginator3;
-      this.dataSource3.sort = this.sort3; 
+      this.dataSource3.sort = this.sort3;
       this.dataSource4.paginator = this.paginator4;
-      this.dataSource4.sort = this.sort4; 
+      this.dataSource4.sort = this.sort4;
       this.dataSource5.paginator = this.paginator5;
       this.dataSource5.sort = this.sort5;
       this.dataSource6.paginator = this.paginator6;
-      this.dataSource6.sort = this.sort6;  
+      this.dataSource6.sort = this.sort6;
+
       this.cdr.detectChanges();
-    
     }
-    // setTimeout(() => {
-    //   window.scrollTo(0, this.savedScrollPos);
-    // }, 10);
-    
   }, 200);
 }
+
+// refreshMatTable() {
+//   // this.GETBankMandateDetail();
+//  debugger;
+//   setTimeout(() => {
+//     if (this.dataSource) {
+//       console.log('this.url4=:',this.url);
+//       // this.dataSource1.paginator = this.paginator1;
+//       // this.dataSource1.sort = this.sort1;
+//       // console.log('this.url2=:',this.url);
+//       // this.url='';
+//       // console.log('this.url3=:',this.url);
+//       window.URL.revokeObjectURL(this.url);
+//       console.log('this.url5=:',this.url);
+//       this.dataSource.paginator = this.paginator;
+//       this.dataSource.sort = this.sort;
+//       this.dataSource1.paginator = this.paginator1;
+//       this.dataSource1.sort = this.sort1;   
+//       this.dataSource2.paginator = this.paginator2;
+//       this.dataSource2.sort = this.sort2; 
+//       this.dataSource3.paginator = this.paginator3;
+//       this.dataSource3.sort = this.sort3; 
+//       this.dataSource4.paginator = this.paginator4;
+//       this.dataSource4.sort = this.sort4; 
+//       this.dataSource5.paginator = this.paginator5;
+//       this.dataSource5.sort = this.sort5;
+//       this.dataSource6.paginator = this.paginator6;
+//       this.dataSource6.sort = this.sort6;  
+//       this.cdr.detectChanges();
+    
+//     }
+//     // setTimeout(() => {
+//     //   window.scrollTo(0, this.savedScrollPos);
+//     // }, 10);
+    
+//   }, 200);
+// }
   
 
 
@@ -437,29 +487,164 @@ refreshMatTable() {
         }
         
 
-    openmarqModal(pdfUrl: string): void {
-      // debugger;
-      // this.savedScrollPos = window.scrollY; 
-      this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
-      document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    // openmarqModal(pdfUrl: string): void {
+    //   debugger;
+    //   console.log('this.url3=:',pdfUrl);
+    //   // this.savedScrollPos = window.scrollY; 
+    //   this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+    //   document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
     
-      const modalEl = document.getElementById('pdfModal2')!;
-      document.body.appendChild(modalEl);
-      (modalEl as HTMLElement).style.zIndex = '99999';
+    //   const modalEl = document.getElementById('pdfModal2')!;
+    //   document.body.appendChild(modalEl);
+    //   (modalEl as HTMLElement).style.zIndex = '99999';
     
-      const modal = new bootstrap.Modal(modalEl, {
-        backdrop: false, 
-        keyboard: true,
-        focus: true
-      });
-      modal.show();
-      
-      this.loadingSectionA=false;
+    //   const modal = new bootstrap.Modal(modalEl, {
+    //     backdrop: false, 
+    //     keyboard: true,
+    //     focus: true
+    //   });
+    //   modal.show();
+    //   this.spinner.hide();
+    //   // window.URL.revokeObjectURL(this.url);
+    //   // this.loadingSectionA=false;
     
+    // }
+    forceOpenPdf(pdfUrl: string) {
+      // 1️⃣ Force iframe clear
+      this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+    
+      setTimeout(() => {
+        // 2️⃣ Attach RANDOM param to force refresh (safe for iframe)
+        const finalUrl = pdfUrl + '#view=' + new Date().getTime();
+        this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(finalUrl);
+    
+        const modalEl = document.getElementById('pdfModal2')!;
+        document.body.appendChild(modalEl);
+    
+        const modal = new bootstrap.Modal(modalEl, {
+          backdrop: false,
+          keyboard: true,
+          focus: true
+        });
+    
+        modal.show();
+    
+        this.spinner.hide();
+      }, 50);
     }
-    DownloadFileWithName(mFilePath: string, mFileName: string) {
-      this.loadingSectionA=true;
+    
+    // openmarqModal(pdfUrl: string): void {
+    //   // 1 → First clear iframe to force refresh
+    //   this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+    
+    //   // 2 → Small delay to ensure refresh happens
+    //   setTimeout(() => {
+    //     // 3 → Now assign actual blob URL (NO timestamp)
+    //     this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+    
+    //     const modalEl = document.getElementById('pdfModal2')!;
+    //     document.body.appendChild(modalEl);
+    
+    //     (modalEl as HTMLElement).style.zIndex = '99999';
+    
+    //     const modal = new bootstrap.Modal(modalEl, {
+    //       backdrop: false,
+    //       keyboard: true,
+    //       focus: true
+    //     });
+    
+    //     modal.show();
+    //     this.spinner.hide();
+    //   }, 50);
+    // }
+    // Add to imports (if not already)
+
+
+
+ // Track current URL for revocation
+  // ... other properties
+
+  DownloadFileWithName(mFilePath: string, mFileName: string) {
+    // Encode file path and file name to handle special characters (like spaces, \ etc.)
+    const encodedPath = encodeURIComponent(mFilePath);
+    const encodedName = encodeURIComponent(mFileName);
+
+    // Build dynamic API URL
+    const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+
+    this.api.DownloadFileWithName(apiUrl).subscribe({
+      next: (res: Blob) => {
+        // Revoke previous URL if exists (prevents stale blobs)
+        if (this.currentBlobUrl) {
+          window.URL.revokeObjectURL(this.currentBlobUrl);
+        }
+
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        this.currentBlobUrl = url; // Track for later revocation
+
+        this.openmarqModal(url, mFileName); // Pass filename if needed for title
+      },
+      error: (err) => {
+        if (err.status === 0 && err.statusText === 'Unknown Error') {
+          this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+        } else if (err.status === 404) {
+          this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+        } else {
+          this.toastr.error('Something went wrong while downloading the file.', 'Error');
+        }
+        console.error('Download error:', err);
+      }
+    });
+  }
+
+  openmarqModal(pdfUrl: string, fileName: string = 'PDF Preview'): void {
+    this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+
+    // Remove any leftover backdrops (from previous opens)
+    document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+
+    const modalEl = document.getElementById('pdfModal1')!;
+    // Ensure modal appended to body so it sits above other layout elements
+    document.body.appendChild(modalEl);
+
+    // Optional: force z-index higher than anything else on page
+    (modalEl as HTMLElement).style.zIndex = '99999';
+
+    const modal = new bootstrap.Modal(modalEl, {
+      backdrop: false, // no backdrop
+      keyboard: true,
+      focus: true,
+    });
+    modal.show();
+
+    // Add event listener for modal close to revoke URL and clean up
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      if (this.currentBlobUrl) {
+        window.URL.revokeObjectURL(this.currentBlobUrl);
+        this.currentBlobUrl = null;
+      }
+      // Clear iframe src to prevent stale display
+      const iframe = modalEl.querySelector('iframe');
+      if (iframe) {
+        (iframe as HTMLIFrameElement).src = '';
+      }
+      this.sanitizedPdfUrl = ''; // Reset sanitizer
+    }, { once: true }); // Listener only for this open
+
+    // Update title if passed
+    const titleEl = modalEl.querySelector('.modal-title');
+    if (titleEl) {
+      titleEl.textContent = fileName || 'PDF Preview';
+    }
+  }
+    
+    DownloadFileWithName1(mFilePath: string, mFileName: string) {
+      // this.loadingSectionA=true;
       debugger;
+      this.spinner.show();
+      console.log('this.url1=:',this.url);
+      // window.URL.revokeObjectURL(this.url);
       const encodedPath = encodeURIComponent(mFilePath);
       const encodedName = encodeURIComponent(mFileName);
     
@@ -467,9 +652,27 @@ refreshMatTable() {
     
       this.api.DownloadFileWithName(apiUrl).subscribe({
         next: (res: Blob) => {
-          const blob = new Blob([res], { type: 'application/pdf' });
-          this.url = window.URL.createObjectURL(blob);
-          this.openmarqModal(this.url);
+          const pdfURL = URL.createObjectURL(res);
+          window.open(pdfURL, "_blank");
+          // const blob = new Blob([res], { type: 'application/pdf' });
+          // this.url = window.URL.createObjectURL(blob);
+          //   const pdfBlobUrl = URL.createObjectURL(blob);
+          // this.openmarqModal(this.url);
+          // console.log('res url=:',this.url);
+                // test data
+                // const blob = new Blob([res], { type: 'application/pdf' });
+
+                // Always create a NEW unique URL
+                // const objectUrl = window.URL.createObjectURL(blob);
+              
+                // Add timestamp to FORCE iframe reload
+                // this.url = objectUrl + '#t=' + new Date().getTime();
+                // this.url = objectUrl + '?v=' + new Date().getTime();
+                // this.openmarqModal(this.url);
+                // this.forceOpenPdf(pdfBlobUrl);
+                this.spinner.hide();
+
+
           // console.log('this.url1=:',this.url);
           // console.log('resurl=:',res);
           // Create a temporary link element for download
@@ -482,7 +685,8 @@ refreshMatTable() {
           
         },
         error: (err) => {
-          this.loadingSectionA=false;
+          // this.loadingSectionA=false;
+          this.spinner.hide();
           if (err.status === 0 && err.statusText === 'Unknown Error') {
          
             this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');

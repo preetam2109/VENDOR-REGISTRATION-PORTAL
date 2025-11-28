@@ -521,6 +521,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
+    debugger;
  
 // 
         this.loadingSectionA = true;
@@ -557,6 +558,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
     if (this.selectedFile) {
       formData.append('BankDetailDocument', this.selectedFile);
     }
+    console.log()
   // return;
     this.api.post('/Registration/UpdateBankDetails',formData).subscribe({
       next: (res: any) => {
