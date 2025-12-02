@@ -41,15 +41,6 @@ export class TechnicalDetails {
   Other_Document1: File | null = null;
   Other_Document2: File | null = null;
   SSICertificate: File | null = null;
-
-
-
-  // TechCertificate1: File | null = null;
-  // TechCertificate2: File | null = null;
-  // TechCertificate3: File | null = null;
-  // TechCertificate4: File | null = null;
-  // TechCertificate5: File | null = null;
-  // TechCertificate6: File | null = null;
   TechnicalDetails:any;
   sanitizedPdfUrl!: SafeResourceUrl;
   fileError: string = '';
@@ -71,14 +62,6 @@ export class TechnicalDetails {
         // 'filepath',
         // 'action',
       ];
-      // tableHeadings = [
-      //   "Non Conviction certificate",
-      //   "Power of Attorney",
-      //   "Affidavit for Strict Compliance",
-      //   "Declaration Regarding blacklisting",
-      //   "Other Document 1",
-      //   "Other Document 2"
-      // ];
       tableHeadings = [
         { label: "Non Conviction certificate", mscid: 41 },
         { label: "Power of Attorney", mscid: 9 },
@@ -90,8 +73,6 @@ export class TechnicalDetails {
       ];
       
       TechnicalDetailsMapped: any = {};
-      
-
       onshow=false;
       events:any;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
@@ -114,45 +95,9 @@ export class TechnicalDetails {
       case 4: this.Other_Document1 = file; break;//19
       case 5: this.Other_Document2 = file; break;//122
       case 6: this.SSICertificate = file; break;//7
-     
-      // case 1: this.TechCertificate1 = file; break;
-
-      // case 2: this.TechCertificate2 = file; break;
-      // case 3: this.TechCertificate3 = file; break;
-      // case 4: this.TechCertificate4 = file; break;
-      // case 5: this.TechCertificate5 = file; break;
-      // case 6: this.TechCertificate6 = file; break;
-      // case 6: this.TechCertificate6 = file; break;
     }
   }
-  // onFileSelect(event: any,no:any): void {
-  //   const file = event.target?.files?.[0] || null;
-  //   this.fileError = ''; // reset error
-  
-  //   if (!file) {
-  //     this.fileError = 'Please upload the Non Conviction Certificate.';
-  //     this.NonConvcerCertificate = null;
-  //     return;
-  //   }
-  
-  //   // ✅ Check file type
-  //   if (file.type !== 'application/pdf') {
-  //     this.fileError = 'Only PDF files are allowed.';
-  //     event.target.value = '';
-  //     return;
-  //   }
-  
-  //   // ✅ Check file size (max 10MB)
-  //   const maxSizeMB = 10;
-  //   if (file.size > maxSizeMB * 1024 * 1024) {
-  //     this.fileError = `File size should not exceed ${maxSizeMB} MB.`;
-  //     event.target.value = '';
-  //     return;
-  //   }
-  
-  //   // ✅ File valid
-  //   this.NonConvcerCertificate = file;
-  // }
+ 
   
   // SSICertificateID = "7";
   // NonConvcerID = "41";
@@ -162,20 +107,12 @@ export class TechnicalDetails {
   //   string CapacityOfProd = "81";
 
   InsertTechnicalDetails(mFileTypeid: number) {
-
-// ;
- // Find the matching file
  const file = this.TechnicalDetailsData.find((f: any) => f.mscid == mFileTypeid);
-//  console.log(file)
  if(file){
   this.toastr.error('This document type already exists. Please select a different one!', 'Error');
 
   return;
  }
-//   else {
-//   console.warn(`No file found for fileid: ${mFileTypeid}`);
-// }
-// return;
 
     const formData = new FormData();
     let selectedFile: File | null = null;
@@ -198,27 +135,9 @@ export class TechnicalDetails {
          case 41: // Non Conviction Certificate
         selectedFile = this.NonConvcerCertificate;
         break;
-        case 7: 
+        case 7: // SSI Certificate
         selectedFile=this.SSICertificate;
          break;//7
-      // case 7:  // SSI Certificate Other Document  1
-      //   selectedFile = this.TechCertificate5;
-      //   break;
-      // case 42: // Technical Certificate
-      //   selectedFile = this.TechCertificate3;
-      //   break;
-  
-      // case 43: // Performance Certificate
-      //   selectedFile = this.TechCertificate1;
-      //   break;
-  
-      // case 45: // Self Affidavit
-      //   selectedFile = this.TechCertificate2;
-      //   break;
-  
-      // case 81: // Capacity of Production
-      //   selectedFile = this.TechCertificate4;
-      //   break;
   
       default:
         this.toastr.error('Invalid File Type ID!', 'Error');
@@ -240,6 +159,7 @@ export class TechnicalDetails {
       mVergID: sessionStorage.getItem('vregid') || '',
       mFileTypeID: mFileTypeid.toString()
     };
+    console.log("details:=",data);
   // return;
     //  API Call
     try {
@@ -252,10 +172,7 @@ export class TechnicalDetails {
           );
           console.log('Upload Success:', res);
   
-          // Reset only uploaded file variable
           switch (mFileTypeid) {
-            // case 7: this.TechCertificate1 = null; break;
-
             case 41: this.NonConvcerCertificate = null;  break;
             case 9: this.PowerofAttorney = null; break;
             case 141: this.AffidavitforStrict_Compliance = null; break;
@@ -326,12 +243,8 @@ export class TechnicalDetails {
     }
     
     DownloadFileWithName1(mFilePath: string, mFileName: string) {
-    
-  // 
-      // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
       const encodedName = encodeURIComponent(mFileName);
-    
       // Build dynamic API URL
       const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
     
@@ -365,15 +278,12 @@ export class TechnicalDetails {
       });
     }
     DownloadFileWithName(mscid:any) {
-      // ;mFilePath: string, mFileName: string ,
       let mFileName: any;
       let mFilePath: any;
-      // ;
       if (!this.TechnicalDetails || this.TechnicalDetails.length === 0) {
         console.error("Technical details not loaded yet!");
         return;
       }
-    
       // Find the matching file
       const file = this.TechnicalDetails.find((f: any) => f.mscid == mscid);
     
@@ -383,20 +293,15 @@ export class TechnicalDetails {
         // console.log("Matched File:", file);
         // console.log("File Name:", file.filename);
         // console.log("File Path:", file.filepath);
-    
-       
-        // If your API provides downloadable links, you can open them directly:
-        // window.open(file.filepath, '_blank'); // ⚠ Only works if it's a valid URL, not local path
+        // window.open(file.filepath, '_blank');
     
       } else {
         console.warn(`No file found for fileid: ${mscid}`);
       }
     
-      // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
       const encodedName = encodeURIComponent(mFileName);
     
-      // Build dynamic API URL
       const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
     
       this.api.DownloadFileWithName(apiUrl).subscribe({
