@@ -237,6 +237,7 @@ validateStartEnd(form: FormGroup) {
   }
   
   onRetentionChange(selected: any) {
+    // debugger;
     const retid = selected?.retid ?? selected; // handles both cases
   
     console.log('Final RetID:', retid);
@@ -602,6 +603,8 @@ validateStartEnd(form: FormGroup) {
   // }
   
   onSubmitLicence() {
+    // debugger;
+    console.log('licForm.value=',this.licForm.value);
     this.loadingSectionA = true;
     
    this.submitted = true;
@@ -635,7 +638,7 @@ validateStartEnd(form: FormGroup) {
         mStartDate: this.formatDate(this.licForm.value.mStartDate),
         mVALIDITYDATE: this.formatDate(this.licForm.value.mVALIDITYDATE),
       };
-  
+  // return;
     try {
       this.api.postManufacturingLic(params,formData).subscribe({
         next: (res) => {
