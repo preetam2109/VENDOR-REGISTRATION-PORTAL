@@ -255,7 +255,7 @@ ngOnInit() {
 }
 
 selectedTabValue(event: any): void {
-  // debugger;
+  // ;
   // console.log('this.url6=:',this.url);
   this.selectedTabIndex = event.index;
   if (this.selectedTabIndex === 0) {
@@ -641,7 +641,7 @@ refreshMatTable() {
     
     DownloadFileWithName(mFilePath: string, mFileName: string) {
       // this.loadingSectionA=true;
-      // debugger;
+      // ;
       this.spinner.show();
       console.log('this.url1=:',this.url);
       // window.URL.revokeObjectURL(this.url);
