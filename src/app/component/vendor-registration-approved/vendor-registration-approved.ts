@@ -27,13 +27,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'; 
 
 @Component({
   standalone: true,
  imports: [ NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
   MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
-    MatTableExporterModule,NgxExtendedPdfViewerModule
+    MatTableExporterModule
   ],
 //  imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
 //     MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
