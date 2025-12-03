@@ -4,14 +4,6 @@
     transform: rotate(180deg);
     transition: transform 0.3s ease;
   }
-
-
-
-  
-  /* table css */
-  /* .container-fluid {
-    padding: 20px;
-  } */
   
   .table-responsive {
     margin-top: 20px;
@@ -180,53 +172,6 @@
   opacity: 0 !important;
   pointer-events: none !important; /* allow clicks / scroll through it */
 }
-
-/* 
-:host ::ng-deep .modal-content {
-  position: relative;
-}
-
-.custom-transparent-modal + .modal-backdrop.show {
-  --bs-backdrop-opacity: 0;
-  opacity: var(--bs-backdrop-opacity) !important;
-}
-
-:root ::ng-deep {
-  --bs-backdrop-opacity: 0 !important;
-}
-
-.modal-backdrop.show {
-  opacity: var(--bs-backdrop-opacity) !important;
-} */
-
-/* .modal-backdrop {
-  --bs-backdrop-zindex: 1050;
-  --bs-backdrop-bg: #000;
-  --bs-backdrop-opacity: 0.5;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: var(--bs-backdrop-zindex);
-  width
-Specifies the width of the content area, padding area or border area (depending on 'box-sizing') of certain boxes.
-
-Widely available across major browsers (Baseline since January 2018)
-Learn more
-
-Don't show
-: 100vw;
-  height: 100vh;
-  background-color: var(--bs-backdrop-bg);
-} */
-/* ng select  */
-/* 
-
-/* ::ng-deep .custom-ngselect .ng-select-container:hover,
-::ng-deep .custom-ngselect .ng-select-container.ng-has-value,
-::ng-deep .custom-ngselect .ng-select-container.ng-select-focused {
-  border-color: #86b7fe;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-} */
 :root {
   --ng-placeholder-force: 'Select Bank Account';
 }
