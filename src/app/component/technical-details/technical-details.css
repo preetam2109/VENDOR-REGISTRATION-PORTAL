@@ -5,14 +5,6 @@ button[aria-expanded="true"] .bi-chevron-down {
   transition: transform 0.3s ease;
 }
 
-
-
-
-/* table css */
-/* .container-fluid {
-  padding: 20px;
-} */
-
 .table-responsive {
   margin-top: 20px;
 }
@@ -62,8 +54,6 @@ button[aria-expanded="true"] .bi-chevron-down {
   font-size: small; /* Adjust text size for small screens */
   /* color: crimson; */
 }
-
-/* Additional styling for mobile view */
 @media (max-width: 768px) {
   .table-container {
     padding: 0;
@@ -127,14 +117,12 @@ margin-left: 0 !important;
 justify-content: center;
 }
 
-/* 🔹 Remove backdrop completely (no overlay, no click blocker) */
 .modal-backdrop.show {
 opacity: 0 !important;
 background-color: transparent !important;
-pointer-events: none !important; /* ✅ this removes the blocking behavior */
+pointer-events: none !important; 
 }
 
-/* 🔹 Modal look cleanup */
 .custom-transparent-modal .modal-content {
 border: none !important;
 box-shadow: none !important;
@@ -142,7 +130,6 @@ border-radius: 0.5rem;
 overflow: hidden;
 }
 
-/* 🔹 Iframe scrollable and responsive */
 .pdf-frame {
 width: 100%;
 height: 85vh;
@@ -150,13 +137,11 @@ border: none;
 display: block;
 }
 
-/* 🔹 Allow scroll inside modal body */
 .custom-transparent-modal .modal-body {
 overflow-y: auto;
 -webkit-overflow-scrolling: touch;
 }
 
-/* 🔹 Responsive for smaller devices */
 @media (max-width: 768px) {
 .pdf-frame {
   height: 75vh;
@@ -168,12 +153,10 @@ overflow-y: auto;
 }
 
 
-/* make sure modal is on top */
 .modal {
 z-index: 200000 !important;
 }
 
-/* if backdrop still present, make it transparent and non-blocking */
 .modal-backdrop {
 z-index: 199999 !important;
 background-color: transparent !important;
@@ -183,60 +166,14 @@ pointer-events: none !important; /* allow clicks / scroll through it */
 
 
 .whoid-link {
-  color: inherit;           /* Normal text color रहेगा */
-  text-decoration: none;    /* Normal में underline नहीं */
+  color: inherit;          
+  text-decoration: none;   
   cursor: pointer;
   transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
 .whoid-link:hover {
-  color: #1a5fff;           /* Hover पर blue color */
-  text-decoration: underline; /* Hover पर underline */
-}
-/* 
-
-:host ::ng-deep .modal-content {
-position: relative;
+  color: #1a5fff;           
+  text-decoration: underline; 
 }
 
-.custom-transparent-modal + .modal-backdrop.show {
---bs-backdrop-opacity: 0;
-opacity: var(--bs-backdrop-opacity) !important;
-}
-
-:root ::ng-deep {
---bs-backdrop-opacity: 0 !important;
-}
-
-.modal-backdrop.show {
-opacity: var(--bs-backdrop-opacity) !important;
-} */
-
-/* .modal-backdrop {
---bs-backdrop-zindex: 1050;
---bs-backdrop-bg: #000;
---bs-backdrop-opacity: 0.5;
-position: fixed;
-top: 0;
-left: 0;
-z-index: var(--bs-backdrop-zindex);
-width
-Specifies the width of the content area, padding area or border area (depending on 'box-sizing') of certain boxes.
-
-Widely available across major browsers (Baseline since January 2018)
-Learn more
-
-Don't show
-: 100vw;
-height: 100vh;
-background-color: var(--bs-backdrop-bg);
-} */
-/* ng select  */
-/* 
-
-/* ::ng-deep .custom-ngselect .ng-select-container:hover,
-::ng-deep .custom-ngselect .ng-select-container.ng-has-value,
-::ng-deep .custom-ngselect .ng-select-container.ng-select-focused {
-border-color: #86b7fe;
-box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-} */

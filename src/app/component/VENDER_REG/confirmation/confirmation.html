@@ -5,9 +5,9 @@
     </div>
    
   <div class="container-fluid">
-    
+    <!-- FINANCIAL DETAILS -->
   <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
-    <mat-tab label="Bank Details">
+    <mat-tab label="Financial Details">
       <ng-template matTabContent>
         <!-- <app-manufacturing-unit *ngIf="selectedTabIndex === 0"></app-manufacturing-unit> -->
         <app-confirm-bank-details-tab *ngIf="selectedTabIndex === 0"></app-confirm-bank-details-tab>

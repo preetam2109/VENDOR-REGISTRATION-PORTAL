@@ -33,23 +33,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './global-company-prefix.css'
 })
 export class GlobalCompanyPrefix {
-  // GetGCPDetails
   today: string = new Date().toISOString().split("T")[0];
   errorMsg:any;
 onshow:boolean=false;
 loadingSectionA:boolean=false;
     fileSelected: File | null = null;
-    // license:licenseModel[]=[];
-    // MAScomplianceType:any[]=[];
-    // masitemtypes:any[]=[];
-    // licid:any;
-    // unitname: any;
-    // comid: any;
-    // comname: any;
-    // itemtypeid:any;
-    // itemtypename:any;
-    // selectedLicense: any = null;
-    // selecteditemtypeid: any[] = []; 
     sanitizedPdfUrl!: SafeResourceUrl;
     ISSUEDATE: string = '';
   mstartdate: string = '';
@@ -61,22 +49,9 @@ loadingSectionA:boolean=false;
     @ViewChild('paginator') paginator!: MatPaginator;
     @ViewChild('sort') sort!: MatSort;
       dispatchData: GetGCPDetails[] = [];
-      // dispatchData3: GstReturnDetails[] = [];'filepath',
       displayedColumns: string[] = [
         'sno','gcpno','issuedate','startdate',
         'expdate','filename'
-        // 'gcpid','vregid','entrydate'
-        // ,'action'
-        // sno:any;
-        // : number
-        // : number
-        // gcpno: string
-        // issuedate: string
-        // startdate: any
-        // expdate: string
-        // filename: string
-        // filepath: string
-        // entrydate: string
        
       ];
    constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
@@ -140,18 +115,15 @@ loadingSectionA:boolean=false;
   openmarqModal(pdfUrl: string): void {
     this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
   
-    // Remove any leftover backdrops (from previous opens)
     document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
   
     const modalEl = document.getElementById('pdfModal')!;
-    // ensure modal appended to body so it sits above other layout elements
     document.body.appendChild(modalEl);
   
-    // Optional: force z-index higher than anything else on page
     (modalEl as HTMLElement).style.zIndex = '99999';
   
     const modal = new bootstrap.Modal(modalEl, {
-      backdrop: false, // no backdrop
+      backdrop: false,
       keyboard: true,
       focus: true
     });
@@ -246,7 +218,6 @@ this.loadingSectionA=true;
         try{
           this.spinner.show();
         this.api.GetGCPDetails(sessionStorage.getItem('vregid'))
-        // this.Service.get('GetDrugTenderList?n=0')
           .subscribe(
             (res:any) => {
               this.dispatchData = res.map(

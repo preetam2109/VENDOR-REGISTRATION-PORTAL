@@ -1741,6 +1741,10 @@ public DownloadFileWithName(url: string) {
   return this.http.get(this.VREGAPI + url, { responseType: 'blob' });
 }
 
+public DownloadFileWithName1(url: string) {
+  return this.http.get(this.VREGAPI + url, { responseType: 'arraybuffer' });
+}
+
 RegisterVendor(supplierId: any) {
   return this.http.post(
     `${this.VREGAPI}/Registration/RegisterVendor?supplierId=${supplierId}`,

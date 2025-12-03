@@ -27,11 +27,13 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'; 
+
 @Component({
   standalone: true,
  imports: [ NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
   MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
-    MatTableExporterModule
+    MatTableExporterModule,NgxExtendedPdfViewerModule
   ],
 //  imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
 //     MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
@@ -46,6 +48,8 @@ export class VendorRegistrationApproved {
   loadingSectionA:boolean=false;
   Remark:any;
   url:any;
+  pdfBlob:any;
+  pdfSrc:any
   savedScrollPos: number = 0;
   sanitizedPdfUrl!: SafeResourceUrl;
   activeSection: string = 'A';
@@ -564,39 +568,39 @@ refreshMatTable() {
  // Track current URL for revocation
   // ... other properties
 
-  DownloadFileWithName1(mFilePath: string, mFileName: string) {
-    // Encode file path and file name to handle special characters (like spaces, \ etc.)
-    const encodedPath = encodeURIComponent(mFilePath);
-    const encodedName = encodeURIComponent(mFileName);
+  // DownloadFileWithName1(mFilePath: string, mFileName: string) {
+  //   // Encode file path and file name to handle special characters (like spaces, \ etc.)
+  //   const encodedPath = encodeURIComponent(mFilePath);
+  //   const encodedName = encodeURIComponent(mFileName);
 
-    // Build dynamic API URL
-    const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+  //   // Build dynamic API URL
+  //   const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
 
-    this.api.DownloadFileWithName(apiUrl).subscribe({
-      next: (res: Blob) => {
-        // Revoke previous URL if exists (prevents stale blobs)
-        if (this.currentBlobUrl) {
-          window.URL.revokeObjectURL(this.currentBlobUrl);
-        }
+  //   this.api.DownloadFileWithName(apiUrl).subscribe({
+  //     next: (res: Blob) => {
+  //       // Revoke previous URL if exists (prevents stale blobs)
+  //       if (this.currentBlobUrl) {
+  //         window.URL.revokeObjectURL(this.currentBlobUrl);
+  //       }
 
-        const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        this.currentBlobUrl = url; // Track for later revocation
+  //       const blob = new Blob([res], { type: 'application/pdf' });
+  //       const url = window.URL.createObjectURL(blob);
+  //       this.currentBlobUrl = url; // Track for later revocation
 
-        this.openmarqModal(url, mFileName); // Pass filename if needed for title
-      },
-      error: (err) => {
-        if (err.status === 0 && err.statusText === 'Unknown Error') {
-          this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
-        } else if (err.status === 404) {
-          this.toastr.warning('Requested file not found on the server.', 'File Not Found');
-        } else {
-          this.toastr.error('Something went wrong while downloading the file.', 'Error');
-        }
-        console.error('Download error:', err);
-      }
-    });
-  }
+  //       this.openmarqModal(url, mFileName); // Pass filename if needed for title
+  //     },
+  //     error: (err) => {
+  //       if (err.status === 0 && err.statusText === 'Unknown Error') {
+  //         this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+  //       } else if (err.status === 404) {
+  //         this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+  //       } else {
+  //         this.toastr.error('Something went wrong while downloading the file.', 'Error');
+  //       }
+  //       console.error('Download error:', err);
+  //     }
+  //   });
+  // }
 
   openmarqModal(pdfUrl: string, fileName: string = 'PDF Preview'): void {
     this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
@@ -649,55 +653,99 @@ refreshMatTable() {
       const encodedName = encodeURIComponent(mFileName);
     
       const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
-    
-      this.api.DownloadFileWithName(apiUrl).subscribe({
-        next: (res: Blob) => {
-          const pdfURL = URL.createObjectURL(res);
-          window.open(pdfURL, "_blank");
-          // const blob = new Blob([res], { type: 'application/pdf' });
-          // this.url = window.URL.createObjectURL(blob);
-          //   const pdfBlobUrl = URL.createObjectURL(blob);
-          // this.openmarqModal(this.url);
-          // console.log('res url=:',this.url);
-                // test data
-                // const blob = new Blob([res], { type: 'application/pdf' });
+      this.api.DownloadFileWithName(apiUrl).subscribe(
+      (res: Blob) => {
+            
+            const blob = new Blob([res], { type: 'application/pdf' });
+      
+            // create URL
+            const url = URL.createObjectURL(blob);
+            window.open(url);
 
-                // Always create a NEW unique URL
-                // const objectUrl = window.URL.createObjectURL(blob);
-              
-                // Add timestamp to FORCE iframe reload
-                // this.url = objectUrl + '#t=' + new Date().getTime();
-                // this.url = objectUrl + '?v=' + new Date().getTime();
-                // this.openmarqModal(this.url);
-                // this.forceOpenPdf(pdfBlobUrl);
-                this.spinner.hide();
-
-
-          // console.log('this.url1=:',this.url);
-          // console.log('resurl=:',res);
-          // Create a temporary link element for download
-          // const a = document.createElement('a');
-          // a.href = url;
-          // a.download = mFileName;
-          // a.click();
-    
-          // // Clean up URL object after use
-          
+            // // force reload using timestamp
+            // this.pdfSrc = url + '#toolbar=1&zoom=100&v=' + new Date().getTime();
+      
+            // console.log("PDF URL:", this.pdfSrc);
+      
+            this.spinner.hide();
         },
-        error: (err) => {
-          // this.loadingSectionA=false;
-          this.spinner.hide();
-          if (err.status === 0 && err.statusText === 'Unknown Error') {
-         
-            this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
-          } else if (err.status === 404) {
-            this.toastr.warning('Requested file not found on the server.', 'File Not Found');
-          } else {
-            this.toastr.error('Something went wrong while downloading the file.', 'Error');
-          }
-          console.error('Download error:', err);
+        err => {
+            this.spinner.hide();
+            console.error("PDF load error:", err);
         }
-      });
+      );
+      
+      // this.api.DownloadFileWithName(apiUrl).subscribe({
+      //   next: (res: Blob) => {
+      //     // this.pdfBlob = new Blob([res], { type: 'application/pdf' });
+
+      //     // Convert Blob → object URL
+      //     // this.pdfSrc = URL.createObjectURL(this.pdfBlob);
+      //     const pdfURL = URL.createObjectURL(res);
+      //     window.open(pdfURL, "_blank");
+      //     // this.pdfBlob = new Blob([res], { type: 'application/pdf' });
+      //     // this.pdfBlob = new Blob([res], { type: 'application/pdf' });
+      //     // const blob = new Blob([res], { type: 'application/pdf' });
+      //     // this.url = window.URL.createObjectURL(blob);
+      //     //   const pdfBlobUrl = URL.createObjectURL(blob);
+      //     // this.openmarqModal(this.url);
+      //     // console.log('pdfBlob=:', this.pdfSrc);
+      //           // test data
+      //           // const blob = new Blob([res], { type: 'application/pdf' });
+
+      //           // Always create a NEW unique URL
+      //           // const objectUrl = window.URL.createObjectURL(blob);
+              
+      //           // Add timestamp to FORCE iframe reload
+      //           // this.url = objectUrl + '#t=' + new Date().getTime();
+      //           // this.url = objectUrl + '?v=' + new Date().getTime();
+      //           // this.openmarqModal(this.url);
+      //           // this.forceOpenPdf(pdfBlobUrl);
+      //           this.spinner.hide();
+
+
+      //     // console.log('this.url1=:',this.url);
+      //     // console.log('resurl=:',res);
+      //     // Create a temporary link element for download
+      //     // const a = document.createElement('a');
+      //     // a.href = url;
+      //     // a.download = mFileName;
+      //     // a.click();
+    
+      //     // // Clean up URL object after use
+      //     // this.api.DownloadFileWithName1(apiUrl).subscribe(
+      //     //   (res: ArrayBuffer) => {
+          
+      //     //     const blob = new Blob([res], { type: 'application/pdf' });
+          
+      //     //     // Create new URL every time to force reload
+      //     //     this.pdfSrc = URL.createObjectURL(blob) + '?v=' + new Date().getTime();
+          
+      //     //     console.log("PDF URL:", this.pdfSrc);
+          
+      //     //     this.spinner.hide();
+      //     //   },
+      //     //   (err:any) => {
+      //     //     this.spinner.hide();
+      //     //     console.error("PDF load error:", err);
+      //     //   }
+      //     // );
+          
+      //   },
+      //   error: (err) => {
+      //     // this.loadingSectionA=false;
+      //     this.spinner.hide();
+      //     if (err.status === 0 && err.statusText === 'Unknown Error') {
+         
+      //       this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+      //     } else if (err.status === 404) {
+      //       this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+      //     } else {
+      //       this.toastr.error('Something went wrong while downloading the file.', 'Error');
+      //     }
+      //     console.error('Download error:', err);
+      //   }
+      // });
     }
     //#endregion
 
@@ -1089,23 +1137,29 @@ callGSTReturnUpdateAPI(data: any, formData: FormData) {
 //#endregion 
 //#region Technical Details
     GetTechnicalDetails(){
-  try {
-     
+  try { 
       this.spinner.show();
       // this.api.GetTechnicalDetails(sessionStorage.getItem('vregid') )
       // this.api.GetTechnicalDetails(84)
       this.api.GetTechnicalDetails(this.vregid)
       .subscribe(
           (res: any) => {
-            this.dispatchData4 = res.map(
-              (item: TechnicalDetails_model, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
+            // this.dispatchData4 = res.map(
+            //   (item: TechnicalDetails_model, index: number) => ({
+            //     ...item,
+            //     sno: index + 1,
+            //   })
+            // );
+              // 🚀 Filter rows where mscid is NOT 6 or 22
+        this.dispatchData4 = res
+        .filter((item: TechnicalDetails_model) => item.mscid !== "6" && item.mscid !== "22")
+        .map((item: TechnicalDetails_model, index: number) => ({
+          ...item,
+          sno: index + 1,
+        }));
             // this.TechnicalDetailsData=res;
             // this.TechnicalDetails=this.dispatchData;
-            console.log('TechnicalDetails=:', this.dispatchData4);
+            // console.log('TechnicalDetails=:', this.dispatchData4);
             this.dataSource4.data = this.dispatchData4;
             this.dataSource4.paginator = this.paginator4;
             this.dataSource4.sort = this.sort4;

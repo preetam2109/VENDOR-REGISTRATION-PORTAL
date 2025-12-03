@@ -44,6 +44,7 @@ export class ConfirmBankDetailsTab {
   sanitizedPdfUrl!: SafeResourceUrl;
   activeSection: string = 'A';
   isCollapsed = false;
+  selectedTabIndex: number = 0;
   isCollapsed_TECHNICAL_DETAILS = true;
   isCollapsed_COMPLIANCE_DETAILS = true;
   isCollapsed_GLOBAL_COMPANY_PREFIX = true;
@@ -365,7 +366,7 @@ ngOnInit() {
       this.loadingSectionA=false;
     }
     DownloadFileWithName(mFilePath: string, mFileName: string) {
-      this.loadingSectionA=true;
+      // this.loadingSectionA=true;
   
       // Encode file path and file name to handle special characters (like spaces, \ etc.)
       const encodedPath = encodeURIComponent(mFilePath);
@@ -376,9 +377,11 @@ ngOnInit() {
     
       this.api.DownloadFileWithName(apiUrl).subscribe({
         next: (res: Blob) => {
-          const blob = new Blob([res], { type: 'application/pdf' });
-          const url = window.URL.createObjectURL(blob);
-          this.openmarqModal(url);
+          const pdfURL = URL.createObjectURL(res);
+          window.open(pdfURL, "_blank");
+          // const blob = new Blob([res], { type: 'application/pdf' });
+          // const url = window.URL.createObjectURL(blob);
+          // this.openmarqModal(url);
           // Create a temporary link element for download
           // const a = document.createElement('a');
           // a.href = url;
@@ -389,7 +392,7 @@ ngOnInit() {
           // window.URL.revokeObjectURL(url);
         },
         error: (err) => {
-          this.loadingSectionA=false;
+          // this.loadingSectionA=false;
           if (err.status === 0 && err.statusText === 'Unknown Error') {
          
             this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
@@ -800,12 +803,18 @@ callGSTReturnUpdateAPI(data: any, formData: FormData) {
       this.api.GetTechnicalDetails(this.vregid)
       .subscribe(
           (res: any) => {
-            this.dispatchData4 = res.map(
-              (item: TechnicalDetails_model, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
+            // this.dispatchData4 = res.map(
+            //   (item: TechnicalDetails_model, index: number) => ({
+            //     ...item,
+            //     sno: index + 1,
+            //   })
+            // );
+            this.dispatchData4 = res
+            .filter((item: TechnicalDetails_model) => item.mscid !== "6" && item.mscid !== "22")
+            .map((item: TechnicalDetails_model, index: number) => ({
+              ...item,
+              sno: index + 1,
+            }));
             // this.TechnicalDetailsData=res;
             // this.TechnicalDetails=this.dispatchData;
             // console.log('TechnicalDetails=:', this.dispatchData4);
@@ -1160,7 +1169,48 @@ callGCPVerificationAPI(data: any, formData: FormData) {
   });
 }
 
+// selectedTabValue(event: any): void {
+      
+//   this.selectedTabIndex = event.index;
+// }
 
+selectedTabValue(event: any): void {
+  // debugger;
+  // console.log('this.url6=:',this.url);
+  this.selectedTabIndex = event.index;
+  if (this.selectedTabIndex === 0) {
+    // this.GETBankMandateDetail();
+    // window.URL.revokeObjectURL(this.url);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource1.paginator = this.paginator1;
+    this.dataSource2.sort = this.sort2;
+    this.dataSource2.paginator = this.paginator2;
+    this.dataSource2.sort = this.sort2;
+    this.dataSource3.paginator = this.paginator3;
+    this.dataSource3.sort = this.sort3;
+  } 
+  if (this.selectedTabIndex === 1) {
+      // this.GetAnnualTurnover();
+      // window.URL.revokeObjectURL(this.url);
+    this.dataSource4.paginator = this.paginator4;
+    this.dataSource4.sort = this.sort4;
+  } 
+  if (this.selectedTabIndex === 2) {
+    // window.URL.revokeObjectURL(this.url);
+    this.dataSource5.paginator = this.paginator5;
+    this.dataSource5.sort = this.sort5;
+    //   this.GETMassuppliergstDetails();
+  } 
+  if (this.selectedTabIndex === 3) {
+    // window.URL.revokeObjectURL(this.url);
+    this.dataSource6.paginator = this.paginator6;
+    this.dataSource6.sort = this.sort6;
+    // this.GstReturnDetails();
+  } 
+  //  else {
+  // }
+}
 // PUT_GCPVerification(element:any){
 //   // 
 // // if(element.Iaccept == undefined && element.Remark  == undefined){
