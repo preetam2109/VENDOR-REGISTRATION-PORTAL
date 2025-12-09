@@ -203,8 +203,8 @@ ngOnInit() {
     this.vregid= sessionStorage.getItem('vregid');
     this.SupID=  sessionStorage.getItem('facilityid');
 
-    console.log("VRegID:",  this.vregid);
-    console.log("SupID:",  this.SupID);
+    // console.log("VRegID:",  this.vregid);
+    // console.log("SupID:",  this.SupID);
 
   this.GetAnnualTurnover();
   this.GETBankMandateDetail();
@@ -236,7 +236,7 @@ ngOnInit() {
                 sno: index + 1,
               })
             );
-            console.log('BankMandateDetail=:', this.dispatchData1);
+            // console.log('BankMandateDetail=:', this.dispatchData1);
             this.dataSource1.data = this.dispatchData1;
             this.dataSource1.paginator = this.paginator1;
             this.dataSource1.sort = this.sort1;
@@ -670,7 +670,6 @@ callUpdateGSTAPI(data: any, formData: FormData) {
 //#region  gst return
 GstReturnDetails(){
   try{
-    //  ;
       // this.spinner.show();
     // this.api.GstReturnDetails(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
     // this.api.GstReturnDetails(1651,84)

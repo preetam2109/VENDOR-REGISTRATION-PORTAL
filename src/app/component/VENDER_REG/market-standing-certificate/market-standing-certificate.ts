@@ -924,6 +924,8 @@ openDialog() {
     
       return true;
     }
+    onButtonClick(id:any,vid:any){
 
+    }
 
   }

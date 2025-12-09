@@ -1,18 +1,17 @@
+<!-- gjk -->
+<section class="h-100 h-custom gradient-custom-2 pb-5">
+  <div class="container py-5 px-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px; margin-bottom: 50px;">
+          <div class="card-body p-0">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-  <!-- gjk -->
-  <section class="h-100 h-custom gradient-custom-2 pb-5">
-    <div class="container py-5 px-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12">
-          <div class="card card-registration card-registration-2" style="border-radius: 15px; margin-bottom: 50px;">
-            <div class="card-body p-0">
-              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-              
               <div class="row g-0">
                 <div class="col-lg-6">
                   <div class="p-5">
                     <h3 class="fw-bold mb-5 " style="color:  #198754;">General Information for Vendor</h3>
-  
+
                     <!-- <div class="mb-4 pb-2 form-outline">
                       <label class="form-label" for="form3Examplev5">Select Existing Vendor Type:<span
                         class="text-danger">*</span></label>
@@ -35,70 +34,67 @@
                       <label class="form-label" for="form3Examplev5">
                         Select Existing Vendor Type: <span class="text-danger">*</span>
                       </label>
-                    
-                      <select
-                        id="SetId"
-                        class="form-select form-control form-control-lg"
-                        formControlName="mSUPPLIERTYPE"
-                        (change)="Onselectyear($event)"
-                        [ngClass]="{
+
+                      <select id="SetId" class="form-select form-control form-control-lg"
+                        formControlName="mSUPPLIERTYPE" (change)="Onselectyear($event)" [ngClass]="{
                           'is-invalid': (registerForm.get('mSUPPLIERTYPE')?.touched || isSubmitting) && registerForm.get('mSUPPLIERTYPE')?.invalid,
                           'is-valid': registerForm.get('mSUPPLIERTYPE')?.valid && (registerForm.get('mSUPPLIERTYPE')?.touched || isSubmitting)
-                        }"
-                      >
-                      <option value="" disabled selected>Select Existing Vendor Type</option>
-<option *ngFor="let lictype of lictypename" [value]="lictype.lictypeid">
-  {{ lictype.lictypename }}
-</option>
+                        }">
+                        <option value="" disabled selected>Select Existing Vendor Type</option>
+                        <option *ngFor="let lictype of lictypename" [value]="lictype.lictypeid">
+                          {{ lictype.lictypename }}
+                        </option>
                         <!-- <option [ngValue]="null" disabled>Select Existing Vendor Type</option>
                         <option *ngFor="let lictype of lictypename" [value]="lictype.lictypeid">
                           {{ lictype.lictypename }}
                         </option> -->
                       </select>
                       <span class="text-danger"
-                      *ngIf="(registerForm.get('mSUPPLIERTYPE')?.touched || isSubmitting) && registerForm.get('mSUPPLIERTYPE')?.errors?.['required']">
-                      Vendor Type selection is required.
-                    </span>
+                        *ngIf="(registerForm.get('mSUPPLIERTYPE')?.touched || isSubmitting) && registerForm.get('mSUPPLIERTYPE')?.errors?.['required']">
+                        Vendor Type selection is required.
+                      </span>
                       <!-- <span class="text-danger"
                         *ngIf="(registerForm.get('mSUPPLIERTYPE')?.touched || isSubmitting) && registerForm.get('mSUPPLIERTYPE')?.errors?.['required']">
                         Vendor Type selection is required.
                       </span> -->
                     </div>
-                    
+
                     <div class="row">
                       <div class="col-md-6 mb-4 pb-2">
-  
+
                         <div data-mdb-input-init class="form-outline">
                           <label class="form-label" for="form3Examplev2">Vendor Name:<span
-                            class="text-danger">*</span></label>
-                          <input type="text" id="form3Examplev2" class="form-control form-control-lg" formControlName="mSUPPLIERNAME"   [ngClass]="{
+                              class="text-danger">*</span></label>
+                          <input type="text" id="form3Examplev2" class="form-control form-control-lg"
+                            formControlName="mSUPPLIERNAME" [ngClass]="{
                             'is-invalid': (registerForm.get('mSUPPLIERNAME')?.touched || isSubmitting) && registerForm.get('mSUPPLIERNAME')?.invalid,
                             'is-valid': registerForm.get('mSUPPLIERNAME')?.valid && (registerForm.get('mSUPPLIERNAME')?.touched || isSubmitting)
-                          }"/>
-                           <span class="text-danger"
-                           *ngIf="(registerForm.get('mSUPPLIERNAME')?.touched || isSubmitting) && registerForm.get('mSUPPLIERNAME')?.errors?.['required']">
-                           Vendor Name is required.
-                         </span>
+                          }" />
+                          <span class="text-danger"
+                            *ngIf="(registerForm.get('mSUPPLIERNAME')?.touched || isSubmitting) && registerForm.get('mSUPPLIERNAME')?.errors?.['required']">
+                            Vendor Name is required.
+                          </span>
                         </div>
                       </div>
                       <div class="col-md-6 mb-4 pb-2">
-  
+
                         <div data-mdb-input-init class="form-outline">
                           <label class="form-label" for="form3Examplev3">PAN No:<span
-                            class="text-danger">*</span></label>
-                          <input type="text" id="form3Examplev3" class="form-control form-control-lg" formControlName="mpanno" [ngClass]="{
+                              class="text-danger">*</span></label>
+                          <input type="text" id="form3Examplev3" class="form-control form-control-lg"
+                            formControlName="mpanno" [ngClass]="{
                             'is-invalid': (registerForm.get('mpanno')?.touched || isSubmitting) && registerForm.get('mpanno')?.invalid,
                             'is-valid': registerForm.get('mpanno')?.valid && (registerForm.get('mpanno')?.touched || isSubmitting)
-                          }"/>
-                           <span class="text-danger"
-                           *ngIf="(registerForm.get('mpanno')?.touched || isSubmitting) && registerForm.get('mpanno')?.errors?.['required']">
-                           PAN No is required.
-                         </span>
+                          }" />
+                          <span class="text-danger"
+                            *ngIf="(registerForm.get('mpanno')?.touched || isSubmitting) && registerForm.get('mpanno')?.errors?.['required']">
+                            PAN No is required.
+                          </span>
                         </div>
-  
+
                       </div>
                     </div>
-  
+
                     <!-- <div class="mb-4 pb-2">
                       <select data-mdb-select-init>
                         <option value="1">Position</option>
@@ -107,33 +103,34 @@
                         <option value="4">Four</option>
                       </select>
                     </div> -->
-  
+
                     <div class="mb-4 pb-2">
                       <div data-mdb-input-init class="form-outline">
                         <label class="form-label" for="form3Examplev4">Phone Number:<span
-                          class="text-danger">*</span></label>
-                        <input type="text" id="form3Examplev4" class="form-control form-control-lg"  maxlength="10" formControlName="mPHONE1" [ngClass]="{
+                            class="text-danger">*</span></label>
+                        <input type="text" id="form3Examplev4" class="form-control form-control-lg" maxlength="10"
+                          formControlName="mPHONE1" [ngClass]="{
                           'is-invalid': (registerForm.get('mPHONE1')?.touched || isSubmitting) && registerForm.get('mPHONE1')?.invalid,
                           'is-valid': registerForm.get('mPHONE1')?.valid && (registerForm.get('mPHONE1')?.touched || isSubmitting)
-                        }"/>
+                        }" />
                         <span class="text-danger" *ngIf="(registerForm.get('mPHONE1')?.touched || submitted)">
-                        
+
                           <!-- Required field -->
                           <span *ngIf="registerForm.get('mPHONE1')?.errors?.['required']">
                             Phone Number is required
                           </span>
-            
+
                           <!-- Invalid pattern -->
                           <span *ngIf="registerForm.get('mPHONE1')?.errors?.['pattern']">
                             Enter a valid Number
                           </span>
                         </span>
-                         <!-- <span class="text-danger"
+                        <!-- <span class="text-danger"
                          *ngIf="(registerForm.get('mPHONE1')?.touched || isSubmitting) && registerForm.get('mPHONE1')?.errors?.['required']">
                          Phone Number is required.
                        </span> -->
                       </div>
-                      
+
                     </div>
                     <div class="mb-4 pb-2">
                       <!-- type="password" -->
@@ -161,27 +158,22 @@
                           <span class="text-danger">*</span>
                         </label>
                         <div class="password-box">
-                          <input
-                            [type]="isPasswordVisible ? 'text' : 'password'"
-                            formControlName="mPwd"
-                            class="form-control form-control-lg"
-                            [ngClass]="{
+                          <input [type]="isPasswordVisible ? 'text' : 'password'" formControlName="mPwd"
+                            class="form-control form-control-lg" [ngClass]="{
                               'is-invalid': (registerForm.get('mPwd')?.touched || isSubmitting) && registerForm.get('mPwd')?.invalid,
                               'is-valid': registerForm.get('mPwd')?.valid && (registerForm.get('mPwd')?.touched || isSubmitting)
-                            }"
-                          />
-                        
-                          <i class="fa hc"
-                             [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"
-                             (click)="togglePassword()"></i>
-                        
+                            }" />
+
+                          <i class="fa hc" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"
+                            (click)="togglePassword()"></i>
+
                         </div>
-                        
+
                         <span class="text-danger"
                           *ngIf="(registerForm.get('mPwd')?.touched || isSubmitting) && registerForm.get('mPwd')?.errors?.['required']">
-                            Password is required.
+                          Password is required.
                         </span>
-                        
+
                         <!-- <input 
                           [type]="isPasswordVisible ? 'text' : 'password'"
                           id="pwd"
@@ -214,186 +206,186 @@
                           ">
                           Password is required.
                         </span> -->
-                      
+
                       </div>
-                      
+
                     </div>
-  
+
                     <div class="row">
                       <div class="col-md-12 mb-4 pb-2 ">
-  
+
                         <div data-mdb-input-init class="form-outline">
                           <label class="form-label" for="form3Examplev5">Confirm Password:<span
-                            class="text-danger">*</span></label>
-                            <div class="password-box">                        
-                               <input  [type]="isPasswordVisible1 ? 'text' : 'password'" id="form3Examplev5" class="form-control form-control-lg" formControlName="confirmPassword" [ngClass]="{
+                              class="text-danger">*</span></label>
+                          <div class="password-box">
+                            <input [type]="isPasswordVisible1 ? 'text' : 'password'" id="form3Examplev5"
+                              class="form-control form-control-lg" formControlName="confirmPassword" [ngClass]="{
                             'is-invalid': (registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.invalid,
                             'is-valid': registerForm.get('confirmPassword')?.valid && (registerForm.get('confirmPassword')?.touched || isSubmitting)
-                          }"/>
-                             <i class="fa hc"
-                             [ngClass]="isPasswordVisible1 ? 'fa-eye-slash' : 'fa-eye'"
-                             (click)="togglePassword1()"></i>
+                          }" />
+                            <i class="fa hc" [ngClass]="isPasswordVisible1 ? 'fa-eye-slash' : 'fa-eye'"
+                              (click)="togglePassword1()"></i>
                           </div>
- 
-                           <span class="text-danger"
-                           *ngIf="(registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.errors?.['required']">
-                           Confirm Password is required.
-                         </span>
-                     
-                         <span class="text-danger"
-                           *ngIf="(registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">
-                           Passwords do not match.
-                         </span>
 
-                           <!-- <span class="text-danger"
+                          <span class="text-danger"
+                            *ngIf="(registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.errors?.['required']">
+                            Confirm Password is required.
+                          </span>
+
+                          <span class="text-danger"
+                            *ngIf="(registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">
+                            Passwords do not match.
+                          </span>
+
+                          <!-- <span class="text-danger"
                            *ngIf="(registerForm.get('confirmPassword')?.touched || isSubmitting) && registerForm.get('confirmPassword')?.errors?.['required']">
                            Confirm Password is required.
                          </span> -->
                         </div>
-  
+
                       </div>
-                     
+
                     </div>
                     <div class="row">
                       <div class="col-md-6 mb-4 pb-2  mb-md-0 pb-md-0">
-  
+
                         <div data-mdb-input-init class="form-outline">
                           <!-- <label class="form-label" for="form3Examplev2">Vendor Name:</label> -->
-                          <button type="button" data-mdb-button-init data-mdb-ripple-init 
-                           class="btn btn-primary w-100 mb-2 btn-lg" (click)="sendOtp()" 
-                           [disabled]="!registerForm.get('mPHONE1')?.value || registerForm.get('mPHONE1')?.value.length !== 10"
-                           >Get OTP:</button> 
+                          <button type="button" data-mdb-button-init data-mdb-ripple-init
+                            class="btn btn-primary w-100 mb-2 btn-lg" (click)="sendOtp()"
+                            [disabled]="!registerForm.get('mPHONE1')?.value || registerForm.get('mPHONE1')?.value.length !== 10">Get
+                            OTP:</button>
                           <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-light btn-lg"
                           data-mdb-ripple-color="dark">Register</button> -->
                           <!-- <input type="text" id="form3Examplev2" class="form-control form-control-lg" /> -->
                         </div>
-  
+
                       </div>
                       <div class="col-md-6 mb-4 pb-2">
-  
+
                         <div data-mdb-input-init class="form-outline">
                           <!-- <label class="form-label" for="form3Examplev3">PAN No:</label>
                           <input type="text" id="form3Examplev3" class="form-control form-control-lg" /> -->
                           <!-- <label class="form-label" for="form3Examplev5">Enter OTP:</label> -->
-                           <input type="number" maxlength="6"  formControlName="otp" name="otp"
-                             class="form-control form-control-lg" placeholder=" Enter OTP " (paste)="disablePaste($event)" [ngClass]="{
+                          <input type="number" maxlength="6" formControlName="otp" name="otp"
+                            class="form-control form-control-lg" placeholder=" Enter OTP "
+                            (paste)="disablePaste($event)" [ngClass]="{
                               'is-invalid': (registerForm.get('otp')?.touched || isSubmitting) && registerForm.get('otp')?.invalid,
                               'is-valid': registerForm.get('otp')?.valid && (registerForm.get('otp')?.touched || isSubmitting)
-                            }"/>
-                             <span class="text-danger"
-                             *ngIf="(registerForm.get('otp')?.touched || isSubmitting) && registerForm.get('otp')?.errors?.['required']">
-                             otp is required.
-                           </span>
-                        
+                            }" />
+                          <span class="text-danger"
+                            *ngIf="(registerForm.get('otp')?.touched || isSubmitting) && registerForm.get('otp')?.errors?.['required']">
+                            otp is required.
+                          </span>
+
                         </div>
-  
+
                       </div>
                     </div>
-                   
-  
+
+
                   </div>
                 </div>
                 <div class="col-lg-6 bg-indigo text-white">
                   <div class="p-5">
                     <h3 class="fw-normal mb-5">Contact Details</h3>
-  
+
                     <div class="mb-4 pb-2">
                       <div data-mdb-input-init class="form-outline form-white">
                         <label class="form-label text-white " for="form3Examplea3">Address:<span
-                          class="text-danger">*</span></label>
-                        <input type="text" id="form3Examplea2" class="form-control form-control-lg" formControlName="mADDRESS1" [ngClass]="{
+                            class="text-danger">*</span></label>
+                        <input type="text" id="form3Examplea2" class="form-control form-control-lg"
+                          formControlName="mADDRESS1" [ngClass]="{
                           'is-invalid': (registerForm.get('mADDRESS1')?.touched || isSubmitting) && registerForm.get('mADDRESS1')?.invalid,
                           'is-valid': registerForm.get('mADDRESS1')?.valid && (registerForm.get('mADDRESS1')?.touched || isSubmitting)
-                        }"/>
-                         <span class="text-danger"
-                         *ngIf="(registerForm.get('mADDRESS1')?.touched || isSubmitting) && registerForm.get('mADDRESS1')?.errors?.['required']">
-                         Address is required.
-                       </span>
+                        }" />
+                        <span class="text-danger"
+                          *ngIf="(registerForm.get('mADDRESS1')?.touched || isSubmitting) && registerForm.get('mADDRESS1')?.errors?.['required']">
+                          Address is required.
+                        </span>
                       </div>
                     </div>
-  
+
                     <div class="mb-4 pb-2">
                       <div data-mdb-input-init class="form-outline form-white">
                         <label class="form-label text-white" for="form3Examplea2">Street + Nr:<span
-                          class="text-danger">*</span></label>
-                       
-                        <input type="text" id="form3Examplea3" class="form-control form-control-lg" formControlName="mADDRESS2" [ngClass]="{
-                          'is-invalid': (registerForm.get('mADDRESS2')?.touched || isSubmitting) && registerForm.get('mADDRESS2')?.invalid,
-                          'is-valid': registerForm.get('mADDRESS2')?.valid && (registerForm.get('mADDRESS2')?.touched || isSubmitting)
-                        }"/>
-                         <span class="text-danger"
-                         *ngIf="(registerForm.get('mADDRESS2')?.touched || isSubmitting) && registerForm.get('mADDRESS2')?.errors?.['required']">
-                         Street + Nr is required.
-                       </span>
-                      </div>
-                    </div>
-  
-                    <div class="row">
-                      <div class="col-md-5 mb-4 pb-2">
-  
-                        <div data-mdb-input-init class="form-outline form-white">
-                          <label class="form-label text-white" for="form3Examplea5">City:<span
-                            class="text-danger">*</span></label>
-                          <input type="text" id="form3Examplea4" class="form-control form-control-lg" formControlName="mCITY" [ngClass]="{
-                            'is-invalid': (registerForm.get('mCITY')?.touched || isSubmitting) && registerForm.get('mCITY')?.invalid,
-                            'is-valid': registerForm.get('mCITY')?.valid && (registerForm.get('mCITY')?.touched || isSubmitting)
-                          }"/>
-                           <span class="text-danger"
-                           *ngIf="(registerForm.get('mCITY')?.touched || isSubmitting) && registerForm.get('mCITY')?.errors?.['required']">
-                           City is required.
-                         </span>
-                        </div>
-  
-                      </div>
-                      <div class="col-md-7 mb-4 pb-2">
-  
-                        <div data-mdb-input-init class="form-outline form-white">
-                          <label class="form-label text-white" for="form3Examplea4">Zip Code:<span
                             class="text-danger">*</span></label>
 
-                          <input type="text" id="form3Examplea5" class="form-control form-control-lg" formControlName="mZIP" [ngClass]="{
-                            'is-invalid': (registerForm.get('mZIP')?.touched || isSubmitting) && registerForm.get('mZIP')?.invalid,
-                            'is-valid': registerForm.get('mZIP')?.valid && (registerForm.get('mZIP')?.touched || isSubmitting)
-                          }"/>
-                           <span class="text-danger"
-                           *ngIf="(registerForm.get('mZIP')?.touched || isSubmitting) && registerForm.get('mZIP')?.errors?.['required']">
-                           Zip Code is required.
-                         </span>
-                          
-                        </div>
-  
+                        <input type="text" id="form3Examplea3" class="form-control form-control-lg"
+                          formControlName="mADDRESS2" [ngClass]="{
+                          'is-invalid': (registerForm.get('mADDRESS2')?.touched || isSubmitting) && registerForm.get('mADDRESS2')?.invalid,
+                          'is-valid': registerForm.get('mADDRESS2')?.valid && (registerForm.get('mADDRESS2')?.touched || isSubmitting)
+                        }" />
+                        <span class="text-danger"
+                          *ngIf="(registerForm.get('mADDRESS2')?.touched || isSubmitting) && registerForm.get('mADDRESS2')?.errors?.['required']">
+                          Street + Nr is required.
+                        </span>
                       </div>
                     </div>
-  
+
+                    <div class="row">
+                      <div class="col-md-5 mb-4 pb-2">
+
+                        <div data-mdb-input-init class="form-outline form-white">
+                          <label class="form-label text-white" for="form3Examplea5">City:<span
+                              class="text-danger">*</span></label>
+                          <input type="text" id="form3Examplea4" class="form-control form-control-lg"
+                            formControlName="mCITY" [ngClass]="{
+                            'is-invalid': (registerForm.get('mCITY')?.touched || isSubmitting) && registerForm.get('mCITY')?.invalid,
+                            'is-valid': registerForm.get('mCITY')?.valid && (registerForm.get('mCITY')?.touched || isSubmitting)
+                          }" />
+                          <span class="text-danger"
+                            *ngIf="(registerForm.get('mCITY')?.touched || isSubmitting) && registerForm.get('mCITY')?.errors?.['required']">
+                            City is required.
+                          </span>
+                        </div>
+
+                      </div>
+                      <div class="col-md-7 mb-4 pb-2">
+
+                        <div data-mdb-input-init class="form-outline form-white">
+                          <label class="form-label text-white" for="form3Examplea4">Zip Code:<span
+                              class="text-danger">*</span></label>
+
+                          <input type="text" id="form3Examplea5" class="form-control form-control-lg"
+                            formControlName="mZIP" [ngClass]="{
+                            'is-invalid': (registerForm.get('mZIP')?.touched || isSubmitting) && registerForm.get('mZIP')?.invalid,
+                            'is-valid': registerForm.get('mZIP')?.valid && (registerForm.get('mZIP')?.touched || isSubmitting)
+                          }" />
+                          <span class="text-danger"
+                            *ngIf="(registerForm.get('mZIP')?.touched || isSubmitting) && registerForm.get('mZIP')?.errors?.['required']">
+                            Zip Code is required.
+                          </span>
+
+                        </div>
+
+                      </div>
+                    </div>
+
                     <!-- <div class="mb-4 pb-2">
                       <div data-mdb-input-init class="form-outline form-white">
                         <label class="form-label text-white" for="form3Examplea6">Country</label>
                         <input type="text" id="form3Examplea6" class="form-control form-control-lg" formControlName="mADDRESS3" />
                       </div>
                     </div> -->
-  
+
                     <div class="row">
                       <div class="col-md-5 mb-4 pb-2">
                         <div data-mdb-input-init class="form-outline form-white">
                           <label class="form-label text-white" for="form3Examplea6">State:<span
-                            class="text-danger">*</span></label>
-                            <select
-                            class="form-select form-control-lg"
-                            formControlName="mADDRESS3"
-                            
-                            (change)="onStatesChange($event)"
-                       
-                            [ngClass]="{
+                              class="text-danger">*</span></label>
+                          <select class="form-select form-control-lg" formControlName="mADDRESS3"
+                            (change)="onStatesChange($event)" [ngClass]="{
                               'is-invalid': (registerForm.get('mADDRESS3')?.touched || isSubmitting) && registerForm.get('mADDRESS3')?.invalid,
                               'is-valid': registerForm.get('mADDRESS3')?.valid && (registerForm.get('mADDRESS3')?.touched || isSubmitting)
-                            }"
-                          >
+                            }">
                             <option value="" disabled selected>Select State</option>
                             <option *ngFor="let state of states" [value]="state.stateid">
                               {{ state.statename }}
                             </option>
                           </select>
-                          <div class="text-danger" *ngIf="registerForm.get('mADDRESS3')?.invalid && (registerForm.get('mADDRESS3')?.touched || isSubmitting)">
+                          <div class="text-danger"
+                            *ngIf="registerForm.get('mADDRESS3')?.invalid && (registerForm.get('mADDRESS3')?.touched || isSubmitting)">
                             State is required.
                           </div>
                           <!-- <input type="text" id="form3Examplea6" class="form-control form-control-lg" formControlName="mADDRESS3" [ngClass]="{
@@ -409,25 +401,21 @@
                       <div class="col-md-7 mb-4 pb-2">
                         <div data-mdb-input-init class="form-outline form-white">
                           <label class="form-label text-white" for="form3Examplea7">Country:<span
-                            class="text-danger">*</span></label>
-                            <select
-    class="form-select form-control-lg"
-    formControlName="mCOUNTRYID"
-    (change)="onCountryChange($event)"
- 
-    [ngClass]="{
-      'is-invalid': (registerForm.get('mCOUNTRYID')?.touched || isSubmitting) && registerForm.get('mCOUNTRYID')?.invalid,
-      'is-valid': registerForm.get('mCOUNTRYID')?.valid && (registerForm.get('mCOUNTRYID')?.touched || isSubmitting)
-    }"
-  >
-    <option value="" disabled selected>Select Country</option>
-    <option *ngFor="let country of countries" [value]="country.countryid">
-      {{ country.countryname }}
-    </option>
-  </select>
-  <div class="text-danger" *ngIf="registerForm.get('mCOUNTRYID')?.invalid && (registerForm.get('mCOUNTRYID')?.touched || isSubmitting)">
-    Country is required.
-  </div>
+                              class="text-danger">*</span></label>
+                          <select class="form-select form-control-lg" formControlName="mCOUNTRYID"
+                            (change)="onCountryChange($event)" [ngClass]="{
+                           'is-invalid': (registerForm.get('mCOUNTRYID')?.touched || isSubmitting) && registerForm.get('mCOUNTRYID')?.invalid,
+                            'is-valid': registerForm.get('mCOUNTRYID')?.valid && (registerForm.get('mCOUNTRYID')?.touched || isSubmitting)
+                            }">
+                            <option value="" disabled selected>Select Country</option>
+                            <option *ngFor="let country of countries" [value]="country.countryid">
+                              {{ country.countryname }}
+                            </option>
+                          </select>
+                          <div class="text-danger"
+                            *ngIf="registerForm.get('mCOUNTRYID')?.invalid && (registerForm.get('mCOUNTRYID')?.touched || isSubmitting)">
+                            Country is required.
+                          </div>
                           <!-- <input type="text" id="form3Examplea7" class="form-control form-control-lg" formControlName="mCOUNTRYID" [ngClass]="{
                             'is-invalid': (registerForm.get('mCOUNTRYID')?.touched || isSubmitting) && registerForm.get('mCOUNTRYID')?.invalid,
                             'is-valid': registerForm.get('mCOUNTRYID')?.valid && (registerForm.get('mCOUNTRYID')?.touched || isSubmitting)
@@ -441,26 +429,27 @@
                           <label class="form-label text-white" for="form3Examplea8">Phone Number</label>
                           <input type="text" id="form3Examplea8" class="form-control form-control-lg" formControlName="mPHONE1" />
                         </div> -->
-  
+
                       </div>
-                    
+
                     </div>
-  
+
                     <div class="mb-4">
                       <div data-mdb-input-init class="form-outline form-white">
                         <label class="form-label text-white" for="form3Examplea9">Your Email:<span
-                          class="text-danger">*</span></label>
-                        <input type="email" id="form3Examplea9" class="form-control form-control-lg" formControlName="mEMAIL" [ngClass]="{
+                            class="text-danger">*</span></label>
+                        <input type="email" id="form3Examplea9" class="form-control form-control-lg"
+                          formControlName="mEMAIL" [ngClass]="{
                           'is-invalid': (registerForm.get('mEMAIL')?.touched || isSubmitting) && registerForm.get('mEMAIL')?.invalid,
                           'is-valid': registerForm.get('mEMAIL')?.valid && (registerForm.get('mEMAIL')?.touched || isSubmitting)
-                        }"/>
-                         <span class="text-danger"
-                         *ngIf="(registerForm.get('mEMAIL')?.touched || isSubmitting) && registerForm.get('mEMAIL')?.errors?.['required']">
-                         Email is required.
-                       </span>
+                        }" />
+                        <span class="text-danger"
+                          *ngIf="(registerForm.get('mEMAIL')?.touched || isSubmitting) && registerForm.get('mEMAIL')?.errors?.['required']">
+                          Email is required.
+                        </span>
                       </div>
                     </div>
-  
+
                     <!-- <div class="form-check d-flex justify-content-start mb-4 pb-3">
                       <input class="form-check-input me-3" type="checkbox" value="" id="form2Example3c" />
                       <label class="form-check-label text-white" for="form2Example3">
@@ -470,19 +459,20 @@
                     </div> -->
                     <div class="row">
                       <div class="col-md-6 mb-4 pb-2  mb-md-0 pb-md-0">
-  
+
                         <div data-mdb-input-init class="form-outline">
-                          <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-light btn-lg mr-2 w-100"
-                          data-mdb-ripple-color="dark" [disabled]="!registerForm.valid">Register</button>
+                          <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                            class="btn btn-light btn-lg mr-2 w-100" data-mdb-ripple-color="dark"
+                            [disabled]="!registerForm.valid">Register</button>
                           <!--<button type="button" data-mdb-button-init data-mdb-ripple-init  class="btn btn-primary w-100 mb-2 btn-lg" (click)="sendOtp()" >Get OTP:</button>  -->
                           <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-light btn-lg"
                           data-mdb-ripple-color="dark">Register</button> -->
                           <!-- <input type="text" id="form3Examplev2" class="form-control form-control-lg" /> -->
                         </div>
-  
+
                       </div>
                       <div class="col-md-6 mb-4 pb-2">
-  
+
                         <div data-mdb-input-init class="form-outline">
                           <!-- <label class="form-label" for="form3Examplev3">PAN No:</label>
                           <input type="text" id="form3Examplev3" class="form-control form-control-lg" /> -->
@@ -490,18 +480,12 @@
                           <!-- <input type="number" maxlength="6"  formControlName="otp" name="otp"  class="form-control form-control-lg" placeholder=" Enter OTP "> -->
                           <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-light btn-lg mr-2 w-100"
                           data-mdb-ripple-color="dark">Go to Login</button> -->
-                          <button
-                          type="button"
-                          class="btn btn-light btn-lg mr-2 w-100"
-                          data-mdb-button-init
-                          data-mdb-ripple-init
-                          data-mdb-ripple-color="dark"
-                          [routerLink]="['/login']"
-                        >
-                          Go to Login
-                        </button>
+                          <button type="button" class="btn btn-light btn-lg mr-2 w-100" data-mdb-button-init
+                            data-mdb-ripple-init data-mdb-ripple-color="dark" [routerLink]="['/login']">
+                            Go to Login
+                          </button>
                         </div>
-  
+
                       </div>
                     </div>
                     <!-- <div class="row">
@@ -531,23 +515,23 @@
               </div>
             </form>
 
-            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="pt-4">
-      <footer class="bg-success text-white text-center fixed-bottom">
-        <div class="container p-2">
-          <p class="mb-0">&copy; 2025 Designed and Developed by IT-Cell CGMSCL | All Rights Reserved.</p>
-        </div>
-      </footer>
-    </div> 
-  </section>
+  </div>
+  <div class="pt-4">
+    <footer class="bg-success text-white text-center fixed-bottom">
+      <div class="container p-2">
+        <p class="mb-0">&copy; 2025 Designed and Developed by IT-Cell CGMSCL | All Rights Reserved.</p>
+      </div>
+    </footer>
+  </div>
+</section>
 
 
 
-  <!-- <div class="container-fluid  d-flex align-items-center justify-content-center py-2">
+<!-- <div class="container-fluid  d-flex align-items-center justify-content-center py-2">
     <div class="row shadow-lg rounded-4 overflow-hidden login-container">
       
       <div class="col-md-6 p-0 vh-100 mt-3 bg-gradient text-white d-flex flex-column justify-content-center align-items-center left-side">
@@ -627,7 +611,7 @@
     </div>
   </div> -->
 
- <!-- <div class="col-md-6">
+<!-- <div class="col-md-6">
   
                         <select data-mdb-select-init>
                           <option value="1">Employees</option>

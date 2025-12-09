@@ -12,12 +12,12 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrl: './registration.css'
 })
 export class Registration {
-  // private VREGAPI = 'https://dpdmis.in/VREGAPI/api';
+ 
     registerForm!: FormGroup;
     isSubmitting = false;
     submitted = false;
     isOtpSent = false;
-    serverOtp: string = ''; // store OTP returned from API (for demo)
+    serverOtp: string = ''; 
     enteredOtp: string = '';
     lictypename:any;
     lictypeid:any;
@@ -35,31 +35,7 @@ export class Registration {
   // Signup
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
       private cdr: ChangeDetectorRef, private router: Router,
-    ){
-      // this.registerForm = this.fb.group({
-      //   mSUPPLIERNAME: ['', Validators.required],
-      //   mEMAIL: ['', [Validators.required, Validators.email]],
-      //   mSUPPLIERTYPE: ['', Validators.required],
-      //   mpanno: ['', [Validators.required, Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]],
-      //   mADDRESS1: ['', Validators.required],
-      //   mADDRESS2: [''],
-      //   mADDRESS3: [''],
-      //   mCITY: ['', Validators.required],
-      //   mCOUNTRYID: ['', Validators.required],
-      //   mZIP: ['', Validators.required],
-      //   mPHONE1: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      //   mPwd: ['', [Validators.required, Validators.minLength(6)]],
-      //   confirmPassword: ['', Validators.required],
-      //   otp: ['']
-      // }, {
-      //   validators: this.passwordMatchValidator
-      // });
-    }
-    // passwordMatchValidator(form: FormGroup) {
-    //   const pass = form.get('mPwd')?.value;
-    //   const confirm = form.get('confirmPassword')?.value;
-    //   return pass === confirm ? null : { passwordMismatch: true };
-    // }
+    ){ }
     passwordMatchValidator(form: FormGroup) {
       const password = form.get('mPwd')?.value;
       const confirmPassword = form.get('confirmPassword')?.value;
@@ -89,7 +65,7 @@ export class Registration {
         otp: ['', Validators.required]
       },
       {
-        validator: this.passwordMatchValidator  // 👈 Important (group-level validator)
+        validator: this.passwordMatchValidator 
       }
     );
       this.GETMASLICENCETYPE();
@@ -163,7 +139,7 @@ export class Registration {
   // return;
   this.api.Signup(form, formData).subscribe({
     next: (res: any) => {
-      console.log('res final submit in rest:=',res);
+      // console.log('res final submit in rest:=',res);
     
       this.GETSendOtp(this.registerForm.value.mPHONE1,this.registerForm.value.mSUPPLIERNAME,'SIGNUP');
       // alert('Vendor Registered Successfully!');
@@ -183,8 +159,6 @@ export class Registration {
 }
 GETSendOtp(mobile:any,Detail:any,mType:any){
   // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Kaushal&mType=SIGNUP
-  // ;
-
   this.api.GETSendOtp(mobile,Detail,mType)
   .subscribe({
     next: (res: any) => {
@@ -195,7 +169,7 @@ GETSendOtp(mobile:any,Detail:any,mType:any){
       }, 2000);
     },
     error: (err: any) => {
-      console.error('Error loading license:', err);
+      console.error('Error loading :', err);
       // alert("Failed to load vendor details");
     },
   });
@@ -245,8 +219,8 @@ disablePaste(event: ClipboardEvent) {
   this.toastr.warning('Pasting OTP is not allowed. Please type it manually.', 'Warning');
 }
 
-// [1:16 pm, 11/11/2025] Kaushal Sir Singh Rajput: https://localhost:7053/api/Registration/masstates
-// [1:17 pm, 11/11/2025] Kaushal Sir Singh Rajput: https://localhost:7053/api/Registration/GetCountries
+//  https://localhost:7053/api/Registration/masstates
+//  https://localhost:7053/api/Registration/GetCountries
 getStates(){
   this.api.getStates().subscribe({
     next: (res: any) => {
@@ -302,7 +276,6 @@ onStatesChange(event: Event): void {
 
 
 togglePassword(): void {
-  // 
   this.isPasswordVisible = !this.isPasswordVisible;
   // this.isPasswordVisible = !this.isPasswordVisible; // Toggle visibility
   // const passwordField = document.getElementById('pwd') as HTMLInputElement;

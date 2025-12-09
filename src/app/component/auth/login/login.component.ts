@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 declare var google: any;
 import { RouterModule } from '@angular/router';
+declare var bootstrap: any;
 @Component({
   selector: 'app-login',
   standalone:true,
@@ -1115,8 +1116,30 @@ toggleText() {
     this.router.navigate(['/Registration']);
   }
 
- 
+  ForgotPassword(){
+    // forgotpassModal 
+   this.openmarqModal();
+  }
 
+  openmarqModal(): void {
+    // this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
   
+    // Remove any leftover backdrops (from previous opens)
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+  
+    const modalEl = document.getElementById('forgotpassModal')!;
+    // ensure modal appended to body so it sits above other layout elements
+    document.body.appendChild(modalEl);
+  
+    // Optional: force z-index higher than anything else on page
+    (modalEl as HTMLElement).style.zIndex = '99999';
+  
+    const modal = new bootstrap.Modal(modalEl, {
+      backdrop: false, // no backdrop
+      keyboard: true,
+      focus: true
+    });
+    modal.show();
+  }
 
 }
