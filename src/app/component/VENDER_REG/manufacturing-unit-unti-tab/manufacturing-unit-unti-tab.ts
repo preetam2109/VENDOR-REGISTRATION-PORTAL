@@ -107,7 +107,8 @@ export class ManufacturingUnitUntiTab {
   
 
 
-  displayedColumns: string[] = ['sno', 'unitname', 'unitaddress', 'city', 'unitinchargename', 'unitinchargemob', 'unitinchargeemail', 'statename', 'lictypename', 'licenceDetails'];
+  displayedColumns: string[] = ['sno', 'unitname', 'unitaddress', 'city', 'unitinchargename', 'unitinchargemob',
+     'unitinchargeemail', 'statename', 'lictypename','action','delete', 'licenceDetails'];
   expandedElement: any | null = null;
   expandedLic: any | null = null;
 
@@ -349,7 +350,7 @@ this.retForm = this.fb.group({
             unitname : item.unitname,
           }));
     
-          console.log('With S.No:', this.manufacturingList);
+          console.log('With S.No manufacturingList:', this.manufacturingList);
     
           this.dataSource.data = this.manufacturingList;
           this.dataSource.paginator = this.paginator;
@@ -1002,7 +1003,9 @@ onFileSelectedRetention(event: any) {
     doc.save('Retention_List.pdf');
   }
   
-
+  onButtonClick(unitid:any,vregid:any){
+    
+  }
 
   
 

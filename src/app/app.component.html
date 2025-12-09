@@ -4,13 +4,38 @@
 </ngx-spinner>
 
 <ng-container *ngIf="!isLoginPage">
-  <mat-toolbar color="primary" class="mat-elevation-z8" style="display: flex; align-items: center;">
+  <mat-toolbar color="primary" class="toolbar">
+
+    <!-- Menu Icon -->
+    <button (click)="drawer.toggle()" mat-icon-button class="menu-btn">
+      <mat-icon>menu</mat-icon>
+    </button>
+  
+    <!-- Title -->
+    <span class="title">VENDOR REGISTRATION PORTAL</span>
+  
+    <!-- Desktop Welcome Message -->
+    <span class="welcome-text">Welcome: <strong>{{ firstname | titlecase }}</strong></span>
+  
+    <!-- Back button -->
+    <button mat-button class="back-btn" (click)="goBack()">
+      <span class="button-label">Back</span>
+    </button>
+  
+    <!-- Mobile Back Icon -->
+    <button mat-icon-button class="mobile-back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  
+  </mat-toolbar>
+  
+  <!-- <mat-toolbar color="primary" class="mat-elevation-z8" style="display: flex; align-items: center;">
    
     <button (click)="drawer.toggle()" mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
   
-   
+  
     <a class="navbar-brand ms-2" href="#">VENDOR REGISTRATION PORTAL</a>
   
     
@@ -27,7 +52,7 @@
 
 <span class="spacer"></span>
 
-  </mat-toolbar>
+  </mat-toolbar> -->
 
   <mat-drawer-container autosize>
     <mat-drawer #drawer opened="false" mode="side" position="start" mode="over">

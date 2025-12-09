@@ -51,7 +51,7 @@ loadingSectionA:boolean=false;
       dispatchData: GetGCPDetails[] = [];
       displayedColumns: string[] = [
         'sno','gcpno','issuedate','startdate',
-        'expdate','filename'
+        'expdate','filename','action','delete'
        
       ];
    constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,

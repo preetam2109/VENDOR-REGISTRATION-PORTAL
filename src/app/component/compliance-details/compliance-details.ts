@@ -104,8 +104,9 @@ export class ComplianceDetails {
     // 'vregid',
     // 'supplierid',
     'filename',
+    'action',
+    'delete',
     'whoid',
-    // 'action',
     // 'ext',
     // 'licid',
   ];
