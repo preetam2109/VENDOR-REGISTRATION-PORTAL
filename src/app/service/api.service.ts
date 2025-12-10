@@ -2138,7 +2138,7 @@ getPovLicenceDetails(supplierId: any, VregID: any,mLicID:any) {
   return this.http.get(`${this.VREGAPI}/Registration/PovLicenceDetails?VregID=${VregID}&SupplierID=${supplierId}&mLICID=${mLicID}`);
 }
 
-getMasformTypes(){
+getMasformTypes(){  
   return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASFORMTYPES`);
 }
 

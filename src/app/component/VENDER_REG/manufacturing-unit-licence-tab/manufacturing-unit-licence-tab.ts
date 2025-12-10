@@ -398,7 +398,7 @@ validateStartEnd(form: FormGroup) {
       const supplierId = sessionStorage.getItem('facilityid');
     
       this.api.getmANUFACLICDetails(supplierId,sessionStorage.getItem('vregid')).subscribe((res: any) => {
-          console.log('Raw API response:', res);
+          console.log('Raw API response incens:', res);
     
           this.manufacturingLicList = res.map((item: any, index: number) => ({
             ...item,
@@ -1040,5 +1040,7 @@ onFileSelectedRetention(event: any) {
     }
   
 
+    onButtonClick(id:any,vid:any){
 
+    }
 }

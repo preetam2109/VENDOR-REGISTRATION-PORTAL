@@ -289,7 +289,7 @@ this.GetPovLicenceDetails();
       
     
       this.api.getManufacturingDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
-          console.log('Raw API response:', res);
+          console.log('Raw API response getManufacturingDetails:', res);
     
           this.manufacturingList = res.map((item: any, index: number) => ({
             ...item,
@@ -301,7 +301,7 @@ this.GetPovLicenceDetails();
             unitname : item.unitname,
           }));
     
-          console.log('With S.No:', this.manufacturingList);
+          // console.log('With S.No:', this.manufacturingList);
     
           this.dataSource.data = this.manufacturingList;
           this.dataSource.paginator = this.paginator;
@@ -318,19 +318,19 @@ this.GetPovLicenceDetails();
       
     }
   GetPovLicenceDetails() {
-      
+    
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
       this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
-          console.log('Raw API response:', res);
+          console.log('Raw API response retation:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
             sno: index + 1
           }));
+          // console.log('With retention value :', this.retentionList);
           this.dataSource3.data = this.retentionList;
           this.dataSource3.paginator = this.paginator;
           this.dataSource3.sort = this.sort;
-          // console.log('With retention:', this.dataSource2.data);
           this.spinner.hide();
           this.cdr.detectChanges();
         },
@@ -987,7 +987,9 @@ onFileSelectedRetention(event: any) {
       return true;
     }
 
-  
+    onButtonClick(id:any,vid:any){
+
+    }
 
 
 }

@@ -103,20 +103,21 @@ gstFileModel: any;
   dispatchData3: GstReturnDetails[] = [];
   displayedColumns: string[] = [
     'sno','accyear','turnoveramt','udinno','filename'
-    // ,'action'
+     ,'action','delete'
   ];
   displayedColumns2: string[] = [
     'sno','statename','gstno','filename'
-    // ,'action'
+    ,'action','delete'
   ];
   displayedColumns3: string[] = [
     'sno','gstno','accyear','filename'
-    // ,'action'
+    ,'action','delete'
   ];
   dispatchData1: BankMandateDetail[] = [];
   displayedColumns1: string[] = [
     'sno','accountname','accountno','bankname','branch','ifsccode','filename'
-    // ,'action''defaultacc',
+    ,'action','delete'
+    // 'defaultacc',
   ];
   AccYearSettings: any;
   MASGSTQUARTER: any;
@@ -566,10 +567,10 @@ get f() {
 }
  GetAnnualTurnover(){
   try{
-  //  ;
+
     this.spinner.show();
   this.api.GetAnnualTurnover(sessionStorage.getItem('vregid'))
-  // this.Service.get('GetDrugTenderList?n=0')
+ 
     .subscribe(
       (res:any) => {
         this.dispatchData = res.map(
