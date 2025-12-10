@@ -644,7 +644,7 @@ refreshMatTable() {
     
     DownloadFileWithName(mFilePath: string, mFileName: string) {
       // this.loadingSectionA=true;
-      ;
+
       this.spinner.show();
       console.log('this.url1=:',this.url);
       // window.URL.revokeObjectURL(this.url);

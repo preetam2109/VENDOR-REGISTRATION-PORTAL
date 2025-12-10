@@ -461,9 +461,11 @@ this.retForm = this.fb.group({
     
       this.api.DownloadFileWithName(apiUrl).subscribe({
         next: (res: Blob) => {
-          const blob = new Blob([res], { type: 'application/pdf' });
-          const url = window.URL.createObjectURL(blob);
-          this.openmarqModal(url);
+          const pdfURL = URL.createObjectURL(res);
+          window.open(pdfURL, "_blank");
+          // const blob = new Blob([res], { type: 'application/pdf' });
+          // const url = window.URL.createObjectURL(blob);
+          // this.openmarqModal(url);
           // Create a temporary link element for download
           // const a = document.createElement('a');
           // a.href = url;
@@ -770,7 +772,7 @@ onFileSelectedRetention(event: any) {
   
   
   exportToPDF() {
-    ;
+    
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -1002,12 +1004,5 @@ onFileSelectedRetention(event: any) {
     // 💾 Save PDF
     doc.save('Retention_List.pdf');
   }
-  
-  onButtonClick(unitid:any,vregid:any){
-    
-  }
-
-  
-
 
 }

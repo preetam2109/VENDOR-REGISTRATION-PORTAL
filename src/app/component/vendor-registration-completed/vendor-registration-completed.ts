@@ -109,12 +109,15 @@ export class VendorRegistrationCompleted {
         if (this.currentBlobUrl) {
           window.URL.revokeObjectURL(this.currentBlobUrl);
         }
+        const pdfURL = URL.createObjectURL(res);
+          window.open(pdfURL, "_blank");
 
-        const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        this.currentBlobUrl = url; // Track for later revocation
+        // const blob = new Blob([res], { type: 'application/pdf' });
+        // const url = window.URL.createObjectURL(blob);
+        // this.currentBlobUrl = url; 
+        // this.openmarqModal(url, mFileName); 
 
-        this.openmarqModal(url, mFileName); // Pass filename if needed for title
+
       },
       error: (err) => {
         if (err.status === 0 && err.statusText === 'Unknown Error') {
