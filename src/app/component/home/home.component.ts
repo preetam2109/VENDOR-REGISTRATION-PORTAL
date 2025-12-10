@@ -179,6 +179,8 @@ export class HomeComponent {
     'Technical Details': 'assets/dash-icon/statistic_12488647.png',
     'Compliance Details': 'assets/dash-icon/statistics_4762703.png',
     'Global Company Prefix': 'assets/dash-icon/office_2415113.png',
+    'Confirmation': 'assets/dash-icon/confirmation.png',
+    'Complete Registration': 'assets/dash-icon/complete.png',
 
   };
   constructor(
