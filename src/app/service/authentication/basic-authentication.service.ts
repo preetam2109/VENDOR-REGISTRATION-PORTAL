@@ -14,14 +14,12 @@ export class BasicAuthenticationService {
     return this.http.post<any>('https://dpdmis.in/CGMSCHO_API2/api/Login', { emailid, pwd }).pipe(
       map(
         data => {
-          
           const userInfo = data.userInfo;
           sessionStorage.setItem('authenticatedUser', emailid);
           sessionStorage.setItem('firstname', userInfo.firstname);
           sessionStorage.setItem('facilityid', userInfo.facilityid);
           sessionStorage.setItem('roleId', userInfo.roleid);
           sessionStorage.setItem('districtid', userInfo.districtid);
-          // 
           sessionStorage.setItem('userid', userInfo.userid);
 
           // sessionStorage.setItem('role',data.userInfo.approle);

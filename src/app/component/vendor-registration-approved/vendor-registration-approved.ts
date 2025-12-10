@@ -27,13 +27,19 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';  
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'; 
 
 @Component({
   standalone: true,
- imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
-    MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
-      MatTableExporterModule
+ imports: [ NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
+  MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
+    MatTableExporterModule,NgxExtendedPdfViewerModule
   ],
+//  imports: [NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
+//     MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,MatProgressSpinnerModule,
+//       MatTableExporterModule
+//   ],
+ 
   selector: 'app-vendor-registration-approved',
   templateUrl: './vendor-registration-approved.html',
   styleUrl: './vendor-registration-approved.css'
@@ -41,6 +47,10 @@ import Swal from 'sweetalert2';
 export class VendorRegistrationApproved {
   loadingSectionA:boolean=false;
   Remark:any;
+  url:any;
+  pdfBlob:any;
+  pdfSrc:any
+  savedScrollPos: number = 0;
   sanitizedPdfUrl!: SafeResourceUrl;
   activeSection: string = 'A';
   isCollapsed = false;
@@ -138,6 +148,9 @@ export class VendorRegistrationApproved {
     ];
    vregid:any;
    SupID:any;
+   selectedTabIndex: number = 0;
+  //  sanitizedPdfUrl!: SafeResourceUrl;
+   currentBlobUrl: string | null = null; 
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
     private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,private route: ActivatedRoute,private datePipe: DatePipe
   ){
@@ -180,33 +193,36 @@ export class VendorRegistrationApproved {
       } catch {
         return '-';
       }
-      // if (!dateString) return '-';
-    
-      // // 26-NOV-25 → 26-NOV-2025
-      // const parts = dateString.split(' ');
-      // let datePart = parts[0]; // 26-NOV-25
-      // const timePart = parts[1]; // 05.39.44.839369000
-      // const ampm = parts[2];     // AM
-    
-      // // Fix date year
-      // const [day, mon, year] = datePart.split('-');
-      // const fullYear = '20' + year;
-      // const dateFormatted = `${day}-${mon}-${fullYear} ${timePart.replace(/\./g, ':')} ${ampm}`;
-    
-      // const d = new Date(dateFormatted);
-      // return isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB'); // dd/MM/yyyy
   }
-    
+  ngAfterViewInit() {
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    // this.dataSource1.paginator = this.paginator1;
+    // this.dataSource1.sort = this.sort1;
+    // this.dataSource2.paginator = this.paginator2;
+    // this.dataSource2.sort = this.sort2;
+    // this.dataSource3.paginator = this.paginator3;
+    // this.dataSource3.sort = this.sort3;
+    // this.dataSource4.paginator = this.paginator4;
+    // this.dataSource4.sort = this.sort4;
+    // this.dataSource5.paginator = this.paginator5;
+    // this.dataSource5.sort = this.sort5;
+    // this.dataSource6.paginator = this.paginator6;
+    // this.dataSource6.sort = this.sort6;
+ 
+  }
 ngOnInit() {
   this.route.queryParams.subscribe(params => {
     this.vregid= params['vregid'];
     this.SupID=  params['supid'];
 
-    console.log("VRegID:",  this.vregid);
-    console.log("SupID:",  this.SupID);
+    // console.log("VRegID:",  this.vregid);
+    // console.log("SupID:",  this.SupID);
     // console.log("VRegID:", params['vregid']);
     // console.log("SupID:", params['supid']);
   });
+  // window.URL.revokeObjectURL(this.url);
+  // console.log('this.url7=:',this.url);
   this.GetAnnualTurnover();
   this.GETBankMandateDetail();
   this.GETMassuppliergstDetails();
@@ -215,13 +231,139 @@ ngOnInit() {
   this.GetComplienceCertificateDetails();
   this.GetGCPDetails();
 
+  // const modalEl = document.getElementById('pdfModal2');
+
+  // modalEl?.addEventListener('hidden.bs.modal', () => {
+  //   // setTimeout(() => {
+    
+  //   // }, 50);
+  //   this.refreshMatTable();
+  // });
+  // modalEl?.addEventListener('hidden.bs.modal', () => {
+  //   if (this.url) {
+  //     window.URL.revokeObjectURL(this.url);
+  //     this.url = '';
+  //   }
+  //   this.refreshMatTable();
+  // });
+  
+  // modalEl?.addEventListener('hidden.bs.modal', () => {
+  //   if (this.url) {
+  //     URL.revokeObjectURL(this.url);
+  //     this.url = '';
+  //   }
+  //   this.refreshMatTable();
+  // });
+  
+
 }
+
+selectedTabValue(event: any): void {
+  ;
+  console.log('this.url6=:',this.url);
+  this.selectedTabIndex = event.index;
+  if (this.selectedTabIndex === 0) {
+    // this.GETBankMandateDetail();
+    // window.URL.revokeObjectURL(this.url);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource1.paginator = this.paginator1;
+    this.dataSource2.sort = this.sort2;
+    this.dataSource2.paginator = this.paginator2;
+    this.dataSource2.sort = this.sort2;
+    this.dataSource3.paginator = this.paginator3;
+    this.dataSource3.sort = this.sort3;
+  } 
+  if (this.selectedTabIndex === 1) {
+      // this.GetAnnualTurnover();
+      // window.URL.revokeObjectURL(this.url);
+    this.dataSource4.paginator = this.paginator4;
+    this.dataSource4.sort = this.sort4;
+  } 
+  if (this.selectedTabIndex === 2) {
+    // window.URL.revokeObjectURL(this.url);
+    this.dataSource5.paginator = this.paginator5;
+    this.dataSource5.sort = this.sort5;
+    //   this.GETMassuppliergstDetails();
+  } 
+  if (this.selectedTabIndex === 3) {
+    // window.URL.revokeObjectURL(this.url);
+    this.dataSource6.paginator = this.paginator6;
+    this.dataSource6.sort = this.sort6;
+    // this.GstReturnDetails();
+  } 
+  //  else {
+  // }
+}
+refreshMatTable() {
+  setTimeout(() => {
+    if (this.dataSource) {
+      // ❌ REMOVE THIS — causes PDF preview issues
+      // window.URL.revokeObjectURL(this.url);
+
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.dataSource1.paginator = this.paginator1;
+      this.dataSource1.sort = this.sort1;
+      this.dataSource2.paginator = this.paginator2;
+      this.dataSource2.sort = this.sort2;
+      this.dataSource3.paginator = this.paginator3;
+      this.dataSource3.sort = this.sort3;
+      this.dataSource4.paginator = this.paginator4;
+      this.dataSource4.sort = this.sort4;
+      this.dataSource5.paginator = this.paginator5;
+      this.dataSource5.sort = this.sort5;
+      this.dataSource6.paginator = this.paginator6;
+      this.dataSource6.sort = this.sort6;
+
+      this.cdr.detectChanges();
+    }
+  }, 200);
+}
+
+// refreshMatTable() {
+//   // this.GETBankMandateDetail();
+//  ;
+//   setTimeout(() => {
+//     if (this.dataSource) {
+//       console.log('this.url4=:',this.url);
+//       // this.dataSource1.paginator = this.paginator1;
+//       // this.dataSource1.sort = this.sort1;
+//       // console.log('this.url2=:',this.url);
+//       // this.url='';
+//       // console.log('this.url3=:',this.url);
+//       window.URL.revokeObjectURL(this.url);
+//       console.log('this.url5=:',this.url);
+//       this.dataSource.paginator = this.paginator;
+//       this.dataSource.sort = this.sort;
+//       this.dataSource1.paginator = this.paginator1;
+//       this.dataSource1.sort = this.sort1;   
+//       this.dataSource2.paginator = this.paginator2;
+//       this.dataSource2.sort = this.sort2; 
+//       this.dataSource3.paginator = this.paginator3;
+//       this.dataSource3.sort = this.sort3; 
+//       this.dataSource4.paginator = this.paginator4;
+//       this.dataSource4.sort = this.sort4; 
+//       this.dataSource5.paginator = this.paginator5;
+//       this.dataSource5.sort = this.sort5;
+//       this.dataSource6.paginator = this.paginator6;
+//       this.dataSource6.sort = this.sort6;  
+//       this.cdr.detectChanges();
+    
+//     }
+//     // setTimeout(() => {
+//     //   window.scrollTo(0, this.savedScrollPos);
+//     // }, 10);
+    
+//   }, 200);
+// }
+  
 
 
     //#region BankMandateDetail
     GETBankMandateDetail(){
       try{
-        // debugger
+        // 
         this.spinner.show();
       // this.api.Massupplieraccnos(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
       // this.vregid= params['vregid'];
@@ -237,7 +379,7 @@ ngOnInit() {
                 sno: index + 1,
               })
             );
-            console.log('BankMandateDetail=:', this.dispatchData1);
+            // console.log('BankMandateDetail=:', this.dispatchData1);
             this.dataSource1.data = this.dispatchData1;
             this.dataSource1.paginator = this.paginator1;
             this.dataSource1.sort = this.sort1;
@@ -265,7 +407,7 @@ ngOnInit() {
 //  PUT_UpdateBankMandate(data: any, formData: FormData): Observable<any> {
         // https://dpdmis.in/VREGAPI/api/Registration/UpdateApprovalStatus?ISAPPROVE=N&BANKACCOUNTID=659&USERID=111&APPROVEREASON=testing
         // PUT_UpdateBankMandate(element: any) {
-        //   // debugger
+        //   // 
          
         //   if (!element.ISAPPROVE || !element.APPROVEREASON?.trim()) {
         //     this.toastr.error('Please fill all required fields before Update.', 'Error');
@@ -349,60 +491,261 @@ ngOnInit() {
         }
         
 
-    openmarqModal(pdfUrl: string): void {
-     
-      this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
-      document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+    // openmarqModal(pdfUrl: string): void {
+    //   ;
+    //   console.log('this.url3=:',pdfUrl);
+    //   // this.savedScrollPos = window.scrollY; 
+    //   this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+    //   document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
     
-      const modalEl = document.getElementById('pdfModal')!;
-      document.body.appendChild(modalEl);
-      (modalEl as HTMLElement).style.zIndex = '99999';
+    //   const modalEl = document.getElementById('pdfModal2')!;
+    //   document.body.appendChild(modalEl);
+    //   (modalEl as HTMLElement).style.zIndex = '99999';
     
-      const modal = new bootstrap.Modal(modalEl, {
-        backdrop: false, 
-        keyboard: true,
-        focus: true
-      });
-      modal.show();
-      this.loadingSectionA=false;
+    //   const modal = new bootstrap.Modal(modalEl, {
+    //     backdrop: false, 
+    //     keyboard: true,
+    //     focus: true
+    //   });
+    //   modal.show();
+    //   this.spinner.hide();
+    //   // window.URL.revokeObjectURL(this.url);
+    //   // this.loadingSectionA=false;
+    
+    // }
+    forceOpenPdf(pdfUrl: string) {
+      // 1️⃣ Force iframe clear
+      this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+    
+      setTimeout(() => {
+        // 2️⃣ Attach RANDOM param to force refresh (safe for iframe)
+        const finalUrl = pdfUrl + '#view=' + new Date().getTime();
+        this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(finalUrl);
+    
+        const modalEl = document.getElementById('pdfModal2')!;
+        document.body.appendChild(modalEl);
+    
+        const modal = new bootstrap.Modal(modalEl, {
+          backdrop: false,
+          keyboard: true,
+          focus: true
+        });
+    
+        modal.show();
+    
+        this.spinner.hide();
+      }, 50);
     }
+    
+    // openmarqModal(pdfUrl: string): void {
+    //   // 1 → First clear iframe to force refresh
+    //   this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+    
+    //   // 2 → Small delay to ensure refresh happens
+    //   setTimeout(() => {
+    //     // 3 → Now assign actual blob URL (NO timestamp)
+    //     this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+    
+    //     const modalEl = document.getElementById('pdfModal2')!;
+    //     document.body.appendChild(modalEl);
+    
+    //     (modalEl as HTMLElement).style.zIndex = '99999';
+    
+    //     const modal = new bootstrap.Modal(modalEl, {
+    //       backdrop: false,
+    //       keyboard: true,
+    //       focus: true
+    //     });
+    
+    //     modal.show();
+    //     this.spinner.hide();
+    //   }, 50);
+    // }
+    // Add to imports (if not already)
+
+
+
+ // Track current URL for revocation
+  // ... other properties
+
+  // DownloadFileWithName1(mFilePath: string, mFileName: string) {
+  //   // Encode file path and file name to handle special characters (like spaces, \ etc.)
+  //   const encodedPath = encodeURIComponent(mFilePath);
+  //   const encodedName = encodeURIComponent(mFileName);
+
+  //   // Build dynamic API URL
+  //   const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+
+  //   this.api.DownloadFileWithName(apiUrl).subscribe({
+  //     next: (res: Blob) => {
+  //       // Revoke previous URL if exists (prevents stale blobs)
+  //       if (this.currentBlobUrl) {
+  //         window.URL.revokeObjectURL(this.currentBlobUrl);
+  //       }
+
+  //       const blob = new Blob([res], { type: 'application/pdf' });
+  //       const url = window.URL.createObjectURL(blob);
+  //       this.currentBlobUrl = url; // Track for later revocation
+
+  //       this.openmarqModal(url, mFileName); // Pass filename if needed for title
+  //     },
+  //     error: (err) => {
+  //       if (err.status === 0 && err.statusText === 'Unknown Error') {
+  //         this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+  //       } else if (err.status === 404) {
+  //         this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+  //       } else {
+  //         this.toastr.error('Something went wrong while downloading the file.', 'Error');
+  //       }
+  //       console.error('Download error:', err);
+  //     }
+  //   });
+  // }
+
+  openmarqModal(pdfUrl: string, fileName: string = 'PDF Preview'): void {
+    this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+
+    // Remove any leftover backdrops (from previous opens)
+    document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+
+    const modalEl = document.getElementById('pdfModal1')!;
+    // Ensure modal appended to body so it sits above other layout elements
+    document.body.appendChild(modalEl);
+
+    // Optional: force z-index higher than anything else on page
+    (modalEl as HTMLElement).style.zIndex = '99999';
+
+    const modal = new bootstrap.Modal(modalEl, {
+      backdrop: false, // no backdrop
+      keyboard: true,
+      focus: true,
+    });
+    modal.show();
+
+    // Add event listener for modal close to revoke URL and clean up
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      if (this.currentBlobUrl) {
+        window.URL.revokeObjectURL(this.currentBlobUrl);
+        this.currentBlobUrl = null;
+      }
+      // Clear iframe src to prevent stale display
+      const iframe = modalEl.querySelector('iframe');
+      if (iframe) {
+        (iframe as HTMLIFrameElement).src = '';
+      }
+      this.sanitizedPdfUrl = ''; // Reset sanitizer
+    }, { once: true }); // Listener only for this open
+
+    // Update title if passed
+    const titleEl = modalEl.querySelector('.modal-title');
+    if (titleEl) {
+      titleEl.textContent = fileName || 'PDF Preview';
+    }
+  }
+    
     DownloadFileWithName(mFilePath: string, mFileName: string) {
-      this.loadingSectionA=true;
-  
-      // Encode file path and file name to handle special characters (like spaces, \ etc.)
+      // this.loadingSectionA=true;
+      ;
+      this.spinner.show();
+      console.log('this.url1=:',this.url);
+      // window.URL.revokeObjectURL(this.url);
       const encodedPath = encodeURIComponent(mFilePath);
       const encodedName = encodeURIComponent(mFileName);
     
-      // Build dynamic API URL
       const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
-    
-      this.api.DownloadFileWithName(apiUrl).subscribe({
-        next: (res: Blob) => {
-          const blob = new Blob([res], { type: 'application/pdf' });
-          const url = window.URL.createObjectURL(blob);
-          this.openmarqModal(url);
-          // Create a temporary link element for download
-          // const a = document.createElement('a');
-          // a.href = url;
-          // a.download = mFileName;
-          // a.click();
-    
-          // // Clean up URL object after use
-          // window.URL.revokeObjectURL(url);
+      this.api.DownloadFileWithName(apiUrl).subscribe(
+      (res: Blob) => {
+            
+            const blob = new Blob([res], { type: 'application/pdf' });
+      
+            // create URL
+            const url = URL.createObjectURL(blob);
+            window.open(url);
+
+            // // force reload using timestamp
+            // this.pdfSrc = url + '#toolbar=1&zoom=100&v=' + new Date().getTime();
+      
+            // console.log("PDF URL:", this.pdfSrc);
+      
+            this.spinner.hide();
         },
-        error: (err) => {
-          this.loadingSectionA=false;
-          if (err.status === 0 && err.statusText === 'Unknown Error') {
-         
-            this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
-          } else if (err.status === 404) {
-            this.toastr.warning('Requested file not found on the server.', 'File Not Found');
-          } else {
-            this.toastr.error('Something went wrong while downloading the file.', 'Error');
-          }
-          console.error('Download error:', err);
+        err => {
+            this.spinner.hide();
+            console.error("PDF load error:", err);
         }
-      });
+      );
+      
+      // this.api.DownloadFileWithName(apiUrl).subscribe({
+      //   next: (res: Blob) => {
+      //     // this.pdfBlob = new Blob([res], { type: 'application/pdf' });
+
+      //     // Convert Blob → object URL
+      //     // this.pdfSrc = URL.createObjectURL(this.pdfBlob);
+      //     const pdfURL = URL.createObjectURL(res);
+      //     window.open(pdfURL, "_blank");
+      //     // this.pdfBlob = new Blob([res], { type: 'application/pdf' });
+      //     // this.pdfBlob = new Blob([res], { type: 'application/pdf' });
+      //     // const blob = new Blob([res], { type: 'application/pdf' });
+      //     // this.url = window.URL.createObjectURL(blob);
+      //     //   const pdfBlobUrl = URL.createObjectURL(blob);
+      //     // this.openmarqModal(this.url);
+      //     // console.log('pdfBlob=:', this.pdfSrc);
+      //           // test data
+      //           // const blob = new Blob([res], { type: 'application/pdf' });
+
+      //           // Always create a NEW unique URL
+      //           // const objectUrl = window.URL.createObjectURL(blob);
+              
+      //           // Add timestamp to FORCE iframe reload
+      //           // this.url = objectUrl + '#t=' + new Date().getTime();
+      //           // this.url = objectUrl + '?v=' + new Date().getTime();
+      //           // this.openmarqModal(this.url);
+      //           // this.forceOpenPdf(pdfBlobUrl);
+      //           this.spinner.hide();
+
+
+      //     // console.log('this.url1=:',this.url);
+      //     // console.log('resurl=:',res);
+      //     // Create a temporary link element for download
+      //     // const a = document.createElement('a');
+      //     // a.href = url;
+      //     // a.download = mFileName;
+      //     // a.click();
+    
+      //     // // Clean up URL object after use
+      //     // this.api.DownloadFileWithName1(apiUrl).subscribe(
+      //     //   (res: ArrayBuffer) => {
+          
+      //     //     const blob = new Blob([res], { type: 'application/pdf' });
+          
+      //     //     // Create new URL every time to force reload
+      //     //     this.pdfSrc = URL.createObjectURL(blob) + '?v=' + new Date().getTime();
+          
+      //     //     console.log("PDF URL:", this.pdfSrc);
+          
+      //     //     this.spinner.hide();
+      //     //   },
+      //     //   (err:any) => {
+      //     //     this.spinner.hide();
+      //     //     console.error("PDF load error:", err);
+      //     //   }
+      //     // );
+          
+      //   },
+      //   error: (err) => {
+      //     // this.loadingSectionA=false;
+      //     this.spinner.hide();
+      //     if (err.status === 0 && err.statusText === 'Unknown Error') {
+         
+      //       this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+      //     } else if (err.status === 404) {
+      //       this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+      //     } else {
+      //       this.toastr.error('Something went wrong while downloading the file.', 'Error');
+      //     }
+      //     console.error('Download error:', err);
+      //   }
+      // });
     }
     //#endregion
 
@@ -449,7 +792,7 @@ applyTextFilter(event: Event) {
   this.dataSource.filter = filterValue.trim().toLowerCase();
 }
 // UpdateAnnualTurnoverApproval(element: any) {
-//   // debugger
+//   // 
  
 //           // https://dpdmis.in/VREGAPI/api/Registration/UpdateAnnualTurnoverApproval?ISAPPROVE=Y&ATID=44&USERID=111&APPROVEREASON=test
 //   // if(element.Iaccept == undefined && element.Remark  == undefined){
@@ -632,7 +975,7 @@ callUpdateGSTAPI(data: any, formData: FormData) {
 
 // UpdateSupplierGSTApproval(element: any) {
 //           // https://dpdmis.in/VREGAPI/api/Registration/UpdateSupplierGSTApproval?ISAPPROVE=Y&GSTID=656&USERID=333&APPROVEREASON=test
-//   // debugger
+//   // 
 //   // if(element.Iaccept == undefined && element.Remark  == undefined){
 //   //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 //   //   return;
@@ -758,7 +1101,7 @@ callGSTReturnUpdateAPI(data: any, formData: FormData) {
 
 // UpdateGSTReturnApproval(element: any) {
 //           // https://dpdmis.in/VREGAPI/api/Registration/UpdateGSTReturnApproval?ISAPPROVE=Y&RETID=13&USERID=111&APPROVEREASON=test	
-//   // debugger
+//   // 
 //   // if(element.Iaccept == undefined && element.Remark  == undefined){
 //   //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 //   //   return;
@@ -794,20 +1137,26 @@ callGSTReturnUpdateAPI(data: any, formData: FormData) {
 //#endregion 
 //#region Technical Details
     GetTechnicalDetails(){
-  try {
-     
+  try { 
       this.spinner.show();
       // this.api.GetTechnicalDetails(sessionStorage.getItem('vregid') )
       // this.api.GetTechnicalDetails(84)
       this.api.GetTechnicalDetails(this.vregid)
       .subscribe(
           (res: any) => {
-            this.dispatchData4 = res.map(
-              (item: TechnicalDetails_model, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
+            // this.dispatchData4 = res.map(
+            //   (item: TechnicalDetails_model, index: number) => ({
+            //     ...item,
+            //     sno: index + 1,
+            //   })
+            // );
+              // 🚀 Filter rows where mscid is NOT 6 or 22
+        this.dispatchData4 = res
+        .filter((item: TechnicalDetails_model) => item.mscid !== "6" && item.mscid !== "22")
+        .map((item: TechnicalDetails_model, index: number) => ({
+          ...item,
+          sno: index + 1,
+        }));
             // this.TechnicalDetailsData=res;
             // this.TechnicalDetails=this.dispatchData;
             // console.log('TechnicalDetails=:', this.dispatchData4);
@@ -885,7 +1234,7 @@ callTechnicalDetailsUpdateAPI(data: any, formData: FormData) {
 }
 
 //     PUT_TechnicalDetails(element: any) {
-// // debugger
+// // 
 // // if(element.Iaccept == undefined && element.Remark  == undefined){
 // //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 // //   return;
@@ -1028,7 +1377,7 @@ callComplianceVerificationAPI(data: any, formData: FormData) {
 
 // https://dpdmis.in/VREGAPI/api/Registration/COMPlinceVerification?mWHOID=31&Iaccept=N&Remarks=dsf&userID=2654
 // PUT_COMPlinceVerification(element: any) {
-//   // debugger
+//   // 
 //   // if(element.Iaccept == undefined && element.Remar k  == undefined){
 //   //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 //   //   return;
@@ -1164,7 +1513,7 @@ callGCPVerificationAPI(data: any, formData: FormData) {
 
 
 // PUT_GCPVerification(element:any){
-//   // debugger
+//   // 
 // // if(element.Iaccept == undefined && element.Remark  == undefined){
 // //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
 // //   return;

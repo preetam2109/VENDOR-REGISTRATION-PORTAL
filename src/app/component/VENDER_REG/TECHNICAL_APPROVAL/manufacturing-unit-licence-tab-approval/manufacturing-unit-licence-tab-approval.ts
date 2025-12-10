@@ -37,7 +37,7 @@ export class ManufacturingUnitLicenceTabApproval {
   isCollapsed3 = true;
   isEventOpen = false;
   submitted = false;
-
+  url:any
 
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
@@ -177,17 +177,47 @@ this.retForm = this.fb.group({
 });
 
 
+const modalEl = document.getElementById('pdfModalunitLicApproval');
 
+  modalEl?.addEventListener('hidden.bs.modal', () => {
+    this.refreshMatTable();
+  });
 
   }
 
+  refreshMatTable() {
+    // this.GETBankMandateDetail();
+  
+    setTimeout(() => {
+      ;
+      if (this.dataSource) {
+        // this.dataSource1.paginator = this.paginator1;
+        // this.dataSource1.sort = this.sort1;
+       
+        this.url='';
+        
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        
+        this.dataSource2.paginator = this.paginator1;
+        this.dataSource2.sort = this.sort1; 
+
+        this.dataSource3.paginator = this.paginator2;
+        this.dataSource3.sort = this.sort2; 
+        
+        this.cdr.detectChanges();
+      }
+      
+    }, 200);
+  }
+
   setApproval(element: any, value: 'Y' | 'N') {
-    debugger
+    
     element.approval = value; // store selected value in row
   }
   
   saveRow(element: any) {
-    debugger;
+    
   
     const mLicID = element.licid;     // licid from row
     const Iaccept = element.approval; // 'Y' or 'N'
@@ -575,7 +605,7 @@ validateStartEnd(form: FormGroup) {
       // Remove any leftover backdrops (from previous opens)
       document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
   
-      const modalEl = document.getElementById('pdfModal')!;
+      const modalEl = document.getElementById('pdfModalunitLicApproval')!;
       // ensure modal appended to body so it sits above other layout elements
       document.body.appendChild(modalEl);
   

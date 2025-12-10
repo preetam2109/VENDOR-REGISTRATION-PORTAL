@@ -4,14 +4,6 @@ button[aria-expanded="true"] .bi-chevron-down {
     transform: rotate(180deg);
     transition: transform 0.3s ease;
   }
-
-
-
-  
-  /* table css */
-  /* .container-fluid {
-    padding: 20px;
-  } */
   
   .table-responsive {
     margin-top: 20px;
@@ -63,7 +55,6 @@ button[aria-expanded="true"] .bi-chevron-down {
     /* color: crimson; */
   }
   
-  /* Additional styling for mobile view */
   @media (max-width: 768px) {
     .table-container {
       padding: 0;
@@ -79,18 +70,18 @@ button[aria-expanded="true"] .bi-chevron-down {
       width: 100%;
     }
     .text p {
-      font-size: xx-small; /* Adjust text size for small screens */
+      font-size: xx-small; 
       /* color: crimson; */
     }
   }
   .clickable-link {
-    color: blue; /* Link color */
-    text-decoration: underline; /* Underline for link appearance */
-    cursor: pointer; /* Pointer cursor to indicate clickable */
+    color: blue; 
+    text-decoration: underline;
+    cursor: pointer; 
   }
   
   .clickable-link:hover {
-    color: darkblue; /* Darker color on hover */
+    color: darkblue; 
   }
  
   
@@ -127,14 +118,12 @@ button[aria-expanded="true"] .bi-chevron-down {
   justify-content: center;
 }
 
-/* 🔹 Remove backdrop completely (no overlay, no click blocker) */
 .modal-backdrop.show {
   opacity: 0 !important;
   background-color: transparent !important;
-  pointer-events: none !important; /* ✅ this removes the blocking behavior */
+  pointer-events: none !important; 
 }
 
-/* 🔹 Modal look cleanup */
 .custom-transparent-modal .modal-content {
   border: none !important;
   box-shadow: none !important;
@@ -142,7 +131,6 @@ button[aria-expanded="true"] .bi-chevron-down {
   overflow: hidden;
 }
 
-/* 🔹 Iframe scrollable and responsive */
 .pdf-frame {
   width: 100%;
   height: 85vh;
@@ -150,13 +138,11 @@ button[aria-expanded="true"] .bi-chevron-down {
   display: block;
 }
 
-/* 🔹 Allow scroll inside modal body */
 .custom-transparent-modal .modal-body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* 🔹 Responsive for smaller devices */
 @media (max-width: 768px) {
   .pdf-frame {
     height: 75vh;
@@ -168,28 +154,26 @@ button[aria-expanded="true"] .bi-chevron-down {
 }
 
 
-/* make sure modal is on top */
 .modal {
   z-index: 200000 !important;
 }
 
-/* if backdrop still present, make it transparent and non-blocking */
 .modal-backdrop {
   z-index: 199999 !important;
   background-color: transparent !important;
   opacity: 0 !important;
-  pointer-events: none !important; /* allow clicks / scroll through it */
+  pointer-events: none !important; 
 }
 
 
   .whoid-link {
-    color: inherit;           /* Normal text color रहेगा */
-    text-decoration: none;    /* Normal में underline नहीं */
+    color: inherit;           
+    text-decoration: none;   
     cursor: pointer;
     transition: color 0.2s ease, text-decoration 0.2s ease;
   }
   
   .whoid-link:hover {
-    color: #1a5fff;           /* Hover पर blue color */
-    text-decoration: underline; /* Hover पर underline */
+    color: #1a5fff;         
+    text-decoration: underline; 
   }

@@ -35,6 +35,9 @@ export class ManufacturingUnitRetentionTab {
   isCollapsed3 = true;
   isEventOpen = false;
 
+  today: string = new Date().toISOString().split("T")[0];
+  validityerrorMsg:any;
+  starterrorMsg:any;
 
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
@@ -286,7 +289,7 @@ this.GetPovLicenceDetails();
       
     
       this.api.getManufacturingDetails(supplierId, sessionStorage.getItem('vregid')).subscribe((res: any) => {
-          console.log('Raw API response:', res);
+          console.log('Raw API response getManufacturingDetails:', res);
     
           this.manufacturingList = res.map((item: any, index: number) => ({
             ...item,
@@ -298,7 +301,7 @@ this.GetPovLicenceDetails();
             unitname : item.unitname,
           }));
     
-          console.log('With S.No:', this.manufacturingList);
+          // console.log('With S.No:', this.manufacturingList);
     
           this.dataSource.data = this.manufacturingList;
           this.dataSource.paginator = this.paginator;
@@ -315,19 +318,19 @@ this.GetPovLicenceDetails();
       
     }
   GetPovLicenceDetails() {
-      
+    
       this.spinner.show();
       const supplierId = sessionStorage.getItem('facilityid');
       this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
-          console.log('Raw API response:', res);
+          console.log('Raw API response retation:', res);
           this.retentionList = res.map((item: any, index: number) => ({
             ...item,
             sno: index + 1
           }));
+          // console.log('With retention value :', this.retentionList);
           this.dataSource3.data = this.retentionList;
           this.dataSource3.paginator = this.paginator;
           this.dataSource3.sort = this.sort;
-          // console.log('With retention:', this.dataSource2.data);
           this.spinner.hide();
           this.cdr.detectChanges();
         },
@@ -953,9 +956,40 @@ onFileSelectedRetention(event: any) {
     doc.save('Retention_List.pdf');
   }
   
+  validateDates() {
+    // ;
+    // mISSUEDATE: this.formatDate(this.retForm.value.mISSUEDATE),
+    // mStartDate: this.formatDate(this.retForm.value.mStartDate),
+    // mVALIDITYDATE: this.formatDate(this.retForm.value.mVALIDITYDATE),
+      const start = new Date(this.retForm.value.mStartDate);
+      const issue = new Date(this.retForm.value.mISSUEDATE);
+      const validity = new Date(this.retForm.value.mVALIDITYDATE);
+      this.validityerrorMsg = "";
+      this.starterrorMsg = "";
+    
+      // Rule 1: Start Date must be >= Issue Date
+      if (start < issue) {
+        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+      if (validity < start) {
+        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
+        return false;
+      }
+    
+      if (validity < issue) {
+        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      return true;
+    }
 
+    onButtonClick(id:any,vid:any){
 
-  
+    }
 
 
 }

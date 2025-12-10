@@ -29,15 +29,16 @@ declare var bootstrap: any;
   styleUrl: './manufacturing-unit-licence-tab.css'
 })
 export class ManufacturingUnitLicenceTab {
-
+  today: string = new Date().toISOString().split("T")[0];
+  errorMsg:any;
+  validityerrorMsg:any;
+  starterrorMsg:any;
   isCollapsed = false;
   isCollapsed1 = true;
   isCollapsed2 = true;
   isCollapsed3 = true;
   isEventOpen = false;
   submitted = false;
-
-
   manufacturingList: any[] = [];
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
@@ -236,6 +237,7 @@ validateStartEnd(form: FormGroup) {
   }
   
   onRetentionChange(selected: any) {
+    // debugger;
     const retid = selected?.retid ?? selected; // handles both cases
   
     console.log('Final RetID:', retid);
@@ -396,7 +398,7 @@ validateStartEnd(form: FormGroup) {
       const supplierId = sessionStorage.getItem('facilityid');
     
       this.api.getmANUFACLICDetails(supplierId,sessionStorage.getItem('vregid')).subscribe((res: any) => {
-          console.log('Raw API response:', res);
+          console.log('Raw API response incens:', res);
     
           this.manufacturingLicList = res.map((item: any, index: number) => ({
             ...item,
@@ -601,6 +603,8 @@ validateStartEnd(form: FormGroup) {
   // }
   
   onSubmitLicence() {
+    // debugger;
+    console.log('licForm.value=',this.licForm.value);
     this.loadingSectionA = true;
     
    this.submitted = true;
@@ -634,7 +638,7 @@ validateStartEnd(form: FormGroup) {
         mStartDate: this.formatDate(this.licForm.value.mStartDate),
         mVALIDITYDATE: this.formatDate(this.licForm.value.mVALIDITYDATE),
       };
-  
+  // return;
     try {
       this.api.postManufacturingLic(params,formData).subscribe({
         next: (res) => {
@@ -1007,8 +1011,36 @@ onFileSelectedRetention(event: any) {
   }
   
 
-
+  validateDates() {
+    // ;
+      const start = new Date(this.licForm.value.mStartDate);
+      const issue = new Date(this.licForm.value.mISSUEDATE);
+      const validity = new Date(this.licForm.value.mVALIDITYDATE);
+      this.validityerrorMsg = "";
+      this.starterrorMsg = "";
+    
+      // Rule 1: Start Date must be >= Issue Date
+      if (start < issue) {
+        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+      if (validity < start) {
+        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
+        return false;
+      }
+    
+      if (validity < issue) {
+        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      return true;
+    }
   
 
+    onButtonClick(id:any,vid:any){
 
+    }
 }

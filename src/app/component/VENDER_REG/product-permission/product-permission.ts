@@ -35,7 +35,9 @@ export class ProductPermission {
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
 
-
+  today: string = new Date().toISOString().split("T")[0];
+  validityerrorMsg:any;
+  starterrorMsg:any;
   
   sanitizedPdfUrl!: SafeResourceUrl;
   loadingSectionA:boolean=false;
@@ -89,10 +91,12 @@ export class ProductPermission {
 
 
   displayedColumns: string[] = [
-    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename'
+    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename', 'action',
+    'delete'
   ];
   displayedColumns2: string[] = [
-    'sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper'
+    'sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper','action',
+    'delete'
   ];
 
   constructor(private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {
@@ -345,14 +349,14 @@ formatDate(dateString: string): string {
   
 
   getLicenceDatesById(licid: any) {
-debugger
+
     const supplierId = sessionStorage.getItem('facilityid');
     const vregid = sessionStorage.getItem('vregid');
   
     this.api.getmANUFACLICDetails(supplierId, vregid).subscribe((res: any[]) => {
   
       const selectedLic = res.find(item => item.licid == licid);
-  debugger
+  
       if (selectedLic) {
         // Convert dd-mm-yyyy → yyyy-mm-dd
         const issue = this.formatToInputDate(selectedLic.issuedate);
@@ -749,7 +753,6 @@ debugger
      }
 
   exportToPDF() {
-    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -814,7 +817,6 @@ debugger
   
 
   exportToPDFPPItemDetails() {
-    ;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
   
     // 🕒 Add title and date-time
@@ -907,5 +909,40 @@ debugger
     }
   }
   
+  validateDates() {
+    // ;
+    //   mIssueDate: ['',Validators.required],
+      // mStartDate: ['',Validators.required],
+      // mVALIDITYDATE: ['',Validators.required/],
+      const start = new Date(this.productPerForm.value.mStartDate);
+      const issue = new Date(this.productPerForm.value.mIssueDate);
+      const validity = new Date(this.productPerForm.value.mVALIDITYDATE);
+      this.validityerrorMsg = "";
+      this.starterrorMsg = "";
+    
+      // Rule 1: Start Date must be >= Issue Date
+      if (start < issue) {
+        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+      if (validity < start) {
+        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
+        return false;
+      }
+    
+      if (validity < issue) {
+        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
+        return false;
+      }
+    
+      return true;
+    }
+
+    onButtonClick(id:any,vid:any){
+
+    }
+
 
 }

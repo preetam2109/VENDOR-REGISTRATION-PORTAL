@@ -20,6 +20,8 @@ import { registeredVendorsdata } from 'src/app/Model/VendorRegisDetail';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+declare var bootstrap: any;
 @Component({
   selector: 'app-vendor-registration-completed',
    standalone: true,
@@ -37,12 +39,12 @@ export class VendorRegistrationCompleted {
   vendorDetails: any[] = [];
   showButtons:boolean=true;
   // registeredVendorsdata
-
+  sanitizedPdfUrl!: SafeResourceUrl;
  dataSource!: MatTableDataSource<registeredVendorsdata>;
     @ViewChild('paginator') paginator!: MatPaginator;
     @ViewChild('sort') sort!: MatSort;
       dispatchData: registeredVendorsdata[] = [];
- 
+      currentBlobUrl: string | null = null; // Track current URL for revocation
 
       displayedColumns: string[] = [
         'sno','vregno','regdate','supplierName','pancardno','phone1',
@@ -66,7 +68,7 @@ export class VendorRegistrationCompleted {
         // supplierid: string
       ];
 
-  constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
+  constructor(private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
         private cdr: ChangeDetectorRef, private router: Router){
     // this.form1 = this.fb.group({ name: ['', Validators.required] });
     // this.form2 = this.fb.group({ review: ['', Validators.required] });
@@ -77,6 +79,97 @@ export class VendorRegistrationCompleted {
     this.GetVendorDetailsID();
     
   }
+  loadVendorDetails(supplierid:any) {
+  
+    this.api.getVendorDetails(supplierid).subscribe({
+      next: (res: any) => {
+        if (res && res.length > 0) {
+           const mFilePath=res[0].filepath
+           const mFileName=res[0].filename
+           this.DownloadFileWithName(mFilePath,mFileName)
+        }
+      },
+      error: (err) => {
+        console.error("Error loading vendor details:", err);
+        alert("Failed to load vendor details");
+      }
+    });
+  }
+  DownloadFileWithName(mFilePath: string, mFileName: string) {
+    // Encode file path and file name to handle special characters (like spaces, \ etc.)
+    const encodedPath = encodeURIComponent(mFilePath);
+    const encodedName = encodeURIComponent(mFileName);
+
+    // Build dynamic API URL
+    const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
+
+    this.api.DownloadFileWithName(apiUrl).subscribe({
+      next: (res: Blob) => {
+        // Revoke previous URL if exists (prevents stale blobs)
+        if (this.currentBlobUrl) {
+          window.URL.revokeObjectURL(this.currentBlobUrl);
+        }
+
+        const blob = new Blob([res], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        this.currentBlobUrl = url; // Track for later revocation
+
+        this.openmarqModal(url, mFileName); // Pass filename if needed for title
+      },
+      error: (err) => {
+        if (err.status === 0 && err.statusText === 'Unknown Error') {
+          this.toastr.error('File missing or network error. Please try again later.', 'Download Failed');
+        } else if (err.status === 404) {
+          this.toastr.warning('Requested file not found on the server.', 'File Not Found');
+        } else {
+          this.toastr.error('Something went wrong while downloading the file.', 'Error');
+        }
+        console.error('Download error:', err);
+      }
+    });
+  }
+
+  openmarqModal(pdfUrl: string, fileName: string = 'PDF Preview'): void {
+    this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+
+    // Remove any leftover backdrops (from previous opens)
+    document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+
+    const modalEl = document.getElementById('pdfModal')!;
+    // Ensure modal appended to body so it sits above other layout elements
+    document.body.appendChild(modalEl);
+
+    // Optional: force z-index higher than anything else on page
+    (modalEl as HTMLElement).style.zIndex = '99999';
+
+    const modal = new bootstrap.Modal(modalEl, {
+      backdrop: false, // no backdrop
+      keyboard: true,
+      focus: true,
+    });
+    modal.show();
+
+    // Add event listener for modal close to revoke URL and clean up
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      if (this.currentBlobUrl) {
+        window.URL.revokeObjectURL(this.currentBlobUrl);
+        this.currentBlobUrl = null;
+      }
+      // Clear iframe src to prevent stale display
+      const iframe = modalEl.querySelector('iframe');
+      if (iframe) {
+        (iframe as HTMLIFrameElement).src = '';
+      }
+      this.sanitizedPdfUrl = ''; // Reset sanitizer
+    }, { once: true }); // Listener only for this open
+
+    // Update title if passed
+    const titleEl = modalEl.querySelector('.modal-title');
+    if (titleEl) {
+      titleEl.textContent = fileName || 'PDF Preview';
+    }
+  }
+
   onClick(status:any){
     if(status=='Complete'){
       return

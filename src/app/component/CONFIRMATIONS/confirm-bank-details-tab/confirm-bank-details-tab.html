@@ -1,0 +1,1479 @@
+<!-- FINANCIAL DETAILS -->
+<!-- <div *ngIf="loadingSectionA; else sectionAContentA" class="spinner-container">
+    <mat-spinner diameter="40"></mat-spinner>
+</div>
+<ng-template #sectionAContentA> -->
+
+    <div class="container-fluid">
+
+        <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+            <mat-tab label="BANK DETAILS">
+                <ng-template matTabContent>
+                    <div class="card card-body">
+                        <!-- <strong class="text-lg">Bank Mandate</strong> -->
+                        <div class=" card container-fluid text-center" style="background-color: aliceblue;">
+                            <h3 class="mb-1 Heading-font-family pt-1">BANK MANDATE</h3>
+                        </div>
+        
+                        <div class="container-fluid p-0 m-0 ">
+                            <div class="row justify-content-center g-4 ">
+                                <div class="col-lg-12 mb-5">
+        
+                                    <div class="row justify-content-center g-4 p-3">
+                                        <!-- Card 1 -->
+                                        <div class="col-12 col-md-12 p-2">
+                                            <div class="" style="padding-bottom: 20px;">
+                                                <div class=" card row shadow ">
+                                                    <div class="d-flex justify-content-between align-items-center m-2">
+                                                        <div class="filter-field flex-grow-1">
+                                                            <input type="text" class="form-control" placeholder="Search"
+                                                                (keyup)="applyTextFilter1($event)">
+                                                        </div>
+                                                        <!-- <div class="export-menu-container m-2">
+                                            <button type="button" class="btn border rounded text-light" mat-button
+                                            style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick(0)">Add <i
+                                              class="bi bi-folder-plus"></i></button>
+                                             <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                                              [matMenuTriggerFor]="exportMenu">Export</button>
+                                            <mat-menu #exportMenu="matMenu">
+                                              <button mat-menu-item
+                                                (click)="exporter.exportTable('xlsx', { fileName: 'BankMandateDetail', sheet: 'BankMandateDetail', Props: { Author: 'cgmsc' }})">Excel</button>
+                                              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                          <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                              <button mat-menu-item (click)="exportToPDF1()">PDF</button>
+                                            </mat-menu>
+                                          </div> -->
+                                                    </div>
+        
+        
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-striped border rounded "
+                                                            mat-table matTableExporter [dataSource]="dataSource1"
+                                                            #exporter="matTableExporter" matSort #sort1="matSort">
+        
+                                                            <ng-container matColumnDef="sno">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No
+                                                                </th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{element.sno}} </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="accountname">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name In
+                                                                    Account</th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{element.accountname}} </td>
+                                                            </ng-container>
+        
+                                                            <ng-container matColumnDef="accountno">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Account No
+                                                                </th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{element.accountno}} </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="bankname">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Bank Name
+                                                                </th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{element.bankname}} </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="branch">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Branch
+                                                                </th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{element.branch}} </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="ifsccode">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>IFSC Code
+                                                                </th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{element.ifsccode}} </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="defaultacc">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Default AC
+                                                                </th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{element.defaultacc}} </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="isapprove">
+                                                                <th mat-header-cell *matHeaderCellDef>Accepted</th>
+        
+                                                                <td mat-cell *matCellDef="let row">
+        
+                                                                    <span [ngClass]="{
+                                                                  'text-success fw-bold': row.isapprove === 'Y',
+                                                                  'text-danger fw-bold': row.isapprove === 'N',
+                                                                  'text-secondary': row.isapprove === 'NA'
+                                                                }">
+                                                                        {{ row.isapprove === 'Y' ? 'YES' : row.isapprove === 'N'
+                                                                        ? 'NO' : 'NA' }}
+                                                                    </span>
+        
+                                                                </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="approvereason">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks
+                                                                </th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{element.approvereason}}
+                                                                </td>
+        
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="approvedt">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted
+                                                                    DT</th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    {{ formatDate(element.approvedt) }}
+                                                                    <!-- {{element.approvedt}} -->
+                                                                </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="filename">
+                                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Download Certificate</th> -->
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>View
+                                                                    Certificate</th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    <button
+                                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                                                        mat-button
+                                                                        (click)="DownloadFileWithName(element.filepath,element.filename)"><i
+                                                                            class="bi bi-filetype-pdf text-danger"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="action">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved
+                                                                </th>
+        
+                                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
+        
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    <span class="d-flex  flex-row-reverse align-items-center">
+                                                                        <div class="form-check text-center">
+                                                                            <input class="form-check-input " type="radio"
+                                                                                name="flexRadioDefault" id="iaccept1"
+                                                                                [name]="'status-' + element.bankaccountid"
+                                                                                [id]="'status-yes-' + element.bankaccountid"
+                                                                                value="Y" [(ngModel)]="element.ISAPPROVE">
+                                                                            <label class="form-check-label"
+                                                                                [for]="'status-yes-' + element.bankaccountid">Yes</label>
+                                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
+                                                                    Accept
+                                                                </label> -->
+                                                                        </div>
+                                                                        <div class="form-check text-center">
+                                                                            <input class="form-check-input" type="radio"
+                                                                                name="flexRadioDefault" id="iaccept2"
+                                                                                [name]="'status-' + element.bankaccountid"
+                                                                                [id]="'status-no-' + element.bankaccountid"
+                                                                                value="N" [(ngModel)]="element.ISAPPROVE">
+                                                                            <label class="form-check-label"
+                                                                                [for]="'status-no-' + element.bankaccountid">No</label>
+                                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
+                                                                 NO
+                                                                </label> -->
+                                                                        </div>
+                                                                        <!-- <button
+                                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+                                                                        mat-button>
+                                                                        <i class="bi bi-check2-circle text-success"></i>
+                                                                    </button> -->
+                                                                        <!-- (click)="onButtonClick(element.atid)" -->
+                                                                    </span>
+                                                                </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Remark">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark
+                                                                </th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                                        <textarea type="text" class="form-control"
+                                                                            placeholder="Type your Remark"
+                                                                            id="element.bankaccountid" rows="3"
+                                                                            [(ngModel)]="element.APPROVEREASON"
+                                                                            [name]="'remark-' + element.bankaccountid"
+                                                                            style="width: 200px;"></textarea>
+                                                                        <!-- <button
+                                                                        class="btn btn-sm text-light align-items-center border rounded"
+                                                                        mat-button>
+                                                                        <i class="bi bi-file-earmark-minus text-warning"></i>
+                                                                    </button> -->
+                                                                    </span>
+                                                                </td>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Save">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Save</th>
+                                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                                        <button
+                                                                            class="btn btn-sm text-light align-items-center border rounded bg-success bg-gradient"
+                                                                            mat-button (click)="PUT_UpdateBankMandate(element)"
+                                                                            [disabled]="!element.ISAPPROVE">Save
+        
+                                                                            <!-- <i class="bi bi-file-excel text-danger"></i> -->
+                                                                        </button>
+                                                                    </span>
+                                                                </td>
+                                                            </ng-container>
+        
+                                                            <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                                                        </table>
+                                                        <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 15, 30]"
+                                                            showFirstLastButtons></mat-paginator>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END DATA TABLE -->
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!--  ANNUAL TURNOVER CERTIFICATE Tab -->
+                        <!-- <strong class="text-lg">ANNUAL TURNOVER CERTIFICATE</strong> -->
+                        <div class=" card container-fluid text-center" style="background-color: aliceblue;">
+                            <h3 class="mb-1 Heading-font-family pt-1">ANNUAL TURNOVER CERTIFICATE</h3>
+                        </div>
+                        <div class="col-lg-12 mb-5">
+                            <!-- DATA Table -->
+                            <div class="row justify-content-center g-4 p-3">
+                                <!-- Card 1 -->
+                                <div class="col-12 col-md-12 p-2">
+                                    <div class="" style="padding-bottom: 20px;">
+                                        <div class=" card row shadow ">
+                                            <div class="d-flex justify-content-between align-items-center m-2">
+                                                <div class="filter-field flex-grow-1">
+                                                    <input type="text" class="form-control" placeholder="Search"
+                                                        (keyup)="applyTextFilter($event)">
+                                                </div>
+        
+        
+                                                <!-- <div class="export-menu-container m-2">
+                                <button type="button" class="btn border rounded text-light" mat-button style="background-color: rgb(21, 184, 0);"
+                                (click)="onButtonClickAT()">Add <i class="bi bi-folder-plus"></i></button>
+                                <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                                  [matMenuTriggerFor]="exportMenu">Export</button>
+                                <mat-menu #exportMenu="matMenu">
+                                  <button mat-menu-item
+                                    (click)="exporter.exportTable('xlsx', { fileName: 'ANNUALTURNOVER', sheet: 'ANNUALTURNOVER', Props: { Author: 'cgmsc' }})">Excel</button>
+                                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                  <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                                             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                  <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                </mat-menu>
+                              </div> -->
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped border rounded " mat-table
+                                                    matTableExporter [dataSource]="dataSource" #exporter="matTableExporter"
+                                                    matSort #sort="matSort">
+        
+                                                    <ng-container matColumnDef="sno">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.sno}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="accyear">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fin Year </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.accyear}} </td>
+                                                    </ng-container>
+        
+                                                    <ng-container matColumnDef="turnoveramt">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Turn Over Amount(
+                                                            in
+                                                            RS) </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.turnoveramt}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="udinno">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>UDIN NO</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.udinno}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="isapprove">
+                                                        <th mat-header-cell *matHeaderCellDef>Accepted</th>
+        
+                                                        <td mat-cell *matCellDef="let row">
+        
+                                                            <span [ngClass]="{
+                                                          'text-success fw-bold': row.isapprove === 'Y',
+                                                          'text-danger fw-bold': row.isapprove === 'N',
+                                                          'text-secondary': row.isapprove === 'NA'
+                                                        }">
+                                                                {{ row.isapprove === 'Y' ? 'YES' : row.isapprove === 'N' ? 'NO'
+                                                                : 'NA' }}
+                                                            </span>
+        
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="approvereason">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.approvereason}}
+                                                        </td>
+        
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="approvedt">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{ formatDate(element.approvedt) }}<!-- {{element.approvedt}} -->
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="filename">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <button
+                                                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                                                mat-button
+                                                                (click)="DownloadFileWithName(element.filepath,element.filename)"><i
+                                                                    class="bi bi-filetype-pdf text-danger"></i>
+                                                            </button>
+        
+                                                            <!-- (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')" -->
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="accyrsetid">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>accyrsetid </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.accyrsetid}} </td>
+                                                    </ng-container>
+        
+                                                    <ng-container matColumnDef="atid">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> atid </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.atid}}
+                                                        </td>
+                                                    </ng-container>
+        
+                                                    <ng-container matColumnDef="action">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+        
+                                                        <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
+        
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <span class="d-flex  flex-row-reverse align-items-center">
+                                                                <div class="form-check text-center">
+                                                                    <input class="form-check-input " type="radio"
+                                                                        name="flexRadioDefault" id="iaccept1"
+                                                                        [name]="'status-' + element.atid"
+                                                                        [id]="'status-yes-' + element.atid" value="Y"
+                                                                        [(ngModel)]="element.ATISAPPROVE">
+                                                                    <label class="form-check-label"
+                                                                        [for]="'status-yes-' + element.atid">Yes</label>
+                                                                    <!-- <label class="form-check-label " for="flexRadioDefault1">
+                                                            Accept
+                                                        </label> -->
+                                                                </div>
+                                                                <div class="form-check text-center">
+                                                                    <input class="form-check-input" type="radio"
+                                                                        name="flexRadioDefault" id="iaccept2"
+                                                                        [name]="'status-' + element.atid"
+                                                                        [id]="'status-no-' + element.atid" value="N"
+                                                                        [(ngModel)]="element.ATISAPPROVE">
+                                                                    <label class="form-check-label"
+                                                                        [for]="'status-no-' + element.atid">No</label>
+                                                                    <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
+                                                         NO
+                                                        </label> -->
+                                                                </div>
+                                                                <!-- <button
+                                                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+                                                                mat-button>
+                                                                <i class="bi bi-check2-circle text-success"></i>
+                                                            </button> -->
+                                                                <!-- (click)="onButtonClick(element.atid)" -->
+                                                            </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Remark">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <span class="d-flex  flex-row-reverse p-2 ">
+                                                                <textarea type="text" class="form-control"
+                                                                    placeholder="Type your Remark" id="element.atid" rows="3"
+                                                                    [(ngModel)]="element.ATAPPROVEREASON"
+                                                                    [name]="'remark-' + element.atid"
+                                                                    style="width: 200px;"></textarea>
+                                                                <!-- <button
+                                                                class="btn btn-sm text-light align-items-center border rounded"
+                                                                mat-button>
+                                                                <i class="bi bi-file-earmark-minus text-warning"></i>
+                                                            </button> -->
+                                                            </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Save">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Save</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <span class="d-flex  flex-row-reverse p-2 ">
+                                                                <button
+                                                                    class="btn btn-sm text-light align-items-center border rounded bg-success bg-gradient"
+                                                                    mat-button (click)="UpdateAnnualTurnoverApproval(element)"
+                                                                    [disabled]="!element.ATISAPPROVE">Save
+        
+                                                                    <!-- <i class="bi bi-file-excel text-danger"></i> -->
+                                                                </button>
+                                                            </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                                                </table>
+                                                <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]"
+                                                    showFirstLastButtons></mat-paginator>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END DATA TABLE -->
+        
+                        </div>
+                        <!-- GST CERTIFICATE Tab -->
+                        <!-- <strong class="text-lg">GST CERTIFICATE</strong> -->
+                        <div class=" card container-fluid text-center" style="background-color: aliceblue;">
+                            <h3 class="mb-1 Heading-font-family pt-1">GST CERTIFICATE</h3>
+                        </div>
+                        <div class="col-12 col-md-12 p-2">
+                            <div class="" style="padding-bottom: 20px;">
+                                <div class=" card row shadow ">
+                                    <div class="d-flex justify-content-between align-items-center m-2">
+                                        <div class="filter-field flex-grow-1">
+                                            <input type="text" class="form-control" placeholder="Search"
+                                                (keyup)="applyTextFilter2($event)">
+                                        </div>
+        
+                                        <!-- <div class="export-menu-container m-2">
+                            <button type="button" class="btn border rounded mr-1 text-light"
+                              style="background-color: rgb(21, 184, 0);" (click)="onButtonClickGST()">Add <i
+                                class="bi bi-folder-plus"></i></button>
+                            <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                              [matMenuTriggerFor]="exportMenu">Export</button>
+                            <mat-menu #exportMenu="matMenu">
+                              <button mat-menu-item
+                                (click)="exporter.exportTable('xlsx', { fileName: 'GSTD', sheet: 'GSTD', Props: { Author: 'cgmsc' }})">Excel</button>
+                              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                               <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                              <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                            </mat-menu>
+                          </div> -->
+                                    </div>
+        
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped border rounded " mat-table
+                                            matTableExporter [dataSource]="dataSource2" #exporter="matTableExporter" matSort
+                                            #sort2="matSort">
+        
+                                            <ng-container matColumnDef="sno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.sno}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="statename">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>State name </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.statename}}
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="gstno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>GST NO</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.gstno}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="vregid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>VREG ID</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="isapprove">
+                                                <th mat-header-cell *matHeaderCellDef>Accepted</th>
+        
+                                                <td mat-cell *matCellDef="let row">
+        
+                                                    <span [ngClass]="{
+                                                  'text-success fw-bold': row.isapprove === 'Y',
+                                                  'text-danger fw-bold': row.isapprove === 'N',
+                                                  'text-secondary': row.isapprove === 'NA'
+                                                }">
+                                                        {{ row.isapprove === 'Y' ? 'YES' : row.isapprove === 'N' ? 'NO' : 'NA'
+                                                        }}
+                                                    </span>
+        
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="approvereason">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.approvereason}}
+                                                </td>
+        
+                                            </ng-container>
+                                            <ng-container matColumnDef="approvedt">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{ formatDate(element.approvedt) }}<!-- {{element.approvedt}} -->
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="filename">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <button
+                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                                        mat-button
+                                                        (click)="DownloadFileWithName(element.filepath,element.filename)"><i
+                                                            class="bi bi-filetype-pdf text-danger"></i>
+                                                        <!-- (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')" -->
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+        
+                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
+        
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse align-items-center">
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input " type="radio"
+                                                                name="flexRadioDefault" id="iaccept1"
+                                                                [name]="'status-' + element.gstid"
+                                                                [id]="'status-yes-' + element.gstid" value="Y"
+                                                                [(ngModel)]="element.gstISAPPROVE ">
+                                                            <label class="form-check-label"
+                                                                [for]="'status-yes-' + element.gstid">Yes</label>
+                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
+                                                    Accept
+                                                </label> -->
+                                                        </div>
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                                id="iaccept2" [name]="'status-' + element.gstid"
+                                                                [id]="'status-no-' + element.gstid" value="N"
+                                                                [(ngModel)]="element.gstISAPPROVE">
+                                                            <label class="form-check-label"
+                                                                [for]="'status-no-' + element.gstid">No</label>
+                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
+                                                 NO
+                                                </label> -->
+                                                        </div>
+                                                        <!-- <button
+                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button>
+                                                        <i class="bi bi-check2-circle text-success"></i>
+                                                    </button> -->
+                                                        <!-- (click)="onButtonClick(element.atid)" -->
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Remark">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                        <textarea type="text" class="form-control"
+                                                            placeholder="Type your Remark" id="element.gstid" rows="3"
+                                                            [(ngModel)]="element.gstAPPROVEREASON"
+                                                            [name]="'remark-' + element.gstid" style="width: 200px;"></textarea>
+                                                        <!-- <button
+                                                        class="btn btn-sm text-light align-items-center border rounded"
+                                                        mat-button>
+                                                        <i class="bi bi-file-earmark-minus text-warning"></i>
+                                                    </button> -->
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Save">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Save</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                        <button
+                                                            class="btn btn-sm text-light align-items-center border rounded bg-success bg-gradient"
+                                                            mat-button (click)="UpdateSupplierGSTApproval(element)"
+                                                            [disabled]="!element.gstISAPPROVE">Save
+        
+                                                            <!-- <i class="bi bi-file-excel text-danger"></i> -->
+                                                        </button>
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+                                        </table>
+                                        <mat-paginator #paginator2 [pageSizeOptions]="[5,10, 15, 30]"
+                                            showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- GST RETURNS CERTIFICATE -->
+        
+                        <div class=" card container-fluid text-center" style="background-color: aliceblue;">
+                            <h3 class="mb-1 Heading-font-family pt-1">GST RETURNS CERTIFICATE</h3>
+                        </div>
+                        <div class="col-12 col-md-12 p-2">
+                            <div class="" style="padding-bottom: 20px;">
+                                <div class=" card row shadow ">
+                                    <div class="d-flex justify-content-between align-items-center m-2">
+                                        <div class="filter-field flex-grow-1">
+                                            <input type="text" class="form-control" placeholder="Search"
+                                                (keyup)="applyTextFilter3($event)">
+                                        </div>
+        
+                                        <!-- <div class="export-menu-container m-2">
+                                      <button type="button" class="btn border rounded mr-1 text-light" 
+                                          style="background-color: rgb(21, 184, 0);" (click)="onButtonClickGSTR()">Add <i
+                                              class="bi bi-folder-plus"></i></button>
+                                        <button type="button" class="btn border rounded btn-outline-secondary"
+                                            mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                                        <mat-menu #exportMenu="matMenu">
+                                            <button mat-menu-item
+                                                (click)="exporter.exportTable('xlsx', { fileName: 'WorksOrderD', sheet: 'WorksOrderD', Props: { Author: 'cgmsc' }})">Excel</button>
+                                            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                 <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                            <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                        </mat-menu>
+                                    </div> -->
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped border rounded " mat-table
+                                            matTableExporter [dataSource]="dataSource3" #exporter="matTableExporter" matSort
+                                            #sort3="matSort">
+        
+                                            <ng-container matColumnDef="sno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.sno}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="quartername">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Month/Quarter Name </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.quartername}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="gstno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>GST NO</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.gstno}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="accyear">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Financial Year</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.accyear}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="startmonth">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Month</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.startmonth}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- <ng-container matColumnDef="isgcpaccepted">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IS Accepted</th>
+                                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.isgcpaccepted}}
+                                            </td>
+                                        </ng-container> -->
+                                            <ng-container matColumnDef="isapprove">
+                                                <th mat-header-cell *matHeaderCellDef>Accepted</th>
+        
+                                                <td mat-cell *matCellDef="let row">
+        
+                                                    <span [ngClass]="{
+                                                  'text-success fw-bold': row.isapprove === 'Y',
+                                                  'text-danger fw-bold': row.isapprove === 'N',
+                                                  'text-secondary': row.isapprove === 'NA'
+                                                }">
+                                                        {{ row.isapprove === 'Y' ? 'YES' : row.isapprove === 'N' ? 'NO' : 'NA'
+                                                        }}
+                                                    </span>
+        
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="approvereason">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.approvereason}}
+                                                </td>
+        
+                                            </ng-container>
+                                            <ng-container matColumnDef="approvedt">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{ formatDate(element.approvedt) }}<!-- {{element.approvedt}} -->
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="filename">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <button
+                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                                        mat-button
+                                                        (click)="DownloadFileWithName(element.filepath,element.filename)"><i
+                                                            class="bi bi-filetype-pdf text-danger"></i>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="endmonth">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>End Month </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.endmonth}}
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+        
+                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
+        
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse align-items-center">
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input " type="radio"
+                                                                name="flexRadioDefault" id="iaccept1"
+                                                                [name]="'status-' + element.retid"
+                                                                [id]="'status-yes-' + element.retid" value="Y"
+                                                                [(ngModel)]="element.gstrISAPPROVE ">
+                                                            <label class="form-check-label"
+                                                                [for]="'status-yes-' + element.retid">Yes</label>
+                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
+                                                    Accept
+                                                </label> -->
+                                                        </div>
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                                id="iaccept2" [name]="'status-' + element.retid"
+                                                                [id]="'status-no-' + element.retid" value="N"
+                                                                [(ngModel)]="element.gstrISAPPROVE">
+                                                            <label class="form-check-label"
+                                                                [for]="'status-no-' + element.retid">No</label>
+                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
+                                                 NO
+                                                </label> -->
+                                                        </div>
+                                                        <!-- <button
+                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button>
+                                                        <i class="bi bi-check2-circle text-success"></i>
+                                                    </button> -->
+                                                        <!-- (click)="onButtonClick(element.atid)" -->
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Remark">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                        <textarea type="text" class="form-control"
+                                                            placeholder="Type your Remark" id="element.retid" rows="3"
+                                                            [(ngModel)]="element.gstrAPPROVEREASON"
+                                                            [name]="'remark-' + element.retid" style="width: 200px;"></textarea>
+                                                        <!-- <button
+                                                        class="btn btn-sm text-light align-items-center border rounded"
+                                                        mat-button>
+                                                        <i class="bi bi-file-earmark-minus text-warning"></i>
+                                                    </button> -->
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Save">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Save</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                        <button
+                                                            class="btn btn-sm text-light align-items-center border rounded bg-success bg-gradient"
+                                                            mat-button (click)="UpdateGSTReturnApproval(element)"
+                                                            [disabled]="!element.gstrISAPPROVE">Save
+        
+                                                            <!-- <i class="bi bi-file-excel text-danger"></i> -->
+                                                        </button>
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+                                        </table>
+                                        <mat-paginator #paginator3 [pageSizeOptions]="[5,10, 15, 30]"
+                                            showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="TECHNICAL DETAILS">
+                <ng-template matTabContent>
+                    <div class="card card-body">
+
+                        <div class="col-12 col-md-12 p-2">
+                            <div class="" style="padding-bottom: 20px;">
+                                <div class=" card row shadow ">
+                                    <div class="d-flex justify-content-between align-items-center m-2">
+                                        <div class="filter-field flex-grow-1">
+                                            <input type="text" class="form-control" placeholder="Search"
+                                                (keyup)="applyTextFilter4($event)">
+                                        </div>
+                                        <!-- <div class="export-menu-container m-2">
+                    <button type="button" class="btn border rounded mr-1 text-light"
+                    style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                      class="bi bi-folder-plus"></i></button>
+                  </div> -->
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped border rounded " mat-table
+                                            matTableExporter [dataSource]="dataSource4" #exporter="matTableExporter" matSort
+                                            #sort4="matSort">
+        
+                                            <ng-container matColumnDef="sno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.sno}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="vregid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>vregid</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}}
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="mscid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>mscid</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.mscid}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="ext">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ext</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="File Id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>fileid</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.fileid}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="code">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Document Type</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.code}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="filepath">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.filepath}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- <ng-container matColumnDef="ismfaccepted">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IS Accepted</th>
+                                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.ismfaccepted}}
+                                            </td>
+                                        </ng-container> -->
+                                            <ng-container matColumnDef="ismfaccepted">
+                                                <th mat-header-cell *matHeaderCellDef>Accepted</th>
+        
+                                                <td mat-cell *matCellDef="let row">
+        
+                                                    <span [ngClass]="{
+                                                  'text-success fw-bold': row.ismfaccepted === 'Y',
+                                                  'text-danger fw-bold': row.ismfaccepted === 'N',
+                                                  'text-secondary': row.ismfaccepted === 'NA'
+                                                }">
+                                                        {{ row.ismfaccepted === 'Y' ? 'YES' : row.ismfaccepted === 'N' ? 'NO' :
+                                                        'NA' }}
+                                                    </span>
+        
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="mfaccrejremarks">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.mfaccrejremarks}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="ismfaccepteddt">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{ formatDate(element.ismfaccepteddt) }} <!-- {{element.ismfaccepteddt}} -->
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="filename">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <button
+                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                                        mat-button
+                                                        (click)="DownloadFileWithName(element.filepath, element.filename)"><i
+                                                            class="bi bi-filetype-pdf text-danger"></i>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+        
+                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
+        
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse align-items-center">
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input " type="radio"
+                                                                name="flexRadioDefault" id="flexRadioDefault1"
+                                                                [name]="'status-' + element.sno"
+                                                                [id]="'status-yes-' + element.sno" value="Y"
+                                                                [(ngModel)]="element.Iaccept">
+                                                            <label class="form-check-label"
+                                                                [for]="'status-yes-' + element.sno">Yes</label>
+                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
+                                                    Accept
+                                                </label> -->
+                                                        </div>
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                                id="flexRadioDefault2" [name]="'status-' + element.sno"
+                                                                [id]="'status-no-' + element.sno" value="N"
+                                                                [(ngModel)]="element.Iaccept">
+                                                            <label class="form-check-label"
+                                                                [for]="'status-no-' + element.sno">No</label>
+                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
+                                                 NO
+                                                </label> -->
+                                                        </div>
+                                                        <!-- <button
+                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button>
+                                                        <i class="bi bi-check2-circle text-success"></i>
+                                                    </button> -->
+                                                        <!-- (click)="onButtonClick(element.atid)" -->
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Remark">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                        <textarea type="text" class="form-control"
+                                                            placeholder="Type your Remark" id="element.sno"
+                                                            [(ngModel)]="element.Remark" rows="3"
+                                                            [name]="'remark-' + element.sno" style="width: 200px;"></textarea>
+                                                        <!-- <button
+                                                        class="btn btn-sm text-light align-items-center border rounded"
+                                                        mat-button>
+                                                        <i class="bi bi-file-earmark-minus text-warning"></i>
+                                                    </button> -->
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Save">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Save</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                        <button
+                                                            class="btn btn-sm text-light align-items-center border rounded bg-success bg-gradient"
+                                                            mat-button (click)="PUT_TechnicalDetails(element)"
+                                                            [disabled]="!element.Iaccept">Save
+        
+                                                            <!-- <i class="bi bi-file-excel text-danger"></i> -->
+                                                        </button>
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns4"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns4"></tr>
+                                        </table>
+                                        <mat-paginator #paginator4 [pageSizeOptions]="[5,10, 15, 30]"
+                                            showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="COMPLIANCE DETAILS">
+                <ng-template matTabContent>
+                    <div class="card card-body">
+                        <div class="col-12 col-md-12 p-2">
+                            <div class="" style="padding-bottom: 20px;">
+                                <div class=" card row shadow ">
+                                    <div class="d-flex justify-content-between align-items-center m-2">
+                                        <div class="filter-field flex-grow-1">
+                                            <input type="text" class="form-control" placeholder="Search"
+                                                (keyup)="applyTextFilter5($event)">
+                                        </div>
+                                        <!-- <div class="export-menu-container m-2">
+                                <button type="button" class="btn border rounded mr-1 text-light"
+                                style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                                  class="bi bi-folder-plus"></i></button>
+                                <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                                  [matMenuTriggerFor]="exportMenu">Export</button>
+                                <mat-menu #exportMenu="matMenu">
+                                  <button mat-menu-item
+                                    (click)="exporter.exportTable('xlsx', { fileName: 'COMPLIANCED', sheet: 'COMPLIANCED', Props: { Author: 'cgmsc' }})">Excel</button>
+                                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                  <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                  <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                </mat-menu> class="mat-elevation-z1"
+                              </div> -->
+                                    </div>
+        
+                                    <div class="table-responsive">
+        
+                                        <table class="table table-bordered table-striped border rounded" mat-table
+                                            [dataSource]="dataSource5" mat-table matTableExporter #exporter="matTableExporter"
+                                            matSort #sort5="matSort">
+                                            <ng-container matColumnDef="sno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.sno}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="licno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Licence</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.licno}}
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="unitname">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.unitname}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="whono">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance No</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.whono}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="comid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance ID</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.comid}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="comname">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance Name</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.comname}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="issuedate">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.issuedate}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="startdate">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.startdate}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="validitydate">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Validity Date</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.validitydate}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="remarks">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.remarks}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="whotype">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>WHO Type</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.whotype}}
+        
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="vregid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>vreg ID</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="supplierid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier ID</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.supplierid}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="ext">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>EXT</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}}
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="licid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Lic Id</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.licid}}
+                                                </td>
+                                            </ng-container>
+                                            <!-- <ng-container matColumnDef="iswhoaccepted">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IS Accepted</th>
+                                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.iswhoaccepted}}
+                                            </td>
+                                        </ng-container> -->
+                                            <ng-container matColumnDef="iswhoaccepted">
+                                                <th mat-header-cell *matHeaderCellDef>Accepted</th>
+        
+                                                <td mat-cell *matCellDef="let row">
+        
+                                                    <span [ngClass]="{
+                                                  'text-success fw-bold': row.iswhoaccepted === 'Y',
+                                                  'text-danger fw-bold': row.iswhoaccepted === 'N',
+                                                  'text-secondary': row.iswhoaccepted === 'NA'
+                                                }">
+                                                        {{ row.iswhoaccepted === 'Y' ? 'YES' : row.iswhoaccepted === 'N' ? 'NO'
+                                                        : 'NA' }}
+                                                    </span>
+        
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="whoaccrejremarks">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{element.whoaccrejremarks}}
+                                                </td>
+        
+                                            </ng-container>
+                                            <ng-container matColumnDef="iswhoaccepteddt">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    {{ formatDate(element.iswhoaccepteddt)
+                                                    }}<!-- {{element.iswhoaccepteddt}} -->
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="filename">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <button
+                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                                        mat-button
+                                                        (click)="DownloadFileWithName(element.filepath,element.filename)"><i
+                                                            class="bi bi-filetype-pdf text-danger"></i>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+        
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+        
+                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
+        
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse align-items-center">
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input " type="radio"
+                                                                name="flexRadioDefault" id="iaccept1"
+                                                                [name]="'status-' + element.whoid"
+                                                                [id]="'status-yes-' + element.whoid" value="Y"
+                                                                [(ngModel)]="element.iaccept">
+                                                            <label class="form-check-label"
+                                                                [for]="'status-yes-' + element.whoid">Yes</label>
+                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
+                                                    Accept
+                                                </label> -->
+                                                        </div>
+                                                        <div class="form-check text-center">
+                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                                id="iaccept2" [name]="'status-' + element.whoid"
+                                                                [id]="'status-no-' + element.whoid" value="N"
+                                                                [(ngModel)]="element.iaccept">
+                                                            <label class="form-check-label"
+                                                                [for]="'status-no-' + element.whoid">No</label>
+                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
+                                                 NO
+                                                </label> -->
+                                                        </div>
+                                                        <!-- <button
+                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button>
+                                                        <i class="bi bi-check2-circle text-success"></i>
+                                                    </button> -->
+                                                        <!-- (click)="onButtonClick(element.atid)" -->
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Remark">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                        <textarea type="text" class="form-control"
+                                                            placeholder="Type your Remark" id="element.whoid" rows="3"
+                                                            [(ngModel)]="element.remark" [name]="'remark-' + element.whoid"
+                                                            style="width: 200px;"></textarea>
+                                                        <!-- <button
+                                                        class="btn btn-sm text-light align-items-center border rounded"
+                                                        mat-button>
+                                                        <i class="bi bi-file-earmark-minus text-warning"></i>
+                                                    </button> -->
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Save">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Save</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                                        <button
+                                                            class="btn btn-sm text-light align-items-center border rounded bg-success bg-gradient"
+                                                            mat-button (click)="PUT_COMPlinceVerification(element)"
+                                                            [disabled]="!element.iaccept">Save
+        
+                                                            <!-- <i class="bi bi-file-excel text-danger"></i> -->
+                                                        </button>
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns5"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns5"></tr>
+        
+        
+                                        </table>
+                                        <mat-paginator #paginator5 [pageSizeOptions]="[5,10, 15, 30]"
+                                            showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-template>
+            </mat-tab>
+           
+            <mat-tab label="GLOBAL COMPANY PREFIX">
+                <ng-template matTabContent>
+                    <div class="card card-body">
+                        <div class="col-lg-12 mb-5">
+                            <!-- DATA Table -->
+                            <div class="row justify-content-center g-4 p-3">
+                                <!-- Card 1 -->
+                                <div class="col-12 col-md-12 p-2">
+                                    <div class="" style="padding-bottom: 20px;">
+                                        <div class=" card row shadow ">
+                                            <div class="d-flex justify-content-between align-items-center m-2">
+                                                <div class="filter-field flex-grow-1">
+                                                    <input type="text" class="form-control" placeholder="Search"
+                                                        (keyup)="applyTextFilter6($event)">
+                                                </div>
+                                                <!-- <div class="export-menu-container m-2">
+                                     <button type="button" class="btn border rounded mr-1 text-light" 
+                                     style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                                         class="bi bi-folder-plus"></i></button>
+                                     <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                                       [matMenuTriggerFor]="exportMenu">Export</button>
+                                     <mat-menu #exportMenu="matMenu">
+                                       <button mat-menu-item
+                                         (click)="exporter.exportTable('xlsx', { fileName: 'COMPLIANCED', sheet: 'COMPLIANCED', Props: { Author: 'cgmsc' }})">Excel</button>
+                                       <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                       <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                        <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                       <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                     </mat-menu>
+                                   </div> -->
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped border rounded " mat-table
+                                                    matTableExporter [dataSource]="dataSource6" #exporter="matTableExporter"
+                                                    matSort #sort6="matSort">
+        
+                                                    <ng-container matColumnDef="sno">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.sno}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="gcpid">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> GCP Id</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.gcpid}} </td>
+                                                    </ng-container>
+                                                    <!-- 'sno','gcpid','vregid','gcpno','issuedate','startdate','issuedate',
+                                     'expdate','filename','filepath','entrydate','action' -->
+                                                    <ng-container matColumnDef="vregid">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>VRE Id</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.vregid}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="gcpno">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>GCP No</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.gcpno}} </td>
+                                                    </ng-container>
+        
+                                                    <ng-container matColumnDef="issuedate">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.issuedate}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="startdate">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.startdate}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="expdate">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Validity Date</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.expdate}} </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="entrydate">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Entry Date</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.entrydate}} </td>
+                                                    </ng-container>
+                                                    <!-- <ng-container matColumnDef="isgcpaccepted">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>IS Accepted</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.isgcpaccepted}}
+                                                    </td>
+                                                </ng-container> -->
+                                                    <ng-container matColumnDef="isgcpaccepted">
+                                                        <th mat-header-cell *matHeaderCellDef>Accepted</th>
+        
+                                                        <td mat-cell *matCellDef="let row">
+        
+                                                            <span [ngClass]="{
+                                                          'text-success fw-bold': row.isgcpaccepted === 'Y',
+                                                          'text-danger fw-bold': row.isgcpaccepted === 'N',
+                                                          'text-secondary': row.isgcpaccepted === 'NA'
+                                                        }">
+                                                                {{ row.isgcpaccepted === 'Y' ? 'YES' : row.isgcpaccepted === 'N'
+                                                                ? 'NO' : 'NA' }}
+                                                            </span>
+        
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="gcpaccrejremarks">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{element.gcpaccrejremarks}}
+                                                        </td>
+        
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="isgcpaccepteddt">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            {{ formatDate(element.isgcpaccepteddt)
+                                                            }}<!-- {{element.isgcpaccepteddt}} -->
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="filename">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate
+                                                        </th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <button
+                                                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                                                                mat-button
+                                                                (click)="DownloadFileWithName(element.filepath,element.filename)"><i
+                                                                    class="bi bi-filetype-pdf text-danger"></i>
+                                                                <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i> -->
+                                                            </button>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="action">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+        
+                                                        <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
+        
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <span class="d-flex  flex-row-reverse align-items-center">
+                                                                <div class="form-check text-center">
+                                                                    <input class="form-check-input " type="radio"
+                                                                        name="flexRadioDefault" id="iaccept1"
+                                                                        [name]="'status-' + element.gcpid"
+                                                                        [id]="'status-yes-' + element.gcpid" value="Y"
+                                                                        [(ngModel)]="element.gcpiaccept">
+                                                                    <label class="form-check-label"
+                                                                        [for]="'status-yes-' + element.gcpid">Yes</label>
+                                                                    <!-- <label class="form-check-label " for="flexRadioDefault1">
+                                                            Accept
+                                                        </label> -->
+                                                                </div>
+                                                                <div class="form-check text-center">
+                                                                    <input class="form-check-input" type="radio"
+                                                                        name="flexRadioDefault" id="iaccept2"
+                                                                        [name]="'status-' + element.gcpid"
+                                                                        [id]="'status-no-' + element.gcpid" value="N"
+                                                                        [(ngModel)]="element.gcpiaccept">
+                                                                    <label class="form-check-label"
+                                                                        [for]="'status-no-' + element.gcpid">No</label>
+                                                                    <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
+                                                         NO
+                                                        </label> -->
+                                                                </div>
+                                                                <!-- <button
+                                                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+                                                                mat-button>
+                                                                <i class="bi bi-check2-circle text-success"></i>
+                                                            </button> -->
+                                                                <!-- (click)="onButtonClick(element.atid)" -->
+                                                            </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Remark">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <span class="d-flex  flex-row-reverse p-2 ">
+                                                                <textarea type="text" class="form-control"
+                                                                    placeholder="Type your Remark" id="element.gcpid"
+                                                                    [(ngModel)]="element.gcpremark"
+                                                                    [name]="'remark-' + element.gcpid"
+                                                                    style="width: 200px;"></textarea>
+                                                                <!-- <button
+                                                                class="btn btn-sm text-light align-items-center border rounded"
+                                                                mat-button>
+                                                                <i class="bi bi-file-earmark-minus text-warning"></i>
+                                                            </button> -->
+                                                            </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Save">
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Save</th>
+                                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                                            <span class="d-flex  flex-row-reverse p-2 ">
+                                                                <button
+                                                                    class="btn btn-sm text-light align-items-center border rounded bg-success bg-gradient"
+                                                                    mat-button (click)="PUT_GCPVerification(element)"
+                                                                    [disabled]="!element.gcpiaccept">Save
+        
+                                                                    <!-- <i class="bi bi-file-excel text-danger"></i> -->
+                                                                </button>
+                                                            </span>
+                                                        </td>
+                                                    </ng-container>
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns6"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns6;"></tr>
+                                                </table>
+                                                <mat-paginator #paginator6 [pageSizeOptions]="[5,10, 15, 30]"
+                                                    showFirstLastButtons></mat-paginator>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END DATA TABLE -->
+        
+                        </div>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+
+        </mat-tab-group>
+
+    </div>
+
+<!-- Modal PDF-->
+<div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel"
+    aria-hidden="true">
+    <!-- modal-lg -->
+    <!-- <div class="modal-dialog modal-dialog-centered modal-fullscreen"> -->
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-none">
+            <div class="modal-header bg-dark text-white py-2 px-3">
+                <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <iframe [src]="sanitizedPdfUrl" class="pdf-frame" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>

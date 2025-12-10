@@ -1,0 +1,115 @@
+<h2 class="fw-bold mb-0">VENDOR DECLARATION</h2>
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+      <div class="col-12 col-md-10 col-lg-8">
+          
+          
+  
+        <div class="card shadow-lg border-0 rounded-4">
+          <!-- <div class="card-header bg-primary text-white text-center py-4">
+            <h2 class="fw-bold mb-0">Vendor Declaration</h2>
+          </div> -->
+  
+          <div class="card-body p-4 p-md-5">
+  
+            <!-- VReg ID -->
+          
+  
+            <!-- Declarations -->
+            <div class="form-check mb-3 d-flex align-items-start">
+                <input 
+                  class="form-check-input mt-1" 
+                  type="checkbox"
+                  id="dec1" 
+                  [(ngModel)]="declaration1"
+                  name="declaration1"
+                >
+                <label class="form-check-label fw-medium ms-2" for="dec1">
+                  I/We hereby declare that the firm is not blacklisted in any other state/corporation/institution.
+                </label>
+              </div>
+              
+              <div class="form-check mb-3 d-flex align-items-start">
+                <input 
+                  class="form-check-input mt-1" 
+                  type="checkbox"
+                  id="dec2" 
+                  [(ngModel)]="declaration2"
+                  name="declaration2"
+                >
+                <label class="form-check-label fw-medium ms-2" for="dec2">
+                  This Product Manufactured by us is not blacklisted in any other institution.
+                </label>
+              </div>
+              
+              <div class="form-check mb-3 d-flex align-items-start">
+                <input 
+                  class="form-check-input mt-1" 
+                  type="checkbox"
+                  id="dec3"
+                  [(ngModel)]="declaration3"
+                  name="declaration3"
+                >
+                <label class="form-check-label fw-medium ms-2" for="dec3">
+                  I will inform CGMSC about blacklisting of Firm/Product within 7 days.
+                </label>
+              </div>
+              
+              
+  
+            <!-- OTP Row -->
+            <div class="row mb-4">
+              <div class="col-md-8">
+                <label class="form-label fw-bold">Enter OTP</label>
+                <input 
+                  type="text" 
+                  class="form-control"
+                  [(ngModel)]="otpValue"
+                  maxlength="5"
+                  placeholder="Enter 5-digit OTP"
+                  pattern="[0-9]{6}"
+                />
+              </div>
+  
+              <div class="col-md-4 d-flex align-items-end">
+                <button 
+                  type="button" 
+                  class="btn btn-outline-primary w-100" 
+                  (click)="sendOTP()"
+                  [disabled]="sendingOTP"
+                >
+                  <span *ngIf="sendingOTP" class="spinner-border spinner-border-sm me-2"></span>
+                  {{ sendingOTP ? "Sending..." : "Send OTP" }}
+                </button>
+              </div>
+            </div>
+  
+            <!-- Submit Button -->
+            <div class="container p-1 text-center">
+              <button 
+                type="button"
+                class="btn btn-primary btn-lg px-5"
+                (click)="submitDeclaration()"
+                [disabled]="!declaration1 || !declaration2 || !declaration3 || !otpValue || submitting"
+              >
+                <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+                {{ submitting ? "Submitting..." : "Submit" }}
+              </button>
+
+           
+            
+              
+            </div>
+       
+           
+          </div>
+  
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  

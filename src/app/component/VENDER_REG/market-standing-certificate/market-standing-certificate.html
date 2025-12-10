@@ -115,7 +115,31 @@
               <td mat-cell *matCellDef="let row">{{ row.ismscaccepteddt }}</td>
             </ng-container>
   
-
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Edit</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <span class="d-flex  flex-row-reverse p-2 ">
+                  <button
+                    class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+                    mat-button (click)="onButtonClick(element.unitid,element.vregid)">
+                    <i class="bi bi-pencil-square text-primary"></i>
+                    <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i>style="background-color: rgb(124, 24, 255);" -->
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef>Delete</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <span class="d-flex  flex-row-reverse p-2 ">
+                  <button
+                    class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle  bg-danger-subtle"
+                    mat-button (click)="onButtonClick(element.unitid,element.vregid)">
+                    <i class="bi bi-trash text-danger"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
 
 
 <!-- Header and Row Definitions -->
@@ -129,7 +153,8 @@
   'validitydate',
   'cntitems',
   'filename',
-  
+   'action',
+    'delete'
 ]"></tr>
 
 <tr mat-row *matRowDef="let row; columns: [
@@ -142,7 +167,8 @@
   'validitydate',
   'cntitems',
   'filename',
- 
+   'action',
+  'delete'
 ];"></tr>
 
                   
@@ -477,7 +503,7 @@
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="ISSUEDATE" [ngClass]="{
+              <input type="date" class="form-control" formControlName="ISSUEDATE" (change)="validateDates()" [max]="today" [ngClass]="{
                 'is-invalid': (marketStandingCForm.get('ISSUEDATE')?.touched || submitted) && marketStandingCForm.get('ISSUEDATE')?.invalid,
                 'is-valid': marketStandingCForm.get('ISSUEDATE')?.valid && (marketStandingCForm.get('ISSUEDATE')?.touched || submitted)
               }">
@@ -489,26 +515,32 @@
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mstartdate" [ngClass]="{
-                'is-invalid': (marketStandingCForm.get('mstartdate')?.touched || submitted) && marketStandingCForm.get('mstartdate')?.invalid,
-                'is-valid': marketStandingCForm.get('mstartdate')?.valid && (marketStandingCForm.get('mstartdate')?.touched || submitted)
+              <input type="date" class="form-control" formControlName="mstartdate" (change)="validateDates()" [max]="today" [ngClass]="{
+                'is-invalid': (marketStandingCForm.get('mstartdate')?.touched || submitted) && (marketStandingCForm.get('mstartdate')?.invalid|| starterrorMsg),
+                'is-valid': marketStandingCForm.get('mstartdate')?.valid && (marketStandingCForm.get('mstartdate')?.touched || submitted)&& !starterrorMsg
               }">
                <span class="text-danger"
                *ngIf="(marketStandingCForm.get('mstartdate')?.touched || submitted) && marketStandingCForm.get('mstartdate')?.errors?.['required']">
                Start Date is required.
              </span>
+             <div class="text-danger mt-1">
+              <p class="text-danger">{{ starterrorMsg }}</p>
+            </div>
             </div>
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mEXPDate" [ngClass]="{
-                'is-invalid': (marketStandingCForm.get('mEXPDate')?.touched || submitted) && marketStandingCForm.get('mEXPDate')?.invalid,
-                'is-valid': marketStandingCForm.get('mEXPDate')?.valid && (marketStandingCForm.get('mEXPDate')?.touched || submitted)
+              <input type="date" class="form-control" formControlName="mEXPDate" (change)="validateDates()" [ngClass]="{
+                'is-invalid': (marketStandingCForm.get('mEXPDate')?.touched || submitted) && (marketStandingCForm.get('mEXPDate')?.invalid|| validityerrorMsg),
+                'is-valid': marketStandingCForm.get('mEXPDate')?.valid && (marketStandingCForm.get('mEXPDate')?.touched || submitted)&& !validityerrorMsg
               }">
                <span class="text-danger"
                *ngIf="(marketStandingCForm.get('mEXPDate')?.touched || submitted) && marketStandingCForm.get('mEXPDate')?.errors?.['required']">
                Valid Date is required.
              </span>
+             <div class="text-danger mt-1">
+              <p class="text-danger">{{ validityerrorMsg }}</p>
+            </div>
             </div>
 
             <div class="col-md-6 mb-3">

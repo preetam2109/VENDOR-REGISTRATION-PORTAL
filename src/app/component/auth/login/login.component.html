@@ -543,9 +543,13 @@
                   <button type="submit" class="btn btn-success w-100 mb-3" [disabled]="adminLoginForm.invalid">Login</button>
                 </form>
                 <!-- <a class="btn btn-success w-100 mt-2" routerLink="/Registration">Registration</a> -->
-                <button class="btn btn-success w-100 mt-2" (click)="goToRegistration()">Registration</button>
+                <span class="d-flex gap-3">
+                  <button class="btn btn-success w-50" (click)="ForgotPassword()">Forgot Password</button>
+                  <button class="btn btn-success w-50" (click)="goToRegistration()">Registration</button>
+                </span>
+                
 
-
+ 
                 <!-- <a type="link" class="btn btn-success w-100 mt-2" routerLink="/Registration"  >Registration</a> -->
               </div>
               <!-- Warehouse Tab -->
@@ -901,3 +905,121 @@
     </button>
   </div>
 </ng-template>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade custom-transparent-modal" id="forgotpassModal" tabindex="-1" aria-labelledby="forgotpassModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header bg-dark text-white py-2 px-3">
+        <h5 class="modal-title" id="forgotpassModalLabel">Forgot Password</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="col-lg-12 card">
+          <div class="p-5 bg-light">
+            <!-- <h3 class="fw-bold mb-5 " style="color:  #198754;">General Information for Vendor</h3> -->
+            <div class="mb-4 pb-2">
+              <div data-mdb-input-init class="form-outline">
+                <label class="form-label" for="form3Examplev4">Phone Number:<span
+                    class="text-danger">*</span></label>
+                <input type="text" id="form3Examplev4" class="form-control form-control-lg" maxlength="10"
+                   />
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-4 pb-2  mb-md-0 pb-md-0">
+
+                <div data-mdb-input-init class="form-outline">
+                  <button type="button" data-mdb-button-init data-mdb-ripple-init
+                    class="btn btn-primary w-100 mb-2 btn-lg" >Get OTP</button>
+                </div>
+
+              </div>
+              <div class="col-md-6 mb-4 pb-2">
+
+                <div data-mdb-input-init class="form-outline">
+                  
+                  <input type="number" maxlength="6"  name="otp"
+                    class="form-control form-control-lg" placeholder=" Enter OTP "
+                     />
+
+                </div>
+
+              </div>
+            </div>
+            <div class="mb-4 pb-2">
+              
+              <div style="position: relative;" data-mdb-input-init class="form-outline">
+
+                <label class="form-label" for="pwd">Password:
+                  <span class="text-danger">*</span>
+                </label>
+                <div class="password-box">
+                  <input 
+                    class="form-control form-control-lg"  />
+
+                  
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-4 pb-2 ">
+
+                <div data-mdb-input-init class="form-outline">
+                  <label class="form-label" for="form3Examplev5">Confirm Password:<span
+                      class="text-danger">*</span></label>
+                  <div class="password-box">
+                    <input  id="form3Examplev5"
+                      class="form-control form-control-lg"/>
+                  </div>
+
+                
+                </div>
+
+              </div>
+
+            </div>
+            <div data-mdb-input-init class="form-outline">
+              <button type="button" data-mdb-button-init data-mdb-ripple-init
+                class="btn btn-success w-100 mb-2 btn-lg" >Save</button>
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div class="modal fade" id="forgotpassModal1" tabindex="-1" aria-labelledby="forgotpassModalLabel"
+ aria-hidden="true">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="itemDetailsModalLabel">Item Details</h5>
+       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     </div>
+     <div class="modal-body">
+       <!-- Display warehouse details here -->
+       <p><strong>Facility Name:</strong> {{ selectedWarehouse?.facilityname }}</p>
+       <p><strong>Number of Items:</strong> {{ selectedWarehouse?.nositems }}</p>
+       <p><strong>Drop Date:</strong> {{ selectedWarehouse?.dropdate }}</p>
+       <!-- Add more details as needed -->
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+     </div>
+   </div>
+ </div>
+</div>

@@ -104,15 +104,13 @@ export class ComplianceDetails {
     // 'vregid',
     // 'supplierid',
     'filename',
+    'action',
+    'delete',
     'whoid',
-    // 'action',
     // 'ext',
     // 'licid',
   ];
   dispatchData1: GetCOMTyepDetails[] = [];
-  // COMTyepDetailsdata: GetCOMTyepDetails[] = [];
-// manufacturingLicList: any[] = [];
-  // dispatchData3: GstReturnDetails[] = [];'filepath',
   displayedColumns1: string[] = [
     'sno',
     // 'whotypeid',
@@ -124,34 +122,22 @@ export class ComplianceDetails {
     // 'action',
    
     // 'filename',
-    // whotypeid: number;
-    // whoid: number;
-    // whono: string;
-    // itemtypeid: number;
-    // itemtypename: string;
-    // vregid: number;
   ];
   expandedElement: any | null = null;
   COMTyepDetailsdata: any[] = [];
   
-// Identify detail rows
 isExpansionDetailRow = (i: number, row: any) => row.detailRow === true;
 
-// Toggle row expand/collapse
 toggleDetails(row: any, whoid: any) {
-  // Collapse if already open
   if (this.expandedElement === row) {
     this.expandedElement = null;
 
-    // Remove all detail rows
     this.dataSource.data = this.dataSource.data.filter(r => !r.detailRow);
     return;
   }
 
-  // OPEN NEW ROW
   this.expandedElement = row;
 
-  // Insert detail row just below clicked row
   const updatedRows: any[] = [];
 
   this.dataSource.data.forEach(r => {
@@ -167,7 +153,6 @@ toggleDetails(row: any, whoid: any) {
 
   this.dataSource.data = updatedRows;
 
-  // Fetch detail API data
   this.GettypedetailsDetails(whoid);
 }
 
@@ -198,18 +183,18 @@ toggleDetails(row: any, whoid: any) {
   DownloadFileWithName(mFilePath: string, mFileName: string) {
     
   
-    // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
     const encodedName = encodeURIComponent(mFileName);
   
-    // Build dynamic API URL
     const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
   
     this.api.DownloadFileWithName(apiUrl).subscribe({
       next: (res: Blob) => {
-        const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        this.openmarqModal(url);
+        const pdfURL = URL.createObjectURL(res);
+        window.open(pdfURL, "_blank");
+        // const blob = new Blob([res], { type: 'application/pdf' });
+        // const url = window.URL.createObjectURL(blob);
+        // this.openmarqModal(url);
         // Create a temporary link element for download
         // const a = document.createElement('a');
         // a.href = url;
@@ -284,18 +269,15 @@ onCheckboxChange(item: any) {
     this.sanitizedPdfUrl =
       this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
 
-    // Remove any leftover backdrops (from previous opens)
     document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
 
     const modalEl = document.getElementById('pdfModal')!;
-    // ensure modal appended to body so it sits above other layout elements
     document.body.appendChild(modalEl);
 
-    // Optional: force z-index higher than anything else on page
     (modalEl as HTMLElement).style.zIndex = '99999';
 
     const modal = new bootstrap.Modal(modalEl, {
-      backdrop: false, // no backdrop
+      backdrop: false, 
       keyboard: true,
       focus: true,
     });
@@ -319,20 +301,14 @@ onCheckboxChange(item: any) {
       });
   }
   Onselectlicense(event: any) {
-    // ;
-    // console.log('Selected license:', event);
     if (event) {
       this.licid = event?.licid;
-      // console.log('licid:', this.licid);
       this.unitname = `${event.licid} - ${event.unitname}`;
-      console.log(this.unitname); // will log "55 - Korba"
+      console.log(this.unitname); 
     }
   }
   OnselectlicensecomplianceType(event: any) {
-    // ;
-    // console.log('Selected license:', event);
     this.comid = event?.comid;
-    // console.log('comid:', this.comid);
   }
   OnselectItemtype(event: any) {
     // console.log('Selected itemtypeid:', event);
@@ -343,12 +319,10 @@ onCheckboxChange(item: any) {
   toggleSelection(id: number, event: any) {
     const checked = event.target.checked;
     if (checked) {
-      // add if not already selected
       if (!this.selecteditemtypeid.includes(id)) {
         this.selecteditemtypeid.push(id);
       }
     } else {
-      // remove if unchecked
       this.selecteditemtypeid = this.selecteditemtypeid.filter((x) => x !== id);
     }
   }
@@ -388,7 +362,6 @@ onCheckboxChange(item: any) {
   }
 
   validateDates() {
-  // debugger;
     const start = new Date(this.mstartdate);
     const issue = new Date(this.ISSUEDATE);
     const validity = new Date(this.mEXPDate);
@@ -586,7 +559,6 @@ onCheckboxChange(item: any) {
   }
   exportToPDF() {}
 
-  // Your API call (unchanged except no modal)
 GettypedetailsDetails(mWHOID: any) {
   this.spinner.show();
 
@@ -655,12 +627,7 @@ GettypedetailsDetails(mWHOID: any) {
   }
   exportToPDF1() {}
   openModal(): void {
-    // this.selectedWhoId = whoid;
-    // this.getWhoDetails(whoid); // WHO ID ka data load karega
-
-    // Remove old backdrops if exist
     document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
-
     const modalEl = document.getElementById('whoidModal')!;
     document.body.appendChild(modalEl);
     (modalEl as HTMLElement).style.zIndex = '99999';

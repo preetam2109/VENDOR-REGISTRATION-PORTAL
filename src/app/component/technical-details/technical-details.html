@@ -40,17 +40,6 @@
                             <tbody>
                               <tr>
                                 <td *ngFor="let head of tableHeadings">
-                          
-                                  <!-- If record exists -->
-                                  <!-- <span *ngIf="TechnicalDetailsMapped[head.mscid]">
-                                    {{ TechnicalDetailsMapped[head.mscid].code }}
-                                    <button
-                                    class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
-                                   
-                                    (click)="DownloadFileWithName1(TechnicalDetailsMapped[head.mscid].filepath, TechnicalDetailsMapped[head.mscid].filename)"><i
-                                      class="bi bi-filetype-pdf text-danger"></i>
-                                  </button>
-                                  </span> -->
                                   <span *ngIf="TechnicalDetailsMapped[head.mscid]">
 
                                     <!-- Value -->
@@ -117,15 +106,8 @@
                             <div class="form-group col-md-6 pt-3">
                                 <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(41)"
                                 [disabled]="!NonConvcerCertificate.valid"  >Upload</button>
-                                <!-- <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(41)">Download</button> -->
                             </div>
                           </div>
-                          <!-- <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button>  -->
-                          
-                          <!-- [ngClass]="{
-                            'is-invalid': (NonConvcerCertificate.touched || bankForm.submitted) && branch.invalid,
-                            'is-valid': NonConvcerCertificate.valid && (branch.touched || bankForm.submitted)
-                          }" -->
                         <div class="row  pb-3">
                             <div class="form-group col-md-6 pt-3">
                                 <label for="inputnumber"> Notary attested copy of Power of Attorney/Resolution of Board : 
@@ -138,7 +120,6 @@
                                        'is-invalid': PowerofAttorney.invalid && PowerofAttorney.touched,
                                        'is-valid': PowerofAttorney.valid && PowerofAttorney.touched
                                      }">
-                                        <!-- Validation Message -->
                                         <div *ngIf="PowerofAttorney.invalid && PowerofAttorney.touched">
                                            <small class="text-danger">
                                              Please upload the Notary attested copy of Power of Attorney/Resolution of Board Certificate (PDF).
@@ -147,7 +128,6 @@
                             </div>
                             <div class="form-group col-md-6 pt-3">
                                 <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(9)" [disabled]="!PowerofAttorney.valid"  >Upload</button>
-                                <!-- <button type="submit" class="btn btn-primary m-3" (click)="DownloadFileWithName(43)" >Download</button> -->
                             </div>
                         </div>
                         <div class="row  pb-3">
@@ -162,7 +142,6 @@
                                        'is-invalid': AffidavitforStrict_Compliance.invalid && AffidavitforStrict_Compliance.touched,
                                        'is-valid': AffidavitforStrict_Compliance.valid && AffidavitforStrict_Compliance.touched
                                      }">
-                                        <!-- Validation Message -->
                                         <div *ngIf="AffidavitforStrict_Compliance.invalid && AffidavitforStrict_Compliance.touched">
                                            <small class="text-danger">
                                              Please upload the Affidavit for Strict Compliance Certificate (PDF).
@@ -171,8 +150,6 @@
                             </div>
                             <div class="form-group col-md-6 pt-3">
                                 <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(141)" [disabled]="!AffidavitforStrict_Compliance.valid" >Upload</button>
-                                <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(45)" [disabled]="!TechCertificate2.valid" >Upload</button> -->
-                                <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(45)">Download</button> -->
                             </div>
                         </div>
                         <div class="row  pb-3">
@@ -187,7 +164,6 @@
                                        'is-invalid': blacklisting.invalid && blacklisting.touched,
                                        'is-valid': blacklisting.valid && blacklisting.touched
                                      }">
-                                        <!-- Validation Message -->
                                         <div *ngIf="blacklisting.invalid && blacklisting.touched">
                                            <small class="text-danger">
                                              Please upload the Declaration Regarding blacklisting Certificate (PDF).
@@ -196,10 +172,8 @@
                             </div>
                             <div class="form-group col-md-6 pt-3">
                                 <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(142)" [disabled]="!blacklisting.valid">Upload</button>
-                                <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(42)" [disabled]="!TechCertificate3.valid">Upload</button> -->
-                                <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(42)">Download</button> -->
-                            </div>
-                        </div>
+                               </div>
+                             </div>
                         
                         <!-- <div class="row  pb-3">
                             <div class="form-group col-md-6 pt-3">
@@ -226,8 +200,6 @@
                             </div>
                         </div> -->
                         <div class="row  pb-3">
-                          <!-- string SSICertificateID = "7";
-                    InsertFinDetails(dt.Rows[0]["vregid"].ToString(), SSICertificateID, flpSSICertificate); -->
                             <div class="form-group col-md-6 pt-3">
                                 <label for="inputnumber">Upload SSI Certificate  : <span
                                         class="text-danger">*</span></label>
@@ -248,7 +220,6 @@
                             </div>
                             <div class="form-group col-md-6 pt-3">
                                 <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)" [disabled]="!SSICertificate.valid">Upload</button>
-                                <!-- <button type="submit" class="btn btn-primary m-3" (click)="openmarqModal('https://cgmsc.gov.in/cgmscl/Upload/Tender%20Document%20-243(R)202507000001.pdf')">Download</button> -->
                             </div>
                         </div> 
                         <label for="inputnumber">Other documents for establishing eligibility of bidder</label>
@@ -265,7 +236,6 @@
                                        'is-invalid': Other_Document1.invalid && Other_Document1.touched,
                                        'is-valid': Other_Document1.valid && Other_Document1.touched
                                      }">
-                                        <!-- Validation Message -->
                                         <div *ngIf="Other_Document1.invalid && Other_Document1.touched">
                                            <small class="text-danger">
                                              Please upload the Other Document Certificate (PDF).
@@ -274,8 +244,6 @@
                             </div>
                             <div class="form-group col-md-6 pt-3">
                                 <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(19)" [disabled]="!Other_Document1.valid">Upload</button>
-                                <!-- <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(121)" [disabled]="!TechCertificate5.valid">Upload</button> -->
-                                <!-- <button type="submit" class="btn btn-primary m-3"  (click)="DownloadFileWithName(7)">Download</button> -->
                             </div>
                         </div>
                         <div class="row  pb-3">
@@ -299,11 +267,8 @@
                            
                             <div class="form-group col-md-6 pt-3">
                                 <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(122)" [disabled]="!Other_Document2.valid">Upload</button>
-                                <!-- <button type="submit" class="btn btn-primary m-3">Download</button> -->
                             </div>
                         </div> 
-                        <!-- <button type="submit" class="btn btn-primary" >Submit</button> [disabled]="FeedbackForm.invalid"-->
-                        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
                     </form>
                     </div>
                 </div>
@@ -314,18 +279,102 @@
         </div>
     </div>
 </div>
+<div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header bg-dark text-white py-2 px-3">
+        <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <iframe [src]="sanitizedPdfUrl" class="pdf-frame" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-
-
-
-
-
-
-
-
-
-
+  <!-- <div class="col-12 col-md-12 p-2">
+    <div class="" style="padding-bottom: 20px;">
+      <div class=" card row shadow ">
+        <div class="d-flex justify-content-between align-items-center m-2">
+          <div class="filter-field flex-grow-1">
+            <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
+          </div>
+          <div class="export-menu-container m-2">
+            <button type="button" class="btn border rounded mr-1 text-light"
+            style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+              class="bi bi-folder-plus"></i></button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+            [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+  
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                {{element.sno}} </td>
+            </ng-container>
+            <ng-container matColumnDef="vregid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>vregid</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
+            </ng-container>
+           
+            <ng-container matColumnDef="mscid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>mscid</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.mscid}} </td>
+            </ng-container>
+            <ng-container matColumnDef="ext">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ext</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}} </td>
+            </ng-container>
+            <ng-container matColumnDef="File Id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>fileid</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.fileid}} </td>
+            </ng-container>
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Document Type</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.code}} </td>
+            </ng-container>
+            <ng-container matColumnDef="filepath">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+              <td mat-cell *matCellDef="let element" class="text-center"> {{element.filepath}} </td>
+            </ng-container>
+           
+            <ng-container matColumnDef="filename">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <button
+                  class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                  mat-button
+                  (click)="DownloadFileWithName1(element.filepath, element.filename)"><i
+                    class="bi bi-filetype-pdf text-danger"></i>
+                </button>
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <span class="d-flex  flex-row-reverse p-2 ">
+                  <button
+                    class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                    mat-button (click)="onButtonClick(element.licid)">
+                    <i class="bi bi-pencil-square text-primary"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div> -->
 <!-- <div class="container-fluid p-0 m-0 py-3">
     <div class="row justify-content-center g-4 px-3">
                     <div class="col-lg-12 mb-5">
@@ -466,103 +515,3 @@
                     </div>
     </div>
 </div> -->
-
-<div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
-      <div class="modal-content border-0 shadow-none">
-        <div class="modal-header bg-dark text-white py-2 px-3">
-          <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body p-0">
-          <iframe
-            [src]="sanitizedPdfUrl"
-            class="pdf-frame"
-            allowfullscreen
-          ></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- <div class="col-12 col-md-12 p-2">
-    <div class="" style="padding-bottom: 20px;">
-      <div class=" card row shadow ">
-        <div class="d-flex justify-content-between align-items-center m-2">
-          <div class="filter-field flex-grow-1">
-            <input type="text" class="form-control" placeholder="Search" (keyup)="applyTextFilter($event)">
-          </div>
-          <div class="export-menu-container m-2">
-            <button type="button" class="btn border rounded mr-1 text-light"
-            style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
-              class="bi bi-folder-plus"></i></button>
-          </div>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
-            [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
-  
-            <ng-container matColumnDef="sno">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
-              <td mat-cell *matCellDef="let element" class="text-center">
-                {{element.sno}} </td>
-            </ng-container>
-            <ng-container matColumnDef="vregid">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>vregid</th>
-              <td mat-cell *matCellDef="let element" class="text-center"> {{element.vregid}} </td>
-            </ng-container>
-           
-            <ng-container matColumnDef="mscid">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>mscid</th>
-              <td mat-cell *matCellDef="let element" class="text-center"> {{element.mscid}} </td>
-            </ng-container>
-            <ng-container matColumnDef="ext">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>ext</th>
-              <td mat-cell *matCellDef="let element" class="text-center"> {{element.ext}} </td>
-            </ng-container>
-            <ng-container matColumnDef="File Id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>fileid</th>
-              <td mat-cell *matCellDef="let element" class="text-center"> {{element.fileid}} </td>
-            </ng-container>
-            <ng-container matColumnDef="code">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Document Type</th>
-              <td mat-cell *matCellDef="let element" class="text-center"> {{element.code}} </td>
-            </ng-container>
-            <ng-container matColumnDef="filepath">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
-              <td mat-cell *matCellDef="let element" class="text-center"> {{element.filepath}} </td>
-            </ng-container>
-           
-            <ng-container matColumnDef="filename">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Certificate</th>
-              <td mat-cell *matCellDef="let element" class="text-center">
-                <button
-                  class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
-                  mat-button
-                  (click)="DownloadFileWithName1(element.filepath, element.filename)"><i
-                    class="bi bi-filetype-pdf text-danger"></i>
-                </button>
-              </td>
-            </ng-container>
-  
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
-              <td mat-cell *matCellDef="let element" class="text-center">
-                <span class="d-flex  flex-row-reverse p-2 ">
-                  <button
-                    class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
-                    mat-button (click)="onButtonClick(element.licid)">
-                    <i class="bi bi-pencil-square text-primary"></i>
-                  </button>
-                </span>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
-        </div>
-      </div>
-    </div>
-  </div> -->

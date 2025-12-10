@@ -23,6 +23,9 @@ import { VendorRegistrationCompleted } from './component/vendor-registration-com
 import { VendorRegistrationApproved } from './component/vendor-registration-approved/vendor-registration-approved';
 import { ApprovalTechnicalCertificate } from './component/VENDER_REG/approval-technical-certificate/approval-technical-certificate';
 import { ApprovalTechnicalSectionTabsUnder } from './component/VENDER_REG/TECHNICAL_APPROVAL/approval-technical-section-tabs-under/approval-technical-section-tabs-under';
+import { ConfirmationService } from 'primeng/api';
+import { Confirmation } from './component/VENDER_REG/confirmation/confirmation';
+import { FinalConfirmation } from './component/CONFIRMATIONS/final-confirmation/final-confirmation';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -44,6 +47,8 @@ const routes: Routes = [
 
   {path:'logout',component:LogoutComponent,canActivate:[RouteGuardService]},
   { path: 'home',component: CategorySelectionComponent,canActivate:[RouteGuardService]}, 
+  { path: 'confirmation',component: Confirmation,canActivate:[RouteGuardService]}, 
+  { path: 'final-confirmation',component: FinalConfirmation,canActivate:[RouteGuardService]}, 
 
 // MD routes
 { path: 'welcome', component: HomeComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['Suppliers','SEC1','DHS','CME','DME1','Collector','Warehouse','SE','HO_Infra','Division','DM PO','SSO','Logi Cell']} },

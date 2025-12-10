@@ -4,12 +4,10 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-// import { CollapseModule } from 'src/app/collapse';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { SupplierBankAccDetail_model, vendorBankDetail_model,UpdateBankDetails_model, UpdateAnnualTurnover_model, GetAnnualTurnoverDetail, BankMandateDetail, MassuppliergstDetails, GstReturnDetails } from 'src/app/Model/VendorRegisDetail';
 import { ApiService } from 'src/app/service/api.service';
 import { CollapseModule } from 'src/app/collapse';
-// import { CollapseModule } from 'src/app/collapse/collapse.module';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatTableExporterModule } from 'mat-table-exporter';
@@ -37,25 +35,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class FinanceialDetails {
   vregid:any
-  // SupplierBankAccDetail: SupplierBankAccDetail_model[] = [];
-
-  existingIFSC = "";  // यह पहले से DB से load हुई IFSC
+  existingIFSC = "";
   isCheckingIFSC = false;
   onshowPP = false;
-// Form fields
 supplierid: number = 0;
 bankaccountid: number = 0;
-// bankaccountid: any = null;
 accountname: string | undefined;
 accountno: string | undefined;
 bankname: string| undefined;
 branch: string| undefined;
 ifsccode: string | undefined;
-// defaultacc: boolean = false;
-
-// acno: any; // selected account from ng-select
-
-  // VendorBankDetail:vendorBankDetail_model[]=[];
   @ViewChild('bankForm') bankForm!: NgForm;
   isCollapsed = false;
   isCollapsed1 = true;
@@ -66,7 +55,6 @@ ifsccode: string | undefined;
   SupplierBankAccDetail:any = {};
   UpdateBankDetailsdata: UpdateBankDetails_model = new UpdateBankDetails_model();
   UpdateAnnualTurnoverdata: UpdateAnnualTurnover_model = new UpdateAnnualTurnover_model();
-  // selectedPanFile: File | null = null;
   selectedFile: File | null = null;
   selectedAnuvFile: File | null = null;
   GSTCertificate: File | null = null;
@@ -77,7 +65,7 @@ ifsccode: string | undefined;
   stateid: any;
   gstqtrid:any;
 gstno: string = '';
-gstFileModel: any; // just for ngModel binding compatibility
+gstFileModel: any; 
   Years:any;
   States:any;
   selectedAccYear:any;
@@ -115,20 +103,21 @@ gstFileModel: any; // just for ngModel binding compatibility
   dispatchData3: GstReturnDetails[] = [];
   displayedColumns: string[] = [
     'sno','accyear','turnoveramt','udinno','filename'
-    // ,'action'
+     ,'action','delete'
   ];
   displayedColumns2: string[] = [
     'sno','statename','gstno','filename'
-    // ,'action'
+    ,'action','delete'
   ];
   displayedColumns3: string[] = [
     'sno','gstno','accyear','filename'
-    // ,'action'
+    ,'action','delete'
   ];
   dispatchData1: BankMandateDetail[] = [];
   displayedColumns1: string[] = [
     'sno','accountname','accountno','bankname','branch','ifsccode','filename'
-    // ,'action''defaultacc',
+    ,'action','delete'
+    // 'defaultacc',
   ];
   AccYearSettings: any;
   MASGSTQUARTER: any;
@@ -154,35 +143,10 @@ gstFileModel: any; // just for ngModel binding compatibility
      this.dataSource2 = new MatTableDataSource<MassuppliergstDetails>([]);
      this.dataSource3 = new MatTableDataSource<GstReturnDetails>([]);
 
-
-//      const css = `
-//   .ng-dropdown-panel { 
-//     background:#fff !important; 
-//     color:#000 !important; 
-//     z-index:2147483647 !important; 
-//     box-shadow:0 7px 18px rgba(0,0,0,0.12) !important; 
-//     position: absolute !important; /* <--- THE FIX */
-//   }
-
-//   .ng-dropdown-panel .ng-option { 
-//     background:#fff !important; 
-//     color:#000 !important; 
-//   }
-
-//   .ng-dropdown-panel .ng-option:hover { 
-//     background:#e6f7ff !important; 
-//   }
-// `;
-// const styleEl = document.createElement('style');
-// styleEl.id = 'ngselect-global-fix';
-// styleEl.innerHTML = css;
-// document.head.appendChild(styleEl);
-
-  }
+ }
 
 
 ngOnInit() {
-  // console.log('acno',this.acno);
   this.existingIFSC = this.SupplierBankAccDetail.ifsccode;
   this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
   this.loadVendorBankDetail();
@@ -194,7 +158,6 @@ ngOnInit() {
   this.GstReturnDetails();
   this.GETMASGSTQUARTER();
   this.GETAccYearSettings();
-//  this.GETIFSCCODE();
 
  
 //   const css = `
@@ -256,23 +219,6 @@ onIFSCChange() {
     });
   }
   
-// GETIFSCCODE(ifsc:any){
-//   // ;
-//   // GETIFSCCODE(ifsccode:any)
-//   // this.api.GETIFSCCODE('SBIN0000461').subscribe({
-//   this.api.GETIFSCCODE(ifsc).subscribe({
-//     next: (res: any) => {
-//      this.ifsccodeDetails=res;
-//      console.log("ifsccode:", this.ifsccodeDetails);
-//     },
-//     error: (err: any) => {
-//      err.statusText
-//     this.statusText= err.statusText;
-//       console.error("Error loading :", err);
-//       // alert("Failed to load vendor details");
-//     }
-//   });
-// }
 
 GetVendorDetailsID(supplierId: any) {
   this.api.getVendorDetailsID(supplierId).subscribe({
@@ -382,18 +328,6 @@ GETStates(){
     // }
   }
 
-  // File select
-  // onFileSelectedanudocument(event: any) {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.selectedAnuvFile = file;
-  //     this.AnnualTurnoverForm.patchValue({
-  //       TurnOverDocument: file
-  //     });
-  //     this.AnnualTurnoverForm.get('TurnOverDocument')?.updateValueAndValidity();
-  //     console.log('Selected file:', file.name);
-  //   }
-  // }
   
 
 onFileSelectedanudocument(event: any) {
@@ -431,20 +365,6 @@ onFileSelectedanudocument(event: any) {
   }
 }
 
-  // Onselectyear(selectedYear: any): void {
-  //   // ;
-  //   console.log('Selected Year Object:', selectedYear);
-  
-  //   if (selectedYear) {
-  //     this.accyrsetid = selectedYear.accyrsetid;
-  //     this.accyear = selectedYear.accyear;
-  
-  //     // this.AnnualTurnoverForm.patchValue({
-  //     //   AccYrSetId: selectedYear.accyrsetid
-  //     // });
-  //   }
-  // }
- 
 
   
  
@@ -480,12 +400,10 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
     next: (res: any) => {
       if (res && res.length > 0) {
         this.SupplierBankAccDetail = res[0];
-        // console.log('SupplierBankAccDetail:', this.SupplierBankAccDetail);
       }
     },
     error: (err: any) => {
       console.error("Error loading vendor details:", err);
-      // alert("Failed to load vendor details");
     }
   });
 }
@@ -494,7 +412,6 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
     if (file) {
       this.selectedFile = file;
      
-      // console.log('Selected  bank details file:', file.name);
     }
   }
   
@@ -521,8 +438,6 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
- 
-// 
         this.loadingSectionA = true;
         const bankaccountID = this.dispatchData1
        .find((f: any) => f.bankaccountid == this.acno)?.bankaccountid;
@@ -557,12 +472,11 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
     if (this.selectedFile) {
       formData.append('BankDetailDocument', this.selectedFile);
     }
+    console.log()
   // return;
     this.api.post('/Registration/UpdateBankDetails',formData).subscribe({
       next: (res: any) => {
         this.toastr.success(res.message, 'Success');
-        // alert('Bank details updated successfully!');
-        // this.toastr.success(res.message, 'Success', {  positionClass: 'toast-center'  });
         bankForm.resetForm();
         this.selectedFile = null;
         this.SupplierBankAccDetail = {};  // clear data
@@ -653,10 +567,10 @@ get f() {
 }
  GetAnnualTurnover(){
   try{
-  //  ;
+
     this.spinner.show();
   this.api.GetAnnualTurnover(sessionStorage.getItem('vregid'))
-  // this.Service.get('GetDrugTenderList?n=0')
+ 
     .subscribe(
       (res:any) => {
         this.dispatchData = res.map(
@@ -688,12 +602,8 @@ get f() {
 }
 
  OnSubmmit(): void {
-  // ;
   this.loadingSectionB = true;
   this.submitted = true;
-  // console.log('Form Value:', this.AnnualTurnoverForm.value);
-  // console.log('Form Valid:', this.AnnualTurnoverForm.valid);
-  // console.log('Form Errors:', this.AnnualTurnoverForm.errors);
 
   if (this.AnnualTurnoverForm.invalid) {
     this.toastr.error('Please fill all required fields!', 'Error');
@@ -748,10 +658,9 @@ onButtonClickAT(){
 //#region GST
 GETMassuppliergstDetails(){
   try{
-    //  ;
       // this.spinner.show();
     this.api.MassuppliergstDetails(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
-    // this.Service.get('GetDrugTenderList?n=0')
+  
       .subscribe(
         (res:any) => {
           this.dispatchData2 = res.map(
@@ -841,19 +750,16 @@ InsertGSTCertificate(GSTForm: NgForm) {
   
   DownloadFileWithName(mFilePath: string, mFileName: string) {
     
-  
-    // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
     const encodedName = encodeURIComponent(mFileName);
-  
-    // Build dynamic API URL
     const apiUrl = `/Registration/DownloadFileWithName?mFilePath=${encodedPath}&mFileName=${encodedName}`;
-  
     this.api.DownloadFileWithName(apiUrl).subscribe({
       next: (res: Blob) => {
-        const blob = new Blob([res], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        this.openmarqModal(url);
+        const pdfURL = URL.createObjectURL(res);
+        window.open(pdfURL, "_blank");
+        // const blob = new Blob([res], { type: 'application/pdf' });
+        // const url = window.URL.createObjectURL(blob);
+        // this.openmarqModal(url);
         // Create a temporary link element for download
         // const a = document.createElement('a');
         // a.href = url;
@@ -877,46 +783,19 @@ InsertGSTCertificate(GSTForm: NgForm) {
     });
   }
 //#endregion 
- 
-
-
-
- 
-
-  
-  
-
-
-
-
 //#region Insert MAS GST RETURNFILES
 //  "accyrsetid": 547,
 //     "accyear": "2026-2027"
 OnselectAccYearSettings(selectedaccyrsetid: any): void {
-  // ;
   const selectedaccyrset = selectedaccyrsetid.accyrsetid || 0;
-
-  // console.log('✅ Selected selectedaccyrset:', selectedaccyrset);
-
   if (selectedaccyrset) {
     this.accyrsetid= selectedaccyrset;
     // this.gstno = selectedgstqtr.quartername;
   }
 
-  // ;
-  // const selectedaccyrsetid = (event.target as HTMLSelectElement).value;
-  // const selectedaccyrset = this.AccYearSettings.find((y: { accyrsetid: string; }) => y.accyrsetid == selectedaccyrsetid);
-
-  // console.log('Selected selectedgst Object:', selectedaccyrset);
-  // // gstno
-
 }
 OnselectMASGSTQUARTER(selectedgstqtrid: any): void {
-  // ;
   const selectedgstqtr = selectedgstqtrid.gstqtrid || 0;
-
-  // console.log('✅ Selected OnselectMASGSTQUARTER:', selectedgstqtr);
-
   if (selectedgstqtr) {
     this.gstqtrid = selectedgstqtr;
     // this.gstno = selectedgst.gstno;
@@ -925,11 +804,7 @@ OnselectMASGSTQUARTER(selectedgstqtrid: any): void {
  
 }
 Onselectgstno(selectedgstid: any): void {
-  // ;
   const selectedgst = selectedgstid.gstid || 0;
-
-  // console.log('✅ Selected GST Object:', selectedgst);
-
   if (selectedgst) {
     this.gstid = selectedgst;
     // this.gstno = selectedgst.gstno;
@@ -939,7 +814,6 @@ GETAccYearSettings(){
   this.api.GETAccYearSettings().subscribe({
     next: (res: any) => {
      this.AccYearSettings=res;
-    //  console.log("AccYearSettings:", this.AccYearSettings);
     },
     error: (err: any) => {
       console.error("Error loading Years:", err);
@@ -988,12 +862,6 @@ InsertMASGSTRETURNFILES(GSTRETURNForm: NgForm) {
         mACCYRSETID: this.accyrsetid,
         mGSTQTRID: this.gstqtrid,
         mSupplierID: sessionStorage.getItem('facilityid') || ''
-
-
-        // mVergID: sessionStorage.getItem('vregid') || '',
-        // msupplierid: sessionStorage.getItem('facilityid') || '',
-        // mstateID: this.stateid?.toString() || '',
-        // gstno: this.gstno,
       };
     try {
       this.api.InsertMASGSTRETURNFILES(data, formData).subscribe
@@ -1022,10 +890,8 @@ InsertMASGSTRETURNFILES(GSTRETURNForm: NgForm) {
  // https://localhost:7053/api/Registration/InsertMASGSTRETURNFILES?mGSTID=468&mVergID=50&mACCYRSETID=546&mGSTQTRID=1&mSupplierID=1936
 GstReturnDetails(){
   try{
-    //  ;
       // this.spinner.show();
     this.api.GstReturnDetails(sessionStorage.getItem('facilityid'),sessionStorage.getItem('vregid'))
-    // this.Service.get('GetDrugTenderList?n=0')
       .subscribe(
         (res:any) => {
           this.dispatchData3 = res.map(
@@ -1042,7 +908,7 @@ GstReturnDetails(){
           this.spinner.hide();
         },
         (error: { message: any; }) => {
-console.log('Error fetching data:',JSON.stringify(error.message))
+          console.log('Error fetching data:',JSON.stringify(error.message))
           // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
         }
       );
