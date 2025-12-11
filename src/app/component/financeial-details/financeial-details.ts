@@ -438,6 +438,7 @@ GETSupplierBankAccDetail(sid:any,acno:any) {
   }
 
   onSubmit(bankForm: NgForm) {
+
         this.loadingSectionA = true;
         const bankaccountID = this.dispatchData1
        .find((f: any) => f.bankaccountid == this.acno)?.bankaccountid;
