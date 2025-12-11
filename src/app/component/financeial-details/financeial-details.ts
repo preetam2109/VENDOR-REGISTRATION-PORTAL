@@ -103,20 +103,20 @@ gstFileModel: any;
   dispatchData3: GstReturnDetails[] = [];
   displayedColumns: string[] = [
     'sno','accyear','turnoveramt','udinno','filename'
-     ,'action','delete'
+    //  ,'action','delete'
   ];
   displayedColumns2: string[] = [
     'sno','statename','gstno','filename'
-    ,'action','delete'
+    // ,'action','delete'
   ];
   displayedColumns3: string[] = [
     'sno','gstno','accyear','filename'
-    ,'action','delete'
+    // ,'action','delete'
   ];
   dispatchData1: BankMandateDetail[] = [];
   displayedColumns1: string[] = [
     'sno','accountname','accountno','bankname','branch','ifsccode','filename'
-    ,'action','delete'
+    // ,'action','delete'
     // 'defaultacc',
   ];
   AccYearSettings: any;

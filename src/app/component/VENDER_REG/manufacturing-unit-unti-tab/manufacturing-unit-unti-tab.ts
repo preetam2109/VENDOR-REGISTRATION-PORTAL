@@ -108,7 +108,8 @@ export class ManufacturingUnitUntiTab {
 
 
   displayedColumns: string[] = ['sno', 'unitname', 'unitaddress', 'city', 'unitinchargename', 'unitinchargemob',
-     'unitinchargeemail', 'statename', 'lictypename','action','delete', 'licenceDetails'];
+     'unitinchargeemail', 'statename', 'lictypename', 'licenceDetails'];
+    //  'action','delete',
   expandedElement: any | null = null;
   expandedLic: any | null = null;
 
