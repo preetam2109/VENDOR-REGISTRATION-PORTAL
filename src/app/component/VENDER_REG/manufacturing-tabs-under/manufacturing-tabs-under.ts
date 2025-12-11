@@ -9,12 +9,13 @@ import { ManufacturingUnitUntiTab } from "../manufacturing-unit-unti-tab/manufac
 
 import { ManufacturingUnitRetentionTab } from "../manufacturing-unit-retention-tab/manufacturing-unit-retention-tab";
 import { ManufacturingUnitLicenceTab } from '../manufacturing-unit-licence-tab/manufacturing-unit-licence-tab';
+import { Retention } from "../retention/retention";
 
 
 @Component({
   selector: 'app-manufacturing-tabs-under',
   standalone:true,
-  imports: [CommonModule, MatTabsModule, ManufacturingUnitUntiTab, ManufacturingUnitLicenceTab, ManufacturingUnitRetentionTab],
+  imports: [CommonModule, MatTabsModule, ManufacturingUnitUntiTab, ManufacturingUnitLicenceTab, ManufacturingUnitRetentionTab, Retention],
   templateUrl: './manufacturing-tabs-under.html',
   styleUrl: './manufacturing-tabs-under.css'
 })
