@@ -5,13 +5,13 @@ import { ApiService } from 'src/app/service/api.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators,FormsModule,ReactiveFormsModule } from '@angular/forms';
 // import { Stepper } from '../stepper/stepper';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 // import { StepperComponent } from './stepper/stepper.component';
 @Component({
   selector: 'app-generate-registration',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,RouterLink],
   templateUrl: './generate-registration.component.html',
   styleUrl: './generate-registration.component.css'
 })
