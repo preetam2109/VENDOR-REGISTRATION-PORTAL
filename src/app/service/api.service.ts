@@ -1966,10 +1966,11 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
       { params, responseType: 'text' }
     );
   }
-    // campleny 1  submmit 
+ 
+    
+  //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?
+  // mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
   InsertComplianceCertificate1(data: any, formData: FormData): Observable<any> {
-//post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?
-// mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
 
     let params = new HttpParams()
       .set('mlicid', data.mlicid)

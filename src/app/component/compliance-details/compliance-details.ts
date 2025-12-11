@@ -104,8 +104,8 @@ export class ComplianceDetails {
     // 'vregid',
     // 'supplierid',
     'filename',
-    'action',
-    'delete',
+    // 'action',
+    // 'delete',
     'whoid',
     // 'ext',
     // 'licid',
@@ -389,6 +389,7 @@ onCheckboxChange(item: any) {
   }
   
   InsertComplianceCertificate1(COMCForm: NgForm) {
+    // debugger;
     this.loadingSectionA = true;
     this.submitted = true;
     const formData = new FormData();
@@ -448,15 +449,20 @@ onCheckboxChange(item: any) {
         },
         error: (err: any) => {
           console.error('Error:', err);
-          this.toastr.error('Failed to upload Compliance Certificate', 'Error');
+          this.loadingSectionA = false;
+          this.toastr.error('Failed to upload Compliance Certificate please try again', 'Error');
         },
       });
     } catch (error) {
+      this.loadingSectionA = false;
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }
   }
+  
+  
   onFileSelectedCertificate(event: any) {
+    // debugger;
     const file = event.target.files[0];
     if (file) {
       this.fileSelected = file;
@@ -490,7 +496,7 @@ onCheckboxChange(item: any) {
       itemtypeid: id,
       entrydate: entrydate,
     }));
-    // console.log('data to send:', rows);
+    // console.log('data to send:', rows);`
     const vregid = sessionStorage.getItem('vregid') || '';
     // return;
     this.api

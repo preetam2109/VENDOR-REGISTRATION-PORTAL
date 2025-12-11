@@ -206,7 +206,6 @@ export class TechnicalDetails {
       next: (res: any) => {
   
         this.TechnicalDetailsData = res;
-  
         // Safe Mapping
         this.TechnicalDetailsMapped = {};
   
@@ -223,8 +222,8 @@ export class TechnicalDetails {
           this.TechnicalDetailsMapped[head.mscid] =
             res.find((item: any) => item.mscid == head.mscid);
         });
-        console.log("res:", res);
-        console.log("Mapped:", this.TechnicalDetailsMapped);
+        // console.log("res:", res);
+        // console.log("Mapped:", this.TechnicalDetailsMapped);
   
         this.spinner.hide();
       },

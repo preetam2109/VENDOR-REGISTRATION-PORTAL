@@ -91,12 +91,14 @@ export class ProductPermission {
 
 
   displayedColumns: string[] = [
-    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename', 'action',
-    'delete'
+    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename', 
+    // 'action',
+    // 'delete'
   ];
   displayedColumns2: string[] = [
-    'sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper','action',
-    'delete'
+    'sno','itemcode','itemname','strength','unit','mcategory','itemtypename','stndbatchqty','pageno','hsncode','shortname','gstper',
+    // 'action',
+    // 'delete'
   ];
 
   constructor(private sanitizer: DomSanitizer,private dialog: MatDialog,private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService, private api: ApiService, public toastr: ToastrService, private fb: FormBuilder) {

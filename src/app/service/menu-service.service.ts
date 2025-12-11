@@ -1019,9 +1019,8 @@ export class MenuServiceService {
         { label: 'Home', route: '/welcome'},
         { label: 'Generate Registration', route: '/generate-registration' },
         { label: 'Company Details', route: '/personal-detail' },
-        { label: 'Financial Details', route: '/FinanceialDetails' },
-
         { label: 'Manufacturing Unit', route: '/manufacturingUnit'},
+        { label: 'Financial Details', route: '/FinanceialDetails' },
         { label: 'Technical Details', route: '/TechnicalDetails'},
         { label: 'Compliance Details', route: '/ComplianceDetails'},
         { label: 'Global Company Prefix', route: '/GlobalCompanyPrefix'},
