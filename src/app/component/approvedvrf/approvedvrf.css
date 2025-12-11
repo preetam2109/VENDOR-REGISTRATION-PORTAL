@@ -1,0 +1,6 @@
+.text-underline {
+    display: inline-block;
+    border-bottom: 4px solid #000; /* Thickness */
+    padding-bottom: 4px;
+  }
+  
