@@ -194,13 +194,13 @@ validateStartEnd(form: FormGroup) {
   onLicenceTypeChange(selected: any) {
     const selectedValue = selected.lictypename;   // or selected.lictypeid
   
-    if (selectedValue === "Importer") {
-      this.showImporterType = true;
-      this.showFormType = false;
-    } else {
-      this.showImporterType = false;
-      this.showFormType = true;
-    }
+    // if (selectedValue === "Importer") {
+    //   this.showImporterType = true;
+    //   this.showFormType = false;
+    // } else {
+    //   this.showImporterType = false;
+    //   this.showFormType = true;
+    // }
   }
   
 
