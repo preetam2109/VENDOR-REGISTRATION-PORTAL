@@ -1006,5 +1006,8 @@ onFileSelectedRetention(event: any) {
     doc.save('Retention_List.pdf');
   }
 
+  onButtonClick(vid:any,sid:any){
+
+  }
   }
 
