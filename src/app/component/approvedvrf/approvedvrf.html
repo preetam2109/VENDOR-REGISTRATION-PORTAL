@@ -53,10 +53,11 @@
 
 
 </section> -->
-
-
-<section class="card border rounded shadow-lg p-4">
-    <div class="container border border-dark">
+<section class="card border rounded shadow-lg p-4" >
+  <div class="container d-flex justify-content-end">
+    <button class="btn btn-primary" (click)="downloadAsPDF()">Download PDF</button>
+  </div>
+    <div class="container border border-dark" id="certificate">
    
     <!-- <h4 class="text-center text-danger mb-4 fw-bold border-bottom border-dark border-3 pb-2">
         Tender Specific CGMSC Vendor Certification for Drugs/Consumables Manufacturer
