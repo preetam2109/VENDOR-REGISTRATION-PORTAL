@@ -21,6 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ConfirmLicTab } from "../confirm-lic-tab/confirm-lic-tab";
 import { ConfirmRetTab } from "../confirm-ret-tab/confirm-ret-tab";
+import { ConfirmImporterLicTab } from "../confirm-importer-lic-tab/confirm-importer-lic-tab";
 
 declare var bootstrap: any;
 
@@ -28,7 +29,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-confirm-manufacturing-lic',
   standalone:true,
-  imports: [MatProgressSpinnerModule, MatTableExporterModule, MatSortModule, DropdownModule, NgSelectModule, FormsModule, MatPaginatorModule, MatTableModule, CommonModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, ConfirmLicTab, ConfirmRetTab],
+  imports: [MatProgressSpinnerModule, MatTableExporterModule, MatSortModule, DropdownModule, NgSelectModule, FormsModule, MatPaginatorModule, MatTableModule, CommonModule, NgSelectModule, ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, ConfirmLicTab, ConfirmRetTab, ConfirmImporterLicTab],
   templateUrl: './confirm-manufacturing-lic.html',
   styleUrl: './confirm-manufacturing-lic.css'
 })

@@ -43,6 +43,7 @@
     "ngx-select-dropdown": "^3.3.2",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",
+    "pdfmake": "^0.2.20",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.12",
     "rxjs": "~7.5.0",

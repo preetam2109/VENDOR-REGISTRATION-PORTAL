@@ -4,3 +4,17 @@
     padding-bottom: 4px;
   }
   
+  @media print {
+    body * { visibility: hidden; }
+    #certificate, #certificate * { visibility: visible; }
+    #certificate { position: absolute; left: 0; top: 0; width: 210mm; }
+  }
+  #certificate table {
+    border-collapse: collapse !important;
+  }
+  #certificate th, #certificate td {
+    border: 1px solid black !important;
+    padding: 8px !important;
+  }
+
+  #certificate { font-family: 'Roboto', sans-serif; }
