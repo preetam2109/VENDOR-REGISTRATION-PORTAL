@@ -702,7 +702,6 @@ GetmSCDetailsList() {
 
 
 exportToPDF() {
-  ;
   const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
   
   // 🕒 Add title and timestamp
