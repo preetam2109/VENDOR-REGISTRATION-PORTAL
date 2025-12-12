@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-approvedvrf',
@@ -9,14 +10,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './approvedvrf.html',
   styleUrl: './approvedvrf.css'
 })
-export class Approvedvrf {
+export class Approvedvrf implements OnInit {
 
   
   constructor(){
 
   }
-  ngOnInit() {
-   
-    
+  ngOnInit(): void {
+
   }
+  //#region 
+ 
+
+  //#endregion
 }
