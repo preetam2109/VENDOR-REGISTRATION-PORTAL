@@ -1,106 +1,46 @@
-<!-- <section class="card border rounded">
-    <h4 class="text-center text-danger mb-4 fw-bold border-bottom">Tender Specific CGMSC Vendor Certification for Drugs/Consumables Manufacturer</h4>
-        
+<section class="card border rounded shadow-lg p-4">
 
-        <div class="container-fluid py-3 px-3">
-
-
-            <div class="table-responsive">
-                <table class="align-middle table table-bordered table-striped border rounded">
-                    <thead>
-                        <tr>
-                            <th>S.No</th>
-                            <th>Registration No</th>
-                            <th>Registration Date</th>
-
-                            <th>Supplier </th>
-                            <th>PAN No</th>
-                            <th>Mobile</th>
-                            <th>Authorized Representative Name</th>
-                            <th>Authorized Representative Mobile No</th>
-                            <th>Authorized Representative Email</th>
-                            <th>Authorized Signatory Name</th>
-                            <th>Authorized Signatory Mobile No</th>
-                            <th>Authorized Signatory Email</th>
-                            <th>Status</th>
-                            <th>Approved Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>234</td>
-                            <td>2-3-2025</td>
-
-                            <td>Wings</td>
-                            <td>67</td>
-                            <td>7869786765</td>
-                            <td>xyz</td>
-                            <td>787678678</td>
-                            <td>exakdfgmail.com</td>
-
-                            <td>
-                                
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-
-        </div>
-
-
-</section> -->
-<section class="card border rounded shadow-lg p-4" >
-  <div class="container d-flex justify-content-end">
-    <button class="btn btn-primary" (click)="downloadAsPDF()">Download PDF</button>
-  </div>
     <div class="container border border-dark" id="certificate">
-   
-    <!-- <h4 class="text-center text-danger mb-4 fw-bold border-bottom border-dark border-3 pb-2">
-        Tender Specific CGMSC Vendor Certification for Drugs/Consumables Manufacturer
-      </h4> -->
-      <h4 class="text-center text-danger mb-4 fw-bold pb-1 pt-3">
-        <span class="text-underline">
-          Tender Specific CGMSCL Vendor Certification for Drugs/Consumables Manufacturer
-        </span>
-      </h4>
-      <section class="container mb-3">
-        <div class="row align-items-center text-center text-md-start">
-      
-          <!-- Left Image -->
-          <div class="col-md-3 mb-3 mb-md-0 text-center">
-            <!-- <img src="assets\images\cgmsc-logo.png" class="img-fluid" style="max-width: 180px;"> -->
-            <img src="assets\images\logocgmscl.jpeg" class="img-fluid" style="max-width: 200px;">
-          </div>
-      
-          <!-- Center Paragraph style="color:#420387"-->
-          <div class="col-md-6 text-center text-primary ">
-            <h3 class="fw-bold mb-1" >
-                Manufacturer/Supplier: {{ vendor.suppliername || '—' }}
-            </h3>
-            <h3 class="fw-bold mb-1" >
-                Tender: 205/CGMSCL/Drug & Medicine/2025-26, Dt. 09/10/2025
-            </h3>
-            <h3 class="fw-bold mb-1" >
-                e-Proc Tender: 177312 Start DT: 01-102-25 End DT: 30-10-25
-            </h3>
-          </div>
-      
-          <!-- Right Image -->
-          <div class="col-md-3 mb-3 mb-md-0 text-center">
-            <img src="assets\images\qr.png" class="img-fluid" style="max-width: 130px;">
-          </div>
-      
-        </div>
-      </section>
-      
-    <!-- <div class="container-fluid"> -->
-  
-      <!-- Certificate Header -->
-      <!-- <div class="row g-3 border p-3 rounded bg-light mb-4">
+
+        <h4 class="text-center text-danger mb-4 fw-bold pb-1 pt-3">
+            <span class="text-underline">
+                Tender Specific CGMSCL Vendor Certification for Drugs/Consumables Manufacturer
+            </span>
+        </h4>
+        <section class="container mb-3">
+            <div class="row align-items-center text-center text-md-start">
+
+
+                <div class="col-md-3 mb-3 mb-md-0 text-center">
+                    <!-- <img src="assets\images\cgmsc-logo.png" class="img-fluid" style="max-width: 180px;"> -->
+                    <img src="assets\images\logocgmscl.jpeg" class="img-fluid" style="max-width: 200px;">
+                </div>
+
+                <!-- Center Paragraph style="color:#420387"-->
+                <div class="col-md-6 text-center text-primary ">
+                    <h3 class="fw-bold mb-1">
+                        Manufacturer/Supplier: {{ vendor.suppliername || '—' }}
+                    </h3>
+                    <h3 class="fw-bold mb-1">
+                        Tender: 205/CGMSCL/Drug & Medicine/2025-26, Dt. 09/10/2025
+                    </h3>
+                    <h3 class="fw-bold mb-1">
+                        e-Proc Tender: 177312 Start DT: 01-102-25 End DT: 30-10-25
+                    </h3>
+                </div>
+
+                <!-- Right Image -->
+                <div class="col-md-3 mb-3 mb-md-0 text-center">
+                    <img src="assets\images\qr.png" class="img-fluid" style="max-width: 130px;">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- <div class="container-fluid"> -->
+
+        <!-- Certificate Header -->
+        <!-- <div class="row g-3 border p-3 rounded bg-light mb-4">
         <div class="col-md-4">
           <label class="fw-bold">Certificate Number</label>
           <div class="border p-2 rounded">CGMSC(Auto-Generated-ID)</div>
@@ -116,171 +56,167 @@
           <div class="border p-2 rounded">Tender Start Date → Tender End Date</div>
         </div>
       </div> -->
-      
-      <h2 class="text-bold text-primary text-start border-bottom  pb-2 mb-3">Certificate Details</h2>
-      <div class="table-responsive mt-4">
-        <table class="table table-bordered ">
-          <!-- <thead class="table-secondary text-center"> -->
-           
-          <!-- </thead> -->
-          <tbody>
-            <tr>
-                <th class="text-start">Certificate Number</th>
-                <td>CGMSCL(Auto-Generated-ID)</td>
-               
-              </tr>
-            <tr>
-                <th class="text-start">Issued By</th>
-              <td>Chhattisgarh Medical Services Corporation Limited (CGMSCL)</td>
-            
-            </tr>
-            <tr>
-                <th class="text-start">Valid Between (Tender Period)</th>
-              <td>Tender Start Date → Tender End Date</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- License & Regulatory Documents table-secondary-->
-      <h2 class="text-bold text-primary text-start border-bottom pb-2 mb-3">1. License & Regulatory Documents</h2>
-  
-      <div class="table-responsive mb-4">
-        <table class="table table-bordered ">
-          <thead class=" text-center">
-            <tr>
-              <th>Document Type</th>
-              <th>License No.</th>
-              <th>Issue Date</th>
-              <th>Valid Till</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let MLicList of manufacturingLicList; let i = index">
-                <td *ngIf="i === 0" 
-                    class="text-start"
-                    [attr.rowspan]="manufacturingLicList.length">
-                    Manufacturing License
-                </td>
-              
-                <td>{{MLicList.licno|| '—'}}</td>
-                <td>{{MLicList.issuedate|| '—'}}</td>
-                <td>{{MLicList.validitydate|| '—'}}</td>
-              </tr>
-            <!-- <tr  *ngFor="let MLicList of manufacturingLicList; let i = index">
+
+        <h2 class="text-bold text-primary text-start border-bottom  pb-2 mb-3">Certificate Details</h2>
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered ">
+                <!-- <thead class="table-secondary text-center"> -->
+
+                <!-- </thead> -->
+                <tbody>
+                    <tr>
+                        <th class="text-start">Certificate Number</th>
+                        <td>CGMSCL(Auto-Generated-ID)</td>
+
+                    </tr>
+                    <tr>
+                        <th class="text-start">Issued By</th>
+                        <td>Chhattisgarh Medical Services Corporation Limited (CGMSCL)</td>
+
+                    </tr>
+                    <tr>
+                        <th class="text-start">Valid Between (Tender Period)</th>
+                        <td>Tender Start Date → Tender End Date</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- License & Regulatory Documents table-secondary-->
+        <h2 class="text-bold text-primary text-start border-bottom pb-2 mb-3">1. License & Regulatory Documents</h2>
+
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered ">
+                <thead class=" text-center">
+                    <tr>
+                        <th>Document Type</th>
+                        <th>License No.</th>
+                        <th>Issue Date</th>
+                        <th>Valid Till</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let MLicList of manufacturingLicList; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="manufacturingLicList.length">
+                            Manufacturing License
+                        </td>
+
+                        <td>{{MLicList.licno|| '—'}}</td>
+                        <td>{{MLicList.issuedate|| '—'}}</td>
+                        <td>{{MLicList.validitydate|| '—'}}</td>
+                    </tr>
+                    <!-- <tr  *ngFor="let MLicList of manufacturingLicList; let i = index">
               <td class="text-start">Manufacturing License</td>
               <td>{{MLicList.licno|| '—'}}</td>
               <td>{{MLicList.issuedate|| '—'}}</td>
               <td>{{MLicList.validitydate|| '—'}}</td>
             </tr> -->
-            <!-- <tr *ngFor="let imporLicList of importerLicenceList; let i = index">
+                    <!-- <tr *ngFor="let imporLicList of importerLicenceList; let i = index">
               <td class="text-start">Import License</td>
               <td>{{imporLicList.licno|| '—'}}</td>
               <td>{{imporLicList.issuedate|| '—'}}</td>
               <td>{{imporLicList.expdate|| '—'}}</td>
             </tr> -->
-            <tr *ngFor="let imporLicList of importerLicenceList; let i = index">
-                <td *ngIf="i === 0" class="text-start" [attr.rowspan]="importerLicenceList.length">
-                    Import License
-                </td>
-            
-                <td>{{imporLicList.licno|| '—'}}</td>
-                <td>{{imporLicList.issuedate|| '—'}}</td>
-                <td>{{imporLicList.expdate|| '—'}}</td>
-            </tr>
-            <!-- <tr *ngFor="let MSDList of mSCDetailsList; let i = index">
+                    <tr *ngFor="let imporLicList of importerLicenceList; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="importerLicenceList.length">
+                            Import License
+                        </td>
+
+                        <td>{{imporLicList.licno|| '—'}}</td>
+                        <td>{{imporLicList.issuedate|| '—'}}</td>
+                        <td>{{imporLicList.expdate|| '—'}}</td>
+                    </tr>
+                    <!-- <tr *ngFor="let MSDList of mSCDetailsList; let i = index">
               <td class="text-start">Market Standing Certificate</td>
               <td>{{MSDList.licno|| '—'}}</td>
               <td>{{MSDList.issuedate|| '—'}}</td>
               <td>{{MSDList.validitydate|| '—'}}</td>
             </tr> -->
-            <tr *ngFor="let MSDList of mSCDetailsList; let i = index">
-                <td *ngIf="i === 0" class="text-start" [attr.rowspan]="mSCDetailsList.length">
-                    Market Standing Certificate
-                </td>
-            
-                <td>{{MSDList.licno|| '—'}}</td>
-              <td>{{MSDList.issuedate|| '—'}}</td>
-              <td>{{MSDList.validitydate|| '—'}}</td>
-            </tr>
-            <!-- <tr *ngFor="let PPList of PPCertificateList; let i = index">
+                    <tr *ngFor="let MSDList of mSCDetailsList; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="mSCDetailsList.length">
+                            Market Standing Certificate
+                        </td>
+
+                        <td>{{MSDList.licno|| '—'}}</td>
+                        <td>{{MSDList.issuedate|| '—'}}</td>
+                        <td>{{MSDList.validitydate|| '—'}}</td>
+                    </tr>
+                    <!-- <tr *ngFor="let PPList of PPCertificateList; let i = index">
               <td class="text-start">Product Permission Mapping With CGMSCL</td>
               <td>{{PPList.licno|| '—'}}</td>
               <td>{{PPList.issuedate|| '—'}}</td>
               <td>{{PPList.validitydate|| '—'}}</td>
             </tr> -->
-            <tr *ngFor="let PPList of PPCertificateList; let i = index">
-                <td *ngIf="i === 0" class="text-start" [attr.rowspan]="PPCertificateList.length">
-                    Product Permission Mapping With CGMSCL
-                </td>
-                <td>{{PPList.licno|| '—'}}</td>
-                <td>{{PPList.issuedate|| '—'}}</td>
-                <td>{{PPList.validitydate|| '—'}}</td>
-            </tr>
-            <!-- <tr *ngFor="let COPList of COPDetailsList; let i = index">
+                    <tr *ngFor="let PPList of PPCertificateList; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="PPCertificateList.length">
+                            Product Permission Mapping With CGMSCL
+                        </td>
+                        <td>{{PPList.licno|| '—'}}</td>
+                        <td>{{PPList.issuedate|| '—'}}</td>
+                        <td>{{PPList.validitydate|| '—'}}</td>
+                    </tr>
+                    <!-- <tr *ngFor="let COPList of COPDetailsList; let i = index">
                 <td class="text-start">Capacity Of Production</td>
                 <td>{{COPList.licNo|| '—'}}</td>
                 <td>{{COPList.issueDate|| '—'}}</td>
                 <td>{{COPList.validityDate|| '—'}}</td>
               </tr> -->
-              <tr *ngFor="let COPList of COPDetailsList; let i = index">
-                <td *ngIf="i === 0" class="text-start" [attr.rowspan]="COPDetailsList.length">
-                    Capacity Of Production
-                </td>
-                <td>{{COPList.licNo|| '—'}}</td>
-                <td>{{COPList.issueDate|| '—'}}</td>
-                <td>{{COPList.validityDate|| '—'}}</td>
-            </tr>
-              <!-- <tr *ngFor="let WHOGMPLists of WHOGMPList; let i = index">
+                    <tr *ngFor="let COPList of COPDetailsList; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="COPDetailsList.length">
+                            Capacity Of Production
+                        </td>
+                        <td>{{COPList.licNo|| '—'}}</td>
+                        <td>{{COPList.issueDate|| '—'}}</td>
+                        <td>{{COPList.validityDate|| '—'}}</td>
+                    </tr>
+                    <!-- <tr *ngFor="let WHOGMPLists of WHOGMPList; let i = index">
                 <td class="text-start">WHO-GMP Certificate</td>
                 <td>{{WHOGMPLists.licno|| '—'}}</td>
                 <td>{{WHOGMPLists.issuedate|| '—'}}</td>
                 <td>{{WHOGMPLists.validitydate|| '—'}}</td>
               </tr> -->
-              <tr *ngFor="let WHOGMPLists of WHOGMPList; let i = index">
-                <td *ngIf="i === 0" 
-                    class="text-start"
-                    [attr.rowspan]="WHOGMPList.length">
-                    WHO-GMP Certificate
-                </td>
-              
-                <td>{{ WHOGMPLists.licno || '—' }}</td>
-                <td>{{ WHOGMPLists.issuedate || '—' }}</td>
-                <td>{{ WHOGMPLists.validitydate || '—' }}</td>
-              </tr>
-              
-              <!-- <tr *ngFor="let GCPList of GCPDetails; let i = index">
+                    <tr *ngFor="let WHOGMPLists of WHOGMPList; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="WHOGMPList.length">
+                            WHO-GMP Certificate
+                        </td>
+
+                        <td>{{ WHOGMPLists.licno || '—' }}</td>
+                        <td>{{ WHOGMPLists.issuedate || '—' }}</td>
+                        <td>{{ WHOGMPLists.validitydate || '—' }}</td>
+                    </tr>
+
+                    <!-- <tr *ngFor="let GCPList of GCPDetails; let i = index">
                 <td class="text-start">GCP Certificate</td>
                 <td>{{GCPList.gcpno|| '—'}}</td>
                 <td>{{GCPList.issuedate|| '—'}}</td>
                 <td>{{GCPList.expdate|| '—'}}</td>
               </tr> -->
-              <tr *ngFor="let GCPList of GCPDetails; let i = index">
-                <td *ngIf="i === 0" class="text-start" [attr.rowspan]="GCPDetails.length">
-                    GCP Certificate
-                </td>
-                <td>{{GCPList.gcpno|| '—'}}</td>
-                <td>{{GCPList.issuedate|| '—'}}</td>
-                <td>{{GCPList.expdate|| '—'}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-  
-      <!-- Financial Documents -->
-      <h2 class="text-bold text-start text-primary border-bottom pb-2 mb-3">2. Financial Documents</h2>
-  
-      <div class="table-responsive">
-        <table class="table table-bordered ">
-          <thead class=" text-center">
-            <tr>
-              <th>Document Type</th>
-              <th>Details / Reference No.</th>
-              <th>Validity / Period</th>
-              <th>Remarks</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- <tr *ngFor="let ANTList of AnnualTurnoverDetail; let i = index">
+                    <tr *ngFor="let GCPList of GCPDetails; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="GCPDetails.length">
+                            GCP Certificate
+                        </td>
+                        <td>{{GCPList.gcpno|| '—'}}</td>
+                        <td>{{GCPList.issuedate|| '—'}}</td>
+                        <td>{{GCPList.expdate|| '—'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Financial Documents -->
+        <h2 class="text-bold text-start text-primary border-bottom pb-2 mb-3">2. Financial Documents</h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered ">
+                <thead class=" text-center">
+                    <tr>
+                        <th>Document Type</th>
+                        <th>Details / Reference No.</th>
+                        <th>Validity / Period</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr *ngFor="let ANTList of AnnualTurnoverDetail; let i = index">
                 <td class="text-start">Turnover Certificate</td>
                 <td>{{ANTList.accyear || '—'}}</td>
                 <td>{{ANTList.accyrsetid || '—' }}</td>
@@ -290,17 +226,17 @@
                 <td>[Year Range]</td>
                 <td>Audited by CA</td>
               </tr> -->
-              <tr *ngFor="let ANTList of AnnualTurnoverDetail; let i = index">
-                <td *ngIf="i === 0" class="text-start" [attr.rowspan]="AnnualTurnoverDetail.length">
-                    Turnover Certificate
-                </td>
-            
-                <td>{{ANTList.accyear || '—'}}</td>
-                <!-- <td>{{ANTList.accyrsetid || '—' }}</td> -->
-                <td>{{ANTList.isapprove || '—' }}</td>
-                <td>{{ANTList.approvereason || '—' }}</td>
-            </tr>
-            <!-- <tr *ngFor="let GSTL of GSTList; let i = index">
+                    <tr *ngFor="let ANTList of AnnualTurnoverDetail; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="AnnualTurnoverDetail.length">
+                            Turnover Certificate
+                        </td>
+
+                        <td>{{ANTList.accyear || '—'}}</td>
+                        <!-- <td>{{ANTList.accyrsetid || '—' }}</td> -->
+                        <td>{{ANTList.isapprove || '—' }}</td>
+                        <td>{{ANTList.approvereason || '—' }}</td>
+                    </tr>
+                    <!-- <tr *ngFor="let GSTL of GSTList; let i = index">
               <td class="text-start">GST Certificate</td>
               <td>{{GSTL.gstno || '—'}}</td>
               <td>{{GSTL.isapprove || '—' }}</td>
@@ -308,189 +244,188 @@
               <td>{{ANTList.accyrsetid || '—' }}</td>
              
             </tr> -->
-            <tr *ngFor="let GSTL of GSTList; let i = index">
-                <td *ngIf="i === 0" class="text-start" [attr.rowspan]="GSTList.length">
-                    GST Certificate
-                </td>
-            
-                <td>{{GSTL.gstno || '—'}}</td>
-                <td>{{GSTL.isapprove || '—' }}</td>
-                <td>{{GSTL.approvereason || '—' }}</td>
-                <!-- <td>{{ANTList.accyrsetid || '—' }}</td> -->
-            </tr>
-            <!-- <tr *ngFor="let GSTReturnList of GSTReturnDetails; let i = index">
+                    <tr *ngFor="let GSTL of GSTList; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="GSTList.length">
+                            GST Certificate
+                        </td>
+
+                        <td>{{GSTL.gstno || '—'}}</td>
+                        <td>{{GSTL.isapprove || '—' }}</td>
+                        <td>{{GSTL.approvereason || '—' }}</td>
+                        <!-- <td>{{ANTList.accyrsetid || '—' }}</td> -->
+                    </tr>
+                    <!-- <tr *ngFor="let GSTReturnList of GSTReturnDetails; let i = index">
               <td class="text-start">GST Return Certificate</td>
               <td>{{GSTReturnList.gstno || '—'}}</td>
               <td>{{GSTReturnList.isapprove || '—' }}</td>
               <td>{{GSTReturnList.approvereason || '—' }}</td>
             
             </tr> -->
-            <tr *ngFor="let GSTReturnList of GSTReturnDetails; let i = index">
-                <td *ngIf="i === 0" class="text-start" [attr.rowspan]="GSTReturnDetails.length">
-                    GST Return Certificate
-                </td>
-                <td>{{GSTReturnList.gstno || '—'}}</td>
-                <td>{{GSTReturnList.isapprove || '—' }}</td>
-                <td>{{GSTReturnList.approvereason || '—' }}</td>
-            </tr>
-           
-  
-            <tr *ngFor="let TechnicalList of TechnicalDetails; let i = index">
-              <!-- <td>Technical Certificate</td> -->
-              <td class="text-start">{{TechnicalList.code || '—'}}</td>
-              <td>{{TechnicalList.ismfaccepted || '—' }}</td>
-              <td>{{TechnicalList.mfaccrejremarks || '—' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-  
-    <!-- </div> -->
-    <!-- ============================
+                    <tr *ngFor="let GSTReturnList of GSTReturnDetails; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="GSTReturnDetails.length">
+                            GST Return Certificate
+                        </td>
+                        <td>{{GSTReturnList.gstno || '—'}}</td>
+                        <td>{{GSTReturnList.isapprove || '—' }}</td>
+                        <td>{{GSTReturnList.approvereason || '—' }}</td>
+                    </tr>
+
+
+                    <tr *ngFor="let TechnicalList of TechnicalDetails; let i = index">
+                        <!-- <td>Technical Certificate</td> -->
+                        <td class="text-start">{{TechnicalList.code || '—'}}</td>
+                        <td>{{TechnicalList.ismfaccepted || '—' }}</td>
+                        <td>NA</td>
+                        <td>{{TechnicalList.mfaccrejremarks || '_' }}</td>
+                        <!-- {{TechnicalList.mfaccrejremarks || '—' }} -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- </div> -->
+        <!-- ============================
    Additional Certificate Section
    ============================ -->
-   
-<!-- Document Details Table -->
-<div class="table-responsive mt-4">
-    <table class="table table-bordered ">
-      <thead class=" text-center">
-        <tr>
-          <th>Document Type</th>
-          <th>Details / Reference No.</th>
-          <th>Validity / Period</th>
-          <th>Remarks</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="text-start">PAN Card</td>
-          <td>{{ panno || '—' }}</td>
-          <!-- <td>[PAN No]</td> -->
-          <td>-</td>
-          <td>-</td>
-          <!-- <td>Verified</td> -->
-        </tr>
-        <tr *ngFor="let BankMandatelist of BankMandateDetails; let i = index">
-            <td *ngIf="i === 0" class="text-start" [attr.rowspan]="BankMandateDetails.length">
-                Bank Details
-            </td>
-            <td>{{BankMandatelist.bankname || '—'}},{{BankMandatelist.bankaccountid || '—'}}</td>
-            <td>{{BankMandatelist.isapprove || '—' }}</td>
-            <td>{{BankMandatelist.approvereason || '—' }}</td>
-        </tr>
-        <!-- <tr *ngFor="let BankMandatelist of BankMandateDetails; let i = index">
+
+        <!-- Document Details Table -->
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered ">
+                <thead class=" text-center">
+                    <tr>
+                        <th>Document Type</th>
+                        <th>Details / Reference No.</th>
+                        <th>Validity / Period</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-start">PAN Card</td>
+                        <td>{{ panno || '—' }}</td>
+                        <!-- <td>[PAN No]</td> -->
+                        <td>-</td>
+                        <td>-</td>
+                        <!-- <td>Verified</td> -->
+                    </tr>
+                    <tr *ngFor="let BankMandatelist of BankMandateDetails; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="BankMandateDetails.length">
+                            Bank Details
+                        </td>
+                        <td>{{BankMandatelist.bankname || '—'}},{{BankMandatelist.bankaccountid || '—'}}</td>
+                        <td>{{BankMandatelist.isapprove || '—' }}</td>
+                        <td>{{BankMandatelist.approvereason || '—' }}</td>
+                    </tr>
+                    <!-- <tr *ngFor="let BankMandatelist of BankMandateDetails; let i = index">
           <td class="text-start">Bank Details</td>
           <td>{{BankMandatelist.bankname || '—'}},{{BankMandatelist.bankaccountid || '—'}}</td>
           <td>{{BankMandatelist.isapprove || '—' }}</td>
           <td>{{BankMandatelist.approvereason || '—' }}</td>
         </tr> -->
-      </tbody>
-    </table>
-  </div>
-  
-  
-  <!-- Declaration & Disclaimer -->
-  <div class="mt-4">
-    <h2 class="text-bold text-start text-primary border-bottom pb-2">
-      Declaration & Disclaimer
-    </h2>
-  
-    <p class="mt-3 text-bold text-start fw-semibold">
-      I hereby declare that:
-    </p>
-  
-    <ul class="text-danger fw-semibold" style="font-size: 14px;">
-      <li class="text-start">
-        I/We have not been blacklisted or debarred by any Medical Corporation,
-        Government Institution, or Public Sector Undertaking in India.
-      </li>
-  
-      <li class="text-start">
-        There are no pending investigations or proceedings by any CBI
-        (Central Bureau of Investigation), EOW (Economic Offences Wing),
-        ED (Enforcement Directorate), or any other competent authority against our firm/company.
-      </li>
-  
-      <li class="text-start">
-        The information and documents submitted herein are true and correct to the
-        best of my knowledge and belief.
-      </li>
-  
-      <li class="text-start">
-        In case any information is found false or misleading, CGMSC reserves the
-        right to cancel the registration and multiply tender participation or reject
-        and take necessary legal action.
-      </li>
-    </ul>
-  </div>
-  
-  
-  <!-- Scrutiny & Verification Teams -->
-  <div class="mt-4">
-    <!-- <h5 class="fw-bold text-danger border-bottom pb-2">
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Declaration & Disclaimer -->
+        <div class="mt-4">
+            <h2 class="text-bold text-start text-primary border-bottom pb-2">
+                Declaration & Disclaimer
+            </h2>
+
+            <p class="mt-3 text-bold text-start fw-semibold">
+                I hereby declare that:
+            </p>
+
+            <ul class="text-danger fw-semibold" style="font-size: 14px;">
+                <li class="text-start">
+                    I/We have not been blacklisted or debarred by any Medical Corporation,
+                    Government Institution, or Public Sector Undertaking in India.
+                </li>
+
+                <li class="text-start">
+                    There are no pending investigations or proceedings by any CBI
+                    (Central Bureau of Investigation), EOW (Economic Offences Wing),
+                    ED (Enforcement Directorate), or any other competent authority against our firm/company.
+                </li>
+
+                <li class="text-start">
+                    The information and documents submitted herein are true and correct to the
+                    best of my knowledge and belief.
+                </li>
+
+                <li class="text-start">
+                    In case any information is found false or misleading, CGMSC reserves the
+                    right to cancel the registration and multiply tender participation or reject
+                    and take necessary legal action.
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- Scrutiny & Verification Teams -->
+        <div class="mt-4">
+            <!-- <h5 class="fw-bold text-danger border-bottom pb-2">
         Scrutiny & Verification Teams
     </h5> -->
-    <h2 class="text-bold text-start text-primary border-bottom pb-2">
-        Scrutiny & Verification Teams
-      </h2>
-    <div class="table-responsive mt-3">
-      <table class="table table-bordered ">
-        <thead class=" text-center">
-          <tr>
-            <th>Team Name</th>
-            <th>Responsibility</th>
-            <th>Verification Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="text-start">Verification Team</td>
-            <td>Verify documents</td>
-            <td>[Approved / Pending]</td>
-          </tr>
-        </tbody>
-      </table>
+            <h2 class="text-bold text-start text-primary border-bottom pb-2">
+                Scrutiny & Verification Teams
+            </h2>
+            <div class="table-responsive mt-3">
+                <table class="table table-bordered ">
+                    <thead class=" text-center">
+                        <tr>
+                            <th>Team Name</th>
+                            <th>Responsibility</th>
+                            <th>Verification Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-start">Verification Team</td>
+                            <td>Verify documents</td>
+                            <td>[Approved / Pending]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- System Information -->
+        <div class="mt-4">
+
+            <h2 class="text-bold text-start text-primary pb-2 border-bottom">
+                System Information
+            </h2>
+            <div class="table-responsive mt-3">
+                <table class="table table-bordered ">
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold text-start">IP Address</td>
+                            <td>{{ipAddress|| '—'}}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-start">MAC Address</td>
+                            <td>{{userAgent|| '—'}}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-start">Generated On</td>
+                            <td>{{ today | date:'dd-MM-yyyy hh:mm:ss a' }}</td>
+                            <!-- <td>[Date Time Stamp]</td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- Footer Note -->
+        <h3 class="mt-4 text-center fw-semibold">
+            Generated by CGMSCL Vendor Management System (DPDMIS)
+        </h3>
     </div>
-  </div>
-  
-  
-  <!-- System Information -->
-  <div class="mt-4">
-  
-    <h2 class="text-bold text-start text-primary pb-2 border-bottom">
-        System Information
-      </h2>
-    <div class="table-responsive mt-3">
-      <table class="table table-bordered ">
-        <tbody>
-          <tr>
-            <td class="fw-bold text-start">IP Address</td>
-            <td>{{ipAddress|| '—'}}</td>
-          </tr>
-          <tr>
-            <td class="fw-bold text-start">MAC Address</td>
-            <td>{{userAgent|| '—'}}</td>
-          </tr>
-          <tr>
-            <td class="fw-bold text-start">Generated On</td>
-            <td>{{ today | date:'dd-MM-yyyy hh:mm:ss a' }}</td>
-            <!-- <td>[Date Time Stamp]</td> -->
-          </tr>
-        </tbody>
-      </table>
+    <div class="col-12 col-md-12 container justify-content-center d-flex p-4 mt-2">
+        <button class="btn btn-primary btn-lg" (click)="downloadAsPDF()">Download PDF</button>
     </div>
-  </div>
-  
-  
-  <!-- Footer Note -->
-  <h3 class="mt-4 text-center fw-semibold">
-    Generated by CGMSCL Vendor Management System (DPDMIS)
-  </h3>
-</div>
-  </section>
-
-
-  <!--#region generate pdf section -->
-
-
-<!--#endregion generate pdf close -->
+</section>
