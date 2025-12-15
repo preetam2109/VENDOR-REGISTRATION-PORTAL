@@ -1,0 +1,619 @@
+<div class=" card container-fluidd text-center" style="background-color: aliceblue;">
+    <h3 class="mb-3 Heading-font-family pt-1">Import Licence</h3>
+  </div>
+  <div class="shadow border rounded bg-white py-3 px-3">
+    <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    <ng-template #sectionAContent>
+    <div class="card shadow rounded bg-light mx-auto mb-4">
+      <div class="card-body p-3">
+        <div class="table-container">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container ms-2">
+              <!-- <button type="button" class="btn border rounded text-light" mat-button
+                              style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick()">Add <i
+                                class="bi bi-folder-plus"></i></button> -->
+              <!-- <button mat-button [matMenuTriggerFor]="exportMenu" class="btn btn-sm btn-secondary">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'PPC_List_', sheet: 'PPC_List_', Props: { Author: 'cgmsc' }})">Excel</button>
+                <button mat-menu-item (click)="exportToPDF()">PDF</button>
+              </mat-menu> -->
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matTableExporter
+              class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter" matSort #sort="matSort">
+              <!-- S.No Column -->
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef style="width: 50px;">S.No</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+              </ng-container>
+  
+              <!-- Licence ID -->
+              <ng-container matColumnDef="licid">
+                <th mat-header-cell *matHeaderCellDef>Licence ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.licid }}</td>
+              </ng-container>
+  
+              <!-- Licence No -->
+              <ng-container matColumnDef="licno">
+                <th mat-header-cell *matHeaderCellDef>Licence No</th>
+                <td mat-cell *matCellDef="let element">{{ element.licno }}</td>
+              </ng-container>
+  
+              <!-- Form Name -->
+              <ng-container matColumnDef="formname">
+                <th mat-header-cell *matHeaderCellDef>Form Name</th>
+                <td mat-cell *matCellDef="let element">{{ element.formname }}</td>
+              </ng-container>
+  
+              <!-- Unit Name -->
+              <ng-container matColumnDef="unitname">
+                <th mat-header-cell *matHeaderCellDef>Unit Name</th>
+                <td mat-cell *matCellDef="let element">{{ element.unitname }}</td>
+              </ng-container>
+  
+              <!-- Import Licence No -->
+              <ng-container matColumnDef="implicno">
+                <th mat-header-cell *matHeaderCellDef>Import Licence No</th>
+                <td mat-cell *matCellDef="let element">{{ element.implicno }}</td>
+              </ng-container>
+              <ng-container matColumnDef="impIssuingAuthority">
+                <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
+                <td mat-cell *matCellDef="let element">{{ element.impIssuingAuthority }}</td>
+              </ng-container>
+  
+              <!-- Import Type Name -->
+              <ng-container matColumnDef="imptypename">
+                <th mat-header-cell *matHeaderCellDef>Import Type</th>
+                <td mat-cell *matCellDef="let element">{{ element.imptypename }}</td>
+              </ng-container>
+  
+              <!-- Issue Date -->
+              <ng-container matColumnDef="issuedate">
+                <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.issuedate }}</td>
+              </ng-container>
+  
+              <!-- Start Date -->
+              <ng-container matColumnDef="startdate">
+                <th mat-header-cell *matHeaderCellDef>Start Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.startdate }}</td>
+              </ng-container>
+  
+              <!-- Expiry Date -->
+              <ng-container matColumnDef="expdate">
+                <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.expdate }}</td>
+              </ng-container>
+  
+              <!-- File Name -->
+              <ng-container matColumnDef="filename">
+                <th mat-header-cell *matHeaderCellDef>File</th>
+                <td mat-cell *matCellDef="let element">
+                  <button *ngIf="element.filename"
+                    class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                    (click)="DownloadFileWithName(element.filepath,element.filename)">
+                    <i class="bi bi-filetype-pdf text-danger"></i>
+                  </button>
+                </td>
+              </ng-container>
+  
+              <!-- Supplier ID -->
+              <ng-container matColumnDef="supplierid">
+                <th mat-header-cell *matHeaderCellDef>Supplier ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.supplierid }}</td>
+              </ng-container>
+  
+              <!-- Header and Row Definitions -->
+              <tr mat-header-row *matHeaderRowDef="[
+      'sno',
+      'licno',
+      'formname',
+      'unitname',
+      'implicno',
+      'imptypename',
+      'impIssuingAuthority',
+      'issuedate',
+      'startdate',
+      'expdate',
+      'filename',
+    ]"></tr>
+  
+              <tr mat-row *matRowDef="let row; columns: [
+      'sno',
+      'licno',
+      'formname',
+      'unitname',
+      'implicno',
+      'imptypename',
+      'impIssuingAuthority',
+      'issuedate',
+      'startdate',
+      'expdate',
+      'filename',
+    ];"></tr>
+  
+  
+            </table>
+          </div>
+          <mat-paginator  #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowRetentionForm == true">
+  
+      <div class="card-body border rounded px-3 py-3 pb-3 bg-light"
+        style="height: auto; overflow: hidden; position: relative;">
+        <div class="mb-3 Fon-family" style="text-align: justify;">
+          <form [formGroup]="RetentionForm" (ngSubmit)="onSubmit()">
+            <div class="row text-start ">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
+                <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
+                  formControlName="mLICID" [placeholder]="RetentionForm.get('mLICID')?.value ? '' : 'Select Licence'"
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                    'border': (RetentionForm.get('mLICID')?.invalid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
+                      ? '1px solid #dc3545'
+                      : (RetentionForm.get('mLICID')?.valid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (RetentionForm.get('mLICID')?.invalid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (RetentionForm.get('mLICID')?.valid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                  >
+                </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(RetentionForm.get('mLICID')?.touched || submitted) && RetentionForm.get('mLICID')?.errors?.['required']">
+                    Licence is required.
+                  </span>
+              </div>
+              </div>
+  
+  
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Importer Type<span class="text-danger">*</span></label>
+                <ng-select class="form-select w-auto" [items]="MasimportertypeDDL" bindLabel="imptypename"
+                  bindValue="imptypeid" formControlName="mImptypeid"
+                  [placeholder]="!RetentionForm.get('mImptypeid')?.value ? 'Choose Import Type' : ''" [searchable]="true"
+                  [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
+                    'border': (RetentionForm.get('mImptypeid')?.invalid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
+                      ? '1px solid #dc3545'
+                      : (RetentionForm.get('mImptypeid')?.valid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (RetentionForm.get('mImptypeid')?.invalid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (RetentionForm.get('mImptypeid')?.valid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                  >
+                </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(RetentionForm.get('mImptypeid')?.touched || submitted) && RetentionForm.get('mImptypeid')?.errors?.['required']">
+                    Importer Type is required.
+                  </span>
+              </div>
+              </div>
+  
+              <!-- Licence No -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Licence No<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="Enter Licence Number" formControlName="mIMPLICNO"
+                [ngClass]="{
+                  'is-invalid': (RetentionForm.get('mIMPLICNO')?.touched || submitted) && RetentionForm.get('mIMPLICNO')?.invalid,
+                  'is-valid': RetentionForm.get('mIMPLICNO')?.valid && (RetentionForm.get('mIMPLICNO')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(RetentionForm.get('mIMPLICNO')?.touched || submitted) && RetentionForm.get('mIMPLICNO')?.errors?.['required']">
+                 Licence No is required.
+               </span>
+              </div>
+  
+              <!-- Issue Date -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mISSUEDATE" 
+                [ngClass]="{
+                  'is-invalid': (RetentionForm.get('mISSUEDATE')?.touched || submitted) && RetentionForm.get('mISSUEDATE')?.invalid,
+                  'is-valid': RetentionForm.get('mISSUEDATE')?.valid && (RetentionForm.get('mISSUEDATE')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(RetentionForm.get('mISSUEDATE')?.touched || submitted) && RetentionForm.get('mISSUEDATE')?.errors?.['required']">
+                 Issue Date is required.
+               </span>
+              </div>
+  
+              <!-- Start Date -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mStartDate"  [ngClass]="{
+                  'is-invalid': (RetentionForm.get('mStartDate')?.touched || submitted) && RetentionForm.get('mStartDate')?.invalid,
+                  'is-valid': RetentionForm.get('mStartDate')?.valid && (RetentionForm.get('mStartDate')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(RetentionForm.get('mStartDate')?.touched || submitted) && RetentionForm.get('mStartDate')?.errors?.['required']">
+                 Start Date is required.
+               </span>
+              </div>
+  
+              <!-- Validity Date -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mVALIDITYDATE"  [ngClass]="{
+                  'is-invalid': (RetentionForm.get('mVALIDITYDATE')?.touched || submitted) && RetentionForm.get('mVALIDITYDATE')?.invalid,
+                  'is-valid': RetentionForm.get('mVALIDITYDATE')?.valid && (RetentionForm.get('mVALIDITYDATE')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(RetentionForm.get('mVALIDITYDATE')?.touched || submitted) && RetentionForm.get('mVALIDITYDATE')?.errors?.['required']">
+                 Valid Date is required.
+               </span>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="mIMPIssuingAuthority"
+                  placeholder="Enter Issuing Authority"  [ngClass]="{
+                    'is-invalid': (RetentionForm.get('mIMPIssuingAuthority')?.touched || submitted) && RetentionForm.get('mIMPIssuingAuthority')?.invalid,
+                    'is-valid': RetentionForm.get('mIMPIssuingAuthority')?.valid && (RetentionForm.get('mIMPIssuingAuthority')?.touched || submitted)
+                  }">
+                   <span class="text-danger"
+                   *ngIf="(RetentionForm.get('mIMPIssuingAuthority')?.touched || submitted) && RetentionForm.get('mIMPIssuingAuthority')?.errors?.['required']">
+                   Issuing Authority is required.
+                 </span>
+                <!-- <small class="text-danger"
+                    *ngIf="licForm.get('mIMPIssuingAuthority')?.touched && licForm.get('mIMPIssuingAuthority')?.invalid">
+                    issuing authority is required.
+                  </small> -->
+              </div>
+  
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Upload Document<span class="text-danger">*</span></label>
+                <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected($event)"   formControlName="Files" [ngClass]="{
+                  'is-invalid': (RetentionForm.get('Files')?.touched || submitted) && RetentionForm.get('Files')?.invalid,
+                  'is-valid': RetentionForm.get('Files')?.valid && (RetentionForm.get('Files')?.touched || submitted)
+                }" />
+        
+        <span class="text-danger"
+        *ngIf="(RetentionForm.get('Files')?.touched || submitted) && RetentionForm.get('Files')?.errors?.['required']">
+        Please upload the document.
+        </span>
+              </div>
+  
+              <!-- Submit -->
+              <div class="text-center mt-4 mb-1">
+                <button type="submit" class="btn btn-primary px-4" [disabled]="!RetentionForm.valid">
+                  Save
+                </button>
+              </div>
+            </div>
+          </form>
+  
+  
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  </div>
+  
+  <div class="shadow border rounded bg-white py-3 px-3">
+    <div *ngIf="loadingSectionB; else sectionAContentB" class="spinner-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    <ng-template #sectionAContentB>
+    <div class="card shadow rounded bg-light mx-auto mt-5 mb-4">
+      <div class="card-body p-3">
+        <div class="table-container">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                (keyup)="applyTextFilter2($event)">
+            </div>
+            <div class="export-menu-container ms-2">
+              <!-- <button type="button" class="btn border rounded text-light" mat-button
+              style="background-color: rgb(21, 184, 0);" (click)="onshowButtonClick1()">Add <i
+                class="bi bi-folder-plus"></i></button> -->
+              <!-- <button mat-button [matMenuTriggerFor]="exportMenu2" class="btn btn-sm btn-secondary">Export</button>
+              <mat-menu #exportMenu2="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'List_', sheet: 'List_', Props: { Author: 'cgmsc' }})">Excel</button>
+                <button mat-menu-item (click)="exportToPDF2()">PDF</button>
+              </mat-menu> -->
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource2" matTableExporter
+              class="table table-bordered table-hover table-sm align-middle" #exporter="matTableExporter" matSort #sort1="matSort">
+              <!-- S.No Column -->
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef style="width: 50px;">S.No</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+              </ng-container>
+  
+              <!-- Import Return ID -->
+              <ng-container matColumnDef="impRetId">
+                <th mat-header-cell *matHeaderCellDef>Import Return ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.impRetId }}</td>
+              </ng-container>
+  
+              <!-- Import ID -->
+              <ng-container matColumnDef="impId">
+                <th mat-header-cell *matHeaderCellDef>Import ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.impId }}</td>
+              </ng-container>
+  
+              <!-- Import Licence No -->
+              <ng-container matColumnDef="impLicNo">
+                <th mat-header-cell *matHeaderCellDef>Import Licence No</th>
+                <td mat-cell *matCellDef="let element">{{ element.impLicNo }}</td>
+              </ng-container>
+  
+              <!-- Import Type Name -->
+              <ng-container matColumnDef="impTypeName">
+                <th mat-header-cell *matHeaderCellDef>Import Type</th>
+                <td mat-cell *matCellDef="let element">{{ element.impTypeName }}</td>
+              </ng-container>
+  
+              <!-- Licence ID -->
+              <ng-container matColumnDef="licId">
+                <th mat-header-cell *matHeaderCellDef>Licence ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.licId }}</td>
+              </ng-container>
+  
+              <!-- Licence No -->
+              <ng-container matColumnDef="licNo">
+                <th mat-header-cell *matHeaderCellDef>Licence No</th>
+                <td mat-cell *matCellDef="let element">{{ element.licNo }}</td>
+              </ng-container>
+  
+              <!-- Unit Name -->
+              <ng-container matColumnDef="unitName">
+                <th mat-header-cell *matHeaderCellDef>Unit Name</th>
+                <td mat-cell *matCellDef="let element">{{ element.unitName }}</td>
+              </ng-container>
+  
+              <!-- Supplier ID -->
+              <ng-container matColumnDef="supplierId">
+                <th mat-header-cell *matHeaderCellDef>Supplier ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.supplierId }}</td>
+              </ng-container>
+              <ng-container matColumnDef="impretIssuingAuthority">
+                <th mat-header-cell *matHeaderCellDef>Issuing Authority</th>
+                <td mat-cell *matCellDef="let element">{{ element.impretIssuingAuthority }}</td>
+              </ng-container>
+              <!-- Start Date -->
+              <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef>Start Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.startDate }}</td>
+              </ng-container>
+  
+              <!-- Issue Date -->
+              <ng-container matColumnDef="issueDate">
+                <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.issueDate }}</td>
+              </ng-container>
+  
+              <!-- Expiry Date -->
+              <ng-container matColumnDef="expDate">
+                <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.expDate }}</td>
+              </ng-container>
+  
+              <!-- File Name -->
+              <!-- <ng-container matColumnDef="fileName">
+            <th mat-header-cell *matHeaderCellDef>File Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
+          </ng-container> -->
+  
+              <ng-container matColumnDef="fileName">
+                <th mat-header-cell *matHeaderCellDef>File</th>
+                <td mat-cell *matCellDef="let element">
+                  <button *ngIf="element.fileName"
+                    class="btn btn-sm text-light align-items-center border rounded  btn-outline-danger-subtle bg-danger-subtle"
+                    (click)="DownloadFileWithName(element.filePath,element.fileName)">
+                    <i class="bi bi-filetype-pdf text-danger"></i>
+                  </button>
+                </td>
+              </ng-container>
+  
+              <!-- File Path -->
+              <ng-container matColumnDef="filePath">
+                <th mat-header-cell *matHeaderCellDef>File Path</th>
+                <td mat-cell *matCellDef="let element">{{ element.filePath }}</td>
+              </ng-container>
+  
+  
+  
+              <!-- Import Type ID -->
+              <ng-container matColumnDef="impTypeId">
+                <th mat-header-cell *matHeaderCellDef>Import Type ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.impTypeId }}</td>
+              </ng-container>
+  
+              <!-- Header and Row Definitions -->
+              <tr mat-header-row *matHeaderRowDef="[
+            'sno',
+            'unitName',
+            'impLicNo',
+            'impTypeName',
+            'licNo',
+            'impretIssuingAuthority',
+            'startDate',
+            'issueDate',
+            'expDate',
+            'fileName',
+          ]"></tr>
+  
+              <tr mat-row *matRowDef="let row; columns: [
+            'sno',
+            'unitName',
+            'impLicNo',
+            'impTypeName',
+            'licNo',
+            'impretIssuingAuthority',
+            'startDate',
+            'issueDate',
+            'expDate',
+            'fileName',
+          ];"></tr>
+  
+  
+  
+            </table>
+          </div>
+          <mat-paginator  #paginator1  [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowRetentionForm2 == true">
+      <div class="card-body border rounded px-3 py-3 pb-3 bg-light"
+        style="height: auto; overflow: hidden; position: relative;">
+        <div class="mb-3 Fon-family" style="text-align: justify;">
+          <form [formGroup]="RetentionForm2" (ngSubmit)="onSubmit2()">
+            <div class="row text-start ">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
+                <ng-select class="form-select w-auto" [items]="DDlImprtLic" bindLabel="impTypeName" bindValue="impId"
+                  formControlName="mIMPID" [placeholder]="RetentionForm2.get('mIMPID')?.value ? '' : 'Select Licence'"
+                  [searchable]="true" [clearable]="true" [appendTo]="'body'"[ngStyle]="{
+                    'border': (RetentionForm2.get('mIMPID')?.invalid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
+                      ? '1px solid #dc3545'
+                      : (RetentionForm2.get('mIMPID')?.valid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
+                        ? '1px solid #198754'
+                        : '',
+                    'box-shadow': (RetentionForm2.get('mIMPID')?.invalid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
+                      ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                      : (RetentionForm2.get('mIMPID')?.valid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
+                        ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                        : ''
+                  }"
+                  >
+                </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(RetentionForm2.get('mIMPID')?.touched || submitted) && RetentionForm2.get('mIMPID')?.errors?.['required']">
+                    Licence is required.
+                  </span>
+              </div>
+              </div>
+  
+  
+  
+  
+  
+  
+              <!-- Issue Date -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mISSUEDATE" [ngClass]="{
+                  'is-invalid': (RetentionForm2.get('mISSUEDATE')?.touched || submitted) && RetentionForm2.get('mISSUEDATE')?.invalid,
+                  'is-valid': RetentionForm2.get('mISSUEDATE')?.valid && (RetentionForm2.get('mISSUEDATE')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(RetentionForm2.get('mISSUEDATE')?.touched || submitted) && RetentionForm2.get('mISSUEDATE')?.errors?.['required']">
+                 Issue Date is required.
+               </span>
+              </div>
+  
+              <!-- Start Date -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mStartDate" [ngClass]="{
+                  'is-invalid': (RetentionForm2.get('mStartDate')?.touched || submitted) && RetentionForm2.get('mStartDate')?.invalid,
+                  'is-valid': RetentionForm2.get('mStartDate')?.valid && (RetentionForm2.get('mStartDate')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(RetentionForm2.get('mStartDate')?.touched || submitted) && RetentionForm2.get('mStartDate')?.errors?.['required']">
+                 Start Date is required.
+               </span>
+              </div>
+  
+              <!-- Validity Date -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="mVALIDITYDATE" [ngClass]="{
+                  'is-invalid': (RetentionForm2.get('mVALIDITYDATE')?.touched || submitted) && RetentionForm2.get('mVALIDITYDATE')?.invalid,
+                  'is-valid': RetentionForm2.get('mVALIDITYDATE')?.valid && (RetentionForm2.get('mVALIDITYDATE')?.touched || submitted)
+                }">
+                 <span class="text-danger"
+                 *ngIf="(RetentionForm2.get('mVALIDITYDATE')?.touched || submitted) && RetentionForm2.get('mVALIDITYDATE')?.errors?.['required']">
+                 Valid Date is required.
+               </span>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="mIMPRETIssuingAuthority"
+                  placeholder="Enter Issuing Authority" [ngClass]="{
+                    'is-invalid': (RetentionForm2.get('mIMPRETIssuingAuthority')?.touched || submitted) && RetentionForm2.get('mIMPRETIssuingAuthority')?.invalid,
+                    'is-valid': RetentionForm2.get('mIMPRETIssuingAuthority')?.valid && (RetentionForm2.get('mIMPRETIssuingAuthority')?.touched || submitted)
+                  }">
+                   <span class="text-danger"
+                   *ngIf="(RetentionForm2.get('mIMPRETIssuingAuthority')?.touched || submitted) && RetentionForm2.get('mIMPRETIssuingAuthority')?.errors?.['required']">
+                   Issuing Authority is required.
+                 </span>
+                <!-- <small class="text-danger"
+                              *ngIf="licForm.get('mIMPIssuingAuthority')?.touched && licForm.get('mIMPIssuingAuthority')?.invalid">
+                              issuing authority is required.
+                            </small> -->
+              </div>
+  
+  
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Upload Document<span class="text-danger">*</span></label>
+                <input type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileSelected2($event)" 
+                formControlName="Files" [ngClass]="{
+                  'is-invalid': (RetentionForm2.get('Files')?.touched || submitted) && RetentionForm2.get('Files')?.invalid,
+                  'is-valid': RetentionForm2.get('Files')?.valid && (RetentionForm2.get('Files')?.touched || submitted)
+                }" />
+        
+        <span class="text-danger"
+        *ngIf="(RetentionForm2.get('Files')?.touched || submitted) && RetentionForm2.get('Files')?.errors?.['required']">
+        Please upload the document.
+        </span>
+              </div>
+  
+              <!-- Submit -->
+              <div class="text-center mt-4 mb-1">
+                <button type="submit" class="btn btn-primary px-4" [disabled]="!RetentionForm2.valid">
+                  Save
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+    <!-- </div> *ngIf="onshowFINANCIAL == true"-->
+  </div>
+  
+  
+  
+  
+  <!-- modal -->
+  <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+      <div class="modal-content border-0 shadow-none">
+        <div class="modal-header bg-dark text-white py-2 px-3">
+          <h5 class="modal-title" id="pdfModalLabel">PDF Preview</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <iframe [src]="sanitizedPdfUrl" class="pdf-frame" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
