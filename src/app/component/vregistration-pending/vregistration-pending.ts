@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/service/api.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators,FormsModule,ReactiveFormsModule } from '@angular/forms';
-// import { Stepper } from '../stepper/stepper';
 import { Router, RouterModule } from '@angular/router';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -23,18 +22,18 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var bootstrap: any;
 @Component({
-  selector: 'app-vendor-registration-completed',
-   standalone: true,
-   imports: [CommonModule, FormsModule, RouterModule,
-    NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
-        MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,
-          MatTableExporterModule,MatProgressSpinnerModule
-    ],
-  templateUrl: './vendor-registration-completed.html',
-  styleUrl: './vendor-registration-completed.css'
+  selector: 'app-vregistration-pending',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule,
+   NgSelectModule,CommonModule,FormsModule,CollapseModule,NgbCollapseModule,ReactiveFormsModule,MatTabsModule,
+       MaterialModule,MatSortModule, MatPaginatorModule,MatTableModule,MatDialogModule,MatSelectModule, MatOptionModule,
+         MatTableExporterModule,MatProgressSpinnerModule
+   ],
+  templateUrl: './vregistration-pending.html',
+  styleUrl: './vregistration-pending.css'
 })
-export class VendorRegistrationCompleted {
-  roleName: any = localStorage.getItem('roleName');
+export class VRegistrationPending {
+ roleName: any = localStorage.getItem('roleName');
   vregid: any;
   vendorDetails: any[] = [];
   showButtons:boolean=true;
@@ -69,7 +68,7 @@ export class VendorRegistrationCompleted {
         // supplierid: string
       ];
 
-  constructor(private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
+  constructor(private sanitizer: DomSanitizer, private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
         private cdr: ChangeDetectorRef, private router: Router){
     // this.form1 = this.fb.group({ name: ['', Validators.required] });
     // this.form2 = this.fb.group({ review: ['', Validators.required] });
@@ -206,7 +205,7 @@ export class VendorRegistrationCompleted {
               const data = res as any[];
           
               const filteredData = data
-                .filter(item => item.status === 'Complete')
+                .filter(item => item.status === 'Incomplete')
                 .map((item, index) => ({
                   ...item,
                   sno: index + 1

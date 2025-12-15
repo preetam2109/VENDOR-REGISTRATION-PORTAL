@@ -726,6 +726,7 @@ export class MenuServiceService {
         { label: 'Home', route: '/home' },
         { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
         { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
+        { label: 'Vendor Registration Pending', route: '/VRegistrationPending' },
         // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
         // { label: 'Growth in Distribution', route: '/distribution' },
         // { label: 'Payment', route: '/PriceEvaluation' },
@@ -737,6 +738,7 @@ export class MenuServiceService {
       items: [
         { label: 'Home', route: '/home' },
         { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
+        { label: 'Vendor Registration Pending', route: '/VRegistrationPending' },
         // { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
         // { label: 'Vendor Registration Approved Technical', route: '/ApprovalTechnicalCrt' }
 
@@ -765,6 +767,7 @@ export class MenuServiceService {
           { label: 'Home', route: '/home' },
           { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
           { label: 'Vendor Registration Approved Technical', route: '/ApprovalTechnicalCrt' },
+          { label: 'Vendor Registration Pending', route: '/VRegistrationPending' },
           // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
           // { label: 'Growth in Distribution', route: '/distribution' },
           // { label: 'Payment', route: '/PriceEvaluation' },

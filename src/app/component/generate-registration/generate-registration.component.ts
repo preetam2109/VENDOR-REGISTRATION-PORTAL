@@ -32,27 +32,31 @@ export class GenerateRegistrationComponent {
   vregid: any;
   vendorDetails: any[] = [];
   showButtons:boolean=true;
-  ngOnInit() {
-    this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
-    
-  }
-
  
-
-  onClick(status:any){
-    if(status=='Complete'){
-      return
-    }
-    this.router.navigate(['personal-detail'])
-
-  }
+ 
 
   constructor( private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder,private router: Router,){
     // this.form1 = this.fb.group({ name: ['', Validators.required] });
     // this.form2 = this.fb.group({ review: ['', Validators.required] });
   }
 
-  
+  ngOnInit() {
+    this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
+    
+  }
+
+ 
+  onClick(status:any){
+
+    if(status=='Complete'){
+      // return
+      this.router.navigate(['/confirmation']);
+    }else{
+
+      this.router.navigate(['personal-detail']);
+    }
+
+  }
 
 
   generate() {
@@ -116,7 +120,7 @@ export class GenerateRegistrationComponent {
     console.log('Delete Vendor:', vendor);
   }
   
-  
+
   
 
 
