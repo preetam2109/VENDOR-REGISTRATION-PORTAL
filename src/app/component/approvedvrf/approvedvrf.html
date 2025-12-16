@@ -100,10 +100,16 @@
                             Manufacturing License
                         </td>
 
-                        <td>{{MLicList.licno|| '—'}}</td>
+                        <td>{{MLicList.formname}}/{{MLicList.licno|| '—'}}</td>
                         <td>{{MLicList.issuedate|| '—'}}</td>
                         <td>{{MLicList.validitydate|| '—'}}</td>
                     </tr>
+                    <tr *ngIf="!manufacturingLicList || manufacturingLicList.length === 0">
+                        <td class="text-start">  Manufacturing License</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
                     <!-- <tr  *ngFor="let MLicList of manufacturingLicList; let i = index">
               <td class="text-start">Manufacturing License</td>
               <td>{{MLicList.licno|| '—'}}</td>
@@ -121,25 +127,68 @@
                             Import License
                         </td>
 
-                        <td>{{imporLicList.licno|| '—'}}</td>
+                        <td>{{imporLicList.formname}}/{{imporLicList.licno|| '—'}}</td>
                         <td>{{imporLicList.issuedate|| '—'}}</td>
                         <td>{{imporLicList.expdate|| '—'}}</td>
                     </tr>
+                    <tr *ngIf="!importerLicenceList || importerLicenceList.length === 0">
+                        <td class="text-start"> Import License</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
+                    <tr *ngFor="let retentionL of retentionList; let i = index">
+                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="retentionList.length">
+                          Retention/Renewals  
+                        </td>
+
+                        <td>{{retentionL.formname}}/{{retentionL.licno|| '—'}}</td>
+                        <td>{{retentionL.issuedate|| '—'}}</td>
+                        <td>{{retentionL.expdate|| '—'}}</td>
+                    </tr>
+                    <tr *ngIf="!retentionList || retentionList.length === 0">
+                        <td class="text-start">Retention/Renewals</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
                     <!-- <tr *ngFor="let MSDList of mSCDetailsList; let i = index">
               <td class="text-start">Market Standing Certificate</td>
               <td>{{MSDList.licno|| '—'}}</td>
               <td>{{MSDList.issuedate|| '—'}}</td>
               <td>{{MSDList.validitydate|| '—'}}</td>
             </tr> -->
-                    <tr *ngFor="let MSDList of mSCDetailsList; let i = index">
-                        <td *ngIf="i === 0" class="text-start" [attr.rowspan]="mSCDetailsList.length">
+            <!-- working code -->
+                    <!-- <tr *ngFor="let MSDList of mSCDetailsList; let i = index">
+                        <td *ngIf="i === 0 " class="text-start" [attr.rowspan]="mSCDetailsList.length">
                             Market Standing Certificate
                         </td>
 
                         <td>{{MSDList.licno|| '—'}}</td>
                         <td>{{MSDList.issuedate|| '—'}}</td>
                         <td>{{MSDList.validitydate|| '—'}}</td>
-                    </tr>
+                    </tr> -->
+                    <!-- WHEN DATA EXISTS -->
+<tr *ngFor="let MSDList of mSCDetailsList; let i = index" >
+    <td *ngIf="i === 0" 
+        class="text-start"
+        [attr.rowspan]="mSCDetailsList.length">
+      Market Standing Certificate
+    </td>
+  
+    <td>{{ MSDList.licno || '—' }}</td>
+    <td>{{ MSDList.issuedate || '—' }}</td>
+    <td>{{ MSDList.validitydate || '—' }}</td>
+  </tr>
+  
+  <!-- WHEN NO DATA -->
+  <tr *ngIf="!mSCDetailsList || mSCDetailsList.length === 0">
+    <td class="text-start">Market Standing Certificate</td>
+    <td  class="text-center">—</td>
+    <td  class="text-center">—</td>
+    <td class="text-center">—</td>
+  </tr>
+  
                     <!-- <tr *ngFor="let PPList of PPCertificateList; let i = index">
               <td class="text-start">Product Permission Mapping With CGMSCL</td>
               <td>{{PPList.licno|| '—'}}</td>
@@ -154,6 +203,13 @@
                         <td>{{PPList.issuedate|| '—'}}</td>
                         <td>{{PPList.validitydate|| '—'}}</td>
                     </tr>
+                      <!-- WHEN NO DATA -->
+  <tr *ngIf="!PPCertificateList || PPCertificateList.length === 0">
+    <td class="text-start"> Product Permission Mapping With CGMSCL</td>
+    <td  class="text-center">—</td>
+    <td  class="text-center">—</td>
+    <td class="text-center">—</td>
+  </tr>
                     <!-- <tr *ngFor="let COPList of COPDetailsList; let i = index">
                 <td class="text-start">Capacity Of Production</td>
                 <td>{{COPList.licNo|| '—'}}</td>
@@ -168,6 +224,12 @@
                         <td>{{COPList.issueDate|| '—'}}</td>
                         <td>{{COPList.validityDate|| '—'}}</td>
                     </tr>
+                    <tr *ngIf="!COPDetailsList || COPDetailsList.length === 0">
+                        <td class="text-start"> Capacity Of Production</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
                     <!-- <tr *ngFor="let WHOGMPLists of WHOGMPList; let i = index">
                 <td class="text-start">WHO-GMP Certificate</td>
                 <td>{{WHOGMPLists.licno|| '—'}}</td>
@@ -183,6 +245,12 @@
                         <td>{{ WHOGMPLists.issuedate || '—' }}</td>
                         <td>{{ WHOGMPLists.validitydate || '—' }}</td>
                     </tr>
+                    <tr *ngIf="!WHOGMPList || WHOGMPList.length === 0">
+                        <td class="text-start">WHO-GMP Certificate</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
 
                     <!-- <tr *ngFor="let GCPList of GCPDetails; let i = index">
                 <td class="text-start">GCP Certificate</td>
@@ -198,6 +266,12 @@
                         <td>{{GCPList.issuedate|| '—'}}</td>
                         <td>{{GCPList.expdate|| '—'}}</td>
                     </tr>
+                    <tr *ngIf="!GCPDetails || GCPDetails.length === 0">
+                        <td class="text-start">GCP Certificate</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
                 </tbody>
             </table>
         </div>
@@ -236,6 +310,12 @@
                         <td>{{ANTList.isapprove || '—' }}</td>
                         <td>{{ANTList.approvereason || '—' }}</td>
                     </tr>
+                    <tr *ngIf="!AnnualTurnoverDetail || AnnualTurnoverDetail.length === 0">
+                        <td class="text-start"> Turnover Certificate</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
                     <!-- <tr *ngFor="let GSTL of GSTList; let i = index">
               <td class="text-start">GST Certificate</td>
               <td>{{GSTL.gstno || '—'}}</td>
@@ -254,6 +334,12 @@
                         <td>{{GSTL.approvereason || '—' }}</td>
                         <!-- <td>{{ANTList.accyrsetid || '—' }}</td> -->
                     </tr>
+                    <tr *ngIf="!GSTList || GSTList.length === 0">
+                        <td class="text-start"> GST Certificate</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
                     <!-- <tr *ngFor="let GSTReturnList of GSTReturnDetails; let i = index">
               <td class="text-start">GST Return Certificate</td>
               <td>{{GSTReturnList.gstno || '—'}}</td>
@@ -269,7 +355,12 @@
                         <td>{{GSTReturnList.isapprove || '—' }}</td>
                         <td>{{GSTReturnList.approvereason || '—' }}</td>
                     </tr>
-
+                    <tr *ngIf="!GSTReturnDetails || GSTReturnDetails.length === 0">
+                        <td class="text-start">GST Return Certificate</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
 
                     <tr *ngFor="let TechnicalList of TechnicalDetails; let i = index">
                         <!-- <td>Technical Certificate</td> -->
@@ -279,6 +370,12 @@
                         <td>{{TechnicalList.mfaccrejremarks || '_' }}</td>
                         <!-- {{TechnicalList.mfaccrejremarks || '—' }} -->
                     </tr>
+                    <tr *ngIf="!TechnicalDetails || TechnicalDetails.length === 0">
+                        <td class="text-start">Technical Certificate</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
                 </tbody>
             </table>
         </div>
@@ -304,8 +401,8 @@
                         <td class="text-start">PAN Card</td>
                         <td>{{ panno || '—' }}</td>
                         <!-- <td>[PAN No]</td> -->
-                        <td>-</td>
-                        <td>-</td>
+                        <td>_</td>
+                        <td>_</td>
                         <!-- <td>Verified</td> -->
                     </tr>
                     <tr *ngFor="let BankMandatelist of BankMandateDetails; let i = index">
@@ -316,6 +413,12 @@
                         <td>{{BankMandatelist.isapprove || '—' }}</td>
                         <td>{{BankMandatelist.approvereason || '—' }}</td>
                     </tr>
+                    <tr *ngIf="!BankMandateDetails || BankMandateDetails.length === 0">
+                        <td class="text-start">Bank Details</td>
+                        <td  class="text-center">—</td>
+                        <td  class="text-center">—</td>
+                        <td class="text-center">—</td>
+                      </tr>
                     <!-- <tr *ngFor="let BankMandatelist of BankMandateDetails; let i = index">
           <td class="text-start">Bank Details</td>
           <td>{{BankMandatelist.bankname || '—'}},{{BankMandatelist.bankaccountid || '—'}}</td>
