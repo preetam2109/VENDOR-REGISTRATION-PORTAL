@@ -1,6 +1,6 @@
-<div class=" card container-fluidd text-center" style="background-color: aliceblue;">
+<!-- <div class=" card container-fluidd text-center" style="background-color: aliceblue;">
   <h3 class="mb-3 Heading-font-family pt-1">Import Licence</h3>
-</div>
+</div> -->
 <div class="shadow border rounded bg-white py-3 px-3">
   <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
@@ -156,56 +156,57 @@
           <div class="row text-start ">
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
-              <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
-                formControlName="mLICID" [placeholder]="RetentionForm.get('mLICID')?.value ? '' : 'Select Licence'"
-                [searchable]="true" [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
-                  'border': (RetentionForm.get('mLICID')?.invalid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
-                    ? '1px solid #dc3545'
-                    : (RetentionForm.get('mLICID')?.valid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
-                      ? '1px solid #198754'
-                      : '',
-                  'box-shadow': (RetentionForm.get('mLICID')?.invalid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
-                    ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
-                    : (RetentionForm.get('mLICID')?.valid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
-                      ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
-                      : ''
-                }"
-                >
-              </ng-select>
-              <div class="text-danger mt-1">
-                <span
-                  *ngIf="(RetentionForm.get('mLICID')?.touched || submitted) && RetentionForm.get('mLICID')?.errors?.['required']">
-                  Licence is required.
-                </span>
-            </div>
+              <div class="form-group" style="position: relative;">
+                <ng-select class="form-select w-auto" [items]="ManLicDdllist" bindLabel="manfacname" bindValue="licid"
+                  formControlName="mLICID" [placeholder]="RetentionForm.get('mLICID')?.value ? '' : 'Select Licence'"
+                  [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
+                                          'border': (RetentionForm.get('mLICID')?.invalid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
+                                            ? '1px solid #dc3545'
+                                            : (RetentionForm.get('mLICID')?.valid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
+                                              ? '1px solid #198754'
+                                              : '',
+                                          'box-shadow': (RetentionForm.get('mLICID')?.invalid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
+                                            ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                                            : (RetentionForm.get('mLICID')?.valid && (RetentionForm.get('mLICID')?.dirty || RetentionForm.get('mLICID')?.touched))
+                                              ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                                              : ''
+                                        }">
+                </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(RetentionForm.get('mLICID')?.touched || submitted) && RetentionForm.get('mLICID')?.errors?.['required']">
+                    Licence is required.
+                  </span>
+                </div>
+              </div>
             </div>
 
 
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Importer Type<span class="text-danger">*</span></label>
-              <ng-select class="form-select w-auto" [items]="MasimportertypeDDL" bindLabel="imptypename"
-                bindValue="imptypeid" formControlName="mImptypeid"
-                [placeholder]="!RetentionForm.get('mImptypeid')?.value ? 'Choose Import Type' : ''" [searchable]="true"
-                [clearable]="true" [appendTo]="'body'"  [ngStyle]="{
-                  'border': (RetentionForm.get('mImptypeid')?.invalid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
-                    ? '1px solid #dc3545'
-                    : (RetentionForm.get('mImptypeid')?.valid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
-                      ? '1px solid #198754'
-                      : '',
-                  'box-shadow': (RetentionForm.get('mImptypeid')?.invalid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
-                    ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
-                    : (RetentionForm.get('mImptypeid')?.valid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
-                      ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
-                      : ''
-                }"
-                >
-              </ng-select>
-              <div class="text-danger mt-1">
-                <span
-                  *ngIf="(RetentionForm.get('mImptypeid')?.touched || submitted) && RetentionForm.get('mImptypeid')?.errors?.['required']">
-                  Importer Type is required.
-                </span>
-            </div>
+              <div class="form-group" style="position: relative;">
+                <ng-select class="form-select w-auto" [items]="MasimportertypeDDL" bindLabel="imptypename" bindValue="imptypeid"
+                  formControlName="mImptypeid" [placeholder]="!RetentionForm.get('mImptypeid')?.value ? 'Choose Import Type' : ''"
+                  [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
+                              'border': (RetentionForm.get('mImptypeid')?.invalid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
+                                ? '1px solid #dc3545'
+                                : (RetentionForm.get('mImptypeid')?.valid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
+                                  ? '1px solid #198754'
+                                  : '',
+                              'box-shadow': (RetentionForm.get('mImptypeid')?.invalid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
+                                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                                : (RetentionForm.get('mImptypeid')?.valid && (RetentionForm.get('mImptypeid')?.dirty || RetentionForm.get('mImptypeid')?.touched))
+                                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                                  : ''
+                            }">
+                </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(RetentionForm.get('mImptypeid')?.touched || submitted) && RetentionForm.get('mImptypeid')?.errors?.['required']">
+                    Importer Type is required.
+                  </span>
+                </div>
+              </div>
             </div>
 
             <!-- Licence No -->
@@ -225,7 +226,7 @@
             <!-- Issue Date -->
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mISSUEDATE" 
+              <input type="date" class="form-control" formControlName="mISSUEDATE" (change)="validateDates1()" [max]="today"
               [ngClass]="{
                 'is-invalid': (RetentionForm.get('mISSUEDATE')?.touched || submitted) && RetentionForm.get('mISSUEDATE')?.invalid,
                 'is-valid': RetentionForm.get('mISSUEDATE')?.valid && (RetentionForm.get('mISSUEDATE')?.touched || submitted)
@@ -239,27 +240,35 @@
             <!-- Start Date -->
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mStartDate"  [ngClass]="{
-                'is-invalid': (RetentionForm.get('mStartDate')?.touched || submitted) && RetentionForm.get('mStartDate')?.invalid,
-                'is-valid': RetentionForm.get('mStartDate')?.valid && (RetentionForm.get('mStartDate')?.touched || submitted)
+              <input type="date" class="form-control" formControlName="mStartDate" (change)="validateDates1()" [max]="today"
+               [ngClass]="{
+                'is-invalid': (RetentionForm.get('mStartDate')?.touched || submitted) && (RetentionForm.get('mStartDate')?.invalid || starterrorMsg1),
+                'is-valid': RetentionForm.get('mStartDate')?.valid && (RetentionForm.get('mStartDate')?.touched || submitted) && !starterrorMsg1
               }">
                <span class="text-danger"
                *ngIf="(RetentionForm.get('mStartDate')?.touched || submitted) && RetentionForm.get('mStartDate')?.errors?.['required']">
                Start Date is required.
              </span>
+             <div class="text-danger mt-1">
+              <p class="text-danger">{{ starterrorMsg1 }}</p>
+            </div>
             </div>
 
             <!-- Validity Date -->
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mVALIDITYDATE"  [ngClass]="{
-                'is-invalid': (RetentionForm.get('mVALIDITYDATE')?.touched || submitted) && RetentionForm.get('mVALIDITYDATE')?.invalid,
-                'is-valid': RetentionForm.get('mVALIDITYDATE')?.valid && (RetentionForm.get('mVALIDITYDATE')?.touched || submitted)
+              <input type="date" class="form-control" formControlName="mVALIDITYDATE" (change)="validateDates1()" 
+               [ngClass]="{
+                'is-invalid': (RetentionForm.get('mVALIDITYDATE')?.touched || submitted) && (RetentionForm.get('mVALIDITYDATE')?.invalid || validityerrorMsg1),
+                'is-valid': RetentionForm.get('mVALIDITYDATE')?.valid && (RetentionForm.get('mVALIDITYDATE')?.touched || submitted) && !validityerrorMsg1
               }">
                <span class="text-danger"
                *ngIf="(RetentionForm.get('mVALIDITYDATE')?.touched || submitted) && RetentionForm.get('mVALIDITYDATE')?.errors?.['required']">
                Valid Date is required.
              </span>
+             <div class="text-danger mt-1">
+              <p class="text-danger">{{ validityerrorMsg1 }}</p>
+            </div>
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
@@ -484,28 +493,29 @@
           <div class="row text-start ">
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Licence<span class="text-danger">*</span></label>
-              <ng-select class="form-select w-auto" [items]="DDlImprtLic" bindLabel="impTypeName" bindValue="impId"
-                formControlName="mIMPID" [placeholder]="RetentionForm2.get('mIMPID')?.value ? '' : 'Select Licence'"
-                [searchable]="true" [clearable]="true" [appendTo]="'body'"[ngStyle]="{
-                  'border': (RetentionForm2.get('mIMPID')?.invalid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
-                    ? '1px solid #dc3545'
-                    : (RetentionForm2.get('mIMPID')?.valid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
-                      ? '1px solid #198754'
-                      : '',
-                  'box-shadow': (RetentionForm2.get('mIMPID')?.invalid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
-                    ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
-                    : (RetentionForm2.get('mIMPID')?.valid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
-                      ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
-                      : ''
-                }"
-                >
-              </ng-select>
-              <div class="text-danger mt-1">
-                <span
-                  *ngIf="(RetentionForm2.get('mIMPID')?.touched || submitted) && RetentionForm2.get('mIMPID')?.errors?.['required']">
-                  Licence is required.
-                </span>
-            </div>
+              <div class="form-group" style="position: relative;">
+                <ng-select class="form-select w-auto" [items]="DDlImprtLic" bindLabel="impTypeName" bindValue="impId"
+                  formControlName="mIMPID" [placeholder]="RetentionForm2.get('mIMPID')?.value ? '' : 'Select Licence'"
+                  [searchable]="true" [clearable]="true" appendTo=".form-group" [ngStyle]="{
+                              'border': (RetentionForm2.get('mIMPID')?.invalid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
+                                ? '1px solid #dc3545'
+                                : (RetentionForm2.get('mIMPID')?.valid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
+                                  ? '1px solid #198754'
+                                  : '',
+                              'box-shadow': (RetentionForm2.get('mIMPID')?.invalid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
+                                ? '0 0 0 0.1rem rgba(220,53,69,0.25)'
+                                : (RetentionForm2.get('mIMPID')?.valid && (RetentionForm2.get('mIMPID')?.dirty || RetentionForm2.get('mIMPID')?.touched))
+                                  ? '0 0 0 0.1rem rgba(25,135,84,0.25)'
+                                  : ''
+                            }">
+                </ng-select>
+                <div class="text-danger mt-1">
+                  <span
+                    *ngIf="(RetentionForm2.get('mIMPID')?.touched || submitted) && RetentionForm2.get('mIMPID')?.errors?.['required']">
+                    Licence is required.
+                  </span>
+                </div>
+              </div>
             </div>
 
 
@@ -516,7 +526,8 @@
             <!-- Issue Date -->
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issue Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mISSUEDATE" [ngClass]="{
+              <input type="date" class="form-control" formControlName="mISSUEDATE" (change)="validateDates()" [max]="today" 
+              [ngClass]="{
                 'is-invalid': (RetentionForm2.get('mISSUEDATE')?.touched || submitted) && RetentionForm2.get('mISSUEDATE')?.invalid,
                 'is-valid': RetentionForm2.get('mISSUEDATE')?.valid && (RetentionForm2.get('mISSUEDATE')?.touched || submitted)
               }">
@@ -529,27 +540,37 @@
             <!-- Start Date -->
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Start Date<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mStartDate" [ngClass]="{
-                'is-invalid': (RetentionForm2.get('mStartDate')?.touched || submitted) && RetentionForm2.get('mStartDate')?.invalid,
-                'is-valid': RetentionForm2.get('mStartDate')?.valid && (RetentionForm2.get('mStartDate')?.touched || submitted)
+              <input type="date" class="form-control" formControlName="mStartDate" (change)="validateDates()" [max]="today"
+           
+
+              [ngClass]="{
+                'is-invalid': (RetentionForm2.get('mStartDate')?.touched || submitted) && (RetentionForm2.get('mStartDate')?.invalid || starterrorMsg),
+                'is-valid': RetentionForm2.get('mStartDate')?.valid && (RetentionForm2.get('mStartDate')?.touched || submitted) && !starterrorMsg
               }">
                <span class="text-danger"
                *ngIf="(RetentionForm2.get('mStartDate')?.touched || submitted) && RetentionForm2.get('mStartDate')?.errors?.['required']">
                Start Date is required.
              </span>
+             <div class="text-danger mt-1">
+              <p class="text-danger">{{ starterrorMsg }}</p>
+            </div>
             </div>
 
             <!-- Validity Date -->
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Valid upto<span class="text-danger">*</span></label>
-              <input type="date" class="form-control" formControlName="mVALIDITYDATE" [ngClass]="{
-                'is-invalid': (RetentionForm2.get('mVALIDITYDATE')?.touched || submitted) && RetentionForm2.get('mVALIDITYDATE')?.invalid,
-                'is-valid': RetentionForm2.get('mVALIDITYDATE')?.valid && (RetentionForm2.get('mVALIDITYDATE')?.touched || submitted)
+              <input type="date" class="form-control" formControlName="mVALIDITYDATE" (change)="validateDates()" 
+              [ngClass]="{
+                'is-invalid': (RetentionForm2.get('mVALIDITYDATE')?.touched || submitted) && (RetentionForm2.get('mVALIDITYDATE')?.invalid || validityerrorMsg),
+                'is-valid': RetentionForm2.get('mVALIDITYDATE')?.valid && (RetentionForm2.get('mVALIDITYDATE')?.touched || submitted) && !validityerrorMsg
               }">
                <span class="text-danger"
                *ngIf="(RetentionForm2.get('mVALIDITYDATE')?.touched || submitted) && RetentionForm2.get('mVALIDITYDATE')?.errors?.['required']">
                Valid Date is required.
              </span>
+             <div class="text-danger mt-1">
+              <p class="text-danger">{{ validityerrorMsg }}</p>
+            </div>
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label fw-bold">Issuing Authority<span class="text-danger">*</span></label>
