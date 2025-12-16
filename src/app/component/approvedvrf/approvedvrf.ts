@@ -33,6 +33,7 @@ export class Approvedvrf {
   BankMandateDetails: BankMandateDetail[] = [];
   vendor: any = {}; // Holds vendor data
   TechnicalDetails:any[]=[];
+  retentionList:any[]=[];
   SupID: any;
   vregid:any;
   panno:any;
@@ -61,6 +62,7 @@ export class Approvedvrf {
     this.GETGstReturnDetails();
     this.GETBankMandateDetail();
     this.GetTechnicalDetails();
+    this.GetPovLicenceDetails();
   }
 //#region Api calling
   loadVendorDetails() {
@@ -116,7 +118,7 @@ export class Approvedvrf {
     this.spinner.show();
     this.api.getmSCDetailsList(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
         this.mSCDetailsList = res
-        console.log('IA With S.No:', this.mSCDetailsList);
+        console.log('mSCDetailsList:', this.mSCDetailsList);
         this.spinner.hide();
       },
       (error) => {
@@ -319,16 +321,78 @@ export class Approvedvrf {
         }
     }
     // TechnicalDetails
-     GetTechnicalDetails() {
+  //    GetTechnicalDetails() {
    
+  //   this.spinner.show();
+  
+  //   this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
+  //     next: (res: any) => {
+  //   this.TechnicalDetails = res
+  //             .filter((item: any) => item.mscid !== "6" && item.mscid !== "22")
+  //             .map((item: any, index: number) => ({
+  //               ...item,
+  //               sno: index + 1,
+  //             }));
+
+
+  //       // this.TechnicalDetails = res;
+  //       // console.log("res:", res);
+  //       // console.log("Mapped:", this.TechnicalDetailsMapped);
+  
+  //       this.spinner.hide();
+  //     },
+  //     error: (err: any) => {
+  //       this.spinner.hide();
+  //       console.error(err);
+  //     }
+  //   });
+  // }
+  GetTechnicalDetails() {
     this.spinner.show();
   
     this.api.GetTechnicalDetails(sessionStorage.getItem('vregid')).subscribe({
       next: (res: any) => {
+        const list = res
+        .filter((item: any) => item.mscid !== "6" && item.mscid !== "22")
+        .map((item: any, index: number) => ({
+          ...item,
+          sno: index + 1
+        }));
+      
+      const msc19 = list.filter((x: any) => x.mscid == '19');
+      const msc122 = list.filter((x: any) => x.mscid == '122');
+      
+      const others = list.filter(
+        (x: any) => x.mscid != '19' && x.mscid != '122'
+      );
+      
+      // Final arranged list
+      this.TechnicalDetails = [
+        ...others,
+        ...msc19,
+        ...msc122
+      ];
+      
+        // this.TechnicalDetails = res
+        //   // remove unwanted mscid
+        //   // .filter(item:any => item.mscid !== '6' && item.mscid !== '22')
+        //   .filter((item: any) => item.mscid !== "6" && item.mscid !== "22")
+          // custom arrange: 19 before 122, 122 at last
+          // .sort((a:any, b:any) => {
+          //   if (a.mscid === '122') return 1;   // push 122 down
+          //   if (b.mscid === '122') return -1;
   
-        this.TechnicalDetails = res;
-        // console.log("res:", res);
-        // console.log("Mapped:", this.TechnicalDetailsMapped);
+          //   if (a.mscid === '19') return -1;   // bring 19 up
+          //   if (b.mscid === '19') return 1;
+  
+          //   return 0; // keep original order for others
+          // })
+  
+          // // add serial number
+          // .map((item:any, index:any) => ({
+          //   ...item,
+          //   sno: index + 1
+          // }));
   
         this.spinner.hide();
       },
@@ -338,7 +402,27 @@ export class Approvedvrf {
       }
     });
   }
+  
 
+  GetPovLicenceDetails() {
+    
+    this.spinner.show();
+    const supplierId = sessionStorage.getItem('facilityid');
+    this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
+        console.log('Raw API response retation:', res);
+        this.retentionList = res;
+        // console.log('With retention value :', this.retentionList);
+      
+        this.spinner.hide();
+      
+      },
+      (error) => {
+        console.error('API error:', error);
+        this.spinner.hide();
+      }
+    );
+    
+  }
   //#region pdf 
 
   
