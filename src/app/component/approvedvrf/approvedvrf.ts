@@ -8,13 +8,14 @@ import { ComplienceCertificateDetails,GetGCPDetails,GetAnnualTurnoverDetail,Mass
 import { FormsModule, ReactiveFormsModule,FormBuilder } from '@angular/forms';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-
+import { QRCodeModule } from 'angularx-qrcode';
+declare module 'qrcode';
 
 
 @Component({
   selector: 'app-approvedvrf',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule,QRCodeModule],
   templateUrl: './approvedvrf.html',
   styleUrl: './approvedvrf.css'
 })
@@ -40,6 +41,18 @@ export class Approvedvrf {
   userAgent:any;
   ipAddress:any;
   today:any;
+  qrData: string = '';
+   vendorData = {
+    vendorName: 'ABC Pharma',
+    registrationNo: 'CGMSC/2025/234',
+    panNo: 'ABCDE1234F',
+    mobile: '9876543210',
+    email: 'vendor@gmail.com',
+    certificateType: 'Vendor Registration',
+    issuedBy: 'CGMSC',
+    issuedOn: new Date().toLocaleDateString(),
+    verificationUrl: 'https://cgmsc.gov.in/vendor/verify/234'
+  };
   constructor(private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
     this.today = new Date();
    }
@@ -63,6 +76,10 @@ export class Approvedvrf {
     this.GETBankMandateDetail();
     this.GetTechnicalDetails();
     this.GetPovLicenceDetails();
+
+    
+    this.qrData = JSON.stringify(this.vendorData);
+    console.log('qrdata=',this.qrData)
   }
 //#region Api calling
   loadVendorDetails() {
