@@ -26,6 +26,8 @@ import { ApprovalTechnicalSectionTabsUnder } from './component/VENDER_REG/TECHNI
 import { ConfirmationService } from 'primeng/api';
 import { Confirmation } from './component/VENDER_REG/confirmation/confirmation';
 import { FinalConfirmation } from './component/CONFIRMATIONS/final-confirmation/final-confirmation';
+import { Approvedvrf } from './component/approvedvrf/approvedvrf';
+import { VRegistrationPending } from './component/vregistration-pending/vregistration-pending';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -41,6 +43,7 @@ const routes: Routes = [
   {path:'collector-login',component:CollectorLoginComponent},
   {path:'otp',component:OtpComponent},
   {path:'VendorRegistrationCompleted',component:VendorRegistrationCompleted},
+  {path:'VRegistrationPending',component:VRegistrationPending},
   {path:'VendorRegistrationApproved',component:VendorRegistrationApproved},
   // {path:'ApprovalTechnicalCrt',component:ApprovalTechnicalCertificate},
   {path:'ApprovalTechnicalCrt',component:ApprovalTechnicalSectionTabsUnder},
@@ -67,6 +70,7 @@ const routes: Routes = [
 {path:'GlobalCompanyPrefix',component:GlobalCompanyPrefix,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 {path:'personal-detail',component:PersonalDetailComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 {path:'import-Licence',component:Retention,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
+{path:'Approved',component:Approvedvrf,canActivate:[RouteGuardService],data: { allowedRoles: ['Suppliers']}},
 
 
 

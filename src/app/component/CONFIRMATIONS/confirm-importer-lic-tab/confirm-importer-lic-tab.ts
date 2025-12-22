@@ -22,25 +22,22 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 declare var bootstrap: any;
+
 @Component({
-  selector: 'app-retention',
+  selector: 'app-confirm-importer-lic-tab',
   standalone:true,
   imports: [MatDialogModule,MatTableExporterModule, MatSortModule,
      DropdownModule, FormsModule, NgSelectModule, FormsModule, CommonModule,
       MatPaginatorModule, MatTableModule, CommonModule, FormsModule, NgSelectModule, MatProgressSpinnerModule,
       ReactiveFormsModule, MatMenuModule, CollapseModule, NgbCollapseModule, MatIconModule],
-  templateUrl: './retention.html',
-  styleUrl: './retention.css'
+  templateUrl: './confirm-importer-lic-tab.html',
+  styleUrl: './confirm-importer-lic-tab.css'
 })
-export class Retention {
+export class ConfirmImporterLicTab {
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
 
-  today: string = new Date().toISOString().split("T")[0];
-  validityerrorMsg:any;
-  starterrorMsg:any;
-  validityerrorMsg1:any;
-  starterrorMsg1:any;
+
   
 
   sanitizedPdfUrl!: SafeResourceUrl;
@@ -636,63 +633,6 @@ formatDate(dateString: string): string {
       this.dataSource2.paginator.firstPage();
     }
   }
-  validateDates() {
-
-   
-      const start = new Date(this.RetentionForm2.value.mStartDate);
-      const issue = new Date(this.RetentionForm2.value.mISSUEDATE);
-      const validity = new Date(this.RetentionForm2.value.mVALIDITYDATE);
-      this.validityerrorMsg = "";
-      this.starterrorMsg = "";
-    
-      // Rule 1: Start Date must be >= Issue Date
-      if (start < issue) {
-        this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
-      if (validity < start) {
-        this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
-        return false;
-      }
-    
-      if (validity < issue) {
-        this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      return true;
-    }
-  validateDates1() {
-    // mISSUEDATE: ['', Validators.required],
-    // mStartDate: ['', Validators.required],
-    // mVALIDITYDATE: ['', Validators.required],
-   
-      const start = new Date(this.RetentionForm.value.mStartDate);
-      const issue = new Date(this.RetentionForm.value.mISSUEDATE);
-      const validity = new Date(this.RetentionForm.value.mVALIDITYDATE);
-      this.validityerrorMsg1 = "";
-      this.starterrorMsg1 = "";
-    
-      // Rule 1: Start Date must be >= Issue Date
-      if (start < issue) {
-        this.starterrorMsg1 = "Start Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      // Rule 2: Expiry Date must be >= Start Date AND Issue Date
-      if (validity < start) {
-        this.validityerrorMsg1 = "Expiry Date must be on or after Start Date.";
-        return false;
-      }
-    
-      if (validity < issue) {
-        this.validityerrorMsg1 = "Expiry Date cannot be earlier than Issue Date.";
-        return false;
-      }
-    
-      return true;
-    }
+  
 
 }

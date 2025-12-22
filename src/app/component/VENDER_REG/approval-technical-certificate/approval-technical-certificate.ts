@@ -11,13 +11,15 @@ import { ManufacturingUnitRetentionTab } from "../manufacturing-unit-retention-t
 import { ManufacturingUnitLicenceTab } from '../manufacturing-unit-licence-tab/manufacturing-unit-licence-tab';
 import { ManufacturingUnitLicenceTabApproval } from "../TECHNICAL_APPROVAL/manufacturing-unit-licence-tab-approval/manufacturing-unit-licence-tab-approval";
 import { ManufacturingUnitRetentionTabApproval } from "../TECHNICAL_APPROVAL/manufacturing-unit-retention-tab-approval/manufacturing-unit-retention-tab-approval";
+import { Retention } from "../retention/retention";
+import { ImporterApproval } from "../TECHNICAL_APPROVAL/importer-approval/importer-approval";
 
 
 
 @Component({
   selector: 'app-approval-technical-certificate',
   standalone:true,
-  imports: [CommonModule, MatTabsModule, ManufacturingUnitUntiTab, ManufacturingUnitLicenceTab, ManufacturingUnitRetentionTab, ManufacturingUnitLicenceTabApproval, ManufacturingUnitRetentionTabApproval],
+  imports: [CommonModule, MatTabsModule, ManufacturingUnitUntiTab, ManufacturingUnitLicenceTab, ManufacturingUnitRetentionTab, ManufacturingUnitLicenceTabApproval, ManufacturingUnitRetentionTabApproval, Retention, ImporterApproval],
   templateUrl: './approval-technical-certificate.html',
   styleUrl: './approval-technical-certificate.css'
 })

@@ -5,13 +5,13 @@ import { ApiService } from 'src/app/service/api.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators,FormsModule,ReactiveFormsModule } from '@angular/forms';
 // import { Stepper } from '../stepper/stepper';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 // import { StepperComponent } from './stepper/stepper.component';
 @Component({
   selector: 'app-generate-registration',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,RouterLink],
   templateUrl: './generate-registration.component.html',
   styleUrl: './generate-registration.component.css'
 })
@@ -32,27 +32,31 @@ export class GenerateRegistrationComponent {
   vregid: any;
   vendorDetails: any[] = [];
   showButtons:boolean=true;
-  ngOnInit() {
-    this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
-    
-  }
-
  
-
-  onClick(status:any){
-    if(status=='Complete'){
-      return
-    }
-    this.router.navigate(['personal-detail'])
-
-  }
+ 
 
   constructor( private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder,private router: Router,){
     // this.form1 = this.fb.group({ name: ['', Validators.required] });
     // this.form2 = this.fb.group({ review: ['', Validators.required] });
   }
 
-  
+  ngOnInit() {
+    this.GetVendorDetailsID(sessionStorage.getItem('facilityid'));
+    
+  }
+
+ 
+  onClick(status:any){
+
+    if(status=='Complete'){
+      // return
+      this.router.navigate(['/confirmation']);
+    }else{
+
+      this.router.navigate(['personal-detail']);
+    }
+
+  }
 
 
   generate() {
@@ -83,15 +87,18 @@ export class GenerateRegistrationComponent {
     this.api.getVendorDetailsID(supplierId).subscribe({
       next: (res: any) => {
         if (Array.isArray(res) && res.length > 0) {
-          this.vendorDetails = res;
+          this.vendorDetails =res;
           
-          if(res[0].status!='Complete'){
+          if(res[0].vregno){
             this.showButtons=false
           }
+          // if(res[0].status!='Complete'){
+          //   this.showButtons=false
+          // }
           
-          if(res[0].status==='Complete'){
-            this.showButtons=true
-          }
+          // if(res[0].status==='Complete'){
+          //   this.showButtons=false
+          // }
           console.log('Vendor Details:', this.vendorDetails);
           this.vregid = res[0].vregid;
           sessionStorage.setItem('vregid', this.vregid);
@@ -113,7 +120,7 @@ export class GenerateRegistrationComponent {
     console.log('Delete Vendor:', vendor);
   }
   
-  
+
   
 
 
