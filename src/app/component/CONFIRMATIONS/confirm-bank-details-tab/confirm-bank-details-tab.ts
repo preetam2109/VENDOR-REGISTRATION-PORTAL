@@ -1174,7 +1174,7 @@ callGCPVerificationAPI(data: any, formData: FormData) {
 // }
 
 selectedTabValue(event: any): void {
-  // debugger;
+  // ;
   // console.log('this.url6=:',this.url);
   this.selectedTabIndex = event.index;
   if (this.selectedTabIndex === 0) {
