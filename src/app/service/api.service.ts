@@ -25,71 +25,27 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
+  
+  
+
+ 
+
+  DelvieryDash(days: any): Observable<any> {
+    return this.http.get<DelvieryDash[]>(`${this.CGMSCHO_API2}/TimeTaken/DelvieryDash?days=${days}`);
+
+  }
 
   masddlUser(Usertype: any): Observable<any> {
 
     return this.http.get<masddlUser[]>(`${this.CGMSCHO_API2}/Master/masddlUser?Usertype=${Usertype}`);
 
   }
-  getDashLoginDDL() {
 
-    return this.http.get<DashLoginDDL[]>(`https://cgmsc.gov.in/HIMIS_APIN/api/Work/getDashLoginDDL`);
-  }
-  DelvieryDash(days: any): Observable<any> {
-    return this.http.get<DelvieryDash[]>(`${this.CGMSCHO_API2}/TimeTaken/DelvieryDash?days=${days}`);
+  allwh(allwh: any): Observable<any> {
+
+    return this.http.get<MasWH[]>(`${this.CGMSCHO_API2}/Master/MasWH?allwh=${allwh}`);
 
   }
-  getWHStockData(mcatid: number, warehouseId: number): Observable<any> {
-    const params = new HttpParams()
-      .set('mcatid', mcatid.toString())
-      .set('warehouseId', warehouseId.toString());
-
-    return this.http.get<any>(`${this.CGMSCHO_API2}/HO/CGMSCStockValueData`, {
-      params,
-    });
-  }
-
-  getIndentPendingAtWHData(
-    per: string = 'All',
-    clause: number = 1
-  ): Observable<any> {
-    return this.http.get<any>(
-      `${this.CGMSCHO_API2}/Warehouse/IndentPending?per=${per}&clause=${clause}`
-    );
-  }
-
-  getNOCApprovedDetails(facilityid: number) {
-    return this.http.get(
-      `${this.CGMSCHO_API2}/NOC/CGMSCNOCApprovedDetails?facilityid=${facilityid}`
-    );
-  }
-  getNOCApprovedDetailsYN(facilityid: number, YN: any) {
-    return this.http.get(
-      `${this.CGMSCHO_API2}/NOC/CGMSCNOCApprovedDetails?facilityid=${facilityid}&YN=${YN}`
-    );
-  }
-
-  GetWarehouseInfo(whid: any) {
-    return this.http.get(
-      `${this.CGMSCHO_API2}/Warehouse/GetWarehouseInfo?whid=${whid}`
-    );
-  }
-
-  insertTblRecvProgress_WithVhicle(
-    remid: any,
-    remarks: any,
-    ponoid: any,
-    whid: any,
-    tranId: any,
-    plateNo: any
-  ) {
-    return this.http.post(
-      `${this.CGMSCHO_API2}/HO/insertTblRecvProgress_WithVhicle?remid=${remid}&remarks=${remarks}&ponoid=${ponoid}&whid=${whid}&tranId=${tranId}&plateNo=${plateNo}`,
-      {},
-      { responseType: 'text' }
-    );
-  }
-
   VerifyOTPLogin(otp: any, userid: any) {
     return this.http.get(
       `${this.CGMSCHO_API2}/Login/VerifyOTPLogin?otp=${otp}&userid=${userid}`,
