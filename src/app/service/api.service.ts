@@ -41,18 +41,21 @@ export class ApiService {
 
   }
 
-  allwh(allwh: any): Observable<any> {
+  // allwh(allwh: any): Observable<any> {
 
-    return this.http.get<MasWH[]>(`${this.CGMSCHO_API2}/Master/MasWH?allwh=${allwh}`);
+  //   return this.http.get<MasWH[]>(`${this.CGMSCHO_API2}/Master/MasWH?allwh=${allwh}`);
 
-  }
+  // }
   VerifyOTPLogin(otp: any, userid: any) {
     return this.http.get(
       `${this.CGMSCHO_API2}/Login/VerifyOTPLogin?otp=${otp}&userid=${userid}`,
       { responseType: 'text' }
     );
   }
+  getDashLoginDDL() {
 
+    return this.http.get<DashLoginDDL[]>(`https://cgmsc.gov.in/HIMIS_APIN/api/Work/getDashLoginDDL`);
+  }
   getOTPSaved(userid: any, ipAddress: any) {
     const url = `${
       this.CGMSCHO_API2
