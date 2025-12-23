@@ -13,7 +13,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { style } from '@angular/animations';
 import { Observable, catchError, finalize, forkJoin, map, of, reduce, tap } from 'rxjs';
-import { WOpendingTotal } from 'src/app/Model/DashProgressCount';
 import autoTable from 'jspdf-autotable';
 import { ToastrService } from 'ngx-toastr';
 import jsPDF from 'jspdf';

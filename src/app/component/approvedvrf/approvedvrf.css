@@ -20,9 +20,29 @@
   #certificate { font-family: 'Roboto', sans-serif; }
 
   .qr-border {
-    border: 2px solid #000;   
+    border: 3px solid #000;   
     /* padding: 8px; */
     border-radius: 6px;       
     background: #fff;         
   }
+
+
+  /* test */
+  .qr-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .qr-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2px;
+    border-radius: 4px;
+  }
+  
   
