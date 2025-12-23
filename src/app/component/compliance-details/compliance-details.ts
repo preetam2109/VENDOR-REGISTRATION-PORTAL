@@ -389,7 +389,7 @@ onCheckboxChange(item: any) {
   }
   
   InsertComplianceCertificate1(COMCForm: NgForm) {
-    // debugger;
+    // ;
     this.loadingSectionA = true;
     this.submitted = true;
     const formData = new FormData();
@@ -462,7 +462,7 @@ onCheckboxChange(item: any) {
   
   
   onFileSelectedCertificate(event: any) {
-    // debugger;
+    // ;
     const file = event.target.files[0];
     if (file) {
       this.fileSelected = file;
