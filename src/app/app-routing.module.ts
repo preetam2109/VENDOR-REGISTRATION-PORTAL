@@ -1,11 +1,10 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './component/home/home.component';
 import { LoginComponent } from './component/auth/login/login.component';
 import { LogoutComponent } from './component/auth/logout/logout.component';
 import { RouteGuardService } from './service/authentication/route-guard.service';
 import { CategorySelectionComponent } from './component/category-selection/category-selection.component';
-import { EdlNonEdlIssuePercentSummary } from './Model/EdlNonEdlIssuePercentSummary';
 import { CollectorLoginComponent } from './component/auth/collector-login/collector-login.component';
 import { OtpComponent } from './component/auth/otp/otp.component';
 import { GenerateRegistrationComponent } from './component/generate-registration/generate-registration.component';

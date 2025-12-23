@@ -1,128 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Districts } from '../Model/Districts';
-import { Complaints } from '../Model/Complaints';
-import { DistrictWiseComplaints } from '../Model/DistrictWiseComplaints';
-import { TotalNoRc } from '../Model/Totalnorc';
-import { dispatchPendingSummary } from '../Model/DispatchPendingSummary';
-import { dispatchPending } from '../Model/dispatchPending';
-import { ReceiptPendingSummary } from '../Model/ReceiptPendingSummary';
-import { ReceiptPending } from '../Model/ReceiptPending';
 import { Observable } from 'rxjs';
-import { DhsSummary } from '../Model/DhsSummary';
-import { DHSDetailsItemWise } from '../Model/DHSDetailsItemWise';
-import { DPDMISSupemdSummary } from '../Model/DPDMISSupemdSummary';
-import { EmdStatusDetail } from '../Model/EmdStatusDetail';
-import { DPDMISEMDTenderwisePending } from '../Model/DPDMISEMDTenderwisePending';
-import { DPDMISEMDDashboard } from '../Model/DPDMISEMDDashboard';
-import { IndentPendingWH } from '../Model/IndentPendingWH';
-import { CGMSCStockDetails } from '../Model/CGMSCStockDetails';
-import { WarehouseWiseStock } from '../Model/WarehouseWiseStock';
-import { NearExpReport } from '../Model/NearExpReport';
-import { NearExpReportbatch } from '../Model/NearExpReportbatch';
-import { ReagIndentPending } from '../Model/ReagIndentPending';
-import { ReagIndentPendingEQSummary } from '../Model/ReagIndentPendingEQSummary';
-import { ReagIndentIssueMMID } from '../Model/ReagIndentIssueMMID';
-import { ReagIndentIssueDetails } from '../Model/ReagIndentIssueDetails';
-import { PipelineDetails } from '../Model/PipelineDetails';
-import { ItemDetailsPopup } from '../Model/ItemDetailsPopup';
-import { GetRaisedPicks } from '../Model/GetRaisedPicks';
-import { GetPendingToPick } from '../Model/GetPendingToPick';
-import { NOCApprovedSummary } from '../Model/NOCApprovedSummary';
-import { UndroppedDocket } from '../Model/UndroppedDocket';
-import { PendingToDrop } from '../Model/PendingToDrop';
-import { InitiatedNotIssueSummary } from '../Model/InitiatedNotIssueSummary';
-import { IWHPiplineSummary } from '../Model/IWHPiplineSummary';
-import { InitiatedNotIssueDetaqils } from '../Model/InitiatedNotIssueDetaqils';
-import { IWHPiplineDetails } from '../Model/IWHPiplineDetails';
-import { CGMSCNOCPendingSummary } from '../Model/CGMSCNOCPendingSummary';
-import { CGMSCNOCPendingDetails } from '../Model/CGMSCNOCPendingDetails';
-import { LabIssuePendingSummary } from '../Model/LabIssuePendingSummary';
-import { LabIssuePendingDetails } from '../Model/LabIssuePendingDetails';
-import { HODYearWiseIssuanceSummary } from '../Model/HODYearWiseIssuanceSummary';
-import { InTransitHOtoLab } from '../Model/InTransitHOtoLab';
-import { VehicleInfo } from '../Model/VehicleInfo';
-import { PipelineDDLTransit } from '../Model/PipelineDDLTransit';
-import { MasRecRemarks } from '../Model/MasRecRemarks';
-import { PipelineDetailsGrid } from '../Model/PipelineDetailsGrid';
-import { GetVehicleEntriesExits } from '../Model/GetVehicleEntriesExits';
-import { EdlNonEdlIssuePercentSummary } from '../Model/EdlNonEdlIssuePercentSummary';
-import { IssuePerWisePerClick } from '../Model/IssuePerWisePerClick';
-import { IssuedPerWise } from '../Model/IssuedPerWise';
-import { DistrictWiseStock } from '../Model/DistrictWiseStock';
-import { DdlItemWiseInHandQty } from '../Model/DdlItemWiseInHandQty';
-import { MasDistrict } from '../Model/MasDistrict';
-import { DistFACwiseStockPostionNew } from '../Model/DistFACwiseStockPostionNew';
-import { SeasonDrugs } from '../Model/SeasonDrugs';
-import { WarehouseInfo } from '../Model/WarehouseInfo';
-import { FacCoverage } from '../Model/FacCoverage';
-import { StockSummaryBalanceIndent } from '../Model/StockSummaryBalanceIndent';
-import { StockSummaryBalanceIndentDetails } from '../Model/StockSummaryBalanceIndentDetails';
-import { NearExpRCDetails } from '../Model/NearExpRCDetails';
-import { SupplyDuration } from '../Model/SupplyDuration';
-import { POSuppyTimeTakenYear } from '../Model/POSuppyTimeTakenYear';
-import { PaidTimeTaken } from '../Model/PaidTimeTaken';
-import { nsqDrugDetails, QCTimeTakenYearwise } from '../Model/QCTimeTakenYearwise';
-import { QCLabYearAvgTime } from '../Model/QCLabYearAvgTime';
-import { StockoutSummary } from '../Model/StockoutSummary';
-import { HODYearWiseIssuance, MontlyItemDemography, YearWiseIssueReport } from '../Model/HODYearWiseIssuance';
-import { DistDrugCount } from '../Model/DistDrugCount';
-import { WHDrugCount } from '../Model/WHDrugCount';
-import { HODPOYear_AgAI } from '../Model/HODPOYear_AgAI';
-import { DirectorateAIDetails } from '../Model/DirectorateAIDetails';
-import { GroupWiseAI_PODetails } from '../Model/GroupWiseAI_PODetails';
-import { Monthwise_Issuance } from '../Model/GroupItemtypeRCStock';
-import { Diswise_Issuance } from '../Model/Diswise_Issuance';
-import { DropAppWarehousePerformance } from '../Model/DropAppWarehousePerformance';
-import { DelvieryDash } from '../Model/DelvieryDash';
-import { masddlUser, MasSupplierPipeline } from '../Model/masddlUser';
-import { MasWH } from '../Model/MasWH';
 import { DashLoginDDL } from '../Model/DashLoginDDL';
-import { DisYrGrowth } from '../Model/DisYrGrowth';
-import { DistCGMSCSupplyDHS } from '../Model/DistCGMSCSupplyDHS';
-
-import {
-  DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary,
-  WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong,
-  WOpendingTotal, WorkOrderPendingDetailsNew, AEDistrictEngAllotedWorks,
-  SbuEngAllotedWorks, AEEngAllotedWorks, LIPendingTotal, HandoverAbstract,
-  GetHandoverDetails, sbuDistrictEngAllotedWorks, LandIssueDetails,
-  WorkDetailsWithEng, DistrictNameDME, ProjectTimeline, TSDetail, TSDetailallData, WorkOrderIssued,
-  WorkGenDetails, LiveTenderdata, TenderDetails, TenderEvaluation, TenderEvaluationDetails, PaidSummary,
-  UnPaidSummary, PriceEvaluationDetails, PriceEvaluation, TenderStatus, PaidDetails, TobeTenderDetailsAS,
-  TobeTenderRejection, TobeTenderAppliedZonalPermission, UnPaidDetails, TobeTenderDetailsCancelled,
-  ASPendingDetails, DivisionWiseASPendingDetails, ASCompletedDetails, ASEnteredDetails, ASFile,
-  WORunningHandDetails,
-  DetailProgressTinP,
-  LandIssue_RetToDeptDetatails,
-  RunningWork,
-  RunningWorkDelay,
-  WorkBillStatus,
-  ProjectTimelineNew,
-  RunningDelayWorksDetails,TotalWorksAbstract
-} from '../Model/DashProgressCount';
-
-import { DistDHSStock } from '../Model/DistDHSStock';
-import { GetVehicleNo } from '../Model/GetVehicleNo';
-import { TravelVouchers } from '../Model/TravelVouchers';
-import { GetLatLong } from '../Model/Warehouse';
-import { ClgHos_IssueWihtoutAI, CollegeHospital_AIvsIssue, DeliveryInMonthconst, DMEAIvsIssue, DMEIssueWihtoutAI, HoldItemDetails, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCHold_NSQDash, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise, QCTimeTakenYear, StockoutPer } from '../Model/DashCards';
-import { MasIndentitems } from '../Model/MasIndentitems';
-import { MasfacilityInfo } from '../Model/MasfacilityInfo';
-import { Masitems } from '../Model/Masitems';
-import { getItemDetailsWithHOD } from '../Model/ItemDetailsWithHod';
-import { DHSDMEStock } from '../Model/DHSDmeStock';
-import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuanceCoonsumptionm';
-import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, PaidYearwise_Budget, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
-import { AttendenceRecord, Designation, EmployeeDetail, GetLocation } from '../Model/Attendence';
-import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalRC1Details, TotalTender } from '../Model/TenderStatus';
-import { CoverStatus, CoverStatusDetail, CoverStatusTenderDetail, EqptobeTender, EqToBeTenderDetail, GetConsTenderStatusDetail, GetToBeTender, SchemeReceived, SchemeTenderStatus, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, ToBeTenderBifurcation, ToBeTenderBifurcationDetail, TobetenderDetails, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
-import { AIvsIssuance, MasfacilityInfoUser, Year } from '../Model/masInfoUser';
+import { DelvieryDash } from '../Model/DelvieryDash';
 
 import { BehaviorSubject } from 'rxjs';
-
+import { masddlUser } from '../Model/masddlUser';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
@@ -130,7 +15,7 @@ export class ApiService {
   private VREGAPI = 'https://dpdmis.in/VREGAPI/api';
   // private CGMSCHO_API2 = 'http://141.148.193.157/CGMSCHO_API2/api';
   private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
- 
+
   // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
 
   // https://dpdmis.in//CGMSCHO_API_TEST/api
@@ -138,7 +23,7 @@ export class ApiService {
 
   private tokenSubject = new BehaviorSubject<string | null>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   
   
@@ -156,401 +41,54 @@ export class ApiService {
 
   }
 
-  allwh(allwh: any): Observable<any> {
+  // allwh(allwh: any): Observable<any> {
 
-    return this.http.get<MasWH[]>(`${this.CGMSCHO_API2}/Master/MasWH?allwh=${allwh}`);
+  //   return this.http.get<MasWH[]>(`${this.CGMSCHO_API2}/Master/MasWH?allwh=${allwh}`);
 
-  }
-  VerifyOTPLogin(otp: any, userid: any) {
-
-    return this.http.get(`${this.CGMSCHO_API2}/Login/VerifyOTPLogin?otp=${otp}&userid=${userid}`, { responseType: 'text' });
-  }
-  // getOTPSaved(userid: any) {
-
-  //   return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
   // }
-  getOTPSaved(userid: any,ipAddress: any) {
-    const url = `${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}&ipAddress=${encodeURIComponent(ipAddress)}`;
-    return this.http.post(url, null, { responseType: 'text' });
+  VerifyOTPLogin(otp: any, userid: any) {
+    return this.http.get(
+      `${this.CGMSCHO_API2}/Login/VerifyOTPLogin?otp=${otp}&userid=${userid}`,
+      { responseType: 'text' }
+    );
   }
-  
-
   getDashLoginDDL() {
 
     return this.http.get<DashLoginDDL[]>(`https://cgmsc.gov.in/HIMIS_APIN/api/Work/getDashLoginDDL`);
   }
-
-  getDisYrGrowth(districtId: any, mcid: any) {
-
-    return this.http.get<DisYrGrowth[]>(`${this.CGMSCHO_API2}/District/DisYrGrowth?districtId=${districtId}&mcid=${mcid}`);
-  }
-
-  getDistCGMSCSupplyDHS(districtId: any, mcid: any) {
-
-    return this.http.get<DistCGMSCSupplyDHS[]>(`${this.CGMSCHO_API2}/District/DistCGMSCSupplyDHS?districtId=${districtId}&mcid=${mcid}`);
+  getOTPSaved(userid: any, ipAddress: any) {
+    const url = `${
+      this.CGMSCHO_API2
+    }/Login/getOTPSaved?userid=${userid}&ipAddress=${encodeURIComponent(
+      ipAddress
+    )}`;
+    return this.http.post(url, null, { responseType: 'text' });
   }
 
   getDMEissueItems(districtId: any, mcid: any) {
-
-    return this.http.get(`${this.CGMSCHO_API2}/District/DMEissueItems?districtId=${districtId}&mcid=${mcid}`);
+    return this.http.get(
+      `${this.CGMSCHO_API2}/District/DMEissueItems?districtId=${districtId}&mcid=${mcid}`
+    );
   }
 
   getAyushIssueItems(districtId: any, mcid: any) {
-
-    return this.http.get(`${this.CGMSCHO_API2}/District/AyushIssueItems?districtId=${districtId}&mcid=${mcid}`);
+    return this.http.get(
+      `${this.CGMSCHO_API2}/District/AyushIssueItems?districtId=${districtId}&mcid=${mcid}`
+    );
   }
 
   getDHSissueItems(districtId: any, mcid: any) {
-
-    return this.http.get(`${this.CGMSCHO_API2}/District/DHSissueItems?districtId=${districtId}&mcid=${mcid}`);
-  }
-
-
-
-  // Infrastructure
-
-
-  //#region DetailProgress
-
-
-  GETWORunningHandDetails(did: any, divisionId: any, distId: number, mainSchemeId: any,contractorid:any,ASAmount:any) {
-    return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/WORunningHandDetails?did=3001&divisionid=0&districtid=0&mainschemeid=0
-    // WORunningHandDetails
-  }
-  GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
-    return this.http.get<LandIssue_RetToDeptDetatails[]>(`${this.apiUrl}/DetailProgress/LandIssue_RetToDeptDetatails?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0
-  }
-  GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
-    return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0
-  }
-  GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
-    return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0
-  }
-  GET_TotalWorksAbstract(divisionId: any,districtid:any,mainSchemeId: any, contractorid:any,ASAmount:any) {
-    // ;
-    return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
-  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
-  }
-
-  DashProgressCount(divisionId: any, mainSchemeId: number, distid: number,ASID:any,GrantID:any,ASAmount:any) {
-    // return this.http.get<DashProgressCount[]>(
-    //   `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distId}`
-    // );
-
-    return this.http.get<DashProgressCount[]>(`${this.apiUrl}/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&ASID=${ASID}&GrantID=${GrantID}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=0&mainSchemeId=0&distid=0&ASID=0&GrantID=0&ASAmount=1
-  }
-  GetDistrict(isall: any, divisionId: number) {
-    return this.http.get<GetDistrict[]>(
-      `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/GetDistrict?isall=${isall}&divisionId=${divisionId}`
+    return this.http.get(
+      `${this.CGMSCHO_API2}/District/DHSissueItems?districtId=${districtId}&mcid=${mcid}`
     );
   }
-  DashProgressDistCount(divisionId: any, mainSchemeId: any, dashID: any) {
-    return this.http.get<DashProgressDistCount[]>(
-      `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressDistCount?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&dashID=${dashID}`
 
-    );
-  }
-  DMEProgressSummary(divisionId: any, mainSchemeId: any, distid: any, dashID: any) {
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/DMEProgressSummary?divisionId=0&mainSchemeId=0&distid=0&dashID=0
-    return this.http.get<DMEProgressSummary[]>
-      (`${this.apiUrl}/Work/DMEProgressSummary?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&dashID=${dashID}`);
-
-  }
-  GetDistrictNameDME(divisionid: any, districtid: any) {
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/DistrictNameDME?divisionid=0&districtid=0
-    return this.http.get<DistrictNameDME[]>
-      (`${this.apiUrl}/Work/DistrictNameDME?divisionId=${divisionid}&districtid=${districtid}`);
-
-  }
-
-
-  WorkFill(searchtext: any, workid: any, divisionId: any, distid: any, mainSchemeId: any): Observable<WorkFill[]> {
-    return this.http.get<WorkFill[]>(`${this.apiUrl}/Work/WorkFill?searchtext=${searchtext}&workid=${workid}&divisionId=${divisionId}&distid=${distid}&mainSchemeId=${mainSchemeId}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
-  }
-  GetWorkDetails(workid: any): Observable<WorkDetails[]> {
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
-    return this.http.get<WorkDetails[]>(`${this.apiUrl}/Work/GetWorkInfo?workid=${workid}`);
-  }
-  GETWorkBillStatus(workid: any): Observable<WorkBillStatus[]> {
-    return this.http.get<WorkBillStatus[]>(`${this.apiUrl}/Payment/WorkBillStatus?workid=${workid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/WorkBillStatus?workid=W6700101
-  }
-  GetProjectTimeline(workid: any): Observable<ProjectTimeline[]> {
-    return this.http.get<ProjectTimeline[]>(`${this.apiUrl}/Work/GetProjectTimeline?workid=${workid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/GetProjectTimeline?workid=W4100398
-  }
-  GetProjectTimelineNew(workid: any): Observable<ProjectTimelineNew[]> {
-    return this.http.get<ProjectTimelineNew[]>(`${this.apiUrl}/Work/GetProjectTimelineNew?workid=${workid}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/Work/GetProjectTimelineNew?workid=W4100398
-  }
-
-
-
-  getMainScheme(isall: any): Observable<MainScheme[]> {
-    return this.http.get<MainScheme[]>(`${this.apiUrl}/Progress/getMainScheme?isall=${isall}`);
-  }
-  GetProgressCount(did: any, divisionId: any, distid: any, mainSchemeId: any) {
-    return this.http.get<DivisionPrograss[]>(`${this.apiUrl}/Work/getProgressCount?did=${did}&divisionId=${divisionId}&distid=${distid}&mainSchemeId=${mainSchemeId}`);
-
-  }
-  GetProgressDetailsLatLong(did: any, divisionId: any, distid: any, mainSchemeId: any, workid: any, dayPara: any, TotMobile: any) {
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/getProgressDetailsLatLong?did=5001&divisionId=D1017&distid=0&mainSchemeId=0&workid=0&dayPara=0&TotMobile=0
-    return this.http.get<ProgressDetailsLatLong[]>(`${this.apiUrl}/Work/getProgressDetailsLatLong?did=${did}&divisionId=${divisionId}&distid=${distid}&mainSchemeId=${mainSchemeId}&workid=${workid}&dayPara=${dayPara}&TotMobile=${TotMobile}`);
-
-  }
-  //#region Work pending 
-  WOPendingTotal(RPType: any, divisionId: any, districtid: any,mainSchemeId:any) {
-    return this.http.get<WOpendingTotal[]>(`${this.apiUrl}/WorkOrder/WOPendingTotal?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainSchemeId=${mainSchemeId}`);
-
-    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WOPendingTotal?RPType=Scheme&divisionid=0&districtid=0&mainSchemeId=145
-  }
-  GetWorkOrderPendingDetailsNew(divisionId: any, mainSchemeId: any, distid: any, contractid: any) {
-    return this.http.get<WorkOrderPendingDetailsNew[]>(`${this.apiUrl}/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&contractid=${contractid}`);
-
-  }
-
-  GETWorkOrderGenerated(RPType: any, divisionId: any, districtid: any, fromdt: any, todt: any,mainSchemeId:any) {
-    return this.http.get<WorkOrderIssued[]>(`${this.apiUrl}/WorkOrder/WorkOrderGenerated?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&fromdt=${fromdt}&todt=${todt}&mainSchemeId=${mainSchemeId}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Scheme&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0&mainSchemeId=145
-
-  }
-  GETWorkGenDetails(divisionId: any, mainSchemeId: any, distid: any, work_id: any, fromdt: any, todt: any) {
-    return this.http.get<WorkGenDetails[]>(`${this.apiUrl}/WorkOrder/getWorkGenDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&work_id=${work_id}&fromdt=${fromdt}&todt=${todt}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/getWorkGenDetails?divisionId=D1004&mainSchemeId=0&distid=0&work_id=0&fromdt=01-Apr-2023&todt=01-Jan-2025
-
-  }
- 
-  //#endregion
-
-  //#region Handover
-  // GETHandoverAbstractDateBY(Total:any, dashid:any,divisionId:any,districtid:any,SWId:any,fromdt:any,todt:any){
-  //   return this.http.get<HandoverAbstractDateBY[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${Total}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}`);
-  //   // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=01-05-2023
-  // }
-  HandoverAbstract(RPType: any, dashid: any, divisionId: any, districtid: any, SWId: any, fromdt: any, todt: any,mainSchemeId:any) {
-    return this.http.get<HandoverAbstract[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${RPType}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}&mainSchemeId=${mainSchemeId}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=0
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=0&mainSchemeId=142
-  }
-  GetHandoverDetails(dashid: any, divisionId: any, mainSchemeId: any, distid: any, SWId: any, fromdt: any, todt: any) {
-    return this.http.get<GetHandoverDetails[]>(`${this.apiUrl}/Handover/getHandoverDetails?dashid=${dashid}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/getHandoverDetails?dashid=4001&divisionId=D1001&mainSchemeId=0&distid=0&SWId=0&fromdt=02-1-2025&todt=03-13-2025
-  }
-  //#endregion
-
-  //#region District Eng Alloted Works
-  SubeDistrictEngAllotedWorks(engtype: any, divisionId: any, distid: any) {
-    return this.http.get<sbuDistrictEngAllotedWorks[]>(`${this.apiUrl}/Work/DistrictEngAllotedWorks?engtype=${engtype}&divisionid=${divisionId}&distid=${distid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/DistrictEngAllotedWorks?engtype=Sube&divisionid=D1004&distid=0
-  }
-  AEDistrictEngAllotedWorks(engtype: any, divisionId: any, distid: any) {
-    return this.http.get<AEDistrictEngAllotedWorks[]>(`${this.apiUrl}/Work/DistrictEngAllotedWorks?engtype=${engtype}&divisionid=${divisionId}&distid=${distid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/DistrictEngAllotedWorks?engtype=AE&divisionid=D1004&distid=0
-  }
-  SbuEngAllotedWorks(engtype: any, divisionId: any, distid: any) {
-    return this.http.get<SbuEngAllotedWorks[]>(`${this.apiUrl}/Work/EngAllotedWorks?engtype=${engtype}&divisionid=${divisionId}&distid=${distid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/EngAllotedWorks?engtype=Sbu%20eng&divisionid=D1004&distid=0
-  }
-  AEEngAllotedWorks(engtype: any, divisionId: any, distid: any) {
-    return this.http.get<AEEngAllotedWorks[]>(`${this.apiUrl}/Work/EngAllotedWorks?engtype=${engtype}&divisionid=${divisionId}&distid=${distid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/EngAllotedWorks?engtype=AE%20eng&divisionid=D1004&distid=0
-  }
-  GetWorkDetailsWithEng(dahid: any, divisionId: any, mainSchemeId: any, distid: any, engtype: any, empcode: any) {
-
-    return this.http.get<WorkDetailsWithEng[]>(`${this.apiUrl}/Work/getWorkDetailsWithEng?dahid=${dahid}&divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&engtype=${engtype}&empcode=${empcode}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/getWorkDetailsWithEng?dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157
-  }
-  // #endregion
-  //#region  LandIssue
-  GetLIPendingTotal(engtype: any,divisionId: any,districtid:any,mainSchemeId:any) {
-    return this.http.get<LIPendingTotal[]>(`${this.apiUrl}/LandIssue/LIPendingTotal?RPType=${engtype}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainSchemeId}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/LIPendingTotal?RPType=Total&divisionid=0&districtid=0&mainSchemeId=145
-  }
-  GetLandIssueDetails(divisionId: any, mainSchemeId: any, distid: any) {
-    return this.http.get<LandIssueDetails[]>(`${this.apiUrl}/LandIssue/getLandIssueDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/getLandIssueDetails?divisionId=D1004&mainSchemeId=0&distid=0
-
-  }
-  //#endregion
-  //#region Technical Sanction
-  GetTSDetail(engtype: any, divisionid: any, districtid: any, mainschemeid: any) {
-    return this.http.get<TSDetail[]>
-      // (`${this.apiUrl}/TSDetail/TSDetails?RPType=${engtype}&divisionId=${divisionid}&mainSchemeId=${mainschemeid}&distid=${districtid}`);
-      (`${this.apiUrl}/TSDetail/TSPending?RPType=${engtype}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/TSDetail/TSPending?RPType=Total&divisionid=0&districtid=0&mainschemeid=0
-    // https://cgmsc.gov.in/HIMIS_APIN/api/TSDetail/TSDetails?RPType=District&divisionId=0&mainSchemeId=0&distid=0
-  }
-
-  GetTSDetailall(divisionId: any, mainSchemeId: any, distid: any) {
-    return this.http.get<TSDetailallData[]>(`${this.apiUrl}/TSDetail/TSDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/TSDetail/getTSDetails?divisionId=D1004&mainSchemeId=0&distid=0
-
-  }
-
-  //#endregion
-
-  //#region GET IMAGE
-  GetImageBinary(sr: number, imgName: string): Observable<any> {
-    const encodedImgName = encodeURIComponent(imgName); // Encode the image name
-    const url = `https://cgmsc.gov.in/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}`;
-    return this.http.get(url, { responseType: 'text' }); // Use 'text' if the API returns a base64 string
-
-  }
-  //#endregion
-
-  //#region Tender 
-  GETLiveTender(RPType: any, divisionId: any, districtid: any, mainschemeid: any, TimeStatus: any) {
-    return this.http.get<LiveTenderdata[]>(`${this.apiUrl}/TenderStatus/LiveTender?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&TimeStatus=${TimeStatus}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/LiveTender?RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-  }
-  GETTenderDetails(divisionId: any, mainschemeid: any, distid: any, TimeStatus: any) {
-    return this.http.get<TenderDetails[]>(`${this.apiUrl}/TenderStatus/getTenderDetails?divisionId=${divisionId}&mainschemeid=${mainschemeid}&distid=${distid}&TimeStatus=${TimeStatus}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
-  }
-  GETTenderEvaluation(RPType: any, divisionId: any, districtid: any, mainschemeid: any) {
-    return this.http.get<TenderEvaluation[]>(`${this.apiUrl}/TenderStatus/TenderEvaluation?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
-
-    //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TenderEvaluation?RPType=Total&divisionid=0&districtid=0&mainschemeid=0
-  }
-  GETTenderEvaluationDetails(divisionId: any, mainschemeid: any, distid: any) {
-    return this.http.get<TenderEvaluationDetails[]>(`${this.apiUrl}/TenderStatus/getTenderEvaluationDetails?divisionId=${divisionId}&mainschemeid=${mainschemeid}&distid=${distid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/getTenderEvaluationDetails?divisionId=0&mainSchemeId=0&distid=0
-  }
-  GETPriceEvaluation(RPType: any, divisionId: any, districtid: any, mainschemeid: any) {
-    return this.http.get<PriceEvaluation[]>(`${this.apiUrl}/TenderStatus/PriceEvaluation?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/PriceEvaluation?RPType=Total&divisionid=0&districtid=0&mainschemeid=0
-  }
-  GETPriceEvaluationDetails(divisionId: any, mainschemeid: any, distid: any) {
-    return this.http.get<PriceEvaluationDetails[]>(`${this.apiUrl}/TenderStatus/getPriceEvaluationDetails?divisionId=${divisionId}&mainschemeid=${mainschemeid}&distid=${distid}`);
-
-    // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/getPriceEvaluationDetails?divisionId=0&mainSchemeId=0&distid=0
-  }
-  //#endregion
-
-
-  //#region Payment 
-  GETPaidSummary(RPType: any, divisionId: any, districtid: any, mainschemeid: any, fromdt: any, todt: any) {
-    return this.http.get<PaidSummary[]>(`${this.apiUrl}/Payment/PaidSummary?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&fromdt=${fromdt}&todt=${todt}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/Payment/PaidSummary?RPType=Division&divisionid=0&districtid=0&mainschemeid=0&fromdt=01-Dec-2023&todt=31-Dec-2023
-  }
-  GETUnPaidSummary(RPType: any, divisionId: any, districtid: any, mainschemeid: any) {
-    return this.http.get<UnPaidSummary[]>(`${this.apiUrl}/Payment/UnPaidSummary?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/Payment/UnPaidSummary?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
-  }
-  GETPaidDetails(divisionId: any, mainSchemeId: any, distid: any, fromdt: any, todt: any) {
-    return this.http.get<PaidDetails[]>(`${this.apiUrl}/Payment/PaidDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&fromdt=${fromdt}&todt=${todt}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
-  }
-  GETUnPaidDetails(divisionId:any,mainSchemeId:any,distid: any,designame:any,OfficerID:any) {
-    return this.http.get<UnPaidDetails[]>(`${this.apiUrl}/Payment/UnPaidDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&designame=${designame}&OfficerID=${OfficerID}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/UnPaidDetails?divisionId=0&mainSchemeId=137&distid=0&designame=0&OfficerID=0
-  }
-
-  //#endregion
-  //#region TenderStatus
-  GETTenderStatus(RPType: any, divisionid: any, districtid: any, mainschemeid: any) {
-    return this.http.get<TenderStatus[]>(`${this.apiUrl}/TenderStatus/TobeTender?RPType=${RPType}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TobeTender?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
-
-  }
-  GETTobeTenderDetailsAS1(divisionid: any, mainschemeid: any, districtid: any) {
-    return this.http.get<TobeTenderDetailsAS[]>(`${this.apiUrl}/TenderStatus/TobeTenderDetailsAS1?divisionId=${divisionid}&mainSchemeId=${mainschemeid}&distid=${districtid}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TobeTenderDetailsAS1?divisionId=0&mainSchemeId=0&distid=0
-
-  }
-  GETTobeTenderDetailsWOCancelled(divisionid: any, mainschemeid: any, districtid: any, ppid: any) {
-    return this.http.get<TobeTenderDetailsCancelled[]>(`${this.apiUrl}/TenderStatus/TobeTenderDetailsWOCancelled1934?divisionId=${divisionid}&mainSchemeId=${mainschemeid}&distid=${districtid}&ppid=${ppid}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TobeTenderDetailsWOCancelled1934?divisionId=0&mainSchemeId=0&distid=0&ppid=19
-    // TenderStatus/TobeTenderDetailsWOCancelled1934?divisionId=0&mainSchemeId=0&distid=0&ppid=34
-  }
-  GETTobeTenderRejection23(divisionid: any, mainschemeid: any, districtid: any) {
-    return this.http.get<TobeTenderRejection[]>(`${this.apiUrl}/TenderStatus/TobeTenderRejection23?divisionId=${divisionid}&mainSchemeId=${mainschemeid}&distid=${districtid}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TobeTenderRejection23?divisionId=0&mainSchemeId=0&distid=0
-  }
-  GETTobeTenderAppliedZonalPermission25(divisionid: any, mainschemeid: any, districtid: any) {
-    return this.http.get<TobeTenderAppliedZonalPermission[]>(`${this.apiUrl}/TenderStatus/TobeTenderAppliedZonalPermission25?divisionId=${divisionid}&mainSchemeId=${mainschemeid}&distid=${districtid}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TobeTenderAppliedZonalPermission25?divisionId=0&mainSchemeId=0&distid=0
-  }
-  //#endregion
-
-  //#region TenderStatus
-  GETASPendingDetails() {
-    return this.http.get<ASPendingDetails[]>(`${this.apiUrl}/ASDetails/ASPending`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASPending
-  }
-  GETDivisionWiseASPending(divisionId: any, mainSchemeId: any) {
-    return this.http.get<DivisionWiseASPendingDetails[]>(`${this.apiUrl}/ASDetails/DivisionWiseASPending?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/DivisionWiseASPending?divisionId=0&mainSchemeId=0
-  }
-  GETASCompleted() {
-    return this.http.get<ASCompletedDetails[]>(`${this.apiUrl}/ASDetails/ASCompleted`);
-
-   //md :otp=11344
-    // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
-  }
-  GETASFile(ASID: any, workid: any) {
-    return this.http.get<ASFile[]>(`${this.apiUrl}/ASDetails/getASFile?ASID=${ASID}&workid=${workid}`);
-
-    //md :otp=11344
-    // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
-  }
-//#endregion
-//#region RunningWork
-
-GETRunningWorkSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
-  return this.http.get<RunningWork[]>(`${this.apiUrl}/RunningWork/RunningWorkSummary?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
-//https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummary?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
-}
-GETRunningWorkSummaryDelay(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
-  return this.http.get<RunningWorkDelay[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryDelay?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
-//https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummaryDelay?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
-}
-GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
-  return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}`);
-// https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
-// https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=OnTime&parameter=TimeValid&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
-}
-
-
-//#endregion
-  GETASEnteredDetails(ASID: any, divisionId: any, mainSchemeId: any) {
-    return this.http.get<ASEnteredDetails[]>(`${this.apiUrl}/ASDetails/ASEnteredDetails?ASID=${ASID}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
-
-
-
-    //https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASEnteredDetails?ASID=22&divisionId=D1017&mainSchemeId=0
-  }
-
- 
-
-
-
-
-
-  getDistDHSStock(disid: any, coll_cmho: any, mcatid: any, userid: any) {
-
-    return this.http.get<DistDHSStock[]>(`${this.CGMSCHO_API2}/District/DistDHSStock?disid=${disid}&coll_cmho=${coll_cmho}&mcatid=${mcatid}&userid=${userid}`);
-  }
-
-  getGetVehicleNo(whid: any) {
-    return this.http.get<GetVehicleNo[]>(`${this.CGMSCHO_API2}/Warehouse/GetVehicleNoByWh?whid=${whid}`);
-  }
-
-  getTravelVouchers(vid: any, indentId: any) {
-    return this.http.get<TravelVouchers[]>(`${this.CGMSCHO_API2}/Warehouse/TravelVouchers?vid=${vid}&indentId=${indentId}`);
-  }
-
-  getGetLatLong(indentId: any) {
-    return this.http.get<GetLatLong[]>(`${this.CGMSCHO_API2}/Warehouse/GetLatLong?indentId=${indentId}`);
-  }
-
-  updateTBIndentTravaleWH(travelId: any, latitude: any, longitude: any, dt1: any) {
+  updateTBIndentTravaleWH(
+    travelId: any,
+    latitude: any,
+    longitude: any,
+    dt1: any
+  ) {
     return this.http.put(
       `${this.CGMSCHO_API2}/Warehouse/updateTBIndentTravaleWH?travelId=${travelId}&latitude=${latitude}&longitude=${longitude}&dt1=${dt1}`,
       null, // Pass `null` for the body since it's a PUT request without payload
@@ -558,813 +96,632 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     );
   }
 
-
-  MasSupplierPipeline(wh: any) {
-    return this.http.get<MasSupplierPipeline[]>(`${this.CGMSCHO_API2}/Master/MasSupplierPipeline?wh=${wh}`);
+  CGMSCIndentPending(mcid: any, hodid: any) {
+    return this.http.get(
+      `${this.CGMSCHO_API2}/DashboardHome/CGMSCIndentPending?mcid=${mcid}&hodid=${hodid}`
+    );
   }
 
-  CGMSCIndentPending( mcid:any,hodid:any){
-    return this.http.get(`${this.CGMSCHO_API2}/DashboardHome/CGMSCIndentPending?mcid=${mcid}&hodid=${hodid}`);
-  }
-
-  DeliveryInMonth(IndentfromDT: any, Indenttodt: any) {
-    return this.http.get<DeliveryInMonthconst[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}`);
-  }
-
-  Last7DaysIssue(days: any, mcid: any, yrid: any,hodid:any,ltflag:any) {
-    return this.http.get<Last7DaysIssue[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysIssue?days=${days}&mcid=${mcid}&yrid=${yrid}&hodid=${hodid}&ltflag=${ltflag}`);
-  }
-
-  Last7DaysReceipt(days: any, mcid: any, yrid: any,hodid:any) {
-    return this.http.get<Last7DaysReceipt[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysReceipt?days=${days}&mcid=${mcid}&yrid=${yrid}&hodid=${hodid}`);
-  }
-
-  MasIndentitems(mcid: any, yearid: any, hodid: any, medclgid: any) {
-    
-    return this.http.get<MasIndentitems[]>(`${this.CGMSCHO_API2}/DashboardHome/MasIndentitems?mcid=${mcid}&yearid=${yearid}&hodid=${hodid}&medclgid=${medclgid}`);
-  }
-  MasfacilityInfo(hod: any, disid: any, factypeid: any, whid: any, facid: any) {
-    return this.http.get<MasfacilityInfo[]>(`${this.CGMSCHO_API2}/Master/MasfacilityInfo?hod=${hod}&disid=${disid}&factypeid=${factypeid}&whid=${whid}&facid=${facid}`);
-  }
-
-  Masitems(itemid: any, mcid: any, edl: any, groupid: any, itemtypeid: any, edlcat: any) {
-    return this.http.get<Masitems[]>(`${this.CGMSCHO_API2}/Master/Masitems?itemid=${itemid}&mcid=${mcid}&edl=${edl}&groupid=${groupid}&itemtypeid=${itemtypeid}&edlcat=${edlcat}`);
-  }
-
-  getItemDetailsWithHOD(mcid: any, itemid: any, groupid: any, itemtypeid: any, edlcat: any, edltype: any, yearid: any, dhsai: any, dmai: any, totalai: any, redycnt: any, uqccnt: any, pipelinecnt: any, rccnt: any, whid: any) {
-    return this.http.get<getItemDetailsWithHOD[]>(`${this.CGMSCHO_API2}/HO/getItemDetailsWithHOD?mcid=${mcid}&itemid=${itemid}&groupid=${groupid}&itemtypeid=${itemtypeid}&edltype=${edltype}&edlcat=${edlcat}&yearid=${yearid}&dhsai=${dhsai}&dmai=${dmai}&totalai=${totalai}&redycnt=${redycnt}&uqccnt=${uqccnt}&pipelinecnt=${pipelinecnt}&rccnt=${rccnt}&whid=${whid}`);
-  }
-
-  getDhsDmeStock(hodid: any, itemid: any, distid: any, facilityid: any, userid: any, coll_cmho: any, whid: any) {
-    return this.http.get<DHSDMEStock[]>(`${this.CGMSCHO_API2}/HO/getDhsDmeStock?itemid=${itemid}&hodid=${hodid}&whid=${whid}&distid=${distid}&facilityid=${facilityid}&userid=${userid}&coll_cmho=${coll_cmho}`);
-  }
-
-  getfacwiseSTockIssuanceCoonsumptionm(hodid: any, itemid: any, distid: any, userid: any, coll_cmho: any) {
-    return this.http.get<facwiseSTockIssuanceCoonsumptionm[]>(`${this.CGMSCHO_API2}/HO/getfacwiseSTockIssuanceCoonsumptionm?itemid=${itemid}&hodid=${hodid}&distid=${distid}&userid=${userid}&coll_cmho=${coll_cmho}`);
-  }
-
-  // getIssuedCFY(){
-  //   return this.http.get<facwiseSTockIssuanceCoonsumptionm[]>(`${this.CGMSCHO_API2}/DashboardHome/IssuedCFY?yrid=0&mcid=0`);
-  // }
-
-  getPOCountCFY(yrid: any, mcid: any,hodid:any) {
-    return this.http.get<POCountCFY[]>(`${this.CGMSCHO_API2}/DashboardHome/POCountCFY?yrid=${yrid}&mcid=${mcid}&hodid=${hodid}`);
-  }
-  getDeliveryInMonth(yrid:any,IndentfromDT: any, Indenttodt: any,hodid:any,mcid:any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?yrid=${yrid}&IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}&hodid=${hodid}&mcid=${mcid}`);
+  getDeliveryInMonth(
+    yrid: any,
+    IndentfromDT: any,
+    Indenttodt: any,
+    hodid: any,
+    mcid: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?yrid=${yrid}&IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}&hodid=${hodid}&mcid=${mcid}`
+    );
   }
 
   getTotalRC(mcid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOTender/TotalRCMC?mcid=${mcid}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HOTender/TotalRCMC?mcid=${mcid}`
+    );
   }
 
   getNearExpRC(mcid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/TimeTaken/NearExpRC?mcid=${mcid}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/TimeTaken/NearExpRC?mcid=${mcid}`
+    );
   }
 
   CGMSCStockHome(mcid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/CGMSCStockHome?mcid=${mcid}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/CGMSCStockHome?mcid=${mcid}`
+    );
   }
 
-
-  // indent cart 
+  // indent cart
   getPartiIndent(itemid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartiIndent?itemid=${itemid}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/PartiIndent?itemid=${itemid}`
+    );
   }
 
-  // Purchase Order Card 
+  // Purchase Order Card
   PartPOsSince1920(itemid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartPOsSince1920?itemid=${itemid}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/PartPOsSince1920?itemid=${itemid}`
+    );
   }
 
   PartItemIssue(itemid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartItem_Issueyrwise?itemid=${itemid}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/PartItem_Issueyrwise?itemid=${itemid}`
+    );
   }
 
   PartItem_RCs(itemid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartItem_RCs?itemid=${itemid}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/PartItem_RCs?itemid=${itemid}`
+    );
   }
 
-  getFundsDDL(RoleID:any) {
-    
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/getFunds?RoleID=${RoleID}`);
+  getFundsDDL(RoleID: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/getFunds?RoleID=${RoleID}`
+    );
   }
 
   getFundReivedBudgetID(bugetid: any, yrid: any) {
-    
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/FundReivedBudgetID?bugetid=${bugetid}&yrid=${yrid}`);
-  }
-
-  PaidYearwise_Budget(bugetid: any, yrid: any) {
-    return this.http.get<PaidYearwise_Budget[]>(`${this.CGMSCHO_API2}/DashboardFinance/PaidYearwise_Budget?bugetid=${bugetid}&yrid=${yrid}`);
-  }
-
-  PODetailsAgainstIndentYr(bugetid: any, yrid: any, HOD: any) {
-    
-    return this.http.get<PODetailsAgainstIndentYr[]>(`${this.CGMSCHO_API2}/DashboardFinance/PODetailsAgainstIndentYr?bugetid=${bugetid}&yrid=${yrid}&HOD=${HOD}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardFinance/FundReivedBudgetID?bugetid=${bugetid}&yrid=${yrid}`
+    );
   }
 
   GrossPaidDateWise(rptype: any, bugetid: any, fromdt: any, todt: any) {
     // check
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWise?rptype=${rptype}&bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}`);
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWise?rptype=${rptype}&bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}`
+    );
   }
 
-
-  Fund_Libilities(bugetid: any) {
-    return this.http.get<Fund_Libilities[]>(`${this.CGMSCHO_API2}/DashboardFinance/Fund_Libilities?bugetid=${bugetid}`);
-  }
-
-  Pipeline_Libilities(bugetid: any) {
-    return this.http.get<Pipeline_Libilities[]>(`${this.CGMSCHO_API2}/DashboardFinance/Pipeline_Libilities?bugetid=${bugetid}`);
-  }
-
-  IndentcntHome(mcid: any, yrid: any) {
-    return this.http.get<IndentcntHome[]>(`${this.CGMSCHO_API2}/DashboardHome/IndentcntHome?mcid=${mcid}&yrid=${yrid}`);
-  }
-
-  StockoutPer(mcid: any, edltype: any, yrid: any, HOD: any) {
-    return this.http.get<StockoutPer[]>(`${this.CGMSCHO_API2}/DashboardHome/StockoutPer?mcid=${mcid}&edltype=${edltype}&yrid=${yrid}&HOD=${HOD}`);
-  }
-
-  NearExp(mcid: any, nextXmonth: any) {
-    return this.http.get<NearExp[]>(`${this.CGMSCHO_API2}/DashboardHome/NearExpMonthHome?mcid=${mcid}&nextXmonth=${nextXmonth}`);
-  }
-
-  FundReivedBudgetDetails(bugetid: any, yrid: any) {
-    return this.http.get<FundReivedBudgetDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/FundReivedBudgetDetails?bugetid=${bugetid}&yrid=${yrid}`);
-  }
-
-  QCPendingHomeDash(mcid: any) {
-    
-    return this.http.get<QCPendingHomeDash[]>(`${this.CGMSCHO_API2}/QC/QCPendingDashboard?mcid=${mcid}`);
-  }
-  QCPendingPlace(mcid: any) {
-    return this.http.get<QCPendingPlace[]>(`${this.CGMSCHO_API2}/QC/QCPendingPlacewise?mcid=${mcid}`);
-  }
-
-  QCPendingAreaDetail(area: any) {
-    return this.http.get<QCPendingAreaDetail[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}`);
-  }
-
-  GrossPaidDateWiseDetails(bugetid: any, fromdt: any, todt: any, supplierid: any, yrid: any,Indentyrid:any) {
-    return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}&Indentyrid=${Indentyrid}`);
-  }
-  
-  Sanc_Cheque(rptype: any,bugetid: any) 
-  {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/Sanc_Cheque?rptype=${rptype}&bugetid=${bugetid}`);
-  }
-
-  SanctionPrepDetails(bugetid: any,supplierid:any) {
-    return this.http.get<GetSanctionPrepDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/SanctionPrepDetails?bugetid=${bugetid}&supplierid=${supplierid}`);
-  }
-
-  
-  // Total Paid Click details
-  // aifinyear
-  GrossPaidDateWiseDetails2(bugetid: any, fromdt: any, todt: any,supplierid:any,yrid:any,Indentyrid:any) {
-    return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}&Indentyrid=${Indentyrid}`);
-  }
-  
-
-  GetLibDetails(rptype: any, yrid: any, budgetid: any,supplierid:any) {
-    
-    return this.http.get<LibDetailsbasedOnYearID[]>(`${this.CGMSCHO_API2}/DashboardFinance/LibDetailsbasedOnYearID?rptype=${rptype}&yrid=${yrid}&budgetid=${budgetid}&supplierid=${supplierid}`);
-  }
-
-  GetQCFinalResultPending(mcid: any) {
-    
-    return this.http.get<QCFinalResultPending[]>(`${this.CGMSCHO_API2}/QC/QCResultFinalUpdatePending?mcid=${mcid}`);
-  }
-
-  QCLabPendingTimeline(mcid:any,Timeline:any,labid:any) {
-    return this.http.get<QCLabPendingTimeline[]>(`${this.CGMSCHO_API2}/QC/QCLabPendingTimeline?Timeline=${Timeline}&mcid=${mcid}&labid=${labid}`);
-  }
-
-  QCPendingItems(mcid:any) {
-    return this.http.get<QCPendingItems[]>(`${this.CGMSCHO_API2}/QC/QCPendingItems?mcid=${mcid}`);
-  }
-
-  QCPendingParticularArea(area:any,itemid:any) {
-    
-    return this.http.get<QCPendingParticularArea[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}&itemid=${itemid}`);
-  }
-
-
-
-  QCResultPendingLabWise(mcid:any) {
-
-    return this.http.get<QCResultPendingLabWise[]>(`${this.CGMSCHO_API2}/QC/QCResultPendingLabWise?mcid=${mcid}`);
-  }
-
-  QCHold_NSQDash(mcid:any,nsqhold :any) {
-
-    return this.http.get<QCHold_NSQDash[]>(`${this.CGMSCHO_API2}/QC/QCHold_NSQDash?mcid=${mcid}&nsqhold=${nsqhold}`);
-  }
-
-  QCTimeTakenYear(mcid:any,yearid:any,itemtypeid:any) {
-
-    return this.http.get<QCTimeTakenYear[]>(`${this.CGMSCHO_API2}/TimeTaken/QCTimeTakenYear?mcid=${mcid}&yearid=${yearid}&itemtypeid=${itemtypeid}`);
-  }
-
-
-  QCPendingMonthwiseRec(mcid:any) {
-    return this.http.get<QCPendingMonthwiseRec[]>(`${this.CGMSCHO_API2}/QC/QCPendingMonthwiseRec?mcid=${mcid}`);
-  }
-
-  QCPendingMonthwiseRecDetails(monthid:any,mcid:any,) {
-    
-    return this.http.get<QCPendingMonthwiseRecDetails[]>(`${this.CGMSCHO_API2}/QC/QCPendingMonthwiseRecDetails?mcid=${mcid}&monthid=${monthid}`);
-  }
-  
-  HoldItemDetails(mcid:any) {
-    
-    return this.http.get<HoldItemDetails[]>(`${this.CGMSCHO_API2}/QC/HoldItemDetails?mcid=${mcid}`);
-  }
-
-  getDMEAIvsIssue(mcid:any,yearid:any) {
-    return this.http.get<DMEAIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/DMEAIvsIssue?mcid=${mcid}&yearid=${yearid}`);
-  }
-  getDMEIssueWihtoutAI(mcid:any,yearid:any) {
-    return this.http.get<DMEIssueWihtoutAI[]>(`${this.CGMSCHO_API2}/DashboardDME/DMEIssueWihtoutAI?mcid=${mcid}&yearid=${yearid}`);
-  }
-
-
-  getCollegeHospital_AIvsIssue(mcid:any,yearid:any) {
-    
-    return this.http.get<CollegeHospital_AIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/CollegeHospital_AIvsIssue?mcid=${mcid}&yearid=${yearid}`);
-  }
-
-  getClgHos_IssueWihtoutAI(mcid:any,whyearid:any) {
-    
-    return this.http.get<ClgHos_IssueWihtoutAI[]>(`${this.CGMSCHO_API2}/DashboardDME/ClgHos_IssueWihtoutAI?mcid=${mcid}&whyearid=${whyearid}`);
-  }
-
-  GetLocationDDL(iswh:any) {
-    
-    return this.http.get<GetLocation[]>(`${this.CGMSCHO_API2}/Attendence/GetLocation?iswh=${iswh}`);
-  }
-
-  GetEmployeeDetail(locationId:any) {
-    
-    return this.http.get<EmployeeDetail[]>(`${this.CGMSCHO_API2}/Attendence/GetEmployeeDetail?locationId=${locationId}`);
-  }
-
-  GetAttendenceRecord(startDate:any,endDate:any,DepartmentFName:any,locationid:any) {
-    
-    return this.http.get<AttendenceRecord[]>(`${this.CGMSCHO_API2}/Attendence/AttendenceRecord?startDate=${startDate}&endDate=${endDate}&DepartmentFName=${DepartmentFName}&locationid=${locationid}`);
+  Sanc_Cheque(rptype: any, bugetid: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardFinance/Sanc_Cheque?rptype=${rptype}&bugetid=${bugetid}`
+    );
   }
 
-  GetDesignation() {
-    return this.http.get<Designation[]>(`${this.CGMSCHO_API2}/Attendence/GetDesignation`);
+  GetToBeTenderDrugsSection(mcid: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HOTender/ToBeTender?mcid=${mcid}`
+    );
   }
- 
-  GetPresentAbsent(startDate:any,endDate:any,locationId:any,statusCode:any,desigId:any) {
-    return this.http.get<AttendenceRecord[]>(`${this.CGMSCHO_API2}/Attendence/PresentAbsent?startDate=${startDate}&endDate=${endDate}&locationId=${locationId}&statusCode=${statusCode}&desigId=${desigId}`);
-  }
-
-  
-  GetTenderStagesTotal(mcatid:any) {
-    return this.http.get<TenderStagesTotal[]>(`${this.CGMSCHO_API2}/HOTender/TenderStagesTotal?mcatid=${mcatid}`);
-  }
-
-  GetTotalRC1(mcatid:any,isEdl:any) {
-    return this.http.get<TotalRC1[]>(`${this.CGMSCHO_API2}/HOTender/TotalRC1?mcatid=${mcatid}&isEdl=${isEdl}`);
-  }
-  GetTotalRC1Details(mcid:any,Isedl:any) {
-    return this.http.get<TotalRC1Details[]>(`${this.CGMSCHO_API2}/HOTender/RcDetail1?mcid=${mcid}&Isedl=${Isedl}`);
-  }
-
-  getStatusDetail(status:any,mcatid:any) {
-    
-    return this.http.get<StatusDetail[]>(`${this.CGMSCHO_API2}/HOTender/StatusDetail?status=${status}&mcatid=${mcatid}`);
-  }
-  getStatusItemDetail(schemeId:any) {
-    return this.http.get<StatusItemDetail[]>(`${this.CGMSCHO_API2}/HOTender/StatusItemDetail?schemeId=${schemeId}`);
-  }
-  getTotalTenderDetails(categoryId  :any) {
-    return this.http.get<TotalTender[]>(`${this.CGMSCHO_API2}/HOTender/TotalTender?categoryId=${categoryId}`);
-  }
-
-  getNoOfBidders(schemeId:any){
-    return this.http.get<NoOfBidders[]>(`${this.CGMSCHO_API2}/HOTender/NoOfBidders?schemeId=${schemeId}`);
-  }
-  getConversationHodCgmsc(){
-    return this.http.get<HOTender[]>(`${this.CGMSCHO_API2}/HOTender/ConversationHodCgmsc`);
-  }
-  GetEqpTotalTendersByStatus(){
-    return this.http.get<TotalTendersByStatus[]>(`${this.himis_apin}/EMS/GetTotalTendersByStatus`);
-  }
-
-  GetEqpTenderDetail(csid:any){
-    
-    return this.http.get<TenderDetail[]>(`${this.himis_apin}/EMS/GetTenderDetail?csid=${csid}`);
-  }
-
-  GetConsTenderStatus(NormalZonal:any){
-    return this.http.get<TenderInfraDetails[]>(`${this.himis_apin}/TenderStatus/GetTenderStatus?NormalZonal=${NormalZonal}`);
-  }
-
-  GetConsTenderStatusDetail(pGroupId:any,ppid:any){
-    
-    return this.http.get<GetConsTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/GetTenderStatusDetail?pGroupId=${pGroupId}&ppid=${ppid}`);
-  }
-
-
-  GetConsTenderStatusZonal(){
-    return this.http.get<TenderInfraDetailsZonal[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatus`);
-  }
-  
-  ZonalTenderStatusDetail(tid:any){
-    
-    return this.http.get<ZonalTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatusDetail?tid=${tid}`);
-  }
-
-  GetToBeTenderNonZonal(){
-    
-    return this.http.get<GetToBeTender[]>(`${this.himis_apin}/TenderStatus/GetToBeTender`);
-  }
-  GetToBeTenderEqp(){
-    
-    return this.http.get<EqptobeTender[]>(`${this.himis_apin}/EMS/EqToBeTender`);
-  }
-  
-  GetToBeTenderDrugsSection(mcid:any){
-    
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTender?mcid=${mcid}`);
-  }
-  
-  GetToBeTenderDetail(mcid:any){
-    
-    return this.http.get<TobetenderDetails[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTenderDetail?mcid=${mcid}`);
-  }
-  
-  
-  SchemeReceived(schemeid:any){
-    
-    return this.http.get<SchemeReceived[]>(`${this.CGMSCHO_API2}/HOTender/SchemeReceived?schemeid=${schemeid}`);
-  }
-  
-  SchemeTenderStatus(schemeid:any){
-    
-    return this.http.get<SchemeTenderStatus[]>(`${this.CGMSCHO_API2}/HOTender/SchemeTenderStatus?schemeid=${schemeid}`);
-  }
-  
-  GetEqToBeTenderDetail(){
-    
-    return this.http.get<EqToBeTenderDetail[]>(`${this.himis_apin}/EMS/EqToBeTenderDetail`);
-  }
-  
 
-  CoverStatus(){
-    // card
-    return this.http.get<CoverStatus[]>(`${this.himis_apin}/StockMgm/CoverStatus`);
-
-  }
-  
-  CoverStatusDetail(csid:any){
-    // click
-    return this.http.get<CoverStatusDetail[]>(`${this.himis_apin}/StockMgm/CoverStatusDetail?csid=${csid}`);
-
-  }
-  CoverStatusTenderDetail(tenderId:any){
-    // item click
-    return this.http.get<CoverStatusTenderDetail[]>(`${this.himis_apin}/StockMgm/CoverStatusTenderDetail?tenderId=${tenderId}`);
-
-  }
-  GetnsqDrugDetails(){
-    // item click
-    return this.http.get<nsqDrugDetails[]>(`${this.CGMSCHO_API2}/QC/nsqDrugDetails`);
-
-  }
-
-  ToBeTenderBifurcation(){
-    // item click
-    return this.http.get<ToBeTenderBifurcation[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcation`);
-
-  }
-
-  ToBeTenderBifurcationDetail(tRemarkId:any,){
-    // item click
-    
-    return this.http.get<ToBeTenderBifurcationDetail[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcationDetail?tRemarkId=${tRemarkId}`);
-
-  }
-
-  MasfacilityInfoUser(hod:any,disid:any,factypeid:any,whid:any,facid:any,userid:any,coll_cmho:any){
-    // item click
-    return this.http.get<MasfacilityInfoUser[]>(`${this.CGMSCHO_API2}/Master/MasfacilityInfoUser?hod=${hod}&disid=${disid}&factypeid=${factypeid}&whid=${whid}&facid=${facid}&userid=${userid}&coll_cmho=${coll_cmho}`);
-
+  NearExpRCDetails(mcid: any, mmpara: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/TimeTaken/NearExpRCDetails?mcid=${mcid}&mmpara=${mmpara}`
+    );
   }
 
-  AIvsIssuance(mcid:any,yrid:any,facid:any){
-    
-    return this.http.get<AIvsIssuance[]>(`${this.CGMSCHO_API2}/HO/AIvsIssuance?mcid=${mcid}&facid=${facid}&yrid=${yrid}`);
-
-  }
-  getYear(){
-
-    return this.http.get<Year[]>(`${this.CGMSCHO_API2}/CGMSCStock/getYear`);
-
-  }
-
-  NearExpRCDetails(mcid:any,mmpara:any){
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/TimeTaken/NearExpRCDetails?mcid=${mcid}&mmpara=${mmpara}`);
-  }
-
-
-  variousStatusAgainstCYAI(mcid:any,yearId:any){
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOD/variousStatusAgainstCYAI?yearId=${yearId}&mcid=${mcid}`);
-  }
-
-
-
-  MontlyItemDemography(itemId:any,mcid:any,yearId:any){
-    
-    return this.http.get<MontlyItemDemography[]>(`${this.CGMSCHO_API2}/HO/MontlyItemDemography?itemId=${itemId}&mcid=${mcid}&yearId=${yearId}`);
-    // https://dpdmis.in/CGMSCHO_API2/api/HO/MontlyItemDemography?itemId=9996&mcid=1
-  }
-  YearWiseIssueReport(itemId:any,mcid:any){
-    
-    return this.http.get<YearWiseIssueReport[]>(`${this.CGMSCHO_API2}/HO/YearWiseIssueReport?itemId=${itemId}&mcid=${mcid}`);
-    // https://dpdmis.in/CGMSCHO_API2/api/HO/YearWiseIssueReport?itemId=9996&mcid=1
+  variousStatusAgainstCYAI(mcid: any, yearId: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HOD/variousStatusAgainstCYAI?yearId=${yearId}&mcid=${mcid}`
+    );
   }
-
-
 
   //#region StockStatus
-// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
-// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
-// https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
-// https://dpdmis.in/CGMSCHO_API2/api/HO/StockOutDetails?yearId=546&mcid=1&tendCondition=PRICE
-// https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
-// https://localhost:7247/api/HO/whstockoutin?yearId=546&mcid=1
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/StockOutDetails?yearId=546&mcid=1&tendCondition=PRICE
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
+  // https://localhost:7247/api/HO/whstockoutin?yearId=546&mcid=1
 
-StockStatus(){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL`);
-}
-IssuePerDetail(mcid:any,perCondition:any,tendCondition:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/IssuePerDetail?yearId=546&mcid=${mcid}&perCondition=${perCondition}&tendCondition=${tendCondition}`);
-}
-StockOutDetails(mcid:any,tendCondition:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockOutDetails?yearId=546&mcid=${mcid}&tendCondition=${tendCondition}`);
-}
-whstockoutin(mcid:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutIn?mcid=${mcid}`);
-}
-
-WhStockOutInDetail(whid:any,para:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/HO/WhStockOutInDetail?whid=2615&para=STOCKOUT
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutInDetail?whid=${whid}&para=${para}`);
-}
-WarehoueWiseStockOut(mcid:any,edlType:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOut?mcid=1&edlType=NON%20EDL
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`);
-}
-WarehoueWiseStockOutDetail(mcid:any,edlType:any,whId:any,colFlag:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOutDetail?mcid=1&edlType=EDL&whId=2615&colFlag=POPIPELINE
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOutDetail?mcid=${mcid}&edlType=${edlType}&whId=${whId}&colFlag=${colFlag}`);
-}
-RCValidDrillDown(yearId:any,mcid:any,hoType:any,drillType:any,edlType:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/DashboardHome/RCValidDrillDown?yearId=546&mcId=1&hoType=0&drillType=nosIndent&edlType=NON%20EDL
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidDrillDown?yearId=${yearId}&mcId=${mcid}&hoType=${hoType}&drillType=${drillType}&edlType=${edlType}`);
-}
-ComplainTypes(){
-  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplainTypes
-  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/GetComplainTypes`);
-}
-Complains(complainTypeId:any){
-  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplains?complainTypeId=2
-  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/GetComplains?complainTypeId=${complainTypeId}`);
-}
-ComplainsReport(complainTypeId:any,complainId:any,city:any){
-  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/FeedbackReport?complainTypeId=0&complainId=0&city=0
-  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/FeedbackReport?complainTypeId=${complainTypeId}&complainId=${complainId}&city=${city}`);
-}
-// InsertComplainsPOST(values: any) {
-//   return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, values, {
-//     responseType: 'text' 
-//   });
-// }
-InsertComplainsPOST(data: any): Observable<any> {
-  return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, data);
-}
-
-// POST
-// https://www.cgmsc.gov.in/himis_apin/api/LandIssue/InsertFeedback
-
-// {
-//   "feedbackID": 0,
-//   "firstName": "Sneha",
-//   "lastName": "Sharma",
-//   "email": "sneha.sharma@example.com",
-//   "mobileNumber": "9123456780",
-//   "address": "Flat 502, Green Residency, Sector 21",
-//   "city": "Delhi",
-//   "subject": "Frequent power outages in ICU",
-//   "complainTypeID": 3,
-//   "complainID": 9,
-//   "comments": "The ICU is experiencing frequent power cuts even though backup generators are installed. This is a serious patient safety risk.",
-//   "createdDate": "2025-07-19T15:45:00.000Z"
-// }
-
-
-// https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
-InsertUserLoginLogPOST(values: any) {
-  return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values, {
-    responseType: 'text' 
-  });
-  // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,values );
-  // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values);
-
-}
-
-// https://localhost:7247/api/LogAudit/InsertUserPageViewLog
-
-InsertUserPageViewLogPOST(values: any) {
-  return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserPageViewLog`, values, {
-    responseType: 'text' 
-  });
-}
-// {
-//   "logId": 0,
-//   "userId": 678,
-//   "roleId": 5,
-//   "roleIdName": "System Administrator",
-//   "pageUrl": "/dashboard/overview",
-//   "pageName": "Dashboard",
-//   "viewTime": "2025-08-11T09:39:02.973Z",
-//   "ipAddress": "192.168.1.100",
-//   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
-// }
-
-//#endregion
-
-
-
-SupplierPendingPayments(budgetId:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/SupplierPendingPayments?budgetId=${budgetId}`);
-}
-
-
-
-
-RCValidSatus(yearId:any,mcId:any,hoType:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
-}
-
-ABCanalysisSummary(yearid:any,mcid:any,isEDL:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisWithRCvalid?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}`);
-  // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABCanalysisWithRCvalid?yearid=545&mcid=1&isEDL=Y
-}
-
-ABCanalysisSummaryDetail(yearid:any,mcid:any,isedl:any,detail:any,isRCvalid:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummaryDetail?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}&detail=${detail}&isRCvalid=${isRCvalid}`);
-}
-
-
-
-NearExpiryItemsWH(month:any,mcid:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryItemsWH?month=${month}&mcid=${mcid}`);
-}
-NearExpiryBatchWise(month:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryBatchWise?month=${month}`);
-}
-
-
-ABC_VED_SDE_matrixWithStockOut(yearid:any,mcid:any,isEDL:any,catType:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}`);
-  //https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=545&mcid=1&isEDL=Y&catType=ABC
-}
-
-ABC_VED_SDE_matrixWithStockOutDetail(yearid:any,mcid:any,isEDL:any,catType:any,iCateogry:any,columnFlag:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}&iCateogry=${iCateogry}&columnFlag=${columnFlag}`);
-  // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=545&mcid=1&isEDL=Y&catType=ABC&iCateogry=A&columnFlag=STOCKOUT
-}
-
-
-CMESlowMovingSummary(mcid:any,yearId:any,percent:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMESlowMovingSummary?mcid=${mcid}&yearId=${yearId}&percent=${percent}`);
-}
-
-CMESlowMovingDetails(mcid:any,yearId:any,percent:any,facid:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMESlowMovingDetails?mcid=${mcid}&yearId=${yearId}&percent=${percent}&facid=${facid}`);
-}
-
-
-CMEexcessLiftSummary(yearId:any){
-  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEexcessLiftSummary?yearId=545
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEexcessLiftSummary?yearId=${yearId}`);
-}
-
-CMEExcessLiftDetail(yearId:any,facid:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEExcessLiftDetail?yearId=545&facid=0
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEExcessLiftDetail?yearId=${yearId}&facid=${facid}`);
-}
-
-CMEwithoutAISummary(yearId:any){
-  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAISummary?yearId=546
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEwithoutAISummary?yearId=${yearId}`);
-}
-
-
-CMEwithoutAIDetail(yearId:any,facid:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAIDetail?yearId=546&facid=0
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEwithoutAIDetail?yearId=${yearId}&facid=${facid}`);
-}
-
-
-pipelineSlippage(mcid:any,isEDL:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/api/Analysis/pipelineSlippage
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippage?mcid=${mcid}&isEDL=${isEDL}`);
-}
-
-pipelineSlippageItemDetail(flag:any,mcid:any,isEDL:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippageItemDetail?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`);
-}
-PipelineSlippagePOItemDetailDTO(flag:any,mcid:any,isEDL:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/PipelineSlippagePOItemDetailDTO?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`);
-}
-
-
-MasitemsPO(itemid:any,yrid:any,mcid:any,edl:any,groupid:any,itemtypeid:any,edlcat:any,schemeid:any,supplierid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/api/Master/MasitemsPO?itemid=o&yrid=546&mcid=1&edl=0&groupid=0&itemtypeid=0&edlcat=0&schemeid=0&supplierid=0&ABC=0&VED=0&SDE=0&MatCAT=0
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasitemsPO?itemid=${itemid}&yrid=${yrid}&mcid=${mcid}&edl=${edl}&groupid=${groupid}&itemtypeid=${itemtypeid}&edlcat=${edlcat}&schemeid=${schemeid}&supplierid=${supplierid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
-}
-
-MasSupplierPO(yrid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasSupplierPO?yrid=${yrid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
-}
-
-
-MasSchemePO(yrid:any,supplierid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasSchemePO?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
-}
-
-MasPOSummary(yrid:any,supplierid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasPOSummary?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
-}
-
-HoldBatchHistory(mcid:any,fromDate:any,ToDate:any,itemId:any,nsqholdflag:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/HoldBatchHistory?mcid=${mcid}&fromDate=${fromDate}&ToDate=${ToDate}&itemId=${itemId}&nsqholdflag=${nsqholdflag}}`);
-}
-
-NonSupplySummary(fromDate:any,ToDate:any){
-  
-return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummary?fromDate=${fromDate}&ToDate=${ToDate}`);
-}
-
-NonSupplySummaryDetail(fromDate:any,ToDate:any,supplierId:any,itemCode:any,schemeId:any,ponoId:any){
-return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummaryDetail?fromDate=${fromDate}&ToDate=${ToDate}&supplierId=${supplierId}&itemCode=${itemCode}&schemeId=${schemeId}&ponoId=${ponoId}`);
-}
-
-
-
-
-DmeFacNocSummary(fromDate: any, ToDate: any, mcid: any, yearId: any) {
-  // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocSummary?fromDate=31-03-2024&ToDate=01-04-2025&mcid=1&yearId=546
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocSummary?fromDate=${fromDate}&ToDate=${ToDate}&mcid=${mcid}&yearId=${yearId}`);
-}
-DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:any) {
-  // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocDetail?fromDate=31-03-2023&toDate=01-04-2025&mcid=1&yearId=546&facilityId=23666
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocDetail?fromDate=${fromDate}&toDate=${toDate}&mcid=${mcid}&yearId=${yearId}&facilityId=${facilityId}`);
-}
-
-
-
-// Vendor Registration services
-
-//#region Vendor Registration services for lomesh
-// https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Vender%20Rehistration&mType=OTP
-GETotp(mobile:any){
-  
-
-  // 78188
-  return this.http.get(`${this.VREGAPI}/Sms/SendOtp?mobile=${mobile}&Detail=Vender Rehistration&mType=OTP`);
-}
-GETMASLICENCETYPE() {
-  //https://dpdmis.in/VREGAPI/api/Registration/MASLICENCETYPE
-  return this.http.get(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
-}
-GETSendOtp(mobile:any,Detail:any,mType:any){
-  
-  // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Kaushal&mType=SIGNUP
-  return this.http.get(`${this.VREGAPI}/Sms/SendOtp?mobile=${mobile}&Detail=${Detail}&mType=${mType}`);
-}
-// ---Signup----
-Signup(data: any, formData: FormData): Observable<any> {
-  
-// https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
-// &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
-// mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881
-// &mEMAIL=kaushal.stranger005%40gmail.com&mPwd=Kaushal%40123
-  
-      let params = new HttpParams()
-        .set('mpanno', data.mpanno)
-        .set('mSUPPLIERNAME', data.mSUPPLIERNAME)
-        .set('mSUPPLIERTYPE', data.mSUPPLIERTYPE)
-        .set('mADDRESS1', data.mADDRESS1)
-        .set('mADDRESS2', data.mADDRESS2)
-        .set('mADDRESS3', data.mADDRESS3)
-        .set('mCITY', data.mCITY)
-        .set('mCOUNTRYID', data.mCOUNTRYID)
-        .set('mZIP', data.mZIP)
-        .set('mPHONE1', data.mPHONE1)
-        .set('mEMAIL', data.mEMAIL)
-        .set('mPwd', data.mPwd)
-      return this.http.post(
-        `${this.VREGAPI}/Registration/InsertSupplier`,
-        formData,
-        { params, responseType: 'text' }
-      );
-    }
-
-
-// DownloadFileWithName(mFilePath:any,mFileName:any) {
-//   // https://dpdmis.in/VREGAPI/api/Registration/DownloadFileWithName?mFilePath=
-//   // D%3A%5CVendorDocuments%5C50%5CNonConCertificate_235.pdf&mFileName=NonConCertificate_235.pdf
-//   return this.http.get(`${this.VREGAPI}/Registration/DownloadFileWithName?mFilePath=${mFilePath}&mFileName=${mFileName}`);
-// }
-public DownloadFileWithName(url: string) {
-  return this.http.get(this.VREGAPI + url, { responseType: 'blob' });
-}
-
-public DownloadFileWithName1(url: string) {
-  return this.http.get(this.VREGAPI + url, { responseType: 'arraybuffer' });
-}
-
-RegisterVendor(supplierId: any) {
-  return this.http.post(
-    `${this.VREGAPI}/Registration/RegisterVendor?supplierId=${supplierId}`,
-    {}, // empty body
-    { responseType: 'text' } // correct position (third argument)
-  );
-}
-getVendorDetailsID(supplierId:any) {
-  return this.http.get(`${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId}`);
-}
-
-getVendorDetails(supplierId:any) {
-  
-  return this.http.get(`${this.VREGAPI}/Registration/vendorDetail?supplierId=${supplierId}`);
-}
-vendorBankDetail(supplierId:any) {
-  //https://dpdmis.in/VREGAPI/api/Registration/vendorBankDetail?supplierId=1836
-  return this.http.get(`${this.VREGAPI}/Registration/vendorBankDetail?supplierId=${supplierId}`);
-  // return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocDetail?fromDate=${fromDate}&toDate=${toDate}&mcid=${mcid}&yearId=${yearId}&facilityId=${facilityId}`);
-}
-SupplierBankAccDetail(supplierId:any,bankAccId:any) {
-  //https://dpdmis.in/VREGAPI/api/Registration/SupplierBankAccDetail?supID=2185&bankAccId=659
-  return this.http.get(`${this.VREGAPI}/Registration/SupplierBankAccDetail?supID=${supplierId}&bankAccId=${bankAccId}`);
-}
-Massupplieraccnos(supplierId:any,vregId:any) {
-  //https://dpdmis.in/VREGAPI/api/Registration/Massupplieraccnos?SuPID=2216&VregID=38
-  return this.http.get(`${this.VREGAPI}/Registration/Massupplieraccnos?SuPID=${supplierId}&VregID=${vregId}`);
-}
-MassuppliergstDetails(supplierId:any,vregId:any) {
-  //https://dpdmis.in/VREGAPI/api/Registration/MassuppliergstDetails?SuPID=1936&VregID=0
-  return this.http.get(`${this.VREGAPI}/Registration/MassuppliergstDetails?SuPID=${supplierId}&VregID=${vregId}`);
-}
-GETYear() {
-  //https://dpdmis.in/VREGAPI/api/Registration/getYear
-  return this.http.get(`${this.VREGAPI}/Registration/getYear`);
-}
-GetAnnualTurnover(vregId:any) {
-    //https://dpdmis.in/VREGAPI/api/Registration/GetAnnualTurnover?vregId=50
-  return this.http.get(`${this.VREGAPI}/Registration/GetAnnualTurnover?vregId=${vregId}`);
-}
-GstReturnDetails(mSupplierID:any,vregId:any) {
-
-    //https://dpdmis.in/VREGAPI/api/Registration/GstReturnDetails?mSupplierID=1936&mVregID=50
-  return this.http.get(`${this.VREGAPI}/Registration/GstReturnDetails?mSupplierID=${mSupplierID}&mVregID=${vregId}`);
+  StockStatus() {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL`
+    );
   }
-  GETMANLIC(supID:any,vregId:any) {
+  IssuePerDetail(mcid: any, perCondition: any, tendCondition: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/IssuePerDetail?yearId=546&mcid=${mcid}&perCondition=${perCondition}&tendCondition=${tendCondition}`
+    );
+  }
+  StockOutDetails(mcid: any, tendCondition: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/StockOutDetails?yearId=546&mcid=${mcid}&tendCondition=${tendCondition}`
+    );
+  }
+  whstockoutin(mcid: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/WhStockOutIn?mcid=${mcid}`
+    );
+  }
 
-   // https://dpdmis.in/VREGAPI/api/Registration/MANLICDDL?supID=1936&vregid=50&type=1
-  return this.http.get(`${this.VREGAPI}/Registration/MANLICDDL?supID=${supID}&vregid=${vregId}&type=0`);
+  WhStockOutInDetail(whid: any, para: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/WhStockOutInDetail?whid=2615&para=STOCKOUT
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/WhStockOutInDetail?whid=${whid}&para=${para}`
+    );
+  }
+  WarehoueWiseStockOut(mcid: any, edlType: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOut?mcid=1&edlType=NON%20EDL
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`
+    );
+  }
+  WarehoueWiseStockOutDetail(mcid: any, edlType: any, whId: any, colFlag: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOutDetail?mcid=1&edlType=EDL&whId=2615&colFlag=POPIPELINE
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/WarehoueWiseStockOutDetail?mcid=${mcid}&edlType=${edlType}&whId=${whId}&colFlag=${colFlag}`
+    );
+  }
+  RCValidDrillDown(
+    yearId: any,
+    mcid: any,
+    hoType: any,
+    drillType: any,
+    edlType: any
+  ) {
+    // https://dpdmis.in/CGMSCHO_API2/api/DashboardHome/RCValidDrillDown?yearId=546&mcId=1&hoType=0&drillType=nosIndent&edlType=NON%20EDL
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/RCValidDrillDown?yearId=${yearId}&mcId=${mcid}&hoType=${hoType}&drillType=${drillType}&edlType=${edlType}`
+    );
+  }
+  ComplainTypes() {
+    //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplainTypes
+    return this.http.get<any[]>(
+      `${this.himis_apin}/LandIssue/GetComplainTypes`
+    );
+  }
+  Complains(complainTypeId: any) {
+    //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplains?complainTypeId=2
+    return this.http.get<any[]>(
+      `${this.himis_apin}/LandIssue/GetComplains?complainTypeId=${complainTypeId}`
+    );
+  }
+  ComplainsReport(complainTypeId: any, complainId: any, city: any) {
+    //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/FeedbackReport?complainTypeId=0&complainId=0&city=0
+    return this.http.get<any[]>(
+      `${this.himis_apin}/LandIssue/FeedbackReport?complainTypeId=${complainTypeId}&complainId=${complainId}&city=${city}`
+    );
+  }
+  // InsertComplainsPOST(values: any) {
+  //   return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, values, {
+  //     responseType: 'text'
+  //   });
+  // }
+  InsertComplainsPOST(data: any): Observable<any> {
+    return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, data);
+  }
+
+  // POST
+  // https://www.cgmsc.gov.in/himis_apin/api/LandIssue/InsertFeedback
+
+  // {
+  //   "feedbackID": 0,
+  //   "firstName": "Sneha",
+  //   "lastName": "Sharma",
+  //   "email": "sneha.sharma@example.com",
+  //   "mobileNumber": "9123456780",
+  //   "address": "Flat 502, Green Residency, Sector 21",
+  //   "city": "Delhi",
+  //   "subject": "Frequent power outages in ICU",
+  //   "complainTypeID": 3,
+  //   "complainID": 9,
+  //   "comments": "The ICU is experiencing frequent power cuts even though backup generators are installed. This is a serious patient safety risk.",
+  //   "createdDate": "2025-07-19T15:45:00.000Z"
+  // }
+
+  // https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
+  InsertUserLoginLogPOST(values: any) {
+    return this.http.post(
+      `${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,
+      values,
+      {
+        responseType: 'text',
+      }
+    );
+    // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,values );
+    // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values);
+  }
+
+  // https://localhost:7247/api/LogAudit/InsertUserPageViewLog
+
+  InsertUserPageViewLogPOST(values: any) {
+    return this.http.post(
+      `${this.CGMSCHO_API2}/LogAudit/InsertUserPageViewLog`,
+      values,
+      {
+        responseType: 'text',
+      }
+    );
+  }
+  // {
+  //   "logId": 0,
+  //   "userId": 678,
+  //   "roleId": 5,
+  //   "roleIdName": "System Administrator",
+  //   "pageUrl": "/dashboard/overview",
+  //   "pageName": "Dashboard",
+  //   "viewTime": "2025-08-11T09:39:02.973Z",
+  //   "ipAddress": "192.168.1.100",
+  //   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+  // }
+
+  //#endregion
+
+  SupplierPendingPayments(budgetId: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/SupplierPendingPayments?budgetId=${budgetId}`
+    );
+  }
+
+  RCValidSatus(yearId: any, mcId: any, hoType: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`
+    );
+  }
+
+  ABCanalysisSummary(yearid: any, mcid: any, isEDL: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Analysis/ABCanalysisWithRCvalid?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}`
+    );
+    // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABCanalysisWithRCvalid?yearid=545&mcid=1&isEDL=Y
+  }
+
+  ABCanalysisSummaryDetail(
+    yearid: any,
+    mcid: any,
+    isedl: any,
+    detail: any,
+    isRCvalid: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Analysis/ABCanalysisSummaryDetail?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}&detail=${detail}&isRCvalid=${isRCvalid}`
+    );
+  }
+
+  NearExpiryItemsWH(month: any, mcid: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/NearExpiryItemsWH?month=${month}&mcid=${mcid}`
+    );
+  }
+  NearExpiryBatchWise(month: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/NearExpiryBatchWise?month=${month}`
+    );
+  }
+
+  ABC_VED_SDE_matrixWithStockOut(
+    yearid: any,
+    mcid: any,
+    isEDL: any,
+    catType: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}`
+    );
+    //https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=545&mcid=1&isEDL=Y&catType=ABC
+  }
+
+  ABC_VED_SDE_matrixWithStockOutDetail(
+    yearid: any,
+    mcid: any,
+    isEDL: any,
+    catType: any,
+    iCateogry: any,
+    columnFlag: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}&iCateogry=${iCateogry}&columnFlag=${columnFlag}`
+    );
+    // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=545&mcid=1&isEDL=Y&catType=ABC&iCateogry=A&columnFlag=STOCKOUT
+  }
+
+  CMESlowMovingSummary(mcid: any, yearId: any, percent: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/CMESlowMovingSummary?mcid=${mcid}&yearId=${yearId}&percent=${percent}`
+    );
+  }
+
+  CMESlowMovingDetails(mcid: any, yearId: any, percent: any, facid: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/CMESlowMovingDetails?mcid=${mcid}&yearId=${yearId}&percent=${percent}&facid=${facid}`
+    );
+  }
+
+  CMEexcessLiftSummary(yearId: any) {
+    //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEexcessLiftSummary?yearId=545
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/CMEexcessLiftSummary?yearId=${yearId}`
+    );
+  }
+
+  CMEExcessLiftDetail(yearId: any, facid: any) {
+    //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEExcessLiftDetail?yearId=545&facid=0
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/CMEExcessLiftDetail?yearId=${yearId}&facid=${facid}`
+    );
+  }
+
+  CMEwithoutAISummary(yearId: any) {
+    //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAISummary?yearId=546
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/CMEwithoutAISummary?yearId=${yearId}`
+    );
+  }
+
+  CMEwithoutAIDetail(yearId: any, facid: any) {
+    //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAIDetail?yearId=546&facid=0
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/HO/CMEwithoutAIDetail?yearId=${yearId}&facid=${facid}`
+    );
+  }
+
+  pipelineSlippage(mcid: any, isEDL: any) {
+    //https://dpdmis.in/CGMSCHO_API2/api/Analysis/pipelineSlippage
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Analysis/pipelineSlippage?mcid=${mcid}&isEDL=${isEDL}`
+    );
+  }
+
+  pipelineSlippageItemDetail(flag: any, mcid: any, isEDL: any) {
+    //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Analysis/pipelineSlippageItemDetail?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`
+    );
+  }
+  PipelineSlippagePOItemDetailDTO(flag: any, mcid: any, isEDL: any) {
+    //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Analysis/PipelineSlippagePOItemDetailDTO?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`
+    );
+  }
+
+  MasitemsPO(
+    itemid: any,
+    yrid: any,
+    mcid: any,
+    edl: any,
+    groupid: any,
+    itemtypeid: any,
+    edlcat: any,
+    schemeid: any,
+    supplierid: any,
+    ABC: any,
+    VED: any,
+    SDE: any,
+    MatCAT: any
+  ) {
+    //https://dpdmis.in/CGMSCHO_API2/api/Master/MasitemsPO?itemid=o&yrid=546&mcid=1&edl=0&groupid=0&itemtypeid=0&edlcat=0&schemeid=0&supplierid=0&ABC=0&VED=0&SDE=0&MatCAT=0
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Master/MasitemsPO?itemid=${itemid}&yrid=${yrid}&mcid=${mcid}&edl=${edl}&groupid=${groupid}&itemtypeid=${itemtypeid}&edlcat=${edlcat}&schemeid=${schemeid}&supplierid=${supplierid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`
+    );
+  }
+
+  MasSupplierPO(
+    yrid: any,
+    itemid: any,
+    mcid: any,
+    schemeid: any,
+    ABC: any,
+    VED: any,
+    SDE: any,
+    MatCAT: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Master/MasSupplierPO?yrid=${yrid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`
+    );
+  }
+
+  MasSchemePO(
+    yrid: any,
+    supplierid: any,
+    itemid: any,
+    mcid: any,
+    schemeid: any,
+    ABC: any,
+    VED: any,
+    SDE: any,
+    MatCAT: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Master/MasSchemePO?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`
+    );
+  }
+
+  MasPOSummary(
+    yrid: any,
+    supplierid: any,
+    itemid: any,
+    mcid: any,
+    schemeid: any,
+    ABC: any,
+    VED: any,
+    SDE: any,
+    MatCAT: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Master/MasPOSummary?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`
+    );
+  }
+
+  HoldBatchHistory(
+    mcid: any,
+    fromDate: any,
+    ToDate: any,
+    itemId: any,
+    nsqholdflag: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Transaction/HoldBatchHistory?mcid=${mcid}&fromDate=${fromDate}&ToDate=${ToDate}&itemId=${itemId}&nsqholdflag=${nsqholdflag}}`
+    );
+  }
+
+  NonSupplySummary(fromDate: any, ToDate: any) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Transaction/NonSupplySummary?fromDate=${fromDate}&ToDate=${ToDate}`
+    );
+  }
+
+  NonSupplySummaryDetail(
+    fromDate: any,
+    ToDate: any,
+    supplierId: any,
+    itemCode: any,
+    schemeId: any,
+    ponoId: any
+  ) {
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Transaction/NonSupplySummaryDetail?fromDate=${fromDate}&ToDate=${ToDate}&supplierId=${supplierId}&itemCode=${itemCode}&schemeId=${schemeId}&ponoId=${ponoId}`
+    );
+  }
+
+  DmeFacNocSummary(fromDate: any, ToDate: any, mcid: any, yearId: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocSummary?fromDate=31-03-2024&ToDate=01-04-2025&mcid=1&yearId=546
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Transaction/DmeFacNocSummary?fromDate=${fromDate}&ToDate=${ToDate}&mcid=${mcid}&yearId=${yearId}`
+    );
+  }
+  DmeFacNocDetail(
+    fromDate: any,
+    toDate: any,
+    mcid: any,
+    yearId: any,
+    facilityId: any
+  ) {
+    // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocDetail?fromDate=31-03-2023&toDate=01-04-2025&mcid=1&yearId=546&facilityId=23666
+    return this.http.get<any[]>(
+      `${this.CGMSCHO_API2}/Transaction/DmeFacNocDetail?fromDate=${fromDate}&toDate=${toDate}&mcid=${mcid}&yearId=${yearId}&facilityId=${facilityId}`
+    );
+  }
+
+  // Vendor Registration services
+
+  //#region Vendor Registration services for lomesh
+  // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Vender%20Rehistration&mType=OTP
+  GETotp(mobile: any) {
+    // 78188
+    return this.http.get(
+      `${this.VREGAPI}/Sms/SendOtp?mobile=${mobile}&Detail=Vender Rehistration&mType=OTP`
+    );
+  }
+  GETMASLICENCETYPE() {
+    //https://dpdmis.in/VREGAPI/api/Registration/MASLICENCETYPE
+    return this.http.get(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
+  }
+  GETSendOtp(mobile: any, Detail: any, mType: any) {
+    // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Kaushal&mType=SIGNUP
+    return this.http.get(
+      `${this.VREGAPI}/Sms/SendOtp?mobile=${mobile}&Detail=${Detail}&mType=${mType}`
+    );
+  }
+  // ---Signup----
+  Signup(data: any, formData: FormData): Observable<any> {
+    // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
+    // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
+    // mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881
+    // &mEMAIL=kaushal.stranger005%40gmail.com&mPwd=Kaushal%40123
+
+    let params = new HttpParams()
+      .set('mpanno', data.mpanno)
+      .set('mSUPPLIERNAME', data.mSUPPLIERNAME)
+      .set('mSUPPLIERTYPE', data.mSUPPLIERTYPE)
+      .set('mADDRESS1', data.mADDRESS1)
+      .set('mADDRESS2', data.mADDRESS2)
+      .set('mADDRESS3', data.mADDRESS3)
+      .set('mCITY', data.mCITY)
+      .set('mCOUNTRYID', data.mCOUNTRYID)
+      .set('mZIP', data.mZIP)
+      .set('mPHONE1', data.mPHONE1)
+      .set('mEMAIL', data.mEMAIL)
+      .set('mPwd', data.mPwd);
+    return this.http.post(
+      `${this.VREGAPI}/Registration/InsertSupplier`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  // DownloadFileWithName(mFilePath:any,mFileName:any) {
+  //   // https://dpdmis.in/VREGAPI/api/Registration/DownloadFileWithName?mFilePath=
+  //   // D%3A%5CVendorDocuments%5C50%5CNonConCertificate_235.pdf&mFileName=NonConCertificate_235.pdf
+  //   return this.http.get(`${this.VREGAPI}/Registration/DownloadFileWithName?mFilePath=${mFilePath}&mFileName=${mFileName}`);
+  // }
+  public DownloadFileWithName(url: string) {
+    return this.http.get(this.VREGAPI + url, { responseType: 'blob' });
+  }
+
+  public DownloadFileWithName1(url: string) {
+    return this.http.get(this.VREGAPI + url, { responseType: 'arraybuffer' });
+  }
+
+  RegisterVendor(supplierId: any) {
+    return this.http.post(
+      `${this.VREGAPI}/Registration/RegisterVendor?supplierId=${supplierId}`,
+      {}, // empty body
+      { responseType: 'text' } // correct position (third argument)
+    );
+  }
+  getVendorDetailsID(supplierId: any) {
+    return this.http.get(
+      `${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId}`
+    );
+  }
+
+  getVendorDetails(supplierId: any) {
+    return this.http.get(
+      `${this.VREGAPI}/Registration/vendorDetail?supplierId=${supplierId}`
+    );
+  }
+  vendorBankDetail(supplierId: any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/vendorBankDetail?supplierId=1836
+    return this.http.get(
+      `${this.VREGAPI}/Registration/vendorBankDetail?supplierId=${supplierId}`
+    );
+    // return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocDetail?fromDate=${fromDate}&toDate=${toDate}&mcid=${mcid}&yearId=${yearId}&facilityId=${facilityId}`);
+  }
+  SupplierBankAccDetail(supplierId: any, bankAccId: any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/SupplierBankAccDetail?supID=2185&bankAccId=659
+    return this.http.get(
+      `${this.VREGAPI}/Registration/SupplierBankAccDetail?supID=${supplierId}&bankAccId=${bankAccId}`
+    );
+  }
+  Massupplieraccnos(supplierId: any, vregId: any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/Massupplieraccnos?SuPID=2216&VregID=38
+    return this.http.get(
+      `${this.VREGAPI}/Registration/Massupplieraccnos?SuPID=${supplierId}&VregID=${vregId}`
+    );
+  }
+  MassuppliergstDetails(supplierId: any, vregId: any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/MassuppliergstDetails?SuPID=1936&VregID=0
+    return this.http.get(
+      `${this.VREGAPI}/Registration/MassuppliergstDetails?SuPID=${supplierId}&VregID=${vregId}`
+    );
+  }
+  GETYear() {
+    //https://dpdmis.in/VREGAPI/api/Registration/getYear
+    return this.http.get(`${this.VREGAPI}/Registration/getYear`);
+  }
+  GetAnnualTurnover(vregId: any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/GetAnnualTurnover?vregId=50
+    return this.http.get(
+      `${this.VREGAPI}/Registration/GetAnnualTurnover?vregId=${vregId}`
+    );
+  }
+  GstReturnDetails(mSupplierID: any, vregId: any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/GstReturnDetails?mSupplierID=1936&mVregID=50
+    return this.http.get(
+      `${this.VREGAPI}/Registration/GstReturnDetails?mSupplierID=${mSupplierID}&mVregID=${vregId}`
+    );
+  }
+  GETMANLIC(supID: any, vregId: any) {
+    // https://dpdmis.in/VREGAPI/api/Registration/MANLICDDL?supID=1936&vregid=50&type=1
+    return this.http.get(
+      `${this.VREGAPI}/Registration/MANLICDDL?supID=${supID}&vregid=${vregId}&type=0`
+    );
   }
   InsertGSTCertificate(data: any, formData: FormData): Observable<any> {
-//post := https://localhost:7053/api/Registration/c?mVergID=50&msupplierid=1936&mstateID=44&gstno=gdtdhnj
+    //post := https://localhost:7053/api/Registration/c?mVergID=50&msupplierid=1936&mstateID=44&gstno=gdtdhnj
 
     let params = new HttpParams()
       .set('mVergID', data.mVergID)
       .set('msupplierid', data.msupplierid)
       .set('mstateID', data.mstateID)
-      .set('gstno', data.gstno)
+      .set('gstno', data.gstno);
     return this.http.post(
       `${this.VREGAPI}/Registration/InsertGSTCertificate`,
       formData,
@@ -1388,152 +745,148 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
     //https://dpdmis.in/VREGAPI/api/Registration/MASGSTQUARTER
     return this.http.get(`${this.VREGAPI}/Registration/MASGSTQUARTER`);
   }
-  GetTechnicalDetails(mVrgeID:any) {
+  GetTechnicalDetails(mVrgeID: any) {
     //https://dpdmis.in/VREGAPI/api/Registration/GetTechnicalDetails?mVrgeID=50
-    return this.http.get(`${this.VREGAPI}/Registration/GetTechnicalDetails?mVrgeID=${mVrgeID}`);
+    return this.http.get(
+      `${this.VREGAPI}/Registration/GetTechnicalDetails?mVrgeID=${mVrgeID}`
+    );
   }
 
-  GETIFSCCODE(ifsccode:any) {
+  GETIFSCCODE(ifsccode: any) {
     //https://ifsc.razorpay.com/SBIN0000461
     return this.http.get(`https://ifsc.razorpay.com/${ifsccode}`);
   }
-  GetComplienceCertificateDetails(mVrgeID:any,mSupplierid:any) {
+  GetComplienceCertificateDetails(mVrgeID: any, mSupplierid: any) {
     //https://dpdmis.in/VREGAPI/api/Registration/GetComplienceCertificate?mVregID=50&mSupplierid=1936
     // https://dpdmis.in/VREGAPI/api/Registration/GetComplienceCertificate?mVregID=50&mSupplierid=1936
-// get item typedetails
-    return this.http.get(`${this.VREGAPI}/Registration/GetComplienceCertificate?mVregID=${mVrgeID}&mSupplierid=${mSupplierid}`);
+    // get item typedetails
+    return this.http.get(
+      `${this.VREGAPI}/Registration/GetComplienceCertificate?mVregID=${mVrgeID}&mSupplierid=${mSupplierid}`
+    );
   }
-  GettypedetailsDetails(mVrgeID:any,mWHOID:any) {
+  GettypedetailsDetails(mVrgeID: any, mWHOID: any) {
     //https://dpdmis.in/VREGAPI/api/Registration/GetCOMTyepDetails?VregID=50&mWHOID=20
-    return this.http.get(`${this.VREGAPI}/Registration/GetCOMTyepDetails?VregID=${mVrgeID}&mWHOID=${mWHOID}`);
+    return this.http.get(
+      `${this.VREGAPI}/Registration/GetCOMTyepDetails?VregID=${mVrgeID}&mWHOID=${mWHOID}`
+    );
   }
 
   // ---GCP-----
- 
+
   // Get Details--
-  GetGCPDetails(VregID:any) {
+  GetGCPDetails(VregID: any) {
     // https://localhost:7053/api/Registration/GetGCPDetails?VregID=50
     //https://dpdmis.in/VREGAPI/api/Registration/GetGCPDetails?VregID=50
-    return this.http.get(`${this.VREGAPI}/Registration/GetGCPDetails?VregID=${VregID}`);
+    return this.http.get(
+      `${this.VREGAPI}/Registration/GetGCPDetails?VregID=${VregID}`
+    );
   }
   InsertGCP(data: any, formData: FormData): Observable<any> {
     // post:= // https://localhost:7053/api/Registration/InsertGCP?mVergID=50&mGCpNo=65987&ISSUEDATE=01-10-2025&mstartdate=01-10-2025&mEXPDate=01-10-2027
-        let params = new HttpParams()
-          .set('mGCpNo', data.mGCpNo)
-          .set('mVergID', data.mVergID)
-          .set('ISSUEDATE', data.ISSUEDATE)
-          .set('mstartdate', data.mstartdate)
-          .set('mEXPDate', data.mEXPDate)
-          // .set('mSupplierID', data.mSupplierID)
-        return this.http.post(
-          `${this.VREGAPI}/Registration/InsertGCP`,
-          formData,
-          { params, responseType: 'text' }
-        );
-      }
-      PUT_GCPVerification(data: any, formData: FormData): Observable<any> {
-        // https://localhost:7053/api/Registration/GCPVerification?mGCPID=11&Iaccept=N&Remarks=sdgfsg&userID=12365
-        
-      
-      
-          let params = new HttpParams()
-            .set('mGCPID', data.mGCPID)
-            .set('Iaccept', data.Iaccept)
-            .set('Remarks', data.Remarks)
-            .set('userID', data.userID)
-          return this.http.put(
-            `${this.VREGAPI}/Registration/GCPVerification`,formData,  { params, responseType: 'text' }
-          );
-        }
-        // BankMandateDetail
-      PUT_UpdateBankMandate(data: any, formData: FormData): Observable<any> {
-        // https://dpdmis.in/VREGAPI/api/Registration/UpdateApprovalStatus?ISAPPROVE=N&BANKACCOUNTID=659&USERID=111&APPROVEREASON=testing
+    let params = new HttpParams()
+      .set('mGCpNo', data.mGCpNo)
+      .set('mVergID', data.mVergID)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate);
+    // .set('mSupplierID', data.mSupplierID)
+    return this.http.post(`${this.VREGAPI}/Registration/InsertGCP`, formData, {
+      params,
+      responseType: 'text',
+    });
+  }
+  PUT_GCPVerification(data: any, formData: FormData): Observable<any> {
+    // https://localhost:7053/api/Registration/GCPVerification?mGCPID=11&Iaccept=N&Remarks=sdgfsg&userID=12365
 
-        
-      
-      
-          let params = new HttpParams()
-            .set('BANKACCOUNTID', data.BANKACCOUNTID)
-            .set('ISAPPROVE', data.ISAPPROVE)
-            .set('APPROVEREASON', data.APPROVEREASON)
-            .set('USERID', data.USERID)
-          return this.http.post(
-            `${this.VREGAPI}/Registration/UpdateApprovalStatus`,formData,  { params, responseType: 'text' }
-          );
-        }
-        UpdateAnnualTurnoverApproval(data: any, formData: FormData): Observable<any> {
-        // https://dpdmis.in/VREGAPI/api/Registration/UpdateAnnualTurnoverApproval?ISAPPROVE=Y&ATID=44&USERID=111&APPROVEREASON=test
+    let params = new HttpParams()
+      .set('mGCPID', data.mGCPID)
+      .set('Iaccept', data.Iaccept)
+      .set('Remarks', data.Remarks)
+      .set('userID', data.userID);
+    return this.http.put(
+      `${this.VREGAPI}/Registration/GCPVerification`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  // BankMandateDetail
+  PUT_UpdateBankMandate(data: any, formData: FormData): Observable<any> {
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateApprovalStatus?ISAPPROVE=N&BANKACCOUNTID=659&USERID=111&APPROVEREASON=testing
 
+    let params = new HttpParams()
+      .set('BANKACCOUNTID', data.BANKACCOUNTID)
+      .set('ISAPPROVE', data.ISAPPROVE)
+      .set('APPROVEREASON', data.APPROVEREASON)
+      .set('USERID', data.USERID);
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateApprovalStatus`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  UpdateAnnualTurnoverApproval(data: any, formData: FormData): Observable<any> {
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateAnnualTurnoverApproval?ISAPPROVE=Y&ATID=44&USERID=111&APPROVEREASON=test
 
-        
-      
-      
-          let params = new HttpParams()
-            .set('ATID', data.ATID)
-            .set('ISAPPROVE', data.ISAPPROVE)
-            .set('APPROVEREASON', data.APPROVEREASON)
-            .set('USERID', data.USERID)
-          return this.http.post(
-            `${this.VREGAPI}/Registration/UpdateAnnualTurnoverApproval`,formData,  { params, responseType: 'text' }
-          );
-        }
-        UpdateSupplierGSTApproval(data: any, formData: FormData): Observable<any> {
-        // https://dpdmis.in/VREGAPI/api/Registration/UpdateSupplierGSTApproval?ISAPPROVE=Y&GSTID=656&USERID=333&APPROVEREASON=test
+    let params = new HttpParams()
+      .set('ATID', data.ATID)
+      .set('ISAPPROVE', data.ISAPPROVE)
+      .set('APPROVEREASON', data.APPROVEREASON)
+      .set('USERID', data.USERID);
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateAnnualTurnoverApproval`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  UpdateSupplierGSTApproval(data: any, formData: FormData): Observable<any> {
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateSupplierGSTApproval?ISAPPROVE=Y&GSTID=656&USERID=333&APPROVEREASON=test
 
+    let params = new HttpParams()
+      .set('GSTID', data.GSTID)
+      .set('ISAPPROVE', data.ISAPPROVE)
+      .set('APPROVEREASON', data.APPROVEREASON)
+      .set('USERID', data.USERID);
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateSupplierGSTApproval`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  UpdateGSTReturnApproval(data: any, formData: FormData): Observable<any> {
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateGSTReturnApproval?ISAPPROVE=Y&RETID=13&USERID=111&APPROVEREASON=test
 
-
-        
-      
-      
-          let params = new HttpParams()
-            .set('GSTID', data.GSTID)
-            .set('ISAPPROVE', data.ISAPPROVE)
-            .set('APPROVEREASON', data.APPROVEREASON)
-            .set('USERID', data.USERID)
-          return this.http.post(
-            `${this.VREGAPI}/Registration/UpdateSupplierGSTApproval`,formData,  { params, responseType: 'text' }
-          );
-        }
-        UpdateGSTReturnApproval(data: any, formData: FormData): Observable<any> {
-        // https://dpdmis.in/VREGAPI/api/Registration/UpdateGSTReturnApproval?ISAPPROVE=Y&RETID=13&USERID=111&APPROVEREASON=test	
-
-
-
-        
-      
-      
-          let params = new HttpParams()
-            .set('RETID', data.RETID)
-            .set('ISAPPROVE', data.ISAPPROVE)
-            .set('APPROVEREASON', data.APPROVEREASON)
-            .set('USERID', data.USERID)
-          return this.http.post(
-            `${this.VREGAPI}/Registration/UpdateGSTReturnApproval`,formData,  { params, responseType: 'text' }
-          );
-        }
+    let params = new HttpParams()
+      .set('RETID', data.RETID)
+      .set('ISAPPROVE', data.ISAPPROVE)
+      .set('APPROVEREASON', data.APPROVEREASON)
+      .set('USERID', data.USERID);
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateGSTReturnApproval`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
   InsertMASGSTRETURNFILES(data: any, formData: FormData): Observable<any> {
-//post := https://localhost:7053/api/Registration/InsertMASGSTRETURNFILES?mGSTID=468&mVergID=50&mACCYRSETID=546&mGSTQTRID=1&mSupplierID=1936
+    //post := https://localhost:7053/api/Registration/InsertMASGSTRETURNFILES?mGSTID=468&mVergID=50&mACCYRSETID=546&mGSTQTRID=1&mSupplierID=1936
 
     let params = new HttpParams()
       .set('mGSTID', data.mGSTID)
       .set('mVergID', data.mVergID)
       .set('mACCYRSETID', data.mACCYRSETID)
       .set('mGSTQTRID', data.mGSTQTRID)
-      .set('mSupplierID', data.mSupplierID)
-      // .set('mstateID', data.mstateID)
-      // .set('gstno', data.gstno)
+      .set('mSupplierID', data.mSupplierID);
+    // .set('mstateID', data.mstateID)
+    // .set('gstno', data.gstno)
     return this.http.post(
       `${this.VREGAPI}/Registration/InsertMASGSTRETURNFILES`,
       formData,
       { params, responseType: 'text' }
     );
   }
- 
-    
+
   //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?
   // mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
   InsertComplianceCertificate1(data: any, formData: FormData): Observable<any> {
-
     let params = new HttpParams()
       .set('mlicid', data.mlicid)
       .set('mWHONO', data.mWHONO)
@@ -1543,40 +896,40 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
       .set('mstartdate', data.mstartdate)
       .set('mEXPDate', data.mEXPDate)
       .set('mRemarks', data.mRemarks)
-      .set('mSupplierid', data.mSupplierid)
-      // return;
+      .set('mSupplierid', data.mSupplierid);
+    // return;
     return this.http.post(
-      `${this.VREGAPI}/Registration/InsertComplianceCertificate`,formData,  { params, responseType: 'text' }
+      `${this.VREGAPI}/Registration/InsertComplianceCertificate`,
+      formData,
+      { params, responseType: 'text' }
     );
   }
   PUT_COMPlinceVerification(data: any, formData: FormData): Observable<any> {
-  // https://dpdmis.in/VREGAPI/api/Registration/COMPlinceVerification?mWHOID=31&Iaccept=N&Remarks=dsf&userID=2654
-  
-
+    // https://dpdmis.in/VREGAPI/api/Registration/COMPlinceVerification?mWHOID=31&Iaccept=N&Remarks=dsf&userID=2654
 
     let params = new HttpParams()
       .set('mWHOID', data.mWHOID)
       .set('Iaccept', data.Iaccept)
       .set('Remarks', data.Remarks)
-      .set('userID', data.userID)
+      .set('userID', data.userID);
     return this.http.put(
-      `${this.VREGAPI}/Registration/COMPlinceVerification`,formData,  { params, responseType: 'text' }
+      `${this.VREGAPI}/Registration/COMPlinceVerification`,
+      formData,
+      { params, responseType: 'text' }
     );
   }
- 
-
 
   // campleny fynal submmit
   MASVREGWHOITEMTYPE2(data: any, formData: FormData): Observable<any> {
-//post := https://dpdmis.in/VREGAPI/api/Registration/MASVREGWHOITEMTYPE?vregid=50
+    //post := https://dpdmis.in/VREGAPI/api/Registration/MASVREGWHOITEMTYPE?vregid=50
     let params = new HttpParams()
       .set('mGSTID', data.mGSTID)
       .set('mVergID', data.mVergID)
       .set('mACCYRSETID', data.mACCYRSETID)
       .set('mGSTQTRID', data.mGSTQTRID)
-      .set('mSupplierID', data.mSupplierID)
-      // .set('mstateID', data.mstateID)
-      // .set('gstno', data.gstno)
+      .set('mSupplierID', data.mSupplierID);
+    // .set('mstateID', data.mstateID)
+    // .set('gstno', data.gstno)
     return this.http.post(
       `${this.VREGAPI}/Registration/MASVREGWHOITEMTYPE`,
       formData,
@@ -1585,16 +938,16 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
   }
   InsertTechnicalDetails(data: any, formData: FormData): Observable<any> {
     // ;
-//post :=https://localhost:7053/api/Registration/InsertTechnicalDetails?mVergID=50&mFileTypeID=41
+    //post :=https://localhost:7053/api/Registration/InsertTechnicalDetails?mVergID=50&mFileTypeID=41
 
     let params = new HttpParams()
       .set('mFileTypeID', data.mFileTypeID)
-      .set('mVergID', data.mVergID)
-      // .set('mACCYRSETID', data.mACCYRSETID)
-      // .set('mGSTQTRID', data.mGSTQTRID)
-      // .set('mSupplierID', data.mSupplierID)
-      // .set('mstateID', data.mstateID)
-      // .set('gstno', data.gstno)
+      .set('mVergID', data.mVergID);
+    // .set('mACCYRSETID', data.mACCYRSETID)
+    // .set('mGSTQTRID', data.mGSTQTRID)
+    // .set('mSupplierID', data.mSupplierID)
+    // .set('mstateID', data.mstateID)
+    // .set('gstno', data.gstno)
     return this.http.post(
       `${this.VREGAPI}/Registration/InsertTechnicalDetails`,
       formData,
@@ -1603,31 +956,31 @@ GstReturnDetails(mSupplierID:any,vregId:any) {
   }
   PUT_TechnicalDetails(data: any, formData: FormData): Observable<any> {
     //https://dpdmis.in/VREGAPI/api/Registration/PPCVerification?mFileID=341&Iaccept=Y&Remarks=Test&userID=123654
-    // 
+    //
     let params = new HttpParams()
       .set('mFileID', data.mFileID)
       .set('Iaccept', data.Iaccept)
       .set('Remarks', data.Remarks)
-      .set('userID', data.userID)
-     
+      .set('userID', data.userID);
+
     return this.http.put(
       `${this.VREGAPI}/Registration/PPCVerification`,
       formData,
       { params, responseType: 'text' }
     );
   }
-public post(url: string, data: FormData, options?: any) {
-  //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
-   return this.http.post(this.VREGAPI + url, data, options); 
+  public post(url: string, data: FormData, options?: any) {
+    //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+    return this.http.post(this.VREGAPI + url, data, options);
   }
 
   public post1(url: string, data: any, options?: any) {
     const isFormData = data instanceof FormData;
     const headers = isFormData ? {} : { 'Content-Type': 'application/json' };
-  
+
     return this.http.post(this.VREGAPI + url, data, {
       headers: headers,
-      ...options
+      ...options,
     });
   }
   //#endregion
@@ -1635,277 +988,286 @@ public post(url: string, data: FormData, options?: any) {
   // updateBankDetails(data: FormData) {
   //   return this.http.post('https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails', data);
   // }
-  
-// GETYear() {
-//   
-//   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
-// }
-// getVendorDetailsID(supplierId:any) {
-//   return this.http.get(${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId});
-// }
-updateVendor(params: any, formData: FormData) {
-  
-  
-  let httpParams = new HttpParams()
-    .set('authMobileNo', params.authMobileNo)
-    .set('authEmail', params.authEmail)
-    .set('authName', params.authName)
-    .set('authSigName', params.authSigName)
-    .set('authSigMobileNo', params.authSigMobileNo)
-    .set('authSigEmailId', params.authSigEmailId)
-    .set('pancardno', params.pancardno)
-    .set('vregId', params.vregId);
 
-  return this.http.put(`${this.VREGAPI}/Registration/vendorUpdate`, formData, { params: httpParams , responseType: 'text' } );
-}
+  // GETYear() {
+  //
+  //   return this.http.get(`${this.VREGAPI}/Registration/getYear`);
+  // }
+  // getVendorDetailsID(supplierId:any) {
+  //   return this.http.get(${this.VREGAPI}/Registration/registeredVendors?vregid=${supplierId});
+  // }
+  updateVendor(params: any, formData: FormData) {
+    let httpParams = new HttpParams()
+      .set('authMobileNo', params.authMobileNo)
+      .set('authEmail', params.authEmail)
+      .set('authName', params.authName)
+      .set('authSigName', params.authSigName)
+      .set('authSigMobileNo', params.authSigMobileNo)
+      .set('authSigEmailId', params.authSigEmailId)
+      .set('pancardno', params.pancardno)
+      .set('vregId', params.vregId);
 
-
-getLicenceTypes(){
-  // 
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
-}
-
-
-getStates(){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/masstates`);
-}
-GetCountries(){
-  // https://localhost:7053/api/Registration/GetCountries
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetCountries`);
-}
-
-postSupplierUnit(data: any): Observable<any> {
-  const params = new HttpParams()
-    .set('mSupplierID', data.mSupplierID)
-    .set('mVregid', data.mVregid)
-    .set('mStateId', data.mStateId)
-    .set('mUNITNAME', data.mUNITNAME)
-    .set('mUNITAddress', data.mUNITAddress)
-    .set('mCity', data.mCity)
-    .set('mUNITINCHARGENAME', data.mUNITINCHARGENAME)
-    .set('mUNITINCHARGEMOB', data.mUNITINCHARGEMOB)
-    .set('mUNITINCHARGEEMAIL', data.mUNITINCHARGEEMAIL)
-    .set('mlictypeid', data.mlictypeid);
-  return this.http.post(`${this.VREGAPI}/Registration/SUPMANUNIT`, {}, { params,responseType:'text' });
-}
-
-
-getManufacturingDetails(supplierId: any, VregID: any) {
-  return this.http.get(`${this.VREGAPI}/Registration/ManufacturingDetails?supplierId=${supplierId}&VregID=${VregID}`);
-}
-getPovLicenceDetails(supplierId: any, VregID: any,mLicID:any) {
-  
-  // here 
-  // https://localhost:7053/api/Registration/PovLicenceDetails?VregID=84&SupplierID=1651&mLicID=0
-
-  return this.http.get(`${this.VREGAPI}/Registration/PovLicenceDetails?VregID=${VregID}&SupplierID=${supplierId}&mLICID=${mLicID}`);
-}
-
-getMasformTypes(){  
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASFORMTYPES`);
-}
-
-
-
-postManufacturingLic(data: any, formData: FormData): Observable<any> {
-  // 
-  const params = new HttpParams()
-  .set('mUNITID', data.mUNITID)
-  .set('mFORMID', data.mFORMID)
-  .set('mLICTYPEID', data.mLICTYPEID)
-  .set('mSUPPLIERID', data.mSUPPLIERID)
-  .set('mVregid', data.mVregid)
-  .set('mLICNO', data.mLICNO)
-  .set('mISSUEDATE', data.mISSUEDATE)
-  .set('mStartDate', data.mStartDate)
-  .set('mVALIDITYDATE', data.mVALIDITYDATE)
-  .set('mLicIssuingAuthority', data.mLicIssuingAuthority);
-  
-  return this.http.post(`${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`,formData,{ params, responseType: 'text' });
-}
-
-postRetentionCertificate(data: any, formData: FormData): Observable<any> {
-  
-  const params = new HttpParams()
-    .set('mLICID', data.mLICID)
-    .set('mISSUEDATE', data.mISSUEDATE)
-    .set('mStartDate', data.mStartDate)
-    .set('mVALIDITYDATE', data.mVALIDITYDATE)
-    .set('mVregid', data.mVregid)
-    .set('mretid', data.mretid)
-    .set('mFormID', data.mFormID)
-    .set('mProIssuingAuthority', data.mProIssuingAuthority);
-
-  return this.http.post(
-    `${this.VREGAPI}/Registration/MASVREGMANUFACPROVCERTIFICATE`,
-    formData,
-    { params, responseType: 'text' }
-  );
-}
-
-
-getmANUFACLICDetails(supID:any,vregid:any){
-  
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MANUFACLICDetails?supID=${supID}&vregid=${vregid}`);
-}
-
-
-downloadFile(filePath: string, fileName: string): Observable<Blob> {
-  const params = new HttpParams()
-    .set('mFilePath', filePath)
-    .set('mFileName', fileName);
-
-  return this.http.get(`${this.VREGAPI}/Registration/DownloadFileWithName`, {
-    params,
-    responseType: 'blob', // important for file download
-  });
-}
-
-getmMANLICDDL(supID:any,vregid:any,type:any){
-  
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MANLICDDL?supID=${supID}&vregid=${vregid}&type=${type}`);
-}
-getRetentionTypeDDL(){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASRENEWALRETENTION`);
-}
-
-
-getMasitemmaincategoryDDL(){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/Masitemmaincategory`);
-}
-getMasitemtypesDDL(catid:any){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/masitemtypes?catid=${catid}`);
-}
-getMasitemGroupDDL(catid:any){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MasitemGroup?catid=${catid}`);
-}
-getMASPHARMACOPOEIA(){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASPHARMACOPOEIA`);
-}
-
-GetMasitems(CategoryID:any,mTypeID:any){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/Masitems?CategoryID=${CategoryID}&mTypeID=${mTypeID}`);
-}
-
-
-// postPPCertificate(data: any, formData: FormData): Observable<any> {
-//   
-//   const params = new HttpParams()
-//     .set('mVergID', data.mVregid)
-//     .set('licID', data.licid);
-
-//   return this.http.post(
-//     `${this.VREGAPI}/Registration/InsertPPCertificate`,
-//     formData,
-//     { params, responseType: 'text' }
-//   );
-// }
-
-postPPCertificate(data: any, formData: FormData): Observable<any> {
-  
-  const params = new HttpParams()
-    .set('mVergID', data.mVergID)   // ✅ matches API param exactly
-    .set('mIssueDate', data.mIssueDate)
-    .set('mStartDate', data.mStartDate)
-    .set('mVALIDITYDATE', data.mVALIDITYDATE)
-    .set('mISSUINGAUTHORITY', data.mISSUINGAUTHORITY)
-    .set('licID', data.licID);     // ✅ correct key name
-  return this.http.post(
-    `${this.VREGAPI}/Registration/InsertPPCertificate`,
-    formData,
-    { params, responseType: 'text' }
-  );
-}
-
-
-insertMasVregPPCItems(vregid: any, items: any[]): Observable<any> {
-  
-  const params = new HttpParams().set('vregid', vregid.toString());
-
-  return this.http.post(
-    `${this.VREGAPI}/Registration/MASVREGPPCITEMS`,
-    items,
-    { params, responseType: 'text' }
-  );
-}
-
-
-
-GetPPCertificate(VregID:any){
-
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/PPCertificate?VregID=${VregID}`);
-}
-PPCertificateItemDetails(VregID:any,mFileID:any){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/PPCertificateItemDetails?VregID=${VregID}&mFileID=${mFileID}`);
-}
-
-
-GetMasimportertype(){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/Masimportertype`);
-}
-
-GetImporterLicenceDetails(VregID:any,SupplierID:any){
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/ImporterLicenceDetails?VregID=${VregID}&SupplierID=${SupplierID}`);
-}
-
-
-postMasimporterdocument(data: any, formData: FormData): Observable<any> {
-  
-  const params = new HttpParams()
-    .set('mLICID', data.mLICID)
-    .set('mImptypeid', data.mImptypeid)
-    .set('mIMPLICNO', data.mIMPLICNO)
-    .set('mISSUEDATE', data.mISSUEDATE)
-    .set('mStartDate', data.mStartDate)
-    .set('mVALIDITYDATE', data.mVALIDITYDATE)
-    .set('mVregid', data.mVregid)
-    .set('mIMPIssuingAuthority', data.mIMPIssuingAuthority)
-    
-
-  return this.http.post(
-    `${this.VREGAPI}/Registration/masimporterdocument`,
-    formData,
-    { params, responseType: 'text' }
-  );
-}
-
-
-GetDDlImprtLic(VregID:any){
-  
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/DDlImprtLic?VregID=${VregID}`);
-}
-
-
-masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
-  // 
-  
-  const params = new HttpParams()
-  .set('mIMPID', data.mIMPID)
-  .set('mISSUEDATE', data.mISSUEDATE)
-  .set('mStartDate', data.mStartDate)
-  .set('mVALIDITYDATE', data.mVALIDITYDATE)
-  .set('mVregid', data.mVregid)
-  .set('mIMPRETIssuingAuthority', data.mIMPRETIssuingAuthority)  
-  
-  
-  return this.http.post(
-    `${this.VREGAPI}/Registration/masimporterProvCertificate`,
-    formData,
-    { params, responseType: 'text' }
+    return this.http.put(
+      `${this.VREGAPI}/Registration/vendorUpdate`,
+      formData,
+      { params: httpParams, responseType: 'text' }
     );
   }
-  
-  GetImportRetentionDetails(VregID:any){
-    return this.http.get<any[]>(`${this.VREGAPI}/Registration/ImportRetentionDetails?VregID=${VregID}`);
+
+  getLicenceTypes() {
+    //
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASLICENCETYPE`);
   }
 
+  getStates() {
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/masstates`);
+  }
+  GetCountries() {
+    // https://localhost:7053/api/Registration/GetCountries
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetCountries`);
+  }
 
+  postSupplierUnit(data: any): Observable<any> {
+    const params = new HttpParams()
+      .set('mSupplierID', data.mSupplierID)
+      .set('mVregid', data.mVregid)
+      .set('mStateId', data.mStateId)
+      .set('mUNITNAME', data.mUNITNAME)
+      .set('mUNITAddress', data.mUNITAddress)
+      .set('mCity', data.mCity)
+      .set('mUNITINCHARGENAME', data.mUNITINCHARGENAME)
+      .set('mUNITINCHARGEMOB', data.mUNITINCHARGEMOB)
+      .set('mUNITINCHARGEEMAIL', data.mUNITINCHARGEEMAIL)
+      .set('mlictypeid', data.mlictypeid);
+    return this.http.post(
+      `${this.VREGAPI}/Registration/SUPMANUNIT`,
+      {},
+      { params, responseType: 'text' }
+    );
+  }
+
+  getManufacturingDetails(supplierId: any, VregID: any) {
+    return this.http.get(
+      `${this.VREGAPI}/Registration/ManufacturingDetails?supplierId=${supplierId}&VregID=${VregID}`
+    );
+  }
+  getPovLicenceDetails(supplierId: any, VregID: any, mLicID: any) {
+    // here
+    // https://localhost:7053/api/Registration/PovLicenceDetails?VregID=84&SupplierID=1651&mLicID=0
+
+    return this.http.get(
+      `${this.VREGAPI}/Registration/PovLicenceDetails?VregID=${VregID}&SupplierID=${supplierId}&mLICID=${mLicID}`
+    );
+  }
+
+  getMasformTypes() {
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/MASFORMTYPES`);
+  }
+
+  postManufacturingLic(data: any, formData: FormData): Observable<any> {
+    //
+    const params = new HttpParams()
+      .set('mUNITID', data.mUNITID)
+      .set('mFORMID', data.mFORMID)
+      .set('mLICTYPEID', data.mLICTYPEID)
+      .set('mSUPPLIERID', data.mSUPPLIERID)
+      .set('mVregid', data.mVregid)
+      .set('mLICNO', data.mLICNO)
+      .set('mISSUEDATE', data.mISSUEDATE)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mLicIssuingAuthority', data.mLicIssuingAuthority);
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/SUPMANUFACTURINGLIC`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  postRetentionCertificate(data: any, formData: FormData): Observable<any> {
+    const params = new HttpParams()
+      .set('mLICID', data.mLICID)
+      .set('mISSUEDATE', data.mISSUEDATE)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mVregid', data.mVregid)
+      .set('mretid', data.mretid)
+      .set('mFormID', data.mFormID)
+      .set('mProIssuingAuthority', data.mProIssuingAuthority);
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/MASVREGMANUFACPROVCERTIFICATE`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  getmANUFACLICDetails(supID: any, vregid: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/MANUFACLICDetails?supID=${supID}&vregid=${vregid}`
+    );
+  }
+
+  downloadFile(filePath: string, fileName: string): Observable<Blob> {
+    const params = new HttpParams()
+      .set('mFilePath', filePath)
+      .set('mFileName', fileName);
+
+    return this.http.get(`${this.VREGAPI}/Registration/DownloadFileWithName`, {
+      params,
+      responseType: 'blob', // important for file download
+    });
+  }
+
+  getmMANLICDDL(supID: any, vregid: any, type: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/MANLICDDL?supID=${supID}&vregid=${vregid}&type=${type}`
+    );
+  }
+  getRetentionTypeDDL() {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/MASRENEWALRETENTION`
+    );
+  }
+
+  getMasitemmaincategoryDDL() {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/Masitemmaincategory`
+    );
+  }
+  getMasitemtypesDDL(catid: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/masitemtypes?catid=${catid}`
+    );
+  }
+  getMasitemGroupDDL(catid: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/MasitemGroup?catid=${catid}`
+    );
+  }
+  getMASPHARMACOPOEIA() {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/MASPHARMACOPOEIA`
+    );
+  }
+
+  GetMasitems(CategoryID: any, mTypeID: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/Masitems?CategoryID=${CategoryID}&mTypeID=${mTypeID}`
+    );
+  }
+
+  // postPPCertificate(data: any, formData: FormData): Observable<any> {
+  //
+  //   const params = new HttpParams()
+  //     .set('mVergID', data.mVregid)
+  //     .set('licID', data.licid);
+
+  //   return this.http.post(
+  //     `${this.VREGAPI}/Registration/InsertPPCertificate`,
+  //     formData,
+  //     { params, responseType: 'text' }
+  //   );
+  // }
+
+  postPPCertificate(data: any, formData: FormData): Observable<any> {
+    const params = new HttpParams()
+      .set('mVergID', data.mVergID) // ✅ matches API param exactly
+      .set('mIssueDate', data.mIssueDate)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mISSUINGAUTHORITY', data.mISSUINGAUTHORITY)
+      .set('licID', data.licID); // ✅ correct key name
+    return this.http.post(
+      `${this.VREGAPI}/Registration/InsertPPCertificate`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  insertMasVregPPCItems(vregid: any, items: any[]): Observable<any> {
+    const params = new HttpParams().set('vregid', vregid.toString());
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/MASVREGPPCITEMS`,
+      items,
+      { params, responseType: 'text' }
+    );
+  }
+
+  GetPPCertificate(VregID: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/PPCertificate?VregID=${VregID}`
+    );
+  }
+  PPCertificateItemDetails(VregID: any, mFileID: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/PPCertificateItemDetails?VregID=${VregID}&mFileID=${mFileID}`
+    );
+  }
+
+  GetMasimportertype() {
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/Masimportertype`);
+  }
+
+  GetImporterLicenceDetails(VregID: any, SupplierID: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/ImporterLicenceDetails?VregID=${VregID}&SupplierID=${SupplierID}`
+    );
+  }
+
+  postMasimporterdocument(data: any, formData: FormData): Observable<any> {
+    const params = new HttpParams()
+      .set('mLICID', data.mLICID)
+      .set('mImptypeid', data.mImptypeid)
+      .set('mIMPLICNO', data.mIMPLICNO)
+      .set('mISSUEDATE', data.mISSUEDATE)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mVregid', data.mVregid)
+      .set('mIMPIssuingAuthority', data.mIMPIssuingAuthority);
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/masimporterdocument`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  GetDDlImprtLic(VregID: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/DDlImprtLic?VregID=${VregID}`
+    );
+  }
+
+  masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
+    //
+
+    const params = new HttpParams()
+      .set('mIMPID', data.mIMPID)
+      .set('mISSUEDATE', data.mISSUEDATE)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mVregid', data.mVregid)
+      .set('mIMPRETIssuingAuthority', data.mIMPRETIssuingAuthority);
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/masimporterProvCertificate`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  GetImportRetentionDetails(VregID: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/ImportRetentionDetails?VregID=${VregID}`
+    );
+  }
 
   InsertMakrketStanding(data: any, formData: FormData): Observable<any> {
-    
+    // Insert First MSC certificate
 
-// Insert First MSC certificate
-    
     // const params = new HttpParams()
     // .set('mlicid', data.mlicid)
     // .set('mVergID', data.mVregid)
@@ -1914,91 +1276,82 @@ masimporterProvCertificate(data: any, formData: FormData): Observable<any> {
     // .set('mEXPDate', data.mEXPDate)
     // .set('mMSCISSUINGAUTHORITY', data.MSCissuingauthority)
     const params = new HttpParams()
-    .set('mlicid', data.mlicid)
-    .set('mVergID', data.mVregid)
-    .set('ISSUEDATE', data.ISSUEDATE)
-    .set('mstartdate', data.mstartdate)
-    .set('mEXPDate', data.mEXPDate)
-    .set('mMSCISSUINGAUTHORITY', data.MSCissuingauthority)
-    
-
+      .set('mlicid', data.mlicid)
+      .set('mVergID', data.mVregid)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate)
+      .set('mMSCISSUINGAUTHORITY', data.MSCissuingauthority);
 
     // https://localhost:7053/api/Registration/InsertMakrketStanding?mlicid=53&mVergID=50&ISSUEDATE=10-01-2025&mstartdate=10-01-2025&mEXPDate=10-01-2027&mMSCISSUINGAUTHORITY=Gyan
     // ✅ Build HttpParams to match your API exactly
-  // const params = new HttpParams()
-  // .set('mVergID', data.mVergID)
-  // .set('mIssueDate', data.ISSUEDATE)
-  // .set('mStartDate', data.mstartdate)
-  // .set('mVALIDITYDATE', data.mEXPDate)
-  // .set('mISSUINGAUTHORITY', data.MSCissuingauthority)
-  // .set('licID', data.licID);
+    // const params = new HttpParams()
+    // .set('mVergID', data.mVergID)
+    // .set('mIssueDate', data.ISSUEDATE)
+    // .set('mStartDate', data.mstartdate)
+    // .set('mVALIDITYDATE', data.mEXPDate)
+    // .set('mISSUINGAUTHORITY', data.MSCissuingauthority)
+    // .set('licID', data.licID);
 
-    
-    
     return this.http.post(
       `${this.VREGAPI}/Registration/InsertMakrketStanding`,
       // `${this.VREGAPI}/Registration/InsertPPCertificate`,
       formData,
       { params, responseType: 'text' }
-      );
-    }
-
-
-    GETMCCFillItems(VregID:any,MCID:any,mItemTypeID:any,mGroupID:any){
-      
-      return this.http.get<any[]>(`${this.VREGAPI}/Registration/MCCFillItems?VregID=${VregID}&MCID=${MCID}&mItemTypeID=${mItemTypeID}&mGroupID=${mGroupID}`);
-    }
-
-   UpdaetMSCMCCFillItems(PPCID: any, MSCID: any, MSCPAGENO: any) {
-  return this.http.put(
-    `${this.VREGAPI}/Registration/UpdaetMSC?PPCID=${PPCID}&MSCID=${MSCID}&MSCPAGENO=${MSCPAGENO}`,
-    {}, // empty body
-    { responseType: 'text' } // options, not body
-  );
-}
-
-
-getmSCDetailsList(mVregID:any,Supplierid:any){
-  
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCDetails?mVregID=${mVregID}&mSupplierid=${Supplierid}`);
-}
-GetMSCCOPItemDetails(VregID:any,mFileID:any,mscCopType:any){
-  
-  return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`);
-}
-
-InsertCOP(data: any, formData: FormData): Observable<any> {
-  
-    const params = new HttpParams()
-  .set('mlicid', data.mlicid)
-  .set('mVergID', data.mVregid)
-  .set('mCopno', data.mCopno)
-  .set('ISSUEDATE', data.ISSUEDATE)
-  .set('mstartdate', data.mstartdate)
-  .set('mEXPDate', data.mEXPDate)
-  .set('mCOPISSUINGAUTHORITY', data.copissuingauthority)
-
-  // https://localhost:7053/api/Registration/InsertCOP?
-  // mlicid=53&
-  // mVergID=50&
-  // mCopno=546654
-  // &ISSUEDATE=10-01-2025&
-  // mstartdate=10-01-2025
-  // &mEXPDate=10-01-2027
-  // &mCOPISSUINGAUTHORITY=Preetam
-  
-  
-  return this.http.post(
-    `${this.VREGAPI}/Registration/InsertCOP`,
-    formData,
-    { params, responseType: 'text' }
     );
   }
 
+  GETMCCFillItems(VregID: any, MCID: any, mItemTypeID: any, mGroupID: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/MCCFillItems?VregID=${VregID}&MCID=${MCID}&mItemTypeID=${mItemTypeID}&mGroupID=${mGroupID}`
+    );
+  }
+
+  UpdaetMSCMCCFillItems(PPCID: any, MSCID: any, MSCPAGENO: any) {
+    return this.http.put(
+      `${this.VREGAPI}/Registration/UpdaetMSC?PPCID=${PPCID}&MSCID=${MSCID}&MSCPAGENO=${MSCPAGENO}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
+
+  getmSCDetailsList(mVregID: any, Supplierid: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/GetMSCDetails?mVregID=${mVregID}&mSupplierid=${Supplierid}`
+    );
+  }
+  GetMSCCOPItemDetails(VregID: any, mFileID: any, mscCopType: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`
+    );
+  }
+
+  InsertCOP(data: any, formData: FormData): Observable<any> {
+    const params = new HttpParams()
+      .set('mlicid', data.mlicid)
+      .set('mVergID', data.mVregid)
+      .set('mCopno', data.mCopno)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate)
+      .set('mCOPISSUINGAUTHORITY', data.copissuingauthority);
+
+    // https://localhost:7053/api/Registration/InsertCOP?
+    // mlicid=53&
+    // mVergID=50&
+    // mCopno=546654
+    // &ISSUEDATE=10-01-2025&
+    // mstartdate=10-01-2025
+    // &mEXPDate=10-01-2027
+    // &mCOPISSUINGAUTHORITY=Preetam
+
+    return this.http.post(`${this.VREGAPI}/Registration/InsertCOP`, formData, {
+      params,
+      responseType: 'text',
+    });
+  }
 
   UpdaetCOPItems(PPCID: any, COPID: any, COPPAGENO: any) {
-    
-    
     return this.http.put(
       `${this.VREGAPI}/Registration/UpdaetCOPItems?PPCID=${PPCID}&COPID=${COPID}&COPPAGENO=${COPPAGENO}`,
       {}, // empty body
@@ -2006,70 +1359,67 @@ InsertCOP(data: any, formData: FormData): Observable<any> {
     );
   }
 
-
-  GetCOPDetails(mVregID:any,mSupplierid:any){
-    
-    return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetCOPDetails?mVregID=${mVregID}&mSupplierid=${mSupplierid}`);
+  GetCOPDetails(mVregID: any, mSupplierid: any) {
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/GetCOPDetails?mVregID=${mVregID}&mSupplierid=${mSupplierid}`
+    );
   }
   // GetMSCCOPItemDetails(VregID:any,mFileID:any,mscCopType:any){
-  //   
+  //
   //   return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`);
   // }
 
+  // APPROVAL TECHNICAL
 
-// APPROVAL TECHNICAL
+  LICVerification(mLicID: any, Iaccept: any, Remarks: any) {
+    return this.http.put(
+      `${this.VREGAPI}/Registration/LICVerification?mLicID=${mLicID}&Iaccept=${Iaccept}&Remarks=${Remarks}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
+  PROVLICVerification(mPROVID: any, Iaccept: any, Remarks: any) {
+    return this.http.put(
+      `${this.VREGAPI}/Registration/PROVLICVerification?mPROVID=${mPROVID}&Iaccept=${Iaccept}&Remarks=${Remarks}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
+  PPCVerification(mFileID: any, Iaccept: any, Remarks: any, userID: any) {
+    // api/Registration/PPCVerification?mFileID=341&Iaccept=Y&Remarks=Test&userID=123654
+    return this.http.put(
+      `${this.VREGAPI}/Registration/PPCVerification?mFileID=${mFileID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
+  MSCVerification(mMSCID: any, Iaccept: any, Remarks: any, userID: any) {
+    // api/Registration/MSCVerification?mMSCID=42&Iaccept=N&Remarks=Test&userID=2654
+    return this.http.put(
+      `${this.VREGAPI}/Registration/MSCVerification?mMSCID=${mMSCID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
+  COPVerification(mCOPID: any, Iaccept: any, Remarks: any, userID: any) {
+    // api/Registration/COPVerification?mCOPID=11&Iaccept=N&Remarks=dsgdf&userID=12365
+    return this.http.put(
+      `${this.VREGAPI}/Registration/COPVerification?mCOPID=${mCOPID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
 
-LICVerification(mLicID:any,Iaccept:any,Remarks:any){
-  return this.http.put(`${this.VREGAPI}/Registration/LICVerification?mLicID=${mLicID}&Iaccept=${Iaccept}&Remarks=${Remarks}`,
-  {}, // empty body
-  { responseType: 'text' } // options, not body
-);
-}
-PROVLICVerification(mPROVID:any,Iaccept:any,Remarks:any){
-  return this.http.put(`${this.VREGAPI}/Registration/PROVLICVerification?mPROVID=${mPROVID}&Iaccept=${Iaccept}&Remarks=${Remarks}`,
-  {}, // empty body
-  { responseType: 'text' } // options, not body
-);
-}
-PPCVerification(mFileID:any,Iaccept:any,Remarks:any,userID:any){
-  
-  // api/Registration/PPCVerification?mFileID=341&Iaccept=Y&Remarks=Test&userID=123654
-  return this.http.put(`${this.VREGAPI}/Registration/PPCVerification?mFileID=${mFileID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
-  {}, // empty body
-  { responseType: 'text' } // options, not body
-);
-}
-MSCVerification(mMSCID:any,Iaccept:any,Remarks:any,userID:any){
-  
-  // api/Registration/MSCVerification?mMSCID=42&Iaccept=N&Remarks=Test&userID=2654
-  return this.http.put(`${this.VREGAPI}/Registration/MSCVerification?mMSCID=${mMSCID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
-  {}, // empty body
-  { responseType: 'text' } // options, not body
-);
-}
-COPVerification(mCOPID:any,Iaccept:any,Remarks:any,userID:any){
-  
-  // api/Registration/COPVerification?mCOPID=11&Iaccept=N&Remarks=dsgdf&userID=12365
-  return this.http.put(`${this.VREGAPI}/Registration/COPVerification?mCOPID=${mCOPID}&Iaccept=${Iaccept}&Remarks=${Remarks}&userID=${userID}`,
-  {}, // empty body
-  { responseType: 'text' } // options, not body
-);
-}
+  RegistrationComplete(dtsenton: string, vregId: number) {
+    // const params = {
+    //   dtsenton: dtsenton,
+    //   vregId: vregId
+    // };
 
-
-RegistrationComplete(dtsenton: string, vregId: number) {
-  
-  // const params = {
-  //   dtsenton: dtsenton,
-  //   vregId: vregId
-  // };
-
-  return this.http.put(`${this.VREGAPI}/Registration/RegistrationComplete?dtsenton=${dtsenton}&vregId=${vregId}`,
-  {}, // empty body
-  { responseType: 'text' } // options, not body
-);
-}
-
-  
-
+    return this.http.put(
+      `${this.VREGAPI}/Registration/RegistrationComplete?dtsenton=${dtsenton}&vregId=${vregId}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
 }

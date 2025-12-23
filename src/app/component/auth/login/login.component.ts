@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HardcodedAuthenticationService } from 'src/app/service/authentication/hardcoded-authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
-import { WarehouseInfo } from 'src/app/Model/WarehouseInfo';
+
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ApiService } from 'src/app/service/api.service';
 import { DelvieryDash } from 'src/app/Model/DelvieryDash';
@@ -860,7 +860,7 @@ toggleText() {
     this.days=days
     // this.spinner.show()
     this.api.DelvieryDash(this.days).subscribe(
-      (res) => {
+      (res:any) => {
         // this.spinner.hide()
         this.dropInfo = res.map((item: any) => ({
           ...item,
@@ -870,7 +870,7 @@ toggleText() {
           },
         }));
       },
-      (error) => {
+      (error:any) => {
     // this.spinner.hide()
 
         console.error('Error fetching drop info:', error);

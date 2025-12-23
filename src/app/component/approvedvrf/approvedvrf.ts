@@ -79,7 +79,7 @@ export class Approvedvrf {
 
     
     this.qrData = JSON.stringify(this.vendorData);
-    console.log('qrdata=',this.qrData)
+    // console.log('qrdata=',this.qrData)
   }
 //#region Api calling
   loadVendorDetails() {
@@ -88,7 +88,7 @@ export class Approvedvrf {
       next: (res: any) => {
         if (res && res.length > 0) {
           this.vendor = res[0]; // since API returns an array
-          console.log('vender',this.vendor)
+          // console.log('vender',this.vendor)
         }
       },
       error: (err) => {
@@ -102,11 +102,11 @@ export class Approvedvrf {
 // ;
     this.spinner.show();
     this.api.getmANUFACLICDetails(this.SupID,this.vregid).subscribe((res: any) => {
-        console.log('Raw API response:', res);
+        // console.log('Raw API response:', res);
   
         this.manufacturingLicList = res;
         this.spinner.hide();
-        console.log('With manuf lic:', this.manufacturingLicList);
+        // console.log('With manuf lic:', this.manufacturingLicList);
       },
       (error) => {
         console.error('API error:', error);
@@ -120,7 +120,7 @@ export class Approvedvrf {
     this.spinner.show();
     this.api.GetImporterLicenceDetails(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
         this.importerLicenceList = res
-        console.log('With S.No:', this.importerLicenceList);
+        // console.log('With S.No:', this.importerLicenceList);
         this.spinner.hide();
       },
       (error) => {
@@ -135,7 +135,7 @@ export class Approvedvrf {
     this.spinner.show();
     this.api.getmSCDetailsList(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
         this.mSCDetailsList = res
-        console.log('mSCDetailsList:', this.mSCDetailsList);
+        // console.log('mSCDetailsList:', this.mSCDetailsList);
         this.spinner.hide();
       },
       (error) => {
@@ -152,7 +152,7 @@ export class Approvedvrf {
     this.spinner.show();
     this.api.GetPPCertificate(sessionStorage.getItem('vregid')).subscribe((res: any) => {
         this.PPCertificateList = res
-        console.log('DDWith S.No:', this.PPCertificateList);
+        // console.log('DDWith S.No:', this.PPCertificateList);
         this.spinner.hide();
       },
       (error) => {
@@ -167,7 +167,7 @@ export class Approvedvrf {
     this.spinner.show();
     this.api.GetCOPDetails(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
         this.COPDetailsList = res
-        console.log('With S.No:', this.COPDetailsList);
+        // console.log('With S.No:', this.COPDetailsList);
         this.spinner.hide();
       },
       (error) => {
@@ -224,7 +224,7 @@ export class Approvedvrf {
         },
         (error: { message: any; }) => {
           this.spinner.hide();
-          console.log('Error fetching data:',JSON.stringify(error.message))
+          // console.log('Error fetching data:',JSON.stringify(error.message))
           // alert(`Error fetching data: ${JSON.stringify(error.message)}`);
         }
       );
@@ -426,7 +426,7 @@ export class Approvedvrf {
     this.spinner.show();
     const supplierId = sessionStorage.getItem('facilityid');
     this.api.getPovLicenceDetails(supplierId, sessionStorage.getItem('vregid'),0).subscribe((res: any) => {
-        console.log('Raw API response retation:', res);
+        // console.log('Raw API response retation:', res);
         this.retentionList = res;
         // console.log('With retention value :', this.retentionList);
       
