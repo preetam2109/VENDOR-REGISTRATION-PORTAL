@@ -280,6 +280,7 @@ export class ApiService {
     return this.http.get<WarehouseWiseStock>(`${this.CGMSCHO_API2}/HO/WarehouseWiseStock`, { params });
 
   }
+  
   getNearExpReport(mcid: number, nexppara: number): Observable<any> {
 
     const params = new HttpParams()

@@ -82,7 +82,7 @@ export class Approvedvrf {
   }
   // manuf lic
   GetmANUFACLICDetails() {
-// debugger;
+// ;
     this.spinner.show();
     this.api.getmANUFACLICDetails(this.SupID,this.vregid).subscribe((res: any) => {
         console.log('Raw API response:', res);
