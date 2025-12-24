@@ -95,30 +95,30 @@
                     </div>
                     <div class="card-body">
                       <ul>
-                        <li style="color: blue;">
+                        <!-- <li style="color: blue;">
                           <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Public')">
                            Letter for Vendor Registration 
                             <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
                           </a>
-                        </li>
-                        <li style="color: blue;">
+                        </li> -->
+                        <!-- <li style="color: blue;"> -->
             
                           <!-- <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Equipment_Reagent_Public')">
                            Training Letter
                             <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
                           </a> -->
-                          <a style="cursor: pointer;" target="_blank" >
+                          <!-- <a style="cursor: pointer;" target="_blank" >
                            Training Letter
                             <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
-                          </a>
-                        </li>
-                        <li style="color: blue;">
+                          </a> -->
+                        <!-- </li> -->
+                        <!-- <li style="color: blue;">
             
                           <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Infrastructure_Public')">
                             Manual
                             <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
                           </a>
-                        </li>
+                        </li> -->
                       </ul>
                     </div>
                   </div>
@@ -456,31 +456,53 @@
         <div class="d-flex justify-content-end align-items-center">
 
           <div class="card shadow login-card w-100 ">
-            <div class="card-header text-white">
-              <ul class="nav nav-tabs card-header-tabs" id="loginTabs" role="tablist">
-                <!-- <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login"
-                    type="button" role="tab" aria-controls="login" aria-selected="true">Admin</button>
-                </li> -->
+            <div class="card-header text-white d-flex align-items-center">
+
+              <!-- Tabs -->
+              <ul class="nav nav-tabs card-header-tabs flex-grow-1" id="loginTabs" role="tablist">
+            
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login"
-                    type="button" role="tab" aria-controls="login" aria-selected="true">Supplier</button>
+                  <button 
+                    class="nav-link active" 
+                    id="login-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#login"
+                    type="button"
+                    role="tab"
+                    aria-controls="login"
+                    aria-selected="true">
+                    Supplier
+                  </button>
                 </li>
-                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="cgmscl-tab" data-bs-toggle="tab" data-bs-target="#cgmscl" type="button"
-                    role="tab" aria-controls="cgmscl" aria-selected="false">Admin</button>
-                </li>
-                <!-- <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="warehouse-tab" data-bs-toggle="tab" data-bs-target="#warehouse"
-                    type="button" role="tab" aria-controls="warehouse" aria-selected="false">Warehouse</button>
-                </li>
+            
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="infrastructure-tab" data-bs-toggle="tab" data-bs-target="#infrastructure"
-                    type="button" role="tab" aria-controls="infrastructure"
-                    aria-selected="false">Infrastructure</button>
-                </li> -->
+                  <button 
+                    class="nav-link"
+                    id="cgmscl-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#cgmscl"
+                    type="button"
+                    role="tab"
+                    aria-controls="cgmscl"
+                    aria-selected="false">
+                    Admin
+                  </button>
+                </li>
+            
               </ul>
+            
+              <!-- Sign Up Button (Right aligned, NOT a tab) -->
+              <button
+                routerLink="/Registration" 
+                class="btn btn-outline-success ms-3"
+                data-bs-toggle="tab"
+                data-bs-target="#signup"
+                type="button">
+                Sign Up
+              </button>
+            
             </div>
+            
             <div class="card-body tab-content" id="loginTabsContent">
               <!-- Login Tab -->
               <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
@@ -542,7 +564,7 @@
 
                   <button type="submit" class="btn btn-success w-100 mb-3" [disabled]="adminLoginForm.invalid">Login</button>
                 </form>
-                <a class="btn btn-success w-100 mt-2" routerLink="/Registration">Registration</a>
+                <!-- <a class="btn btn-success w-100 mt-2" routerLink="/Registration">Registration</a> -->
                 <!-- <span class="d-flex gap-3">
                   <button class="btn btn-success w-50" (click)="ForgotPassword()">Forgot Password</button>
                   <button class="btn btn-success w-50" (click)="goToRegistration()">Registration</button>
