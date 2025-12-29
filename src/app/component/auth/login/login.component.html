@@ -46,7 +46,7 @@
    </div>
   </div>
   <!-- Main Content -->
-  <div class="container-fluid  pb-3">
+  <div class="container-fluid pb-3">
     <div class="row">
       <!-- Left Section - Tabs and Card -->
       <div class="col-lg-4 col-md-12 col-12 ">
@@ -179,7 +179,7 @@
       aria-controls="tutorials" aria-selected="false">Download Mobile App</a>
   </li> -->
 </ul>
-<div class="tab-content mt-3 bg-light">
+<div class="tab-content mt-3">
 
   <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
     <div class="card">
@@ -224,7 +224,7 @@
                   <li>GST, PAN, MSME, BIS / CDSCO / MDR compliance.</li>
                   <li>Quality certifications and undertakings.</li>
                 </ul>
-              </li><br/>
+              </li>
               <li>Real-time Status Tracking of applications.</li>
               <li>Vendor Profile Management and updates.</li>
               <li>Integration with Tendering & E-Procurement Systems.</li>
@@ -232,11 +232,11 @@
             </ul>
             <strong>Benefits:-</strong>
             <div class="table-responsive">
-              <table class="table table-bordered table-striped align-middle text-center shadow-sm">
+              <table class="table table-bordered table-striped align-middle  shadow-sm">
                 
                 <thead class="table-dark">
-                  <tr>
-                    <th scope="col">Benefits to Vendors</th>
+                  <tr class="text-center">
+                    <th scope="col" >Benefits to Vendors</th>
                     <th scope="col">Benefits to CGMSCL & Government</th>
                   </tr>
                 </thead>
@@ -591,7 +591,8 @@
                 data-bs-toggle="tab"
                 data-bs-target="#signup"
                 type="button">
-                Sign Up
+                New Registration 
+                <!-- Sign Up -->
               </button>
             
             </div>
@@ -864,8 +865,9 @@
                     </div>
                   </div>
 
-                  <button type="submit" class="btn btn-success w-100" [disabled]="cgmsclForm.invalid">Login to
-                    CGMSCL</button>
+                  <button type="submit" class="btn btn-success w-100" [disabled]="cgmsclForm.invalid">Login</button>
+                  <!-- <button type="submit" class="btn btn-success w-100" [disabled]="cgmsclForm.invalid">Login to
+                    CGMSCL</button> -->
                   
                 </form>
 
@@ -932,9 +934,9 @@
             </div>
             <div class="alert alert-warning mb-2 mb-md-0 flex-grow-1 small ng-star-inserted" style="">
               <ul>
-                <h4 class="text-center text-success text-bold">Who needs to Register??</h4>
-                <li>Manufacturers of drugs, consumables.</li>
-                <li>Importers of drugs, consumables.</li>
+                <h3 class="text-center text-success">Who needs to Register??</h3>
+                <li class="text-dark"><h4>Manufacturers of drugs, consumables.</h4></li>
+                <li class="text-dark"><h4>Importers of drugs, consumables.</h4></li>
               </ul>
             </div>
           </div>
