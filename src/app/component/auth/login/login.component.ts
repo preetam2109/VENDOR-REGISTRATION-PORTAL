@@ -885,7 +885,7 @@ toggleText() {
   }
 
    sendOTP(): void {
-      
+    
       // Show a loading indicator
       Swal.fire({
         title: 'Sending OTP...',
