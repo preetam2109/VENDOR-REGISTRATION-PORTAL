@@ -25,6 +25,7 @@ export class Registration {
     states: any[] = [];
     countryid:any;
     stateid:any;
+    VendorDetails:any;
     isPasswordVisible: boolean = false;
     isPasswordVisible1: boolean = false;
   // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
@@ -71,7 +72,25 @@ export class Registration {
       this.GETMASLICENCETYPE();
       this.getStates();
       this.GetCountries();
-    
+    this.getVendorDetails();
+    }
+
+
+    // https://dpdmis.in/VREGAPI/api/Registration/registeredVendors?vregid=0
+    // getVendorDetails(mPHONE1:any, mSUPPLIERNAME:any){
+    getVendorDetails(){
+      this.api.getVendorDetailsID(0).subscribe({
+        next: (res: any) => {
+         this.VendorDetails=res;
+        // console.log('No duplicate found, you can proceed');
+  
+        //  console.log("VendorDetails:", this.VendorDetails);
+        },
+        error: (err: any) => {
+          console.error("Failed to load vendor details:", err);
+          // alert("Failed to load vendor details");
+        }
+      });
     }
 
     get f() {
@@ -107,13 +126,40 @@ export class Registration {
 
 
  onSubmit() {
-  
+  // debugger;
   // const res={message: '78188', apiResponse: ''};
   // this.serverOtp = res?.message || '';
   this.isSubmitting = true;
+
   if (this.registerForm.invalid) {
     this.toastr.error('Please fill all required fields correctly!', 'Validation Error');
     return;
+  }
+  const mSUPPLIERNAME =this.registerForm.value.mSUPPLIERNAME;
+  const mPHONE1 =this.registerForm.value.mPHONE1
+//  this.getVendorDetails(mPHONE1, mSUPPLIERNAME );
+  if (mPHONE1 && mSUPPLIERNAME !== null) {
+
+    const isExists = this.VendorDetails.some((item: any) =>
+      item.supplierName?.trim().toLowerCase() === mSUPPLIERNAME.trim().toLowerCase() &&
+      item.phone1?.trim() === mPHONE1.trim()
+    );
+
+    if (isExists) {
+    
+      // alert('This supplier name and phone number already exist. Please try another.');
+
+      this.toastr.warning(
+        'Supplier name and phone number already exist. Please try another.',
+        'Duplicate Entry'
+      );
+
+      return;
+    }
+
+
+    // this.toastr.warning('Please request OTP before submitting', 'Warning');
+    // return;
   }
 
   if (!this.isOtpSent) {
