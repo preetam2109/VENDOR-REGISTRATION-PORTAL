@@ -261,14 +261,21 @@ browserInfo: any;
     this.approle = approle;
     localStorage.setItem('roleName', approle);
   }
-
+  Manualssliddesk(URL:any){
+    if (URL) {
+      // Remove '~' from the start of the URL
+      // const cleanedUrl = 'https://cgmsc.gov.in/' + URL.replace(/^~\//, '');
+      // console.log('Opening:', URL);
+      window.open(URL, '_blank');
+    } else {
+      alert(
+        '⚠️ Alert: Attachment File Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.'
+      );
+    }
+  }
   setRolePublic(name:any){
     // alert(name)
     // return;
-
-
-
-    
     if(name =='Public'){
       // return;
       this.rolename = 'Public'; 
