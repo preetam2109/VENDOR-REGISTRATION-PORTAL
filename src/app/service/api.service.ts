@@ -1325,6 +1325,13 @@ export class ApiService {
       `${this.VREGAPI}/Registration/GetMSCCOPItemDetails?VregID=${VregID}&mFileID=${mFileID}&mscCopType=${mscCopType}`
     );
   }
+ getMasCheckSupDetails(mPanNo: any, mEmail: any, mMobNo: any,mSUpName:any) {
+    // https://dpdmis.in/VREGAPI/api/Registration/MasCheckSupDetails?mPanNo=0&mEmail=geniousmedical2022%40gmail.com&mMobNo=0&mSUpName=0
+
+    return this.http.get<any[]>(
+      `${this.VREGAPI}/Registration/MasCheckSupDetails?mPanNo=${mPanNo}&mEmail=${mEmail}&mMobNo=${mMobNo}&mSUpName=${mSUpName}`
+    );
+  }
 
   InsertCOP(data: any, formData: FormData): Observable<any> {
     const params = new HttpParams()
