@@ -28,6 +28,7 @@ export class Registration {
     VendorDetails:any;
     isPasswordVisible: boolean = false;
     isPasswordVisible1: boolean = false;
+    MasCheckSupDetails:any[]=[];
   // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
   // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur
   // &mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881&mEMAIL=kaushal.stranger005%40gmail.com
@@ -72,7 +73,7 @@ export class Registration {
       this.GETMASLICENCETYPE();
       this.getStates();
       this.GetCountries();
-    this.getVendorDetails();
+    // this.getVendorDetails();
     }
 
 
@@ -84,7 +85,23 @@ export class Registration {
          this.VendorDetails=res;
         // console.log('No duplicate found, you can proceed');
   
-        //  console.log("VendorDetails:", this.VendorDetails);
+         console.log("VendorDetails:", this.VendorDetails);
+        },
+        error: (err: any) => {
+          console.error("Failed to load vendor details:", err);
+          // alert("Failed to load vendor details");
+        }
+      });
+    }
+    getMasCheckSupDetails(mPanNo:any,mEmail:any,mMobNo:any,mSUpName:any){
+      // MasCheckSupDetails?mPanNo=0&mEmail=geniousmedical2022%40gmail.com&mMobNo=0&mSUpName=0
+      this.api.getMasCheckSupDetails(mPanNo,mEmail,mMobNo,mSUpName).subscribe({
+        next: (res: any) => {
+      this.MasCheckSupDetails=res;
+      // console.log('length=', this.MasCheckSupDetails.length);
+        // console.log('No duplicate found, you can proceed');
+  
+        //  console.log("  this.MasCheckSupDetails:",  this.MasCheckSupDetails);
         },
         error: (err: any) => {
           console.error("Failed to load vendor details:", err);
@@ -137,30 +154,29 @@ export class Registration {
   }
   const mSUPPLIERNAME =this.registerForm.value.mSUPPLIERNAME;
   const mPHONE1 =this.registerForm.value.mPHONE1
+  const mPanNo =this.registerForm.value.mpanno
+  const mEmail =this.registerForm.value.mEMAIL
 //  this.getVendorDetails(mPHONE1, mSUPPLIERNAME );
   if (mPHONE1 && mSUPPLIERNAME !== null) {
+    this.getMasCheckSupDetails(mPanNo,mEmail,mPHONE1,mSUPPLIERNAME);
+    // const isExists = this.VendorDetails.some((item: any) =>
+    //   item.supplierName?.trim().toLowerCase() === mSUPPLIERNAME.trim().toLowerCase() &&
+    //   item.phone1?.trim() === mPHONE1.trim()
+    // );
 
-    const isExists = this.VendorDetails.some((item: any) =>
-      item.supplierName?.trim().toLowerCase() === mSUPPLIERNAME.trim().toLowerCase() &&
-      item.phone1?.trim() === mPHONE1.trim()
-    );
-
-    if (isExists) {
-    
+    if (this.MasCheckSupDetails.length !== 0) {
       // alert('This supplier name and phone number already exist. Please try another.');
-
       this.toastr.warning(
-        'Supplier name and phone number already exist. Please try another.',
+        'Supplier name and phone number,Pan No already exist. Please try another.',
         'Duplicate Entry'
       );
 
       return;
     }
-
-
     // this.toastr.warning('Please request OTP before submitting', 'Warning');
     // return;
   }
+//  return;
 
   if (!this.isOtpSent) {
     this.toastr.warning('Please request OTP before submitting', 'Warning');
@@ -182,7 +198,7 @@ export class Registration {
   }
 
   const formData = new FormData();
-  // return;
+ 
   this.api.Signup(form, formData).subscribe({
     next: (res: any) => {
       // console.log('res final submit in rest:=',res);
