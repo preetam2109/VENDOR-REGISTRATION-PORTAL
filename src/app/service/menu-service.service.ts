@@ -725,7 +725,7 @@ export class MenuServiceService {
       items: [
         { label: 'Home', route: '/home' },
         { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
-        { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
+        // { label: 'Vendor Registration Approved', route: '/VendorRegistrationApproved' },
         { label: 'Vendor Registration Pending', route: '/VRegistrationPending' },
         // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
         // { label: 'Growth in Distribution', route: '/distribution' },
@@ -766,8 +766,10 @@ export class MenuServiceService {
         items: [
           { label: 'Home', route: '/home' },
           { label: 'Vendor Registration Completed', route: '/VendorRegistrationCompleted' },
-          { label: 'Vendor Registration Approved Technical', route: '/ApprovalTechnicalCrt' },
+          // { label: 'Vendor Registration Approved Technical', route: '/ApprovalTechnicalCrt' },
           { label: 'Vendor Registration Pending', route: '/VRegistrationPending' },
+          { label: 'View Certificate', route: '/approveD' },
+
           // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
           // { label: 'Growth in Distribution', route: '/distribution' },
           // { label: 'Payment', route: '/PriceEvaluation' },
@@ -780,6 +782,7 @@ export class MenuServiceService {
       //   { label: 'Finance', route: '/finance-dash' },
  
         // {
+
         //   label: 'Health Facilities Coverage',
         //   route:  '/FacCoverage',
         //   submenu: [

@@ -12,25 +12,28 @@ import { ApprovalTechnicalCertificate } from "../../approval-technical-certifica
 import { ApprovalProductPermission } from "../approval-product-permission/approval-product-permission";
 import { ApprovalMarketStandingCertificate } from "../approval-market-standing-certificate/approval-market-standing-certificate";
 import { ApprovalCapaityOfProduction } from "../approval-capaity-of-production/approval-capaity-of-production";
+import { VendorRegistrationApproved } from "src/app/component/vendor-registration-approved/vendor-registration-approved";
 
 
 @Component({
   selector: 'app-approval-technical-section-tabs-under',
   standalone:true,
-  imports: [CommonModule, MatTabsModule, ManufacturingUnit, ProductPermission, Confirmation, MarketStandingCertificate, CapaityOfProduction, ApprovalTechnicalCertificate, ApprovalProductPermission, ApprovalMarketStandingCertificate, ApprovalCapaityOfProduction],
+  imports: [CommonModule, MatTabsModule, ManufacturingUnit, ProductPermission, Confirmation, MarketStandingCertificate, CapaityOfProduction, ApprovalTechnicalCertificate, ApprovalProductPermission, ApprovalMarketStandingCertificate, ApprovalCapaityOfProduction, VendorRegistrationApproved],
   templateUrl: './approval-technical-section-tabs-under.html',
   styleUrl: './approval-technical-section-tabs-under.css'
 })
 export class ApprovalTechnicalSectionTabsUnder {
-  vregid:any
+  vregid:any;
   selectedTabIndex: number = 0;
-  SupID:any
+  SupID:any;
+  vname:any;
 
   constructor(private router:Router,private api:ApiService,private route: ActivatedRoute){
   
     }
 
     ngOnInit(): void {
+      this.vname=sessionStorage.getItem('vname');
       this.route.queryParams.subscribe(params => {
         this.vregid= params['vregid'];
         this.SupID=  params['supid'];

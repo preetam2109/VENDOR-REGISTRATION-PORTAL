@@ -1,0 +1,76 @@
+.text-underline {
+    display: inline-block;
+    border-bottom: 4px solid #000; /* Thickness */
+    padding-bottom: 4px;
+  }
+  
+  @media print {
+    body * { visibility: hidden; }
+    #certificate, #certificate * { visibility: visible; }
+    #certificate { position: absolute; left: 0; top: 0; width: 210mm; }
+  }
+  #certificate table {
+    border-collapse: collapse !important;
+  }
+  #certificate th, #certificate td {
+    border: 1px solid black !important;
+    padding: 8px !important;
+  }
+
+  #certificate { font-family: 'Roboto', sans-serif; }
+
+  .qr-border {
+    border: 3px solid #000;   
+    /* padding: 8px; */
+    border-radius: 6px;       
+    background: #fff;         
+  }
+
+
+  /* test */
+  .qr-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .qr-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2px;
+    border-radius: 4px;
+  }
+  
+  
+
+
+  .ng-select-bootstrap .ng-select-container {
+    min-height: 38px;            /* Bootstrap input height */
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 2px 10px;
+  }
+  
+  .ng-select-bootstrap.ng-select-focused .ng-select-container {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  }
+  
+  .ng-select-bootstrap .ng-value-container {
+    padding-left: 2px;
+  }
+  
+  .ng-select-bootstrap .ng-placeholder {
+    color: #6c757d;
+  }
+  
+  .ng-select-bootstrap .ng-clear-wrapper {
+    padding-right: 6px;
+  }
+  
+
+  

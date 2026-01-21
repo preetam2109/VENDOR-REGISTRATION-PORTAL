@@ -1215,6 +1215,7 @@ export class ApiService {
   }
 
   GetImporterLicenceDetails(VregID: any, SupplierID: any) {
+    debugger
     return this.http.get<any[]>(
       `${this.VREGAPI}/Registration/ImporterLicenceDetails?VregID=${VregID}&SupplierID=${SupplierID}`
     );
@@ -1263,6 +1264,7 @@ export class ApiService {
   }
 
   GetImportRetentionDetails(VregID: any) {
+    debugger
     return this.http.get<any[]>(
       `${this.VREGAPI}/Registration/ImportRetentionDetails?VregID=${VregID}`
     );
@@ -1434,4 +1436,10 @@ export class ApiService {
       { responseType: 'text' } // options, not body
     );
   }
+
+  GetLiveTenderDetails(){
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetLiveTenderDetails`
+    );
+  }
+
 }

@@ -9,18 +9,23 @@ import { FormsModule, ReactiveFormsModule,FormBuilder } from '@angular/forms';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { QRCodeModule } from 'angularx-qrcode';
+import { NgSelectModule } from '@ng-select/ng-select';
 declare module 'qrcode';
 
+// import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-approvedvrf',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule,QRCodeModule],
-  templateUrl: './approvedvrf.html',
-  styleUrl: './approvedvrf.css'
+  selector: 'app-approvedrfdemo',
+  standalone:true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,QRCodeModule,NgSelectModule],
+  templateUrl: './approvedrfdemo.html',
+  styleUrl: './approvedrfdemo.css'
 })
-
-export class Approvedvrf {
+export class Approvedrfdemo {
+  showSection = false;
+  selectedTenderId: any = null;
+  tenderName:any;
+  LiveTenderDetailsList:any;
   manufacturingLicList: any[] = [];
   importerLicenceList:any[]=[];
   mSCDetailsList:any[]=[];
@@ -57,13 +62,14 @@ export class Approvedvrf {
     this.today = new Date();
    }
   ngOnInit() {
-    this.vregid=108
-    sessionStorage.getItem('vregid');
-    this.SupID=1651 
-    sessionStorage.getItem('facilityid');
+    // wings vregid=108
+    // supid=1651 
+    this.vregid=sessionStorage.getItem('vregid');
+    this.SupID=sessionStorage.getItem('facilityid');
     this.panno=sessionStorage.getItem('panno');
     this.userAgent=sessionStorage.getItem('userAgent');
    this.ipAddress=sessionStorage.getItem('ipAddress');
+   this.getLiveTenderDetails();
     this.loadVendorDetails();
     this.GetmANUFACLICDetails();
     this.GETImporterLicenceDetails();
@@ -83,6 +89,45 @@ export class Approvedvrf {
     this.qrData = JSON.stringify(this.vendorData);
     // console.log('qrdata=',this.qrData)
   }
+
+  // GetLiveTenderDetails(){
+
+  //   this.spinner.show();
+  //   this.api.GetLiveTenderDetails().subscribe((res: any) => {
+  //       this.LiveTenderDetailsList = res;
+  //       this.spinner.hide();
+        
+  //     },
+  //     (error) => {
+  //       console.error('API error:', error);
+  //       this.spinner.hide();
+  //     }
+  //   );
+
+  // }
+
+  onTenderChange(selected: any) {
+   
+    this.tenderName = selected?.schemename ?? selected; // handles both cases
+  
+    console.log('Final tenderName:', this.tenderName);
+  }
+  getLiveTenderDetails(){
+    debugger
+    this.api.GetLiveTenderDetails().subscribe((res:any[])=>{
+      console.log('API  Live Tender:', res);
+      if (res && res.length > 0) {
+        this.LiveTenderDetailsList = res.map(item => ({
+          schemeid: item.schemeid,
+          schemename: item.schemename,
+        }));
+        console.log('Processed LiveTenderDetailsList:', this.LiveTenderDetailsList);
+      } else {
+        console.error('No tender found or incorrect structure:', res);
+      }
+    });  
+  }
+
 //#region Api calling
   loadVendorDetails() {
   
