@@ -57,6 +57,8 @@ export class Approvedvrf {
     this.today = new Date();
    }
   ngOnInit() {
+
+    
     this.vregid=108
     sessionStorage.getItem('vregid');
     this.SupID=1651 

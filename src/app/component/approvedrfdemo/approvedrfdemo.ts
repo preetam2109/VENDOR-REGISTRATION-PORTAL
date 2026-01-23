@@ -10,6 +10,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { HttpClient } from '@angular/common/http';
 declare module 'qrcode';
 
 // import { NgSelectModule } from '@ng-select/ng-select';
@@ -22,6 +23,10 @@ declare module 'qrcode';
   styleUrl: './approvedrfdemo.css'
 })
 export class Approvedrfdemo {
+browserInfo: any;
+
+  SupplierName:any;
+  supplierlist:any;
   showSection = false;
   selectedTenderId: any = null;
   tenderName:any;
@@ -58,17 +63,24 @@ export class Approvedrfdemo {
     issuedOn: new Date().toLocaleDateString(),
     verificationUrl: 'https://cgmsc.gov.in/vendor/verify/234'
   };
-  constructor(private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
+  constructor(public http:HttpClient,private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
     this.today = new Date();
    }
   ngOnInit() {
     // wings vregid=108
     // supid=1651 
+
+    this.getIPAddress();
+    this.browserInfo= this.getBrowserInfo();
+    // console.log('userAgent1=',this.browserInfo.userAgent ); 
+    sessionStorage.setItem('userAgent',this.browserInfo.userAgent );
+
     this.vregid=sessionStorage.getItem('vregid');
     this.SupID=sessionStorage.getItem('facilityid');
     this.panno=sessionStorage.getItem('panno');
     this.userAgent=sessionStorage.getItem('userAgent');
    this.ipAddress=sessionStorage.getItem('ipAddress');
+   this.GetVendorDetailsID();
    this.getLiveTenderDetails();
     this.loadVendorDetails();
     this.GetmANUFACLICDetails();
@@ -112,8 +124,74 @@ export class Approvedrfdemo {
   
     console.log('Final tenderName:', this.tenderName);
   }
+  onVenderChange(selected: any) {
+    
+   this.SupID=selected?.supplierid ?? selected;
+   this.vregid=selected?.vregid ?? selected;
+    this.SupplierName = selected?.supplierName ?? selected; // handles both cases
+    sessionStorage.setItem('facilityid',this.SupID);
+    sessionStorage.setItem('vregid',this.vregid);
+  
+    console.log('Final suppliername:', this.SupplierName);
+
+
+
+
+
+    this.panno=sessionStorage.getItem('panno');
+    this.userAgent=sessionStorage.getItem('userAgent');
+   this.ipAddress=sessionStorage.getItem('ipAddress');
+    this.loadVendorDetails();
+    this.GetmANUFACLICDetails();
+    this.GETImporterLicenceDetails();
+   this.GetmSCDetailsList();
+   this.GETtPPCertificate();
+    this.GetCOPDetailsList();
+    this.GetComplienceCertificateDetails();
+    this.GetGCPDetails();
+    this.GetAnnualTurnover();
+    this.GETMassuppliergstDetails();
+    this.GETGstReturnDetails();
+    this.GETBankMandateDetail();
+    this.GetTechnicalDetails();
+    this.GetPovLicenceDetails();
+
+
+
+
+
+
+
+
+
+  }
+
+  getIPAddress() {
+    
+    this.http.get<any>('https://api.ipify.org?format=json')
+      .subscribe(
+        (res) => {
+          this.ipAddress = res.ip;
+          sessionStorage.setItem('ipAddress', this.ipAddress);
+          // console.log('this.ipAddress=',this.ipAddress);
+        },
+        (err) => {
+          console.error('Error fetching IP:', err);
+        }
+      );
+  }
+  getBrowserInfo() {
+    
+    return {
+      appName: navigator.appName,
+      appVersion: navigator.appVersion,
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      language: navigator.language
+    };
+  }
   getLiveTenderDetails(){
-    debugger
+    
     this.api.GetLiveTenderDetails().subscribe((res:any[])=>{
       console.log('API  Live Tender:', res);
       if (res && res.length > 0) {
@@ -124,6 +202,26 @@ export class Approvedrfdemo {
         console.log('Processed LiveTenderDetailsList:', this.LiveTenderDetailsList);
       } else {
         console.error('No tender found or incorrect structure:', res);
+      }
+    });  
+  }
+
+  GetVendorDetailsID(){
+    
+    this.api.getVendorDetailsID(0).subscribe((res:any)=>{
+      console.log('API  Supplier:', res);
+      if (res && res.length > 0) {
+
+
+        this.supplierlist = res.filter((item:any) => item.status === 'Complete').map((item:any) => ({
+          supplierid: item.supplierid,
+          supplierName: item.supplierName,
+          vregid: item.vregid,
+          
+        }));
+        console.log('Processed supplierlist:', this.supplierlist);
+      } else {
+        console.error('No suppliername found or incorrect structure:', res);
       }
     });  
   }

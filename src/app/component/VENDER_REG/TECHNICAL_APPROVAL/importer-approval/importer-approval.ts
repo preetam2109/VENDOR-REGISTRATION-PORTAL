@@ -21,6 +21,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import Swal from 'sweetalert2';
 declare var bootstrap: any;
 
 @Component({
@@ -34,6 +35,8 @@ declare var bootstrap: any;
   styleUrl: './importer-approval.css'
 })
 export class ImporterApproval {
+
+
   dataSource!: MatTableDataSource<any[]>;
   dataSource2!: MatTableDataSource<any[]>;
 
@@ -427,6 +430,7 @@ formatDate(dateString: string): string {
   }
 
   GETImportRetentionDetails() {
+    
     this.spinner.show();
     this.api.GetImportRetentionDetails(sessionStorage.getItem('vregid')).subscribe((res: any) => {
         this.ImportRetentionList = res.map((item: any, index: number) => ({
@@ -634,5 +638,132 @@ formatDate(dateString: string): string {
     }
   }
   
+
+
+  setApproval(element: any, value: 'Y' | 'N') {
+    
+    element.approval = value; // store selected value in row
+  }
+  
+  saveRowLic(element: any) {
+    ;
+  
+    const mIMPID = element.impid;     // provid from row
+    const Iaccept = element.approval;   // 'Y' or 'N'
+    const Remarks = element.Remarks || '';
+  
+    // Validation
+    if (!Iaccept) {
+      this.toastr.error("Please select YES or NO before saving.");
+      return;
+    }
+    if (!Remarks) {
+      this.toastr.error("Please write remark before saving.");
+      return;
+    }
+  
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this License?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.IMportLicVerification(mIMPID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.IMportLicVerification(mIMPID, Iaccept, Remarks);
+    }
+  }
+  IMportLicVerification(mIMPID: any, Iaccept: string, Remarks: string) {
+    this.api.IMportLicVerification(mIMPID, Iaccept, Remarks).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
+          this.toastr.success(res);
+        }
+  
+        this.GETImporterLicenceDetails();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Error while saving.");
+      }
+    });
+  }
+
+
+  saveRowRet(element: any) {
+    ;
+  
+    const mIIMPRETID = element.impRetId;     // provid from row
+    const Iaccept = element.approval;   // 'Y' or 'N'
+    const Remarks = element.Remarks || '';
+  
+    // Validation
+    if (!Iaccept) {
+      this.toastr.error("Please select YES or NO before saving.");
+      return;
+    }
+    if (!Remarks) {
+      this.toastr.error("Please write remark before saving.");
+      return;
+    }
+  
+    // If NO → show confirmation popup
+    if (Iaccept === 'N') {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to reject this License?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#d33"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.iMPRettLicVerification(mIIMPRETID, Iaccept, Remarks);
+        }
+      });
+  
+      return; // stop execution
+    }
+  
+    // If YES → directly call API
+    if (Iaccept === 'Y') {
+      this.iMPRettLicVerification(mIIMPRETID, Iaccept, Remarks);
+    }
+  }
+  iMPRettLicVerification(mIIMPRETID: any, Iaccept: string, Remarks: string) {
+    this.api.IMPRettLicVerification(mIIMPRETID, Iaccept, Remarks).subscribe({
+      next: (res: any) => {
+        if (Iaccept === 'N') {
+          this.toastr.success("Successfully Rejected Certificate");
+        } else {
+          this.toastr.success(res);
+        }
+  
+  this.GETImportRetentionDetails();
+
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Error while saving.");
+      }
+    });
+  }
+
 
 }

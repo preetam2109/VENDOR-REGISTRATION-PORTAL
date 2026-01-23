@@ -110,6 +110,37 @@
                 <th mat-header-cell *matHeaderCellDef>Supplier ID</th>
                 <td mat-cell *matCellDef="let element">{{ element.supplierid }}</td>
               </ng-container>
+
+
+                          <!-- Entry Date -->
+                          <ng-container matColumnDef="impisaccepted">
+                            <th mat-header-cell *matHeaderCellDef>Accepted</th>
+                          
+                            <td mat-cell *matCellDef="let row">
+                          
+                              <span 
+                                [ngClass]="{
+                                  'text-success fw-bold': row.impisaccepted === 'Y',
+                                  'text-danger fw-bold': row.impisaccepted === 'N',
+                                  'text-secondary': row.impisaccepted === 'NA'
+                                }"
+                              >
+                                {{ row.impisaccepted === 'Y' ? 'YES' : row.impisaccepted === 'N' ? 'NO' : 'NA' }}
+                              </span>
+                          
+                            </td>
+                          </ng-container>
+                          
+        
+                        <ng-container matColumnDef="impaccrejremarks">
+                          <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                          <td mat-cell *matCellDef="let row">{{ row.impaccrejremarks }}</td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="impisaccepteddt">
+                          <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
+                          <td mat-cell *matCellDef="let row">{{ row.impisaccepteddt }}</td>
+                        </ng-container>
   
               <!-- Header and Row Definitions -->
               <tr mat-header-row *matHeaderRowDef="[
@@ -124,6 +155,10 @@
       'startdate',
       'expdate',
       'filename',
+      'impisaccepted',
+      'impisaccepteddt',
+      'impaccrejremarks'
+
     ]"></tr>
   
               <tr mat-row *matRowDef="let row; columns: [
@@ -138,6 +173,9 @@
       'startdate',
       'expdate',
       'filename',
+      'impisaccepted',
+      'impisaccepteddt',
+      'impaccrejremarks'
     ];"></tr>
   
   
@@ -440,6 +478,36 @@
                 <th mat-header-cell *matHeaderCellDef>Import Type ID</th>
                 <td mat-cell *matCellDef="let element">{{ element.impTypeId }}</td>
               </ng-container>
+
+                                <!-- Entry Date -->
+                                <ng-container matColumnDef="imprisaccepted">
+                                  <th mat-header-cell *matHeaderCellDef>Accepted</th>
+                                
+                                  <td mat-cell *matCellDef="let row">
+                                
+                                    <span 
+                                      [ngClass]="{
+                                        'text-success fw-bold': row.imprisaccepted === 'Y',
+                                        'text-danger fw-bold': row.imprisaccepted === 'N',
+                                        'text-secondary': row.imprisaccepted === 'NA'
+                                      }"
+                                    >
+                                      {{ row.imprisaccepted === 'Y' ? 'YES' : row.imprisaccepted === 'N' ? 'NO' : 'NA' }}
+                                    </span>
+                                
+                                  </td>
+                                </ng-container>
+                                
+              
+                              <ng-container matColumnDef="impraccrejremarks">
+                                <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                                <td mat-cell *matCellDef="let row">{{ row.impraccrejremarks }}</td>
+                              </ng-container>
+              
+                              <ng-container matColumnDef="imprisaccepteddt">
+                                <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
+                                <td mat-cell *matCellDef="let row">{{ row.imprisaccepteddt }}</td>
+                              </ng-container>
   
               <!-- Header and Row Definitions -->
               <tr mat-header-row *matHeaderRowDef="[
@@ -453,6 +521,10 @@
             'issueDate',
             'expDate',
             'fileName',
+            'imprisaccepted',
+            'imprisaccepteddt',
+            'impraccrejremarks'
+
           ]"></tr>
   
               <tr mat-row *matRowDef="let row; columns: [
@@ -466,6 +538,9 @@
             'issueDate',
             'expDate',
             'fileName',
+            'imprisaccepted',
+            'imprisaccepteddt',
+            'impraccrejremarks'
           ];"></tr>
   
   

@@ -1097,6 +1097,7 @@ toggleText() {
   
   
   getIPAddress() {
+    
     this.http.get<any>('https://api.ipify.org?format=json')
       .subscribe(
         (res) => {
@@ -1110,6 +1111,7 @@ toggleText() {
       );
   }
   getBrowserInfo() {
+    
     return {
       appName: navigator.appName,
       appVersion: navigator.appVersion,
