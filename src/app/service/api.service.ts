@@ -611,7 +611,8 @@ export class ApiService {
   }
   // ---Signup----
   Signup(data: any, formData: FormData): Observable<any> {
-    debugger;
+  // debugger
+
     // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
     // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
     // mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881
@@ -630,7 +631,7 @@ export class ApiService {
       .set('mPHONE1', data.mPHONE1)
       .set('mEMAIL', data.mEMAIL)
       .set('mPwd', data.mPwd);
-      console.log('params',params);
+      // console.log('params',JSON.stringify(params));
     return this.http.post(
       `${this.VREGAPI}/Registration/InsertSupplier`,
       formData,
@@ -1328,6 +1329,8 @@ export class ApiService {
     );
   }
  getMasCheckSupDetails(mPanNo: any, mEmail: any, mMobNo: any,mSUpName:any) {
+  // debugger
+
     // https://dpdmis.in/VREGAPI/api/Registration/MasCheckSupDetails?mPanNo=0&mEmail=geniousmedical2022%40gmail.com&mMobNo=0&mSUpName=0
 
     return this.http.get<any[]>(
