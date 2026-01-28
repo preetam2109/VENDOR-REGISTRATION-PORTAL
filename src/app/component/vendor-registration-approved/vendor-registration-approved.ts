@@ -258,7 +258,6 @@ ngOnInit() {
 }
 
 selectedTabValue(event: any): void {
-  ;
   console.log('this.url6=:',this.url);
   this.selectedTabIndex = event.index;
   if (this.selectedTabIndex === 0) {

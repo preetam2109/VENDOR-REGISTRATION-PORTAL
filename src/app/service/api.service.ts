@@ -611,6 +611,7 @@ export class ApiService {
   }
   // ---Signup----
   Signup(data: any, formData: FormData): Observable<any> {
+    debugger;
     // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
     // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
     // mADDRESS3=Snatoshi%20Nagar&mCITY=Raipur&mCOUNTRYID=1&mZIP=495001&mPHONE1=9770406881
@@ -629,6 +630,7 @@ export class ApiService {
       .set('mPHONE1', data.mPHONE1)
       .set('mEMAIL', data.mEMAIL)
       .set('mPwd', data.mPwd);
+      console.log('params',params);
     return this.http.post(
       `${this.VREGAPI}/Registration/InsertSupplier`,
       formData,
@@ -697,7 +699,7 @@ export class ApiService {
     return this.http.get(`${this.VREGAPI}/Registration/getYear`);
   }
   GetAnnualTurnover(vregId: any) {
-    //https://dpdmis.in/VREGAPI/api/Registration/GetAnnualTurnover?vregId=50
+    //https://dpdmis.in/VREGAPI/api/Registration/GetAnnualTurnover?vregId=50fd
     return this.http.get(
       `${this.VREGAPI}/Registration/GetAnnualTurnover?vregId=${vregId}`
     );
@@ -758,7 +760,7 @@ export class ApiService {
   }
   GetComplienceCertificateDetails(mVrgeID: any, mSupplierid: any) {
     //https://dpdmis.in/VREGAPI/api/Registration/GetComplienceCertificate?mVregID=50&mSupplierid=1936
-    // https://dpdmis.in/VREGAPI/api/Registration/GetComplienceCertificate?mVregID=50&mSupplierid=1936
+    // 
     // get item typedetails
     return this.http.get(
       `${this.VREGAPI}/Registration/GetComplienceCertificate?mVregID=${mVrgeID}&mSupplierid=${mSupplierid}`
