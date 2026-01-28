@@ -26,6 +26,7 @@ export class Registration {
     countryid:any;
     stateid:any;
     VendorDetails:any;
+    masddlUserDetails:any;
     isPasswordVisible: boolean = false;
     isPasswordVisible1: boolean = false;
     MasCheckSupDetails:any[]=[];
@@ -73,19 +74,20 @@ export class Registration {
       this.GETMASLICENCETYPE();
       this.getStates();
       this.GetCountries();
+      this.getmasddlUser();
     // this.getVendorDetails();
     }
 
 
     // https://dpdmis.in/VREGAPI/api/Registration/registeredVendors?vregid=0
     // getVendorDetails(mPHONE1:any, mSUPPLIERNAME:any){
-    getVendorDetails(){
-      this.api.getVendorDetailsID(0).subscribe({
+    getmasddlUser(){
+      this.api.masddlUser('SUP').subscribe({
         next: (res: any) => {
-         this.VendorDetails=res;
+         this.masddlUserDetails=res;
         // console.log('No duplicate found, you can proceed');
   
-         console.log("VendorDetails:", this.VendorDetails);
+        //  console.log("masddlUserDetails:", this.masddlUserDetails);
         },
         error: (err: any) => {
           console.error("Failed to load vendor details:", err);
@@ -93,6 +95,20 @@ export class Registration {
         }
       });
     }
+    // getVendorDetails(){
+    //   this.api.getVendorDetailsID(0).subscribe({
+    //     next: (res: any) => {
+    //      this.VendorDetails=res;
+    //     // console.log('No duplicate found, you can proceed');
+  
+    //      console.log("VendorDetails:", this.VendorDetails);
+    //     },
+    //     error: (err: any) => {
+    //       console.error("Failed to load vendor details:", err);
+    //       // alert("Failed to load vendor details");
+    //     }
+    //   });
+    // }
     getMasCheckSupDetails(mPanNo:any,mEmail:any,mMobNo:any,mSUpName:any){
       // MasCheckSupDetails?mPanNo=0&mEmail=geniousmedical2022%40gmail.com&mMobNo=0&mSUpName=0
       this.api.getMasCheckSupDetails(mPanNo,mEmail,mMobNo,mSUpName).subscribe({
@@ -142,83 +158,198 @@ export class Registration {
   }
 
 
- onSubmit() {
-  // debugger;
-  // const res={message: '78188', apiResponse: ''};
-  // this.serverOtp = res?.message || '';
+//  onSubmitt() {
+//   debugger;
+//   // const res={message: '78188', apiResponse: ''};
+//   // this.serverOtp = res?.message || '';
+//   this.isSubmitting = true;
+
+//   if (this.registerForm.invalid) {
+//     this.toastr.error('Please fill all required fields correctly!', 'Validation Error');
+//     return;
+//   }
+//   const mSUPPLIERNAME =this.registerForm.value.mSUPPLIERNAME;
+//   const mPHONE1 =this.registerForm.value.mPHONE1
+//   const mPanNo =this.registerForm.value.mpanno
+//   const mEmail =this.registerForm.value.mEMAIL
+// //  this.getVendorDetails(mPHONE1, mSUPPLIERNAME );
+//   if (mPHONE1 && mSUPPLIERNAME !== null) {
+//       debugger;
+//        if (this.masddlUserDetails.length !== 0) {
+//     const isExists = this.masddlUserDetails.some((item: any) =>
+//       item.supplierName?.trim().toLowerCase() === mSUPPLIERNAME.trim().toLowerCase() &&
+//       item.phone1?.trim() === mPHONE1.trim()
+//     );
+//     if(isExists==true){
+//     this.toastr.warning(
+//         'Supplier name and phone number,Pan No already exist. Please try another.',
+//         'Duplicate Entry'
+//       );
+
+//       return;
+//     }
+//   }
+//     this.getMasCheckSupDetails(mPanNo,mEmail,mPHONE1,mSUPPLIERNAME);
+//     if (this.MasCheckSupDetails.length !== 0) {
+//       // alert('This supplier name and phone number already exist. Please try another.');
+//       this.toastr.warning(
+//         'Supplier name and phone number,Pan No already exist. Please try another.',
+//         'Duplicate Entry'
+//       );
+
+//       return;
+//     }
+//     // this.toastr.warning('Please request OTP before submitting', 'Warning');
+//     // return;
+//   }
+// //  return;
+
+//   if (!this.isOtpSent) {
+//     this.toastr.warning('Please request OTP before submitting', 'Warning');
+//     return;
+//   }
+
+//   const otp = this.registerForm.value.otp?.toString().trim(); // entered by user
+//   const serverOtp = this.serverOtp?.toString().trim();        // from backend
+  
+//   if (serverOtp && otp !== serverOtp) {
+//     this.toastr.error('Invalid OTP, please try again', 'Error');
+//     return;
+//   }
+//   // password check
+//   const form = this.registerForm.value;
+//   if (form.mPwd !== form.confirmPassword) {
+//     this.toastr.error('Password and Confirm Password do not match!', 'Error');
+//     return;
+//   }
+
+//   const formData = new FormData();
+//       //  console.log('params',JSON.stringify(params));
+//   this.api.Signup(form, formData).subscribe({
+//     next: (res: any) => {
+//       // console.log('res final submit in rest:=',res);
+    
+//       this.GETSendOtp(this.registerForm.value.mPHONE1,this.registerForm.value.mSUPPLIERNAME,'SIGNUP');
+//       // alert('Vendor Registered Successfully!');
+//       this.toastr.success('Vendor Registered Successfully!', 'Success');
+//       this.enteredOtp = '';
+//       this.isOtpSent = false;
+//       this.isSubmitting = false;
+//       this.registerForm.reset();
+
+//     },
+//     error: (err: any) => {
+//       console.error('Registration Error:', err);
+//       this.toastr.error('Failed to register vendor', 'Error');
+//       this.isSubmitting = false;
+//     }
+//   });
+// }
+// testing
+onSubmit() {
+  //  debugger;
   this.isSubmitting = true;
 
   if (this.registerForm.invalid) {
     this.toastr.error('Please fill all required fields correctly!', 'Validation Error');
+    this.isSubmitting = false;
     return;
   }
-  const mSUPPLIERNAME =this.registerForm.value.mSUPPLIERNAME;
-  const mPHONE1 =this.registerForm.value.mPHONE1
-  const mPanNo =this.registerForm.value.mpanno
-  const mEmail =this.registerForm.value.mEMAIL
-//  this.getVendorDetails(mPHONE1, mSUPPLIERNAME );
-  if (mPHONE1 && mSUPPLIERNAME !== null) {
-    this.getMasCheckSupDetails(mPanNo,mEmail,mPHONE1,mSUPPLIERNAME);
-    // const isExists = this.VendorDetails.some((item: any) =>
-    //   item.supplierName?.trim().toLowerCase() === mSUPPLIERNAME.trim().toLowerCase() &&
-    //   item.phone1?.trim() === mPHONE1.trim()
-    // );
 
-    if (this.MasCheckSupDetails.length !== 0) {
-      // alert('This supplier name and phone number already exist. Please try another.');
+  const {
+    mSUPPLIERNAME,
+    mPHONE1,
+    mpanno,
+    mEMAIL,
+    otp,
+    mPwd,
+    confirmPassword} = this.registerForm.value;
+
+  //  1. Local duplicate check
+  if (this.masddlUserDetails?.length) {
+    const isExists = this.masddlUserDetails.some((item: any) =>
+      item.firstname?.trim().toLowerCase() === mSUPPLIERNAME.trim().toLowerCase() &&
+      item.siMobile?.trim() === mPHONE1.trim()
+    );
+// console.log('exist',isExists)
+    if (isExists) {
       this.toastr.warning(
-        'Supplier name and phone number,Pan No already exist. Please try another.',
+        'Supplier name and phone number already exist.',
         'Duplicate Entry'
       );
-
+      this.isSubmitting = false;
       return;
     }
-    // this.toastr.warning('Please request OTP before submitting', 'Warning');
-    // return;
-  }
-//  return;
-
-  if (!this.isOtpSent) {
-    this.toastr.warning('Please request OTP before submitting', 'Warning');
-    return;
   }
 
-  const otp = this.registerForm.value.otp?.toString().trim(); // entered by user
-  const serverOtp = this.serverOtp?.toString().trim();        // from backend
+  //  2. Server duplicate check (ASYNC)
+  this.api.getMasCheckSupDetails(mpanno, mEMAIL, mPHONE1, mSUPPLIERNAME)
+    .subscribe({
+      next: (res: any[]) => {
+        if (res?.length) {
+          this.toastr.warning(
+            'Supplier / PAN / Email already exist.',
+            'Duplicate Entry'
+          );
+          this.isSubmitting = false;
+          return;
+        }
+
+        //  3. OTP check
+
+        // if (this.serverOtp?.toString() !== otp?.toString()) {
+        //   this.toastr.error('Invalid OTP', 'Error');
+        //   this.isSubmitting = false;
+        //   return;
+        // }
+   
   
-  if (serverOtp && otp !== serverOtp) {
-    this.toastr.error('Invalid OTP, please try again', 'Error');
-    return;
-  }
-  // password check
-  const form = this.registerForm.value;
-  if (form.mPwd !== form.confirmPassword) {
-    this.toastr.error('Password and Confirm Password do not match!', 'Error');
-    return;
-  }
-
-  const formData = new FormData();
- 
-  this.api.Signup(form, formData).subscribe({
-    next: (res: any) => {
-      // console.log('res final submit in rest:=',res);
+  if (this.serverOtp?.toString().trim() && otp?.toString().trim() !== this.serverOtp?.toString().trim()) {
     
-      this.GETSendOtp(this.registerForm.value.mPHONE1,this.registerForm.value.mSUPPLIERNAME,'SIGNUP');
-      // alert('Vendor Registered Successfully!');
-      this.toastr.success('Vendor Registered Successfully!', 'Success');
-      this.enteredOtp = '';
-      this.isOtpSent = false;
-      this.isSubmitting = false;
-      this.registerForm.reset();
+    this.toastr.error('Invalid OTP, please try again', 'Error');
+       this.isSubmitting = false;
+    return;
+  }
+        //  4. Password match
+        if (mPwd !== confirmPassword) {
+          this.toastr.error('Password and Confirm Password do not match!', 'Error');
+          this.isSubmitting = false;
+          return;
+        }
+//  return;
+        //  5. Final submit
+        const formData = new FormData();
+        this.api.Signup(this.registerForm.value, formData)
+          .subscribe({
+            next: () => {
+              this.GETSendOtp(mPHONE1, mSUPPLIERNAME, 'SIGNUP');
+                //  this.GETSendOtp(this.registerForm.value.mPHONE1,this.registerForm.value.mSUPPLIERNAME,'SIGNUP');
+              this.toastr.success('Vendor Registered Successfully!', 'Success');
 
-    },
-    error: (err: any) => {
-      console.error('Registration Error:', err);
-      this.toastr.error('Failed to register vendor', 'Error');
-      this.isSubmitting = false;
-    }
-  });
+              this.registerForm.reset();
+              this.isOtpSent = false;
+              this.serverOtp = '';
+              this.isSubmitting = false;
+            },
+            error: () => {
+              // this.toastr.error('Failed to register vendor', 'Error');
+              this.toastr.error('Something went wrong. Please check form details and try again.', 'Error');
+              this.isSubmitting = false;
+            }
+          });
+      },
+      error: () => {
+        this.toastr.error('Failed to validate supplier details', 'Error');
+        this.isSubmitting = false;
+      }
+    });
 }
+
+// testing
+
+
+
+
 GETSendOtp(mobile:any,Detail:any,mType:any){
   // https://localhost:7053/api/Sms/SendOtp?mobile=9770406881&Detail=Kaushal&mType=SIGNUP
   this.api.GETSendOtp(mobile,Detail,mType)
@@ -330,9 +461,9 @@ onStatesChange(event: Event): void {
 
   if (selectedVendor) {
     this.stateid = selectedVendor.stateid;
-    this.registerForm.get('mADDRESS3')?.setValue(this.stateid); // ✅ update form control manually
+    this.registerForm.get('mADDRESS3')?.setValue(this.stateid); //  update form control manually
     this.registerForm.get('mADDRESS3')?.markAsTouched(); // optional, ensures UI reacts
-    this.registerForm.get('mADDRESS3')?.updateValueAndValidity(); // ✅ triggers validation refresh
+    this.registerForm.get('mADDRESS3')?.updateValueAndValidity(); //  triggers validation refresh
   }
 }
 

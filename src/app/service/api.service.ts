@@ -629,6 +629,7 @@ export class ApiService {
       .set('mPHONE1', data.mPHONE1)
       .set('mEMAIL', data.mEMAIL)
       .set('mPwd', data.mPwd);
+      console.log('params',JSON.stringify(params));
     return this.http.post(
       `${this.VREGAPI}/Registration/InsertSupplier`,
       formData,
@@ -697,7 +698,7 @@ export class ApiService {
     return this.http.get(`${this.VREGAPI}/Registration/getYear`);
   }
   GetAnnualTurnover(vregId: any) {
-    //https://dpdmis.in/VREGAPI/api/Registration/GetAnnualTurnover?vregId=50
+    //https://dpdmis.in/VREGAPI/api/Registration/GetAnnualTurnover?vregId=50fd
     return this.http.get(
       `${this.VREGAPI}/Registration/GetAnnualTurnover?vregId=${vregId}`
     );
@@ -758,7 +759,7 @@ export class ApiService {
   }
   GetComplienceCertificateDetails(mVrgeID: any, mSupplierid: any) {
     //https://dpdmis.in/VREGAPI/api/Registration/GetComplienceCertificate?mVregID=50&mSupplierid=1936
-    // https://dpdmis.in/VREGAPI/api/Registration/GetComplienceCertificate?mVregID=50&mSupplierid=1936
+    // 
     // get item typedetails
     return this.http.get(
       `${this.VREGAPI}/Registration/GetComplienceCertificate?mVregID=${mVrgeID}&mSupplierid=${mSupplierid}`
