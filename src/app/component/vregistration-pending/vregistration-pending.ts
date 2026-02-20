@@ -319,6 +319,17 @@ export class VRegistrationPending {
   }
   onButtonClick(vregid: any, supid: any) {
     this.router.navigate(
+      ['ApprovalTechnicalCrt'],
+      { 
+        queryParams: {
+          vregid: vregid,
+          supid: supid
+        }
+      }
+    );
+  }
+  onButtonClickFincance(vregid: any, supid: any) {
+    this.router.navigate(
       ['VendorRegistrationApproved'],
       { 
         queryParams: {

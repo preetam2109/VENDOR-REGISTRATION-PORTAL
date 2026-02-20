@@ -623,7 +623,7 @@ get f() {
   if (this.selectedAnuvFile) {
     formData.append('TurnOverDocument', this.selectedAnuvFile, this.selectedAnuvFile.name);
   }
-
+ 
   this.api.post('/Registration/UpdateAnnualTurnover', formData).subscribe(
     (res: any) => {
       this.toastr.success(res.message, 'Success');

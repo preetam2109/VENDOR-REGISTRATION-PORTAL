@@ -611,7 +611,7 @@ export class ApiService {
   }
   // ---Signup----
   Signup(data: any, formData: FormData): Observable<any> {
-  // debugger
+  // 
 
     // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
     // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
@@ -887,8 +887,7 @@ export class ApiService {
     );
   }
 
-  //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?
-  // mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
+  //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
   InsertComplianceCertificate1(data: any, formData: FormData): Observable<any> {
     let params = new HttpParams()
       .set('mlicid', data.mlicid)
@@ -974,6 +973,7 @@ export class ApiService {
   }
   public post(url: string, data: FormData, options?: any) {
     //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+  
     return this.http.post(this.VREGAPI + url, data, options);
   }
 
@@ -1088,7 +1088,31 @@ export class ApiService {
     );
   }
 
+  // Update existing manufacturing licence (supports optional FormData)
+  updateManufacturingLic(data: any, formData?: FormData): Observable<any> {
+    debugger  
+    const params = new HttpParams()
+      .set('LICID', data.LICID)
+      .set('mUNITID', data.mUNITID)
+      .set('mFORMID', data.mFORMID)
+      .set('mLICTYPEID', data.mLICTYPEID)
+      .set('mSUPPLIERID', data.mSUPPLIERID)
+      .set('mVregid', data.mVregid)
+      .set('mLICNO', data.mLICNO)
+      .set('mISSUEDATE', data.mISSUEDATE)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mLicIssuingAuthority', data.mLicIssuingAuthority || '');
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateManufacturingLic`,
+      formData || null,
+      { params, responseType: 'text' }
+    );
+  }
+
   postRetentionCertificate(data: any, formData: FormData): Observable<any> {
+    debugger
     const params = new HttpParams()
       .set('mLICID', data.mLICID)
       .set('mISSUEDATE', data.mISSUEDATE)
@@ -1102,6 +1126,31 @@ export class ApiService {
     return this.http.post(
       `${this.VREGAPI}/Registration/MASVREGMANUFACPROVCERTIFICATE`,
       formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  /**
+   * Update provider certificate (supports optional file in FormData)
+   * Server signature:
+   * public async Task<IActionResult> UpdatePROVCERTIFICATE(int PROVID, int mLICID, string mISSUEDATE, string mStartDate, string mVALIDITYDATE, int mVregid, string mretid, string mFormID, string mProIssuingAuthority, [FromForm] PancardUpdateDTO request)
+   */
+  updatePROVCERTIFICATE(data: any, formData?: FormData): Observable<any> {
+    debugger
+    const params = new HttpParams()
+      .set('PROVID', data.PROVID)
+      .set('mLICID', data.mLICID)
+      .set('mISSUEDATE', data.mISSUEDATE)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mVregid', data.mVregid)
+      .set('mretid', data.mretid)
+      .set('mFormID', data.mFormID)
+      .set('mProIssuingAuthority', data.mProIssuingAuthority || '');
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdatePROVCERTIFICATE`,
+      formData || null,
       { params, responseType: 'text' }
     );
   }
@@ -1175,6 +1224,7 @@ export class ApiService {
   // }
 
   postPPCertificate(data: any, formData: FormData): Observable<any> {
+    debugger
     const params = new HttpParams()
       .set('mVergID', data.mVergID) // ✅ matches API param exactly
       .set('mIssueDate', data.mIssueDate)
@@ -1190,6 +1240,7 @@ export class ApiService {
   }
 
   insertMasVregPPCItems(vregid: any, items: any[]): Observable<any> {
+    debugger
     const params = new HttpParams().set('vregid', vregid.toString());
 
     return this.http.post(
@@ -1215,6 +1266,7 @@ export class ApiService {
   }
 
   GetImporterLicenceDetails(VregID: any, SupplierID: any) {
+    
     return this.http.get<any[]>(
       `${this.VREGAPI}/Registration/ImporterLicenceDetails?VregID=${VregID}&SupplierID=${SupplierID}`
     );
@@ -1234,6 +1286,52 @@ export class ApiService {
     return this.http.post(
       `${this.VREGAPI}/Registration/masimporterdocument`,
       formData,
+      { params, responseType: 'text' }
+    );
+  }
+
+  /**
+   * Update importer licence document (supports optional file in FormData)
+   * Server signature:
+   * public async Task<IActionResult> Updatemasimporterdocument(int IMPID, int mLICID, string mImptypeid, string mIMPLICNO, string mISSUEDATE, string mStartDate, string mVALIDITYDATE, int mVregid, string mIMPIssuingAuthority, [FromForm] PancardUpdateDTO request)
+   */
+  updateMasimporterdocument(data: any, formData?: FormData): Observable<any> {
+    debugger
+    const params = new HttpParams()
+      .set('IMPID', data.IMPID)
+      .set('mLICID', data.mLICID)
+      .set('mImptypeid', data.mImptypeid)
+      .set('mIMPLICNO', data.mIMPLICNO)
+      .set('mISSUEDATE', data.mISSUEDATE)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mVregid', data.mVregid)
+      .set('mIMPIssuingAuthority', data.mIMPIssuingAuthority || '');
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/Updatemasimporterdocument`,
+      formData || null,
+      { params, responseType: 'text' }
+    );
+  }
+
+  /**
+   * public async Task<IActionResult> UpdateimporterProvCertificate(int IMPRETID, int mIMPID, string mISSUEDATE, string mStartDate, string mVALIDITYDATE, int mVregid, string mIMPRETIssuingAuthority, [FromForm] PancardUpdateDTO request)
+   */
+  UpdateimporterProvCertificate(data: any, formData?: FormData): Observable<any> {
+    debugger
+    const params = new HttpParams()
+      .set('IMPRETID', data.IMPRETID)
+      .set('mIMPID', data.mIMPID)
+      .set('mISSUEDATE', data.mISSUEDATE)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mVregid', data.mVregid)
+      .set('mIMPRETIssuingAuthority', data.mIMPRETIssuingAuthority || '');
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateimporterProvCertificate`,
+      formData || null,
       { params, responseType: 'text' }
     );
   }
@@ -1263,6 +1361,7 @@ export class ApiService {
   }
 
   GetImportRetentionDetails(VregID: any) {
+    
     return this.http.get<any[]>(
       `${this.VREGAPI}/Registration/ImportRetentionDetails?VregID=${VregID}`
     );
@@ -1329,7 +1428,7 @@ export class ApiService {
     );
   }
  getMasCheckSupDetails(mPanNo: any, mEmail: any, mMobNo: any,mSUpName:any) {
-  // debugger
+  // 
 
     // https://dpdmis.in/VREGAPI/api/Registration/MasCheckSupDetails?mPanNo=0&mEmail=geniousmedical2022%40gmail.com&mMobNo=0&mSUpName=0
 
@@ -1434,4 +1533,72 @@ export class ApiService {
       { responseType: 'text' } // options, not body
     );
   }
+
+//#region update apis
+DeleteTechnicalFile(mVregid: any, mFileID: any) {
+  return this.http.put(
+    `${this.VREGAPI}/Registration/DeleteTechnicalFile`,
+    {},
+    {
+      params: {
+        mVregid: mVregid,
+        mFileID: mFileID
+      },
+      responseType: 'text' 
+    }
+  );
+}
+
+
+  // https://dpdmis.in/VREGAPI/api/Registration/UpdateComplianceCertificate?WHOID=0& mlicid=0&mWHONO=0& mComid=0& mVergID=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0& mRemarks=0&mSupplierid=0
+
+  // UpdateComplianceCertificate
+  // (WHOID:any,mlicid:any,mWHONO:any,mComid:any,mVergID:any,
+  // ISSUEDATE:any,mstartdate:any,mEXPDate:any,mRemarks:any,mSupplierid:any){
+
+  // }
+    UpdateComplianceCertificate(data: any, formData: FormData): Observable<any> {
+ 
+    let params = new HttpParams()
+      .set('WHOID', data.WHOID)
+      .set('mlicid', data.mlicid)
+      .set('mWHONO', data.mWHONO)
+      .set('mComid', data.mComid)
+      .set('mVergID', data.mVergID)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate)
+      .set('mRemarks', data.mRemarks)
+      .set('mSupplierid', data.mSupplierid);
+    // return;
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateComplianceCertificate
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateComplianceCertificate`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  //#endregion
+
+  GetLiveTenderDetails(){
+    return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetLiveTenderDetails`
+    );
+  }
+
+  IMportLicVerification(mIMPID: any, Iaccept: any, Remarks: any) {
+    return this.http.put(
+      `${this.VREGAPI}/Registration/IMportLicVerification?mIMPID=${mIMPID}&Iaccept=${Iaccept}&Remarks=${Remarks}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
+  IMPRettLicVerification(mIIMPRETID: any, Iaccept: any, Remarks: any) {
+    return this.http.put(
+      `${this.VREGAPI}/Registration/IMPRettLicVerification?mIIMPRETID=${mIIMPRETID}&Iaccept=${Iaccept}&Remarks=${Remarks}`,
+      {}, // empty body
+      { responseType: 'text' } // options, not body
+    );
+  }
+
+
 }

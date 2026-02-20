@@ -1,5 +1,63 @@
+<div class="row col-12" >
 
-<section class="card border rounded shadow-lg p-4">
+   
+        <!-- Tender Dropdown -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-semibold">
+            Select Vendor <span class="text-danger"></span>
+          </label>
+      
+          <ng-select
+            class="form-select"
+            [items]="supplierlist"
+            bindLabel="supplierName"
+            bindValue="supplierid"
+            formControlName="supplierid"
+            placeholder=""
+            (change)="onVenderChange($event)"
+            [searchable]="true"
+            [clearable]="true"
+            appendTo="body">
+          </ng-select>
+        </div>
+      
+    
+    
+        <!-- Tender Dropdown -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-semibold">
+            Select Tender <span class="text-danger"></span>
+          </label>
+      
+          <ng-select
+            class="form-select"
+            [items]="LiveTenderDetailsList"
+            bindLabel="schemename"
+            bindValue="schemeid"
+            formControlName="schemeid"
+            placeholder=""
+            (change)="onTenderChange($event)"
+            [searchable]="true"
+            [clearable]="true"
+            appendTo="body">
+          </ng-select>
+        </div>
+      
+</div>
+  
+  <!-- Button Row -->
+  <div class="row mb-4 justify-content-center">
+    <div class="col-md-6">
+      <button
+        type="button"
+        class="btn btn-primary mt-2"
+        (click)="showSection = !showSection">
+        {{ showSection ? 'View Certificate' : 'View Certificate' }}
+      </button>
+    </div>
+  </div>
+  
+<section  *ngIf="showSection" class="card border rounded shadow-lg p-4">
 
     <div class="container border border-dark" id="certificate">
 
@@ -18,14 +76,14 @@
                 <!-- Center Paragraph style="color:#420387"-->
                 <div class="col-md-6 text-center text-primary ">
                     <h3 class="fw-bold mb-1">
-                        Manufacturer/Supplier: {{ vendor.suppliername || '—' }}
+                        Manufacturer/Supplier: {{ SupplierName || '—' }}
                     </h3>
                     <h3 class="fw-bold mb-1">
-                        Tender: 205/CGMSCL/Drug & Medicine/2025-26, Dt. 09/10/2025
+                        Tender: {{tenderName}}
                     </h3>
-                    <h3 class="fw-bold mb-1">
+                    <!-- <h3 class="fw-bold mb-1">
                         e-Proc Tender: 177312 Start DT: 01-102-25 End DT: 30-10-25
-                    </h3>
+                    </h3> -->
                 </div>
 
                 <!-- Right Image -->
@@ -500,7 +558,8 @@
                         <tr>
                             <td class="text-start">Verification Team</td>
                             <td>Verify documents</td>
-                            <td>[Approved / Pending]</td>
+                            <!-- <td>[Approved / Pending]</td> -->
+                            <td>Approved</td>
                         </tr>
                     </tbody>
                 </table>
@@ -542,6 +601,6 @@
         </h3>
     </div>
     <div class="col-12 col-md-12 container justify-content-center d-flex p-4 mt-2">
-        <button class="btn btn-primary btn-lg" (click)="downloadAsPDF()">Download PDF</button>
+        <button class="btn btn-primary btn-lg" (click)="downloadAsPDF()">Generate Certificate</button>
     </div>
 </section>

@@ -881,7 +881,7 @@ toggleText() {
     // this.spinner.hide()
 
         console.error('Error fetching drop info:', error);
-        this.toastr.error('Failed to load warehouse data');
+        // this.toastr.error('Failed to load warehouse data');
       }
     );
   }
@@ -1097,6 +1097,7 @@ toggleText() {
   
   
   getIPAddress() {
+    
     this.http.get<any>('https://api.ipify.org?format=json')
       .subscribe(
         (res) => {
@@ -1110,6 +1111,7 @@ toggleText() {
       );
   }
   getBrowserInfo() {
+    
     return {
       appName: navigator.appName,
       appVersion: navigator.appVersion,

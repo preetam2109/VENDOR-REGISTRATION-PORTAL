@@ -202,7 +202,7 @@ isPasswordVisible: boolean = false;
     // this.spinner.hide()
 
         console.error('Error fetching drop info:', error);
-        this.toastr.error('Failed to load warehouse data');
+        // this.toastr.error('Failed to load warehouse data');
       }
     );
   }

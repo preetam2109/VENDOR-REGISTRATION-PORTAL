@@ -52,6 +52,11 @@ export class ConfirmRetTab {
   selectedPanFile: File | null = null;
   selectedRetFile: File | null = null;
 
+  // edit state for retention form
+  isEditRetention: boolean = false;
+  currentRetId: any = null;
+  currentEditingRetRow: any = null;
+
 
 
   licForm!: FormGroup;
@@ -396,6 +401,12 @@ this.GetPovLicenceDetails();
             ...item,
             sno: index + 1
           }));
+          // If navigated via Update button, show only rejected rows (isplaccepted === 'N')
+          if (sessionStorage.getItem('filterRejected') === 'true') {
+            this.retentionList = this.retentionList.filter((r: any) => r.isplaccepted === 'N');
+            // sessionStorage.removeItem('filterRejected');
+          }
+
           this.dataSource3.data = this.retentionList;
           this.dataSource3.paginator = this.paginator;
           this.dataSource3.sort = this.sort;
@@ -750,6 +761,14 @@ formatDate(dateString: string): string {
   return `${day}-${month}-${year}`;
 }
 
+  // Convert dd-MM-yyyy to yyyy-MM-dd for input[type=date]
+  parseToInputDate(dateStr: string): string {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return '';
+    return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+  }
+
 onFileSelected(event: any) {
   const file = event.target.files[0];
   if (file) {
@@ -764,6 +783,83 @@ onFileSelectedRetention(event: any) {
     console.log('Selected file :', file.name);
   }
 }
+
+  editRetentionRow(element: any) {
+    this.onshowRETE = true;
+    this.isEditRetention = true;
+    this.currentRetId = element.provid || element.PROVID || null;
+    this.currentEditingRetRow = element;
+
+    const issue = this.parseToInputDate(element.issuedate || element.mISSUEDATE);
+    const start = this.parseToInputDate(element.startdate || element.mStartDate);
+    const valid = this.parseToInputDate(element.expdate || element.mVALIDITYDATE);
+
+    this.retForm.patchValue({
+      mLICID: element.licid || element.mLICID || null,
+      mretid: element.retid || element.mretid || null,
+      mFormID: element.formid || element.mFormID || null,
+      mISSUEDATE: issue,
+      mStartDate: start,
+      mVALIDITYDATE: valid,
+      mVregid: this.vregid,
+      mProIssuingAuthority: element.proIssuingAuthority || element.mProIssuingAuthority || ''
+    });
+
+    // clear any previously selected file for edit
+    this.selectedRetFile = null;
+  }
+
+  cancelEditRetention() {
+    this.isEditRetention = false;
+    this.currentRetId = null;
+    this.currentEditingRetRow = null;
+    this.retForm.reset();
+    this.retForm.patchValue({ mVregid: this.vregid });
+    this.onshowRETE = false;
+  }
+
+  updateRetention() {
+    debugger
+    if (this.retForm.invalid) {
+      this.toastr.warning('Please fill all required fields correctly!');
+      return;
+    }
+
+    this.loadingSectionA = true;
+
+    const formData = new FormData();
+    if (this.selectedRetFile) {
+      formData.append('PanCardDocument', this.selectedRetFile);
+    }
+
+    const params = {
+      PROVID: this.currentRetId,
+      mLICID: this.currentEditingRetRow?.licid || this.currentEditingRetRow?.mLICID || '',
+      mISSUEDATE: this.formatDate(this.retForm.value.mISSUEDATE),
+      mStartDate: this.formatDate(this.retForm.value.mStartDate),
+      mVALIDITYDATE: this.formatDate(this.retForm.value.mVALIDITYDATE),
+      mVregid: this.vregid,
+      mretid: this.currentEditingRetRow?.retid || this.currentEditingRetRow?.mretid || '',
+      mFormID: this.currentEditingRetRow?.formid || this.currentEditingRetRow?.mFormID || '',
+      mProIssuingAuthority: this.retForm.value.mProIssuingAuthority,
+    };
+
+    // Use UpdatePROVCERTIFICATE endpoint for updating provider/retention records
+    this.api.updatePROVCERTIFICATE(params, formData).subscribe({
+      next: (res) => {
+        this.toastr.success('Retention updated successfully!');
+        console.log('Retention updated successfully:', res);
+        this.cancelEditRetention();
+        this.GetPovLicenceDetails();
+        this.loadingSectionA = false;
+      },
+      error: (err) => {
+        console.error('Error updating retention:', err);
+        this.toastr.error('Failed to update retention');
+        this.loadingSectionA = false;
+      }
+    });
+  }
   
   applyTextFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

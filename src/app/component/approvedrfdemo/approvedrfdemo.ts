@@ -9,18 +9,28 @@ import { FormsModule, ReactiveFormsModule,FormBuilder } from '@angular/forms';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { QRCodeModule } from 'angularx-qrcode';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { HttpClient } from '@angular/common/http';
 declare module 'qrcode';
 
+// import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-approvedvrf',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule,QRCodeModule],
-  templateUrl: './approvedvrf.html',
-  styleUrl: './approvedvrf.css'
+  selector: 'app-approvedrfdemo',
+  standalone:true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,QRCodeModule,NgSelectModule],
+  templateUrl: './approvedrfdemo.html',
+  styleUrl: './approvedrfdemo.css'
 })
+export class Approvedrfdemo {
+browserInfo: any;
 
-export class Approvedvrf {
+  SupplierName:any;
+  supplierlist:any;
+  showSection = false;
+  selectedTenderId: any = null;
+  tenderName:any;
+  LiveTenderDetailsList:any;
   manufacturingLicList: any[] = [];
   importerLicenceList:any[]=[];
   mSCDetailsList:any[]=[];
@@ -53,19 +63,25 @@ export class Approvedvrf {
     issuedOn: new Date().toLocaleDateString(),
     verificationUrl: 'https://cgmsc.gov.in/vendor/verify/234'
   };
-  constructor(private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
+  constructor(public http:HttpClient,private sanitizer: DomSanitizer,private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService,private fb: FormBuilder){
     this.today = new Date();
    }
   ngOnInit() {
+    // wings vregid=108
+    // supid=1651 
 
-    
-    this.vregid=108
-    sessionStorage.getItem('vregid');
-    this.SupID=1651 
-    sessionStorage.getItem('facilityid');
+    this.getIPAddress();
+    this.browserInfo= this.getBrowserInfo();
+    // console.log('userAgent1=',this.browserInfo.userAgent ); 
+    sessionStorage.setItem('userAgent',this.browserInfo.userAgent );
+
+    this.vregid=sessionStorage.getItem('vregid');
+    this.SupID=sessionStorage.getItem('facilityid');
     this.panno=sessionStorage.getItem('panno');
     this.userAgent=sessionStorage.getItem('userAgent');
    this.ipAddress=sessionStorage.getItem('ipAddress');
+   this.GetVendorDetailsID();
+   this.getLiveTenderDetails();
     this.loadVendorDetails();
     this.GetmANUFACLICDetails();
     this.GETImporterLicenceDetails();
@@ -85,6 +101,131 @@ export class Approvedvrf {
     this.qrData = JSON.stringify(this.vendorData);
     // console.log('qrdata=',this.qrData)
   }
+
+  // GetLiveTenderDetails(){
+
+  //   this.spinner.show();
+  //   this.api.GetLiveTenderDetails().subscribe((res: any) => {
+  //       this.LiveTenderDetailsList = res;
+  //       this.spinner.hide();
+        
+  //     },
+  //     (error) => {
+  //       console.error('API error:', error);
+  //       this.spinner.hide();
+  //     }
+  //   );
+
+  // }
+
+  onTenderChange(selected: any) {
+   
+    this.tenderName = selected?.schemename ?? selected; // handles both cases
+  
+    console.log('Final tenderName:', this.tenderName);
+  }
+  onVenderChange(selected: any) {
+    
+   this.SupID=selected?.supplierid ?? selected;
+   this.vregid=selected?.vregid ?? selected;
+    this.SupplierName = selected?.supplierName ?? selected; // handles both cases
+    sessionStorage.setItem('facilityid',this.SupID);
+    sessionStorage.setItem('vregid',this.vregid);
+  
+    console.log('Final suppliername:', this.SupplierName);
+
+
+
+
+
+    this.panno=sessionStorage.getItem('panno');
+    this.userAgent=sessionStorage.getItem('userAgent');
+   this.ipAddress=sessionStorage.getItem('ipAddress');
+    this.loadVendorDetails();
+    this.GetmANUFACLICDetails();
+    this.GETImporterLicenceDetails();
+   this.GetmSCDetailsList();
+   this.GETtPPCertificate();
+    this.GetCOPDetailsList();
+    this.GetComplienceCertificateDetails();
+    this.GetGCPDetails();
+    this.GetAnnualTurnover();
+    this.GETMassuppliergstDetails();
+    this.GETGstReturnDetails();
+    this.GETBankMandateDetail();
+    this.GetTechnicalDetails();
+    this.GetPovLicenceDetails();
+
+
+
+
+
+
+
+
+
+  }
+
+  getIPAddress() {
+    
+    this.http.get<any>('https://api.ipify.org?format=json')
+      .subscribe(
+        (res) => {
+          this.ipAddress = res.ip;
+          sessionStorage.setItem('ipAddress', this.ipAddress);
+          // console.log('this.ipAddress=',this.ipAddress);
+        },
+        (err) => {
+          console.error('Error fetching IP:', err);
+        }
+      );
+  }
+  getBrowserInfo() {
+    
+    return {
+      appName: navigator.appName,
+      appVersion: navigator.appVersion,
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      language: navigator.language
+    };
+  }
+  getLiveTenderDetails(){
+    
+    this.api.GetLiveTenderDetails().subscribe((res:any[])=>{
+      console.log('API  Live Tender:', res);
+      if (res && res.length > 0) {
+        this.LiveTenderDetailsList = res.map(item => ({
+          schemeid: item.schemeid,
+          schemename: item.schemename,
+        }));
+        console.log('Processed LiveTenderDetailsList:', this.LiveTenderDetailsList);
+      } else {
+        console.error('No tender found or incorrect structure:', res);
+      }
+    });  
+  }
+
+  GetVendorDetailsID(){
+    
+    this.api.getVendorDetailsID(0).subscribe((res:any)=>{
+      console.log('API  Supplier:', res);
+      if (res && res.length > 0) {
+
+
+        this.supplierlist = res.filter((item:any) => item.status === 'Complete').map((item:any) => ({
+          supplierid: item.supplierid,
+          supplierName: item.supplierName,
+          vregid: item.vregid,
+          
+        }));
+        console.log('Processed supplierlist:', this.supplierlist);
+      } else {
+        console.error('No suppliername found or incorrect structure:', res);
+      }
+    });  
+  }
+
 //#region Api calling
   loadVendorDetails() {
   

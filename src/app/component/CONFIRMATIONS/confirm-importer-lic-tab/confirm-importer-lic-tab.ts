@@ -66,12 +66,13 @@ export class ConfirmImporterLicTab {
   selectedPanFile: File | null = null;
   selectedPanFile2  : File | null = null;
 
-  
-
-  
-
-
-  
+  // Edit mode state variables
+  isEditImporter: boolean = false;
+  isEditProvider: boolean = false;
+  currentImpId: any = null;
+  currentProvId: any = null;
+  currentEditingImpRow: any = null;
+  currentEditingProvRow: any = null;
 
   importerLicenceList:any;
   ImportRetentionList:any;
@@ -194,8 +195,8 @@ export class ConfirmImporterLicTab {
   }
 
    ngAfterViewChecked() {
-    console.log('Form valid:', this.RetentionForm.valid);
-    console.log('Form values:', this.RetentionForm.value);
+    // console.log('Form valid:', this.RetentionForm.valid);
+    // console.log('Form values:', this.RetentionForm.value);
   }
 
 
@@ -278,6 +279,20 @@ formatDate(dateString: string): string {
   const month = ('0' + (date.getMonth() + 1)).slice(-2);
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
+}
+
+// Helper function to convert dd-MM-yyyy to yyyy-MM-dd for input[type=date]
+parseToInputDate(dateStr: string): string {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length === 3) {
+    // Assuming dd-MM-yyyy format
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+    return `${year}-${month}-${day}`;
+  }
+  return '';
 }
   
 
@@ -405,13 +420,21 @@ formatDate(dateString: string): string {
     
 
   GETImporterLicenceDetails() {
+    debugger
     this.spinner.show();
     this.api.GetImporterLicenceDetails(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
         this.importerLicenceList = res.map((item: any, index: number) => ({
           ...item,
           sno: index + 1
         }));
-        console.log('With S.No:', this.importerLicenceList);
+        console.log('With S.No:importerLicenceList status before', this.importerLicenceList);
+
+           // If navigated via Update button, show only rejected rows (impisaccepted === 'N')
+        if (sessionStorage.getItem('filterRejected') === 'true') {
+          this.importerLicenceList = this.importerLicenceList.filter((r: any) => r.impisaccepted === 'N');
+        }
+        debugger
+        console.log('With S.No:importerLicenceList status after ', this.importerLicenceList);
         this.dataSource.data = this.importerLicenceList;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -433,7 +456,13 @@ formatDate(dateString: string): string {
           ...item,
           sno: index + 1
         }));
-        console.log('With S.No:', this.ImportRetentionList);
+        // If navigated via Update button, show only rejected rows (imprisaccepted === 'N')
+        if (sessionStorage.getItem('filterRejected') === 'true') {
+          this.ImportRetentionList = this.ImportRetentionList.filter((r: any) => r.imprisaccepted === 'N');
+          // NOTE: do not remove the sessionStorage flag here (per request)
+        }
+
+        console.log('With S.No:status ', this.ImportRetentionList);
         this.dataSource2.data = this.ImportRetentionList;
         this.dataSource2.paginator = this.paginator1;
         this.dataSource2.sort = this.sort1;
@@ -633,6 +662,153 @@ formatDate(dateString: string): string {
       this.dataSource2.paginator.firstPage();
     }
   }
-  
+
+  // Edit Importer Licence Row
+  editImporterRow(element: any) {
+    this.onshowRetentionForm = true;
+    this.isEditImporter = true;
+    this.currentImpId = element.licid || element.mLICID || null;
+    this.currentEditingImpRow = element;
+
+    // Parse dates from dd-MM-yyyy to yyyy-MM-dd for form prefill
+    const issue = this.parseToInputDate(element.issuedate || element.mISSUEDATE);
+    const start = this.parseToInputDate(element.startdate || element.mStartDate);
+    const valid = this.parseToInputDate(element.expdate || element.mVALIDITYDATE);
+
+    this.RetentionForm.patchValue({
+      mLICID: element.licid || element.mLICID || null,
+      mImptypeid: element.imptypeid || element.mImptypeid || null,
+      mIMPLICNO: element.implicno || element.mIMPLICNO || '',
+      mISSUEDATE: issue,
+      mStartDate: start,
+      mVALIDITYDATE: valid,
+      mVregid: this.vregid,
+      mIMPIssuingAuthority: element.impIssuingAuthority || element.mIMPIssuingAuthority || ''
+    });
+
+    this.selectedPanFile = null;
+  }
+
+  // Edit Import Provider Row
+  editImportProviderRow(element: any) {
+    this.onshowRetentionForm2 = true;
+    this.isEditProvider = true;
+    this.currentProvId = element.impRetId || element.mIMPID || null;
+    this.currentEditingProvRow = element;
+
+    // Parse dates from dd-MM-yyyy to yyyy-MM-dd for form prefill
+    const issue = this.parseToInputDate(element.issueDate || element.mISSUEDATE);
+    const start = this.parseToInputDate(element.startDate || element.mStartDate);
+    const valid = this.parseToInputDate(element.expDate || element.mVALIDITYDATE);
+
+    this.RetentionForm2.patchValue({
+      mIMPID: element.impId || element.mIMPID || null,
+      mISSUEDATE: issue,
+      mStartDate: start,
+      mVALIDITYDATE: valid,
+      mVregid: this.vregid,
+      mIMPRETIssuingAuthority: element.impretIssuingAuthority || element.mIMPRETIssuingAuthority || ''
+    });
+
+    this.selectedPanFile2 = null;
+  }
+
+  // Update Importer Licence
+  updateImporterLicence() {
+    if (this.RetentionForm.invalid) {
+      this.toastr.warning('Please fill all required fields correctly!');
+      return;
+    }
+    this.loadingSectionA = true;
+    const formData = new FormData();
+    if (this.selectedPanFile) {
+      formData.append('PanCardDocument', this.selectedPanFile);
+    }
+
+    const params = {
+      IMPID: this.currentImpId,
+      mLICID: this.currentEditingImpRow?.licid || '',
+      mImptypeid: this.RetentionForm.value.mImptypeid,
+      mIMPLICNO: this.RetentionForm.value.mIMPLICNO,
+      mISSUEDATE: this.formatDate(this.RetentionForm.value.mISSUEDATE),
+      mStartDate: this.formatDate(this.RetentionForm.value.mStartDate),
+      mVALIDITYDATE: this.formatDate(this.RetentionForm.value.mVALIDITYDATE),
+      mVregid: this.vregid,
+      mIMPIssuingAuthority: this.RetentionForm.value.mIMPIssuingAuthority
+    };
+
+    this.api.updateMasimporterdocument(params, formData).subscribe({
+      next: (res) => {
+        this.toastr.success('Importer Licence updated successfully!');
+        this.cancelEditImporter();
+        this.GETImporterLicenceDetails();
+        this.loadingSectionA = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Failed to update importer licence');
+        this.loadingSectionA = false;
+      }
+    });
+  }
+
+  // Cancel Edit Importer Licence
+  cancelEditImporter() {
+    this.isEditImporter = false;
+    this.currentImpId = null;
+    this.currentEditingImpRow = null;
+    this.RetentionForm.reset();
+    this.RetentionForm.patchValue({ mVregid: this.vregid });
+    this.onshowRetentionForm = false;
+    this.selectedPanFile = null;
+  }
+
+  // Update Import Provider Certificate
+  updateImportProvider() {
+    if (this.RetentionForm2.invalid) {
+      this.toastr.warning('Please fill all required fields correctly!');
+      return;
+    }
+    this.loadingSectionB = true;
+    const formData = new FormData();
+    if (this.selectedPanFile2) {
+      formData.append('PanCardDocument', this.selectedPanFile2);
+    }
+
+    const params = {
+      IMPRETID: this.currentProvId,
+      mIMPID: this.RetentionForm2.value.mIMPID,
+      mISSUEDATE: this.formatDate(this.RetentionForm2.value.mISSUEDATE),
+      mStartDate: this.formatDate(this.RetentionForm2.value.mStartDate),
+      mVALIDITYDATE: this.formatDate(this.RetentionForm2.value.mVALIDITYDATE),
+      mVregid: this.vregid,
+      mIMPRETIssuingAuthority: this.RetentionForm2.value.mIMPRETIssuingAuthority
+    };
+
+    this.api.UpdateimporterProvCertificate(params, formData).subscribe({
+      next: (res) => {
+        this.toastr.success('Import Provider Certificate updated successfully!');
+        this.cancelEditProvider();
+        this.GETImportRetentionDetails();
+        this.loadingSectionB = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Failed to update import provider certificate');
+        this.loadingSectionB = false;
+      }
+    });
+  }
+
+  // Cancel Edit Import Provider
+  cancelEditProvider() {
+    this.isEditProvider = false;
+    this.currentProvId = null;
+    this.currentEditingProvRow = null;
+    this.RetentionForm2.reset();
+    this.RetentionForm2.patchValue({ mVregid: this.vregid });
+    this.onshowRetentionForm2 = false;
+    this.selectedPanFile2 = null;
+  }
 
 }

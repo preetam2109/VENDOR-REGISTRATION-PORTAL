@@ -10,7 +10,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComplienceCertificateDetails,GetGCPDetails,UpdateBankDetails_model, UpdateAnnualTurnover_model,
-  TechnicalDetails_model, GetAnnualTurnoverDetail, BankMandateDetail, MassuppliergstDetails, GstReturnDetails
+  TechnicalDetails_model, GetAnnualTurnoverDetail, BankMandateDetail, MassuppliergstDetails, GstReturnDetails,
+  licenseModel
  } from 'src/app/Model/VendorRegisDetail';
 import { ApiService } from 'src/app/service/api.service';
 import { NgForm } from '@angular/forms';
@@ -95,11 +96,10 @@ export class ConfirmBankDetailsTab {
     ];
     displayedColumns3: string[] = [
       'sno','gstno','accyear','filename','isapprove','approvedt','approvereason'
-      // ,'action'
+      // ,'remarks','action'
     ];
     displayedColumns4: string[] = [
-      'sno','code','filename','ismfaccepted','mfaccrejremarks','ismfaccepteddt'
-      // ,'action',
+      'sno','code','filename','ismfaccepted','mfaccrejremarks','ismfaccepteddt','action',
       // 'fileid','vregid','mscid', 'ext','filepath',
     ];
     displayedColumns5: string[] = [
@@ -110,12 +110,12 @@ export class ConfirmBankDetailsTab {
        'validitydate',
        'remarks',
        'whotype',
-       'filename','iswhoaccepted','iswhoaccepteddt','whoaccrejremarks'
+       'filename','iswhoaccepted','iswhoaccepteddt','whoaccrejremarks','action'
        // 'comid',
        // 'vregid',
        // 'supplierid',
       //  'whoid',
-      //  'action',
+       
        // 'ext',
        // 'licid',
      ];
@@ -139,6 +139,45 @@ export class ConfirmBankDetailsTab {
     ];
    vregid:any;
    SupID:any;
+  licid: any;
+  unitname: any;
+     selectedLicense: any = null;
+     comid:any
+       comname:any;
+
+
+
+         today: string = new Date().toISOString().split("T")[0];
+
+  license: licenseModel[] = [];
+  MAScomplianceType: any[] = [];
+  masitemtypes: any[] = [];
+  fileresp:any;
+  itemtypeid: any;
+  itemtypename: any;
+  selecteditemtypeid: any[] = [];
+  ISSUEDATE: string = '';
+  mstartdate: string = '';
+  mEXPDate: string = '';
+  mRemarks: string = '';
+  mWHONO: any;
+  validityerrorMsg:any;
+  starterrorMsg:any;
+  onshow:boolean=false;
+  submitted = false;
+      NonConvcerCertificate: File | null = null;
+  PowerofAttorney: File | null = null;
+  AffidavitforStrict_Compliance: File | null = null;
+  blacklisting: File | null = null;
+  Other_Document1: File | null = null;
+  Other_Document2: File | null = null;
+  SSICertificate: File | null = null;
+fileid:any;
+  fileSelected: File | null = null;
+mscid:any;
+filename:any;
+WHOID:any
+supplierid:any;
   constructor(private spinner: NgxSpinnerService,private api: ApiService,public toastr: ToastrService, private fb: FormBuilder,
     private cdr: ChangeDetectorRef, private router: Router,  private sanitizer: DomSanitizer,private route: ActivatedRoute,private datePipe: DatePipe
   ){
@@ -155,48 +194,33 @@ export class ConfirmBankDetailsTab {
     // formatDate(val: any) {
     //   return this.datePipe.transform(val, 'dd/MM/yyyy');
     // }
-    formatDate(value: string): string {
-      if (!value) return '-';
+  //   formatDate(value: string): string {
+  //     if (!value) return '-';
 
-      // Format 2: 25-11-2025 15:16:42
-      if (/^\d{2}-\d{2}-\d{4}/.test(value)) {
-        const [datePart] = value.split(' ');
-        const [day, month, year] = datePart.split('-');
+  //     // Format 2: 25-11-2025 15:16:42
+  //     if (/^\d{2}-\d{2}-\d{4}/.test(value)) {
+  //       const [datePart] = value.split(' ');
+  //       const [day, month, year] = datePart.split('-');
   
-        const d = new Date(`${year}-${month}-${day}`);
-        return isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB');
-      }
+  //       const d = new Date(`${year}-${month}-${day}`);
+  //       return isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB');
+  //     }
   
-      // Format 1: 26-NOV-25 05.39.44.... AM
-      try {
-        const parts = value.split(' ');
-        const [day, mon, year] = parts[0].split('-');
-        const fullYear = '20' + year;
+  //     // Format 1: 26-NOV-25 05.39.44.... AM
+  //     try {
+  //       const parts = value.split(' ');
+  //       const [day, mon, year] = parts[0].split('-');
+  //       const fullYear = '20' + year;
   
-        const time = parts[1].replace(/\./g, ':');
-        const ampm = parts[2];
+  //       const time = parts[1].replace(/\./g, ':');
+  //       const ampm = parts[2];
   
-        const d = new Date(`${day} ${mon} ${fullYear} ${time} ${ampm}`);
-        return isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB');
-      } catch {
-        return '-';
-      }
-      // if (!dateString) return '-';
-    
-      // // 26-NOV-25 → 26-NOV-2025
-      // const parts = dateString.split(' ');
-      // let datePart = parts[0]; // 26-NOV-25
-      // const timePart = parts[1]; // 05.39.44.839369000
-      // const ampm = parts[2];     // AM
-    
-      // // Fix date year
-      // const [day, mon, year] = datePart.split('-');
-      // const fullYear = '20' + year;
-      // const dateFormatted = `${day}-${mon}-${fullYear} ${timePart.replace(/\./g, ':')} ${ampm}`;
-    
-      // const d = new Date(dateFormatted);
-      // return isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB'); // dd/MM/yyyy
-  }
+  //       const d = new Date(`${day} ${mon} ${fullYear} ${time} ${ampm}`);
+  //       return isNaN(d.getTime()) ? '-' : d.toLocaleDateString('en-GB');
+  //     } catch {
+  //       return '-';
+  //     }
+  // }
     
 ngOnInit() {
   
@@ -214,6 +238,11 @@ ngOnInit() {
   this.GetComplienceCertificateDetails();
   this.GetGCPDetails();
 
+
+
+      this.GETMANLIC();
+    this.GETMAScomplianceType();
+    this.GETmasitemtypes();
 }
 
 
@@ -816,7 +845,7 @@ callGSTReturnUpdateAPI(data: any, formData: FormData) {
             }));
             // this.TechnicalDetailsData=res;
             // this.TechnicalDetails=this.dispatchData;
-            // console.log('TechnicalDetails=:', this.dispatchData4);
+            console.log('TechnicalDetails=:', this.dispatchData4);
             this.dataSource4.data = this.dispatchData4;
             this.dataSource4.paginator = this.paginator4;
             this.dataSource4.sort = this.sort4;
@@ -945,7 +974,7 @@ GetComplienceCertificateDetails() {
               sno: index + 1,
             })
           );
-          // console.log('GetComplienceCertificateDetails=:', this.dispatchData5);
+          console.log('GetComplienceCertificateDetails=:', this.dispatchData5);
           this.dataSource5.data = this.dispatchData5;
           this.dataSource5.paginator = this.paginator5;
           this.dataSource5.sort = this.sort5;
@@ -1030,7 +1059,7 @@ callComplianceVerificationAPI(data: any, formData: FormData) {
     }
   });
 }
-
+// #endregion
 
 // https://dpdmis.in/VREGAPI/api/Registration/COMPlinceVerification?mWHOID=31&Iaccept=N&Remarks=dsf&userID=2654
 // PUT_COMPlinceVerification(element: any) {
@@ -1174,8 +1203,6 @@ callGCPVerificationAPI(data: any, formData: FormData) {
 // }
 
 selectedTabValue(event: any): void {
-  // ;
-  // console.log('this.url6=:',this.url);
   this.selectedTabIndex = event.index;
   if (this.selectedTabIndex === 0) {
     // this.GETBankMandateDetail();
@@ -1209,6 +1236,437 @@ selectedTabValue(event: any): void {
   } 
   //  else {
   // }
+}
+// #endregion
+
+//#region update apis
+// https://dpdmis.in/VREGAPI/api/Registration/DeleteTechnicalFile?mVregid=108&mFileID=00◘
+
+onDeleteClick(mVregid: any, mFileID: any,mscid:any) {
+  debugger;
+ this.fileid=mFileID;
+ this.mscid=mscid;
+ console.log(this.fileid);
+ console.log('mscid:',mscid);
+  // debugger;
+    // Professional Confirmation Box
+    // return  this.onshow=true;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      
+      // Agar user Yes par click kare
+      if (result.isConfirmed) {
+        
+        this.api.DeleteTechnicalFile(mVregid, mFileID).subscribe({
+          next: (response:any) => {
+            // Success Message
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            // Yahan data refresh karne ka logic likhein
+            this.GetTechnicalDetails();
+            this.onshow=true;
+          },
+          error: (err:any) => {
+            // Error Message
+            Swal.fire('Error!', 'Something went wrong.', 'error');
+            console.error(err);
+          }
+        });
+
+      }
+    });
+         
+  }
+  onFileSelect(event: any, fileNo: number): void {
+  //  this.events= event.target.value;
+    const file = event.target?.files?.[0] || null;
+  
+    switch (fileNo) {
+      case 0: this.NonConvcerCertificate = file; break;//41
+      case 1: this.PowerofAttorney = file; break;//9
+      case 2: this.AffidavitforStrict_Compliance = file; break;//141
+      case 3: this.blacklisting = file; break;//142
+      case 4: this.Other_Document1 = file; break;//19
+      case 5: this.Other_Document2 = file; break;//122
+      case 6: this.SSICertificate = file; break;//7
+    }
+  }
+
+    InsertTechnicalDetails(mFileTypeid: number) {
+//  const file = this.TechnicalDetailsData.find((f: any) => f.mscid == mFileTypeid);
+//  if(file){
+//   this.toastr.error('This document type already exists. Please select a different one!', 'Error');
+
+//   return;
+//  }
+
+    const formData = new FormData();
+    let selectedFile: File | null = null;
+    switch (mFileTypeid) {
+      case 19:  // SSI Certificate Other Document  1
+        selectedFile = this.Other_Document1;
+        break;
+      case 122:  // Other Document  2
+        selectedFile = this.Other_Document2;
+        break;
+      case 142:  // blacklisting
+        selectedFile = this.blacklisting;
+        break;
+      case 141:  // AffidavitforStrict_Compliance
+        selectedFile = this.AffidavitforStrict_Compliance;
+        break;
+      case 9:  // PowerofAttorney
+        selectedFile = this.PowerofAttorney;
+        break;
+         case 41: // Non Conviction Certificate
+        selectedFile = this.NonConvcerCertificate;
+        break;
+        case 7: // SSI Certificate
+        selectedFile=this.SSICertificate;
+         break;//7
+  
+      default:
+        this.toastr.error('Invalid File Type ID!', 'Error');
+        return;
+    }
+  
+    //  File check
+    if (!selectedFile) {
+      this.toastr.error('Please select a file before uploading.', 'Error');
+      console.error(` No file selected for mFileTypeid: ${mFileTypeid}`);
+      return;
+    }
+  
+    //  Append file to formData
+    formData.append('PanCardDocument', selectedFile);
+  
+    //  Prepare params data
+    const data = {
+      mVergID: sessionStorage.getItem('vregid') || '',
+      mFileTypeID: mFileTypeid.toString()
+    };
+    console.log("details:=",data);
+  // return;
+    //  API Call
+    try {
+      this.loadingSectionA = true;  
+      this.api.InsertTechnicalDetails(data, formData).subscribe({
+        next: (res: any) => {
+          this.toastr.success(
+            res.message || 'File uploaded successfully!',
+            'Success'
+          );
+          console.log('Upload Success:', res);
+  
+          switch (mFileTypeid) {
+            case 41: this.NonConvcerCertificate = null;  break;
+            case 9: this.PowerofAttorney = null; break;
+            case 141: this.AffidavitforStrict_Compliance = null; break;
+            case 142: this.blacklisting = null;   break;
+            case 19: this.Other_Document1 = null; break;
+            case 122: this.Other_Document2 = null; break;
+            // case 81: this.TechCertificate5 = null;  break;
+          }
+          this.GetTechnicalDetails();
+          this.loadingSectionA = false;  
+          // this.onshow=false;
+        },
+
+        error: (err: any) => {
+          this.loadingSectionA = false;  
+          console.error('Upload Error:', err);
+          this.toastr.error('Failed to upload file!', 'Error');
+        },
+      });
+    } catch (error) {
+      console.error('Exception:', error);
+      this.toastr.error('Unexpected error occurred!', 'Error');
+    }
+  }
+// onCOMPLIANCEUpdate(whoid:any,licid:any,whono:any,comid:any,vregid:any,issuedate:any,startdate:any,validitydate:any,remarks:any,supplierid:any){
+//   debugger;
+//   this.onshow = true;
+//   this.selectedLicense=licid;
+//   this.comname=comid;
+//   this.mWHONO=whono;
+//   this.mRemarks=remarks;
+//   this.ISSUEDATE=issuedate;
+//   this.mstartdate=startdate;
+//   this.mEXPDate=validitydate;
+//   this.selecteditemtypeid=validitydate;
+
+// }
+formatDateForInput(dateStr: string): string {
+  if (!dateStr) return '';
+
+  const parts = dateStr.split('-'); // dd-mm-yyyy
+  if (parts.length !== 3) return dateStr;
+
+  const [dd, mm, yyyy] = parts;
+  return `${yyyy}-${mm}-${dd}`; // yyyy-mm-dd
+}
+onCOMPLIANCEUpdate(
+  whoid: any,
+  licid: any,
+  whono: any,
+  comid: any,
+  vregid: any,
+  issuedate: any,
+  startdate: any,
+  validitydate: any,
+  remarks: any,
+  supplierid: any,
+  filename:any
+) {
+  debugger;
+  this.filename=filename;
+  this.onshow = true;
+  this.WHOID=whoid;
+  this.selectedLicense = licid;
+  this.comname = comid;
+  // this.comid = comid;
+  this.mWHONO = whono;
+  this.mRemarks = remarks;
+  // this.selecteditemtypeid = [1];
+this.supplierid=supplierid;
+this.vregid=vregid;
+  this.ISSUEDATE = this.formatDateForInput(issuedate);
+  this.mstartdate = this.formatDateForInput(startdate);
+  this.mEXPDate = this.formatDateForInput(validitydate);
+
+
+  // this.selecteditemtypeid = [1,2];
+
+}
+// https://dpdmis.in/VREGAPI/api/Registration/UpdateComplianceCertificate?WHOID=0& mlicid=0&mWHONO=0& mComid=0& mVergID=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0& mRemarks=0&mSupplierid=0
+ InsertComplianceCertificate1(COMCForm: NgForm) {
+  debugger;
+    this.loadingSectionA = true;
+    this.submitted = true;
+    const formData = new FormData();
+    if (COMCForm.invalid) {
+      this.toastr.error('Please fill all required fields.', 'Error');
+      this.loadingSectionA = false;
+      return;
+    }
+    if (this.fileSelected) {
+      formData.append('PanCardDocument', this.fileSelected);
+    } else {
+      this.toastr.error(
+        'Please select a Compliance Certificate file.',
+        'Error'
+      );
+      return;
+    }
+    const formValues = COMCForm.value;
+    const data = {
+    
+      mVergID: this.vregid,
+      mSupplierid: this.supplierid,
+      // mlicid:  this.selectedLicense ,
+      // // mlicid: this.licid,
+      // mComid:  this.comname,
+      // // mComid: this.comid,
+        mlicid: this.selectedLicense ?? this.licid,
+        mComid: this.comname ?? this.comid,
+      mWHONO: this.mWHONO,
+      WHOID: this.WHOID,
+      // ISSUEDATE: formValues.ISSUEDATE,
+      // mstartdate: formValues.mstartdate,
+      // mEXPDate: formValues.mEXPDate,
+      mRemarks: this.mRemarks,
+        // mVergID: sessionStorage.getItem('vregid') || '',
+      // mSupplierid: sessionStorage.getItem('facilityid') || '',
+      // mstateID: this.stateid?.toString() || '',
+      // ISSUEDATE: this.ISSUEDATE,
+      // mstartdate: this.mstartdate,
+      // mEXPDate: this.mEXPDate,
+      // ISSUEDATE: this.formatDate(this.ISSUEDATE),
+      // mstartdate: this.formatDate(this.mstartdate),
+      // mEXPDate: this.formatDate(this.mEXPDate),
+      ISSUEDATE: this.formatDate(formValues.ISSUEDATE),
+      mstartdate: this.formatDate(formValues.mstartdate),
+      mEXPDate: this.formatDate(formValues.mEXPDate),
+      // mWHONO: formValues.mWHONO,
+      // ISSUEDATE: formValues.ISSUEDATE,
+      // mstartdate: formValues.mstartdate,
+      // mEXPDate: formValues.mEXPDate,
+      // mRemarks: formValues.mRemarks
+    };
+    // console.log('data=:', data);
+    // return;
+    try {
+      this.api.UpdateComplianceCertificate(data, formData).subscribe({
+        next: (res: any) => {
+          // console.log('res=', res);
+          this.toastr.success(
+            res.message || 'Certificate uploaded successfully!',
+            'Success'
+          );
+          COMCForm.resetForm();
+          // this.fileSelected = null;
+          // this.MASVREGWHOITEMTYPE(res, COMCForm);
+
+        },
+        error: (err: any) => {
+          console.error('Error:', err);
+          this.loadingSectionA = false;
+          this.toastr.error('Failed to upload Compliance Certificate please try again', 'Error');
+        },
+      });
+    } catch (error) {
+      this.loadingSectionA = false;
+      console.error('Exception:', error);
+      this.toastr.error('Unexpected error occurred!');
+    }
+  }
+    onFileSelectedCertificate(event: any) {
+   
+    const file = event.target.files[0];
+    if (file) {
+      this.fileSelected = file;
+      console.log('Selected file :', file.name);
+    }
+  }
+  formatDate(value: string): string {
+  if (!value) return '-';
+
+  let d: Date | null = null;
+
+  // ✅ Format: yyyy-MM-dd (2025-12-10)
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    d = new Date(value);
+  }
+
+  // ✅ Format: dd-MM-yyyy or dd-MM-yyyy HH:mm:ss
+  else if (/^\d{2}-\d{2}-\d{4}/.test(value)) {
+    const [datePart] = value.split(' ');
+    const [day, month, year] = datePart.split('-');
+    d = new Date(`${year}-${month}-${day}`);
+  }
+
+  // ✅ Format: 26-NOV-25 05.39.44 AM
+  else {
+    try {
+      const parts = value.split(' ');
+      const [day, mon, year] = parts[0].split('-');
+      const fullYear = '20' + year;
+
+      const time = parts[1].replace(/\./g, ':');
+      const ampm = parts[2];
+
+      d = new Date(`${day} ${mon} ${fullYear} ${time} ${ampm}`);
+    } catch {
+      return '-';
+    }
+  }
+
+  // ✅ Final format: dd-MM-yyyy
+  if (!d || isNaN(d.getTime())) return '-';
+
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+
+  return `${day}-${month}-${year}`;
+}
+  GETMANLIC() {
+    this.api
+      .GETMANLIC(
+        sessionStorage.getItem('facilityid'),
+        sessionStorage.getItem('vregid')
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.license = res;
+          // console.log('license:', this.license);
+        },
+        error: (err: any) => {
+          console.error('Error loading license:', err);
+          // alert("Failed to load vendor details");
+        },
+      });
+  }
+    GETmasitemtypes() {
+    this.api.GETmasitemtypes().subscribe({
+      next: (res: any) => {
+        this.masitemtypes = res;
+        // console.log('masitemtypes:', this.masitemtypes);
+      },
+      error: (err: any) => {
+        console.error('Error loading Years:', err);
+        // alert("Failed to load vendor details");
+      },
+    });
+  }
+    GETMAScomplianceType() {
+    this.api.GETMAScomplianceType().subscribe({
+      next: (res: any) => {
+        this.MAScomplianceType = res;
+        // console.log('MAScomplianceType:', this.MAScomplianceType);
+      },
+      error: (err: any) => {
+        console.error('Error loading Years:', err);
+        // alert("Failed to load vendor details");
+      },
+    });
+  }
+    Onselectlicense(event: any) {
+    if (event) {
+      this.licid = event?.licid;
+      this.unitname = `${event.licid} - ${event.unitname}`;
+      console.log(this.unitname); 
+    }
+  }
+  OnselectlicensecomplianceType(event: any) {
+    this.comid = event?.comid;
+  }
+    validateDates() {
+    const start = new Date(this.mstartdate);
+    const issue = new Date(this.ISSUEDATE);
+    const validity = new Date(this.mEXPDate);
+    this.validityerrorMsg = "";
+    this.starterrorMsg = "";
+  
+    // Rule 1: Start Date must be >= Issue Date
+    if (start < issue) {
+      this.starterrorMsg = "Start Date cannot be earlier than Issue Date.";
+      return false;
+    }
+  
+    // Rule 2: Expiry Date must be >= Start Date AND Issue Date
+    if (validity < start) {
+      this.validityerrorMsg = "Expiry Date must be on or after Start Date.";
+      return false;
+    }
+  
+    if (validity < issue) {
+      this.validityerrorMsg = "Expiry Date cannot be earlier than Issue Date.";
+      return false;
+    }
+  
+    return true;
+  }
+  onCheckboxChange(item: any) {
+  if (!this.selecteditemtypeid) {
+    this.selecteditemtypeid = [];
+  }
+
+  const id = item.itemtypeid;
+
+  if (this.selecteditemtypeid.includes(id)) {
+    // remove
+    this.selecteditemtypeid = this.selecteditemtypeid.filter(x => x !== id);
+  } else {
+    // add
+    this.selecteditemtypeid = [...this.selecteditemtypeid, id];
+  }
 }
 // PUT_GCPVerification(element:any){
 //   // 

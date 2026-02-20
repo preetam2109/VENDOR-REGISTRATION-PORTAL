@@ -147,6 +147,7 @@
       </div>
     </div>
   </div>
+  
   <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowRetentionForm == true">
 
     <div class="card-body border rounded px-3 py-3 pb-3 bg-light"
@@ -450,6 +451,126 @@
               <td mat-cell *matCellDef="let element">{{ element.impTypeId }}</td>
             </ng-container>
 
+
+
+
+
+
+                          <!-- Entry Date -->
+                          <ng-container matColumnDef="isaccepted">
+                            <th mat-header-cell *matHeaderCellDef>Accepted</th>
+                          
+                            <td mat-cell *matCellDef="let row">
+                          
+                              <span 
+                                [ngClass]="{
+                                  'text-success fw-bold': row.isaccepted === 'Y',
+                                  'text-danger fw-bold': row.isaccepted === 'N',
+                                  'text-secondary': row.isaccepted === 'NA'
+                                }"
+                              >
+                                {{ row.isaccepted === 'Y' ? 'YES' : row.isaccepted === 'N' ? 'NO' : 'NA' }}
+                              </span>
+                          
+                            </td>
+                          </ng-container>
+                          
+        
+                        <ng-container matColumnDef="accrejremarks">
+                          <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                          <td mat-cell *matCellDef="let row">{{ row.accrejremarks }}</td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="isaccepteddt">
+                          <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
+                          <td mat-cell *matCellDef="let row">{{ row.isaccepteddt }}</td>
+                        </ng-container>
+        
+        
+          <!-- APPROVED COLUMN -->
+        <!-- <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+              Approved
+            </th>
+          
+            <td mat-cell *matCellDef="let element" class="text-center p-0">
+          
+              <div class="d-flex flex-column justify-content-center align-items-center gap-1">
+          
+                YES
+                <div class="form-check p-0 m-0">
+                  <input class="form-check-input small-radio"
+                         type="radio"
+                         name="approve{{element.licid}}"
+                         [value]="'Y'"
+                         (change)="setApproval(element, 'Y')">
+                  <label class="form-check-label tiny-text">YES</label>
+                </div>
+          
+                NO
+                <div class="form-check p-0 m-0">
+                  <input class="form-check-input small-radio"
+                         type="radio"
+                         name="approve{{element.licid}}"
+                         [value]="'N'"
+                         
+                         (change)="setApproval(element, 'N')">
+                  <label class="form-check-label tiny-text">NO</label>
+                </div>
+          
+              </div>
+          
+            </td>
+          </ng-container>
+           -->
+          
+          <!-- REMARK COLUMN -->
+          <!-- REMARK INPUT -->
+          <!-- <ng-container matColumnDef="Remark">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">
+              Remark
+            </th>
+          
+            <td mat-cell *matCellDef="let element" class="text-center p-0">
+          
+              <textarea
+                class="form-control form-control-sm small-input mx-auto"
+                placeholder="Enter remark"
+                rows="2"
+                style=" max-width: 160px;"
+                [(ngModel)]="element.remark">
+              </textarea>
+          
+            </td>
+          </ng-container> -->
+          
+          
+          <!-- SAVE BUTTON -->
+          <!-- <ng-container matColumnDef="Save">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 80px;">
+              Action
+            </th>
+          
+            <td mat-cell *matCellDef="let element" class="text-center p-0">
+              <button class="btn btn-outline-primary btn-sm py-0 px-2"
+                      (click)="saveRow(element)">
+                Save
+              </button>
+            </td>
+          </ng-container> -->
+          
+
+
+
+
+
+
+
+
+
+
+
+
             <!-- Header and Row Definitions -->
             <tr mat-header-row *matHeaderRowDef="[
           'sno',
@@ -462,6 +583,7 @@
           'issueDate',
           'expDate',
           'fileName',
+          
         ]"></tr>
 
             <tr mat-row *matRowDef="let row; columns: [

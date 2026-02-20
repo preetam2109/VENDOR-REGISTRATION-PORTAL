@@ -168,7 +168,7 @@ export class Registration {
     return this.api.getMasCheckSupDetails(mPanNo, mEmail, mMobNo, mSUpName);
   }
   onSubmit() {
-    // debugger;
+    // ;
     this.isSubmitting = true;
 
     if (this.registerForm.invalid) {
@@ -405,7 +405,7 @@ export class Registration {
 
   // //
   //  onSubmittt() {
-  //   debugger;
+  //   ;
   //   // const res={message: '78188', apiResponse: ''};
   //   // this.serverOtp = res?.message || '';
   //   this.isSubmitting = true;
@@ -479,7 +479,7 @@ export class Registration {
   // }
   // // testing
   // onSubmitt() {
-  //   //  debugger;
+  //   //  ;
   //   this.isSubmitting = true;
 
   //   if (this.registerForm.invalid) {
