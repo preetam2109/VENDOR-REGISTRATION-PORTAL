@@ -39,6 +39,15 @@ import Swal from 'sweetalert2';
   styleUrl: './confirm-bank-details-tab.css'
 })
 export class ConfirmBankDetailsTab {
+    NonConvcerCertificate: File | null = null;
+  PowerofAttorney: File | null = null;
+  AffidavitforStrict_Compliance: File | null = null;
+  blacklisting: File | null = null;
+  Other_Document1: File | null = null;
+  Other_Document2: File | null = null;
+  SSICertificate: File | null = null;
+fileid:any;
+
   loadingSectionA:boolean=false;
   Remark:any;
   sanitizedPdfUrl!: SafeResourceUrl;
@@ -95,11 +104,10 @@ export class ConfirmBankDetailsTab {
     ];
     displayedColumns3: string[] = [
       'sno','gstno','accyear','filename','isapprove','approvedt','approvereason'
-      // ,'action'
+      // ,'remarks','action'
     ];
     displayedColumns4: string[] = [
-      'sno','code','filename','ismfaccepted','mfaccrejremarks','ismfaccepteddt'
-      // ,'action',
+      'sno','code','filename','ismfaccepted','mfaccrejremarks','ismfaccepteddt','action',
       // 'fileid','vregid','mscid', 'ext','filepath',
     ];
     displayedColumns5: string[] = [
@@ -816,7 +824,7 @@ callGSTReturnUpdateAPI(data: any, formData: FormData) {
             }));
             // this.TechnicalDetailsData=res;
             // this.TechnicalDetails=this.dispatchData;
-            // console.log('TechnicalDetails=:', this.dispatchData4);
+            console.log('TechnicalDetails=:', this.dispatchData4);
             this.dataSource4.data = this.dispatchData4;
             this.dataSource4.paginator = this.paginator4;
             this.dataSource4.sort = this.sort4;
@@ -1174,8 +1182,6 @@ callGCPVerificationAPI(data: any, formData: FormData) {
 // }
 
 selectedTabValue(event: any): void {
-  // ;
-  // console.log('this.url6=:',this.url);
   this.selectedTabIndex = event.index;
   if (this.selectedTabIndex === 0) {
     // this.GETBankMandateDetail();
@@ -1209,6 +1215,159 @@ selectedTabValue(event: any): void {
   } 
   //  else {
   // }
+}
+// https://dpdmis.in/VREGAPI/api/Registration/DeleteTechnicalFile?mVregid=108&mFileID=00◘
+onshow=false;
+mscid:any;
+onDeleteClick(mVregid: any, mFileID: any,mscid:any) {
+  debugger;
+ this.fileid=mFileID;
+ this.mscid=mscid;
+ console.log(this.fileid);
+ console.log('mscid:',mscid);
+  // debugger;
+    // Professional Confirmation Box
+    // return  this.onshow=true;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      
+      // Agar user Yes par click kare
+      if (result.isConfirmed) {
+        
+        this.api.DeleteTechnicalFile(mVregid, mFileID).subscribe({
+          next: (response:any) => {
+            // Success Message
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            // Yahan data refresh karne ka logic likhein
+            this.GetTechnicalDetails();
+            this.onshow=true;
+          },
+          error: (err:any) => {
+            // Error Message
+            Swal.fire('Error!', 'Something went wrong.', 'error');
+            console.error(err);
+          }
+        });
+
+      }
+    });
+         
+  }
+  onFileSelect(event: any, fileNo: number): void {
+  //  this.events= event.target.value;
+    const file = event.target?.files?.[0] || null;
+  
+    switch (fileNo) {
+      case 0: this.NonConvcerCertificate = file; break;//41
+      case 1: this.PowerofAttorney = file; break;//9
+      case 2: this.AffidavitforStrict_Compliance = file; break;//141
+      case 3: this.blacklisting = file; break;//142
+      case 4: this.Other_Document1 = file; break;//19
+      case 5: this.Other_Document2 = file; break;//122
+      case 6: this.SSICertificate = file; break;//7
+    }
+  }
+
+    InsertTechnicalDetails(mFileTypeid: number) {
+//  const file = this.TechnicalDetailsData.find((f: any) => f.mscid == mFileTypeid);
+//  if(file){
+//   this.toastr.error('This document type already exists. Please select a different one!', 'Error');
+
+//   return;
+//  }
+
+    const formData = new FormData();
+    let selectedFile: File | null = null;
+    switch (mFileTypeid) {
+      case 19:  // SSI Certificate Other Document  1
+        selectedFile = this.Other_Document1;
+        break;
+      case 122:  // Other Document  2
+        selectedFile = this.Other_Document2;
+        break;
+      case 142:  // blacklisting
+        selectedFile = this.blacklisting;
+        break;
+      case 141:  // AffidavitforStrict_Compliance
+        selectedFile = this.AffidavitforStrict_Compliance;
+        break;
+      case 9:  // PowerofAttorney
+        selectedFile = this.PowerofAttorney;
+        break;
+         case 41: // Non Conviction Certificate
+        selectedFile = this.NonConvcerCertificate;
+        break;
+        case 7: // SSI Certificate
+        selectedFile=this.SSICertificate;
+         break;//7
+  
+      default:
+        this.toastr.error('Invalid File Type ID!', 'Error');
+        return;
+    }
+  
+    //  File check
+    if (!selectedFile) {
+      this.toastr.error('Please select a file before uploading.', 'Error');
+      console.error(` No file selected for mFileTypeid: ${mFileTypeid}`);
+      return;
+    }
+  
+    //  Append file to formData
+    formData.append('PanCardDocument', selectedFile);
+  
+    //  Prepare params data
+    const data = {
+      mVergID: sessionStorage.getItem('vregid') || '',
+      mFileTypeID: mFileTypeid.toString()
+    };
+    console.log("details:=",data);
+  // return;
+    //  API Call
+    try {
+      this.loadingSectionA = true;  
+      this.api.InsertTechnicalDetails(data, formData).subscribe({
+        next: (res: any) => {
+          this.toastr.success(
+            res.message || 'File uploaded successfully!',
+            'Success'
+          );
+          console.log('Upload Success:', res);
+  
+          switch (mFileTypeid) {
+            case 41: this.NonConvcerCertificate = null;  break;
+            case 9: this.PowerofAttorney = null; break;
+            case 141: this.AffidavitforStrict_Compliance = null; break;
+            case 142: this.blacklisting = null;   break;
+            case 19: this.Other_Document1 = null; break;
+            case 122: this.Other_Document2 = null; break;
+            // case 81: this.TechCertificate5 = null;  break;
+          }
+          this.GetTechnicalDetails();
+          this.loadingSectionA = false;  
+          // this.onshow=false;
+        },
+
+        error: (err: any) => {
+          this.loadingSectionA = false;  
+          console.error('Upload Error:', err);
+          this.toastr.error('Failed to upload file!', 'Error');
+        },
+      });
+    } catch (error) {
+      console.error('Exception:', error);
+      this.toastr.error('Unexpected error occurred!', 'Error');
+    }
+  }
+onupdatedata(id:any){
+
 }
 // PUT_GCPVerification(element:any){
 //   // 
