@@ -1303,45 +1303,20 @@
                                                 </td>
                                             </ng-container>
         
-                                            <ng-container matColumnDef="action">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
-        
-                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
-                                                <td mat-cell *matCellDef="let element" class="text-center">
-                                                    <span class="d-flex  flex-row-reverse align-items-center">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input " type="radio"
-                                                                name="flexRadioDefault" id="iaccept1"
-                                                                [name]="'status-' + element.whoid"
-                                                                [id]="'status-yes-' + element.whoid" value="Y"
-                                                                [(ngModel)]="element.iaccept">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-yes-' + element.whoid">Yes</label>
-                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                    Accept
-                                                </label> -->
-                                                        </div>
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                                id="iaccept2" [name]="'status-' + element.whoid"
-                                                                [id]="'status-no-' + element.whoid" value="N"
-                                                                [(ngModel)]="element.iaccept">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-no-' + element.whoid">No</label>
-                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                 NO
-                                                </label> -->
-                                                        </div>
-                                                        <!-- <button
-                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                        mat-button>
-                                                        <i class="bi bi-check2-circle text-success"></i>
-                                                    </button> -->
-                                                        <!-- (click)="onButtonClick(element.atid)" -->
-                                                    </span>
-                                                </td>
-                                            </ng-container>
+                                             <ng-container matColumnDef="action">
+                                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                                                  <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <!-- <span class="d-flex  flex-row-reverse p-2 "> -->
+                                                      <button
+                                                        class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button (click)="onCOMPLIANCEUpdate(element.whoid,element.licid,element.whono,element.comid,element.vregid
+                                                            ,element.issuedate,element.startdate,element.validitydate,element.remarks,element.supplierid,element.filename
+                                                        )"*ngIf="element.iswhoaccepted=='N'">
+                                                        <i class="bi bi-pencil-square text-primary"></i>
+                                                      </button>
+                                                    <!-- </span> -->
+                                                  </td>
+                                                </ng-container>
                                             <ng-container matColumnDef="Remark">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
                                                 <td mat-cell *matCellDef="let element" class="text-center">
@@ -1380,6 +1355,200 @@
                                         <mat-paginator #paginator5 [pageSizeOptions]="[5,10, 15, 30]"
                                             showFirstLastButtons></mat-paginator>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshow == true">
+                            <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                style="height: auto; overflow: hidden; position: relative;">
+                                <div class="mb-3 Fon-family" style="text-align: justify;">
+                                    <form class="p-2" #COMCForm="ngForm" (ngSubmit)="InsertComplianceCertificate1(COMCForm)">
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                <label for="inputName">Select License NO<span class="text-danger">*</span></label>
+                                                <ng-select class="form-control" [items]="license" bindValue="licid" bindLabel="unitname"
+                                                    [(ngModel)]="selectedLicense" name="unitname" (change)="Onselectlicense($event)"
+                                                    [placeholder]="!selectedLicense ? 'Select License NO :' : ''" [searchable]="true"
+                                                    [clearable]="true" appendTo=".form-group" #licid="ngModel" required [ngStyle]="{
+                                                                  'border': licid.invalid && (licid.dirty || licid.touched) ? '1px solid #dc3545' :
+                                                                  licid.valid && (licid.dirty || licid.touched) ? '1px solid #198754' : '',
+                                                                  'box-shadow': licid.invalid && (licid.dirty || licid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                                  licid.valid && (licid.dirty || licid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                                  }">
+                        
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        {{ item.licid }} - {{ item.unitname }}
+                                                    </ng-template>
+                        
+                                                </ng-select>
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(licid.touched || COMCForm.submitted) && licid.errors?.['required']">
+                                                    License NO is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6  pt-3" style="position: relative;">
+                                                <label for="inputPassword4">Select Compliance Type: <span class="text-danger">*</span></label>
+                                                <ng-select class="form-control" [items]="MAScomplianceType" bindValue="comid"
+                                                    bindLabel="comname" [(ngModel)]="comname" name="comname"
+                                                    (change)="OnselectlicensecomplianceType($event)"
+                                                    [placeholder]="!comname ? 'Select Compliance Type:' : ''" [searchable]="true"
+                                                    [clearable]="true" appendTo=".form-group" #comid="ngModel" required [ngStyle]="{
+                                                                  'border': comid.invalid && (comid.dirty || comid.touched) ? '1px solid #dc3545' :
+                                                                  comid.valid && (comid.dirty || comid.touched) ? '1px solid #198754' : '',
+                                                                  'box-shadow': comid.invalid && (comid.dirty || comid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                                  comid.valid && (comid.dirty || comid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                                  }">
+                                                </ng-select>
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(comid.touched || COMCForm.submitted) && comid.errors?.['required']">
+                                                    Compliance Type is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputEmail4">Certificate No: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Type your Certificate No:" id="inputEmail4"
+                                                    name="mWHONO" [(ngModel)]="mWHONO" #mWHONOe="ngModel" required [ngClass]="{
+                                                                  'is-invalid': (mWHONOe.touched || COMCForm.submitted) && mWHONOe.invalid,
+                                                                  'is-valid': mWHONOe.valid && (mWHONOe.touched || COMCForm.submitted)
+                                                                }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(mWHONOe.touched || COMCForm.submitted) && mWHONOe.errors?.['required']">
+                                                    Certificate No is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputAddress">Issuing Authority: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Type your Approved Sections"
+                                                    id="inputAddress" name="mRemarks" [(ngModel)]="mRemarks" #mRemarkss="ngModel" required
+                                                    [ngClass]="{
+                                                                  'is-invalid': (mRemarkss.touched || COMCForm.submitted) && mRemarkss.invalid,
+                                                                  'is-valid': mRemarkss.valid && (mRemarkss.touched || COMCForm.submitted)
+                                                                }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(mRemarkss.touched || COMCForm.submitted) && mRemarkss.errors?.['required']">
+                                                    Issuing Authority is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputAddress">Issue Date: <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" placeholder="Type your Issue Date" id="inputAddress"
+                                                    name="ISSUEDATE" (change)="validateDates()" [max]="today" [(ngModel)]="ISSUEDATE"
+                                                    #ISSUEDATEee="ngModel" required [ngClass]="{
+                                                              'is-invalid': (ISSUEDATEee.touched || COMCForm.submitted) && ISSUEDATEee.invalid,
+                                                              'is-valid': ISSUEDATEee.valid && (ISSUEDATEee.touched || COMCForm.submitted)
+                                                            }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(ISSUEDATEee.touched || COMCForm.submitted) && ISSUEDATEee.errors?.['required']">
+                                                    Issue Date is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputnumber">Start Date: <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" placeholder="Type your Validity Date" id="inputnumber"
+                                                    name="mstartdate" (change)="validateDates()" [(ngModel)]="mstartdate" [max]="today"
+                                                    #mstartdatee="ngModel" required [ngClass]="{
+                                                                  'is-invalid': 
+                                                                     (mEXPDateee.touched || COMCForm.submitted) && (mEXPDateee.invalid || starterrorMsg),
+                                                          
+                                                                  'is-valid': 
+                                                                  mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted) && !starterrorMsg
+                                                               }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(mstartdatee.touched || COMCForm.submitted) && mstartdatee.errors?.['required']">
+                                                    Start Date is required.
+                                                </div>
+                                                <div class="text-danger mt-1">
+                                                    <p class="text-danger">{{ starterrorMsg }}</p>
+                                                </div>
+                                            </div>
+                        
+                        
+                        
+                                        </div>
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputnumber">Validity Date: <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" placeholder="Type your Validity Date" id="inputnumber"
+                                                    name="mEXPDate" (change)="validateDates()" [(ngModel)]="mEXPDate" #mEXPDateee="ngModel"
+                                                    required [ngClass]="{
+                                                                  'is-invalid': 
+                                                                     (mEXPDateee.touched || COMCForm.submitted) && (mEXPDateee.invalid || validityerrorMsg),
+                                                          
+                                                                  'is-valid': 
+                                                                  mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted) && !validityerrorMsg
+                                                               }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(mEXPDateee.touched || COMCForm.submitted) && mEXPDateee.errors?.['required']">
+                                                    Validity Date is required.
+                                                </div>
+                                                <div class="text-danger mt-1">
+                                                    <p class="text-danger">{{ validityerrorMsg }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputnumber"> Upload Compliance Certificate: <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" placeholder="Upload Compliance Certificate"
+                                                    accept=".pdf" id="inputnumber" name="files" (change)="onFileSelectedCertificate($event)"
+                                                    required #files="ngModel" ngModel [ngClass]="{
+                                                                  'is-invalid': (files.touched || COMCForm.submitted) && files.invalid,
+                                                                  'is-valid': files.valid && (files.touched || COMCForm.submitted)
+                                                                }">
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(files.touched || COMCForm.submitted) && files.errors?.['required']">
+                                                    File upload is required.
+                                                </div>
+                                                    <!-- <p *ngIf="filename">
+                                                        Current File: {{ filename }}
+                                                    </p> -->
+                                            </div>
+                        
+                                        </div>
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                <label for="inputnumber">Select multiple Item Type: <span class="text-danger">*</span></label>
+                        
+                                                <div class="select-wrapper" style="position: relative;">
+                                                    <ng-select class="form-control" [items]="masitemtypes" bindLabel="itemtypename"
+                                                        bindValue="itemtypeid" [(ngModel)]="selecteditemtypeid" name="selecteditemtypeid"
+                                                        [multiple]="true" [closeOnSelect]="false" [hideSelected]="false" [clearable]="true"
+                                                        [searchable]="true" appendTo=".form-group"
+                                                        [placeholder]="selecteditemtypeid?.length ? '' : 'Select Item Types...'"
+                                                        #itemtypeidss="ngModel" required [ngStyle]="{
+                                                            'border': itemtypeidss.invalid && (itemtypeidss.dirty || itemtypeidss.touched) ? '1px solid #dc3545' :
+                                                                      itemtypeidss.valid && (itemtypeidss.dirty || itemtypeidss.touched) ? '1px solid #198754' : '',
+                                                            'box-shadow': itemtypeidss.invalid && (itemtypeidss.dirty || itemtypeidss.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                                          itemtypeidss.valid && (itemtypeidss.dirty || itemtypeidss.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                          }">
+                        
+                                                        <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                            <input type="checkbox" [checked]="selecteditemtypeid?.includes(item.itemtypeid)"
+                                                                (click)="$event.stopPropagation()" (change)="onCheckboxChange(item)"
+                                                                style="margin-right: 8px;" />
+                                                            {{ item.itemtypename }}
+                                                        </ng-template>
+                        
+                                                    </ng-select>
+                                                    <div class="text-danger mt-1"
+                                                        *ngIf="(itemtypeidss.touched || COMCForm.submitted) && itemtypeidss.errors?.['required']">
+                                                        Your selection is required.
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>  `
+                                        </div>
+                        
+                                        <div class="d-flex justify-content-center mt-3">
+                                            <button type="submit" class="btn btn-primary m-3" [disabled]="COMCForm.invalid">Save</button>
+                        
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

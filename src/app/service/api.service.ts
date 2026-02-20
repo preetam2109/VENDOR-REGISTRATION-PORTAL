@@ -1534,7 +1534,7 @@ export class ApiService {
     );
   }
 
-
+//#region update apis
 DeleteTechnicalFile(mVregid: any, mFileID: any) {
   return this.http.put(
     `${this.VREGAPI}/Registration/DeleteTechnicalFile`,
@@ -1548,6 +1548,36 @@ DeleteTechnicalFile(mVregid: any, mFileID: any) {
     }
   );
 }
+
+
+  // https://dpdmis.in/VREGAPI/api/Registration/UpdateComplianceCertificate?WHOID=0& mlicid=0&mWHONO=0& mComid=0& mVergID=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0& mRemarks=0&mSupplierid=0
+
+  // UpdateComplianceCertificate
+  // (WHOID:any,mlicid:any,mWHONO:any,mComid:any,mVergID:any,
+  // ISSUEDATE:any,mstartdate:any,mEXPDate:any,mRemarks:any,mSupplierid:any){
+
+  // }
+    UpdateComplianceCertificate(data: any, formData: FormData): Observable<any> {
+ 
+    let params = new HttpParams()
+      .set('WHOID', data.WHOID)
+      .set('mlicid', data.mlicid)
+      .set('mWHONO', data.mWHONO)
+      .set('mComid', data.mComid)
+      .set('mVergID', data.mVergID)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate)
+      .set('mRemarks', data.mRemarks)
+      .set('mSupplierid', data.mSupplierid);
+    // return;
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateComplianceCertificate
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateComplianceCertificate`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
   //#endregion
 
   GetLiveTenderDetails(){
