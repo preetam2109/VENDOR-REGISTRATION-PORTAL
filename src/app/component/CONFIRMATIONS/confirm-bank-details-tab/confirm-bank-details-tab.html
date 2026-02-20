@@ -818,10 +818,10 @@
                                                 (keyup)="applyTextFilter4($event)">
                                         </div>
                                         <!-- <div class="export-menu-container m-2">
-                    <button type="button" class="btn border rounded mr-1 text-light"
-                    style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
-                      class="bi bi-folder-plus"></i></button>
-                  </div> -->
+                                        <button type="button" class="btn border rounded mr-1 text-light"
+                                                style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                                             class="bi bi-folder-plus"></i></button>
+                                     </div> -->
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped border rounded " mat-table
@@ -909,47 +909,20 @@
                                                     </button>
                                                 </td>
                                             </ng-container>
-        
-                                            <ng-container matColumnDef="action">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
-        
-                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
-                                                <td mat-cell *matCellDef="let element" class="text-center">
-                                                    <span class="d-flex  flex-row-reverse align-items-center">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input " type="radio"
-                                                                name="flexRadioDefault" id="flexRadioDefault1"
-                                                                [name]="'status-' + element.sno"
-                                                                [id]="'status-yes-' + element.sno" value="Y"
-                                                                [(ngModel)]="element.Iaccept">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-yes-' + element.sno">Yes</label>
-                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                    Accept
-                                                </label> -->
-                                                        </div>
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                                id="flexRadioDefault2" [name]="'status-' + element.sno"
-                                                                [id]="'status-no-' + element.sno" value="N"
-                                                                [(ngModel)]="element.Iaccept">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-no-' + element.sno">No</label>
-                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                 NO
-                                                </label> -->
-                                                        </div>
-                                                        <!-- <button
-                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                        mat-button>
-                                                        <i class="bi bi-check2-circle text-success"></i>
-                                                    </button> -->
-                                                        <!-- (click)="onButtonClick(element.atid)" -->
-                                                    </span>
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="Remark">
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                          <!-- <span class="d-flex  flex-row-reverse p-2 "> -->
+                                            <button
+                                              class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                              mat-button (click)="onDeleteClick(element.vregid,element.fileid,element.mscid)"  *ngIf="element.ismfaccepted=='N'"> 
+                                              <i class="bi bi-pencil-square text-primary"></i>
+                                            </button>
+                                          <!-- </span> -->
+                                        </td>
+                                      </ng-container>
+                                           
+                                            <ng-container matColumnDef="remarks">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
                                                 <td mat-cell *matCellDef="let element" class="text-center">
                                                     <span class="d-flex  flex-row-reverse p-2 ">
@@ -988,6 +961,182 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- submiit -->
+                           <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshow == true">
+                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                    style="height: auto; overflow: hidden; position: relative;">
+                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                      <form class="p-2">
+                        <label for="inputnumber">Upload Document </label>
+                        <div class="row pb-3" *ngIf="mscid==41">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber"> Upload Non Conviction certificate Issued by Concern FDA: <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control" accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber1" name="NonConvcerCertificate"
+                                  
+                                     (change)="onFileSelect($event, 0)" required
+                                     #NonConvcerCertificate="ngModel"
+                                     ngModel
+                                     [ngClass]="{
+                                        'is-invalid': NonConvcerCertificate.invalid && NonConvcerCertificate.touched,
+                                        'is-valid': NonConvcerCertificate.valid && NonConvcerCertificate.touched
+                                      }">
+                                         <!-- Validation Message -->
+                                         <div *ngIf="NonConvcerCertificate.invalid && NonConvcerCertificate.touched">
+                                            <small class="text-danger">
+                                              Please upload the Non Conviction Certificate (PDF).
+                                            </small>
+                                          </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(41)"
+                                [disabled]="!NonConvcerCertificate.valid"  >Upload</button>
+                            </div>
+                          </div>
+                        <div class="row  pb-3" *ngIf="mscid==9">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber"> Notary attested copy of Power of Attorney/Resolution of Board : 
+                                    <span  class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber2" (change)="onFileSelect($event, 1)" required
+                                    #PowerofAttorney="ngModel" name="PowerofAttorney"
+                                    
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': PowerofAttorney.invalid && PowerofAttorney.touched,
+                                       'is-valid': PowerofAttorney.valid && PowerofAttorney.touched
+                                     }">
+                                        <div *ngIf="PowerofAttorney.invalid && PowerofAttorney.touched">
+                                           <small class="text-danger">
+                                             Please upload the Notary attested copy of Power of Attorney/Resolution of Board Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(9)" [disabled]="!PowerofAttorney.valid"  >Upload</button>
+                            </div>
+                        </div>
+                        <div class="row  pb-3"*ngIf="mscid==141">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Affidavit for Strict Compliance : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber3"  (change)="onFileSelect($event, 2)" required
+                                    #AffidavitforStrict_Compliance="ngModel" name="AffidavitforStrict_Compliance"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': AffidavitforStrict_Compliance.invalid && AffidavitforStrict_Compliance.touched,
+                                       'is-valid': AffidavitforStrict_Compliance.valid && AffidavitforStrict_Compliance.touched
+                                     }">
+                                        <div *ngIf="AffidavitforStrict_Compliance.invalid && AffidavitforStrict_Compliance.touched">
+                                           <small class="text-danger">
+                                             Please upload the Affidavit for Strict Compliance Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(141)" [disabled]="!AffidavitforStrict_Compliance.valid" >Upload</button>
+                            </div>
+                        </div>
+                        <div class="row  pb-3" *ngIf="mscid==142">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Declaration Regarding blacklisting  : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber4" (change)="onFileSelect($event, 3)" required
+                                    #blacklisting="ngModel" name="blacklisting" 
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': blacklisting.invalid && blacklisting.touched,
+                                       'is-valid': blacklisting.valid && blacklisting.touched
+                                     }">
+                                        <div *ngIf="blacklisting.invalid && blacklisting.touched">
+                                           <small class="text-danger">
+                                             Please upload the Declaration Regarding blacklisting Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(142)" [disabled]="!blacklisting.valid">Upload</button>
+                               </div>
+                             </div>
+                        <div class="row  pb-3"*ngIf="mscid==7">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Upload SSI Certificate  : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber5" (change)="onFileSelect($event, 6)" required
+                                    #SSICertificate="ngModel" name="SSICertificate"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': SSICertificate.invalid && SSICertificate.touched,
+                                       'is-valid': SSICertificate.valid && SSICertificate.touched
+                                     }">
+                                        
+                                        <div *ngIf="SSICertificate.invalid && SSICertificate.touched">
+                                           <small class="text-danger">
+                                             Please upload the SSI Certificate  (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)" [disabled]="!SSICertificate.valid">Upload</button>
+                            </div>
+                        </div> 
+                        <div class="row  pb-3"*ngIf="mscid==19">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Other Document  1: <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber6"(change)="onFileSelect($event, 4)" required
+                                    #Other_Document1="ngModel" name="Other_Document1" 
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': Other_Document1.invalid && Other_Document1.touched,
+                                       'is-valid': Other_Document1.valid && Other_Document1.touched
+                                     }">
+                                        <div *ngIf="Other_Document1.invalid && Other_Document1.touched">
+                                           <small class="text-danger">
+                                             Please upload the Other Document Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(19)" [disabled]="!Other_Document1.valid">Upload</button>
+                            </div>
+                        </div>
+                        <div class="row  pb-3" *ngIf="mscid==122">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Other Document 2 : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber7" (change)="onFileSelect($event, 5)"  required
+                                    #Other_Document2="ngModel" name="Other_Document2" 
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': Other_Document2.invalid && Other_Document2.touched,
+                                       'is-valid': Other_Document2.valid && Other_Document2.touched
+                                     }">
+                                        <div *ngIf="Other_Document2.invalid && Other_Document2.touched">
+                                           <small class="text-danger">
+                                             Please upload the Other Document Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                           
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(122)" [disabled]="!Other_Document2.valid">Upload</button>
+                            </div>
+                        </div> 
+                    </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+
                     </div>
 
                 </ng-template>

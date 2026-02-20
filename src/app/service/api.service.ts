@@ -887,8 +887,7 @@ export class ApiService {
     );
   }
 
-  //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?
-  // mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
+  //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
   InsertComplianceCertificate1(data: any, formData: FormData): Observable<any> {
     let params = new HttpParams()
       .set('mlicid', data.mlicid)
@@ -974,6 +973,7 @@ export class ApiService {
   }
   public post(url: string, data: FormData, options?: any) {
     //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+  
     return this.http.post(this.VREGAPI + url, data, options);
   }
 
@@ -1434,4 +1434,31 @@ export class ApiService {
       { responseType: 'text' } // options, not body
     );
   }
+
+
+  //#region update delete 
+  
+  // DeleteTechnicalFile(mVregid: any, mFileID: any) {
+  // // https://dpdmis.in/VREGAPI/api/Registration/DeleteTechnicalFile?mVregid=108&mFileID=00
+  // // return;
+  // debugger;
+  //   return this.http.delete(
+    
+  //     `${this.VREGAPI}/Registration/DeleteTechnicalFile?mVregid=${mVregid}&mFileID=${mFileID}`
+  //   );
+  // }
+DeleteTechnicalFile(mVregid: any, mFileID: any) {
+  return this.http.put(
+    `${this.VREGAPI}/Registration/DeleteTechnicalFile`,
+    {},
+    {
+      params: {
+        mVregid: mVregid,
+        mFileID: mFileID
+      },
+      responseType: 'text' 
+    }
+  );
+}
+  //#endregion
 }
