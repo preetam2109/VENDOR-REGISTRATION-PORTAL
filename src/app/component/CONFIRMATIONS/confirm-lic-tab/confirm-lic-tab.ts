@@ -77,6 +77,9 @@ export class ConfirmLicTab {
 
   onshowUNIT:boolean=false;
   onshowLICENCE:boolean=false;
+  // edit mode
+  isEdit: boolean = false;
+  currentLicId: any = null;
 
   MasimportertypeDDL: any
 
@@ -479,8 +482,12 @@ validateStartEnd(form: FormGroup) {
             sno: index + 1
           }));
 
-        
-    
+          // if navigated via update button, only show rejected rows
+          if (sessionStorage.getItem('filterRejected') === 'true') {
+            this.manufacturingLicList = this.manufacturingLicList.filter((r: any) => r.isaccepted === 'N');
+            // sessionStorage.removeItem('filterRejected');
+          }
+
           // console.log('With manuf lic:', this.manufacturingLicList);
     
           this.dataSource2.data = this.manufacturingLicList;
@@ -608,6 +615,43 @@ validateStartEnd(form: FormGroup) {
         console.error('No nameText found or incorrect structure:', res);
       }
     });  
+  }
+
+  // prepare form values for editing a specific row
+  private parseToInputDate(dateStr: any): string | null {
+    if (!dateStr) return null;
+    // handle dd-MM-yyyy -> yyyy-MM-dd for input[type=date]
+    const ddmmyyyy = /^\d{2}-\d{2}-\d{4}$/;
+    if (typeof dateStr === 'string' && ddmmyyyy.test(dateStr)) {
+      const parts = dateStr.split('-');
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    try {
+      const d = new Date(dateStr);
+      if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+    } catch (e) {}
+    return null;
+  }
+
+  editRow(element: any) {
+    this.onshowLICENCE = true;
+    this.isEdit = true;
+    this.currentLicId = element.licid || element.mLICID || null;
+
+    const issue = this.parseToInputDate(element.issuedate || element.mISSUEDATE);
+    const start = this.parseToInputDate(element.startdate || element.mStartDate || element.mStartDate);
+    const valid = this.parseToInputDate(element.validitydate || element.mVALIDITYDATE);
+
+    this.licForm.patchValue({
+      mUNITID: element.unitid || element.mUNITID || element.unitid,
+      mFORMID: element.formid || element.mFORMID || element.formid,
+      mLICTYPEID: element.lictypeid || element.mLICTYPEID || element.lictypeid,
+      mLICNO: element.licno || element.mLICNO,
+      mISSUEDATE: issue,
+      mStartDate: start,
+      mVALIDITYDATE: valid,
+      mLicIssuingAuthority: element.licIssuingAuthority || element.mLicIssuingAuthority || ''
+    });
   }
   GetMassStates(){
   
@@ -747,6 +791,88 @@ validateStartEnd(form: FormGroup) {
       console.error('Exception:', error);
       this.toastr.error('Unexpected error occurred!');
     }
+  }
+
+  updateLicence() {
+    this.loadingSectionA = true;
+    this.submitted = true;
+
+    if (this.licForm.invalid) {
+      this.toastr.warning('Please fill all required fields correctly!');
+      this.loadingSectionA = false;
+      return;
+    }
+
+    this.licForm.patchValue({
+      mVregid: this.vregid,
+      mSUPPLIERID: sessionStorage.getItem('facilityid')
+    });
+
+    const params = {
+      ...this.licForm.value,
+      mISSUEDATE: this.formatDate(this.licForm.value.mISSUEDATE),
+      mStartDate: this.formatDate(this.licForm.value.mStartDate),
+      mVALIDITYDATE: this.formatDate(this.licForm.value.mVALIDITYDATE),
+    };
+
+    const updateParams: any = {
+      LICID: this.currentLicId,
+      mUNITID: params.mUNITID,
+      mFORMID: params.mFORMID,
+      mLICTYPEID: params.mLICTYPEID,
+      mSUPPLIERID: params.mSUPPLIERID,
+      mVregid: params.mVregid,
+      mLICNO: params.mLICNO,
+      mISSUEDATE: params.mISSUEDATE,
+      mStartDate: params.mStartDate,
+      mVALIDITYDATE: params.mVALIDITYDATE,
+      mLicIssuingAuthority: params.mLicIssuingAuthority,
+    };
+
+    // Build FormData when a new file is selected for update
+    const formData = new FormData();
+    if (this.selectedPanFile) {
+      formData.append('PanCardDocument', this.selectedPanFile);
+    }
+
+    try {
+      this.api.updateManufacturingLic(updateParams, this.selectedPanFile ? formData : undefined).subscribe({
+        next: (res) => {
+          this.toastr.success('Manufacturing Licence updated successfully!');
+          this.loadingSectionA = false;
+          this.licForm.reset();
+          this.submitted = false;
+          this.isEdit = false;
+          this.currentLicId = null;
+          this.licForm.patchValue({
+            mVregid: this.vregid,
+            mSUPPLIERID: sessionStorage.getItem('facilityid')
+          });
+          this.GetmANUFACLICDetails();
+          this.onshowLICENCE = false;
+        },
+        error: (err) => {
+          this.loadingSectionA = false;
+          console.error('Error updating:', err);
+          this.toastr.error('Failed to update data!');
+        }
+      });
+    } catch (error) {
+      this.loadingSectionA = false;
+      console.error('Exception:', error);
+      this.toastr.error('Unexpected error occurred!');
+    }
+  }
+
+  cancelEdit() {
+    this.isEdit = false;
+    this.currentLicId = null;
+    this.licForm.reset();
+    this.licForm.patchValue({
+      mVregid: this.vregid,
+      mSUPPLIERID: sessionStorage.getItem('facilityid')
+    });
+    this.onshowLICENCE = false;
   }
 
   onSubmitRetention() {

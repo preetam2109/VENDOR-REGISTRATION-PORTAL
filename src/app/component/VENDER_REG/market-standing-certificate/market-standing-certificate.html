@@ -1,7 +1,4 @@
 <div class="container-fluid mt-5 p-4 shadow border rounded bg-light py-3 px-3">
-
-
-
   <div class="card shadow rounded bg-light mx-auto  mb-4">
     <div class="card-body p-3">
         <div class="table-container">
@@ -182,18 +179,15 @@
 
 
 <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowMSC == true">
-
   <div class="card-body border rounded px-3 py-3 pb-3 bg-light"
     style="height: auto; overflow: hidden; position: relative;">
     <div class="mb-3 Fon-family" style="text-align: justify;">
 <form [formGroup]="MCCFillItemsForm" (ngSubmit)="onSubmitMCCFillItemsForm()">
     <div class="row text-start ">
-         
          <!-- category -->
          <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
             <div class="form-group" style="position: relative;">
-
             <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
               formControlName="MCID" [placeholder]="!MCCFillItemsForm.get('MCID')?.value ? 'Choose Category' : ''"
               [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onCategorySelectChange($event)" [ngStyle]="{
@@ -218,12 +212,10 @@
           </div>
           </div>
           </div>
-
       <!-- ItemType -->
        <div class="col-md-6 mb-3">
         <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
         <div class="form-group" style="position: relative;">
-
         <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
           formControlName="mItemTypeID" [placeholder]="MCCFillItemsForm.get('mItemTypeID')?.value ? '': 'Select Item Type' "
           [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onmItemTypeIDSelectChange($event)" [ngStyle]="{

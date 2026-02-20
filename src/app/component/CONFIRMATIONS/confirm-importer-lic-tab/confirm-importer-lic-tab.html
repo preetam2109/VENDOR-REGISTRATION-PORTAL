@@ -34,6 +34,14 @@
                 <th mat-header-cell *matHeaderCellDef style="width: 50px;">S.No</th>
                 <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
               </ng-container>
+
+              <!-- Edit action -->
+              <ng-container matColumnDef="editImp">
+                <th mat-header-cell *matHeaderCellDef style="width:80px">Action</th>
+                <td mat-cell *matCellDef="let element">
+                  <button class="btn btn-sm btn-outline-primary" (click)="editImporterRow(element)">Edit</button>
+                </td>
+              </ng-container>
   
               <!-- Licence ID -->
               <ng-container matColumnDef="licid">
@@ -141,6 +149,8 @@
                           <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
                           <td mat-cell *matCellDef="let row">{{ row.impisaccepteddt }}</td>
                         </ng-container>
+
+
   
               <!-- Header and Row Definitions -->
               <tr mat-header-row *matHeaderRowDef="[
@@ -157,7 +167,8 @@
       'filename',
       'impisaccepted',
       'impisaccepteddt',
-      'impaccrejremarks'
+      'impaccrejremarks',
+      'editImp',
 
     ]"></tr>
   
@@ -175,7 +186,8 @@
       'filename',
       'impisaccepted',
       'impisaccepteddt',
-      'impaccrejremarks'
+      'impaccrejremarks',
+      'editImp',
     ];"></tr>
   
   
@@ -330,10 +342,14 @@
               </div>
   
               <!-- Submit -->
-              <div class="text-center mt-4 mb-1">
-                <button type="submit" class="btn btn-primary px-4" [disabled]="!RetentionForm.valid">
+              <div class="col-12 text-center mt-3 mb-1 ">
+                <button *ngIf="!isEditImporter" type="submit" class="btn btn-primary px-4" [disabled]="!RetentionForm.valid">
                   Save
                 </button>
+                <div *ngIf="isEditImporter">
+                  <button type="button" class="btn btn-success px-4 me-2" (click)="updateImporterLicence()" [disabled]="!RetentionForm.valid">Update</button>
+                  <button type="button" class="btn btn-secondary px-4" (click)="cancelEditImporter()">Cancel</button>
+                </div>
               </div>
             </div>
           </form>
@@ -377,6 +393,14 @@
               <ng-container matColumnDef="sno">
                 <th mat-header-cell *matHeaderCellDef style="width: 50px;">S.No</th>
                 <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+              </ng-container>
+
+              <!-- Edit action -->
+              <ng-container matColumnDef="editRet2">
+                <th mat-header-cell *matHeaderCellDef style="width:80px">Action</th>
+                <td mat-cell *matCellDef="let element">
+                  <button class="btn btn-sm btn-outline-primary" (click)="editImportProviderRow(element)">Edit</button>
+                </td>
               </ng-container>
   
               <!-- Import Return ID -->
@@ -512,6 +536,7 @@
               <!-- Header and Row Definitions -->
               <tr mat-header-row *matHeaderRowDef="[
             'sno',
+            'editRet2',
             'unitName',
             'impLicNo',
             'impTypeName',
@@ -529,6 +554,7 @@
   
               <tr mat-row *matRowDef="let row; columns: [
             'sno',
+            'editRet2',
             'unitName',
             'impLicNo',
             'impTypeName',
@@ -659,10 +685,14 @@
               </div>
   
               <!-- Submit -->
-              <div class="text-center mt-4 mb-1">
-                <button type="submit" class="btn btn-primary px-4" [disabled]="!RetentionForm2.valid">
+              <div class="col-12 text-center mt-3 mb-1 ">
+                <button *ngIf="!isEditProvider" type="submit" class="btn btn-primary px-4" [disabled]="!RetentionForm2.valid">
                   Save
                 </button>
+                <div *ngIf="isEditProvider">
+                  <button type="button" class="btn btn-success px-4 me-2" (click)="updateImportProvider()" [disabled]="!RetentionForm2.valid">Update</button>
+                  <button type="button" class="btn btn-secondary px-4" (click)="cancelEditProvider()">Cancel</button>
+                </div>
               </div>
             </div>
           </form>
