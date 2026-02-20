@@ -357,7 +357,7 @@ export class MarketStandingCertificate {
 
 
   onSubmit() {
-    
+    debugger
     this.submitted = true;
   
     if (this.marketStandingCForm.invalid) {

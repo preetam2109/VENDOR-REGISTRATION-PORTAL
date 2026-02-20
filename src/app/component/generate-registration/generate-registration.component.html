@@ -20,8 +20,8 @@
             <th>Registration Date</th>
             <th>Status</th>
             <!-- <th>Download</th> -->
-            <th>Approved Status</th>
-            <!-- <th>Action</th> -->
+            <!-- <th>Approved Status</th> -->
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -38,13 +38,18 @@
               </span>
             </td>
             <!-- <td>{{ vendor.regdate }}</td> -->
-            <td>-</td>
+            <!-- <td>-</td> -->
             <!-- <td><span class="approved-status">Approved</span></td> -->
             <!-- <td><a routerLink="/Approved" style="cursor:pointer;color:blue;">Approved</a></td> -->
             <!-- <td><a routerLink="/Approved" style="cursor:pointer;color:blue;">Approved</a></td> -->
 
+            <!-- action column for update button -->
+            <td>
+              <button class="btn btn-sm btn-outline-primary" (click)="onUpdate(vendor)">
+                Update
+              </button>
+            </td>
             
-
             <!-- <td><span class="delete-link" (click)="deleteVendor(vendor)">Delete</span></td> -->
           </tr>
         </tbody>

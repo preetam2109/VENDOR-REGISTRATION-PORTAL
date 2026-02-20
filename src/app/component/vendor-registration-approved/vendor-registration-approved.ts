@@ -44,6 +44,7 @@ import Swal from 'sweetalert2';
   styleUrl: './vendor-registration-approved.css'
 })
 export class VendorRegistrationApproved {
+  roleName:any;
   loadingSectionA:boolean=false;
   Remark:any;
   url:any;
@@ -63,7 +64,7 @@ export class VendorRegistrationApproved {
   dispatchData4: TechnicalDetails_model[] = [];
   dispatchData5: ComplienceCertificateDetails[] = [];
   dispatchData6: GetGCPDetails[] = [];
-
+vname:any
   dataSource!: MatTableDataSource<GetAnnualTurnoverDetail>;
   dataSource1!: MatTableDataSource<BankMandateDetail>;
   dataSource2!: MatTableDataSource<MassuppliergstDetails>;
@@ -194,6 +195,9 @@ export class VendorRegistrationApproved {
       }
   }
   ngAfterViewInit() {
+    
+  this.roleName=localStorage.getItem('roleName')
+console.log('sdsdsd'+this.roleName)
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
     // this.dataSource1.paginator = this.paginator1;
@@ -211,6 +215,8 @@ export class VendorRegistrationApproved {
  
   }
 ngOnInit() {
+  this.vname=sessionStorage.getItem('vname');
+  this.roleName=sessionStorage.getItem('roleName')
   this.route.queryParams.subscribe(params => {
     this.vregid= params['vregid'];
     this.SupID=  params['supid'];

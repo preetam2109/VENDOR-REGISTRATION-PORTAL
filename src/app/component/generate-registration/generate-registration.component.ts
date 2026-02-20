@@ -49,13 +49,23 @@ export class GenerateRegistrationComponent {
   onClick(status:any){
 
     if(status=='Complete'){
-      // return
+      // navigating based on status (used by status cell and update button)
       this.router.navigate(['/confirmation']);
     }else{
-
       this.router.navigate(['personal-detail']);
     }
 
+  }
+
+  /**
+   * Called when the user clicks the "Update" button on a row.
+   * Internally reuses `onClick` so the routing logic stays consistent
+   * with clicking the status text.
+   */
+  onUpdate(vendor: any) {
+    // mark that we arrived via the update button so confirm component can filter
+    sessionStorage.setItem('filterRejected', 'true');
+    this.onClick(vendor.status);
   }
 
 

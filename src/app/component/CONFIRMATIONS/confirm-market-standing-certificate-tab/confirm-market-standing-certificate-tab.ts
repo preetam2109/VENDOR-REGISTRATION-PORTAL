@@ -755,6 +755,12 @@ GetmSCDetailsList() {
         ...item,
         sno: index + 1
       }));
+
+      // If navigated via Update button, show only rejected rows (ismscaccepted === 'N')
+      if (sessionStorage.getItem('filterRejected') === 'true') {
+        this.mSCDetailsList = this.mSCDetailsList.filter((r: any) => r.ismscaccepted === 'N');
+      }
+
       console.log('IA With S.No:', this.mSCDetailsList);
       this.dataSource.data = this.mSCDetailsList;
       this.dataSource.paginator = this.paginator;

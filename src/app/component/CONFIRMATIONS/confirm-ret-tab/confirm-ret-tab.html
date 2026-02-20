@@ -42,6 +42,14 @@
         <th mat-header-cell *matHeaderCellDef style="width: 60px;">S.No</th>
         <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
       </ng-container>
+
+      <!-- Edit action -->
+      <ng-container matColumnDef="editRet">
+        <th mat-header-cell *matHeaderCellDef style="width:80px">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button class="btn btn-sm btn-outline-primary" (click)="editRetentionRow(element)">Edit</button>
+        </td>
+      </ng-container>
   
       <!-- Licence No -->
       <ng-container matColumnDef="licno">
@@ -216,37 +224,39 @@
                 <!-- Header & Row Definition -->
                 <tr mat-header-row *matHeaderRowDef="[
                 'sno',
-    'licno',
-    'unitname',
-    'issuedate',
-    'startdate',
-    'expdate',
-    'retname',
-    'proIssuingAuthority',
-    'formname',
-    'lictypename',
-    'filename',
-    'isplaccepted',
-    'isplaccepteddt',
-    'placcrejremarks',
+                'licno',
+                'unitname',
+                'issuedate',
+                'startdate',
+                'expdate',
+                'retname',
+                'proIssuingAuthority',
+                'formname',
+                'lictypename',
+                'filename',
+                'isplaccepted',
+                'isplaccepteddt',
+                'placcrejremarks',
+                'editRet'
   
               ]"></tr>
   
                 <tr mat-row *matRowDef="let row; columns: [
                 'sno',
-    'licno',
-    'unitname',
-    'issuedate',
-    'startdate',
-    'expdate',
-    'retname',
-    'proIssuingAuthority',
-    'formname',
-    'lictypename',
-    'filename',
-    'isplaccepted',
-    'isplaccepteddt',
-    'placcrejremarks',
+                'licno',
+                'unitname',
+                'issuedate',
+                'startdate',
+                'expdate',
+                'retname',
+                'proIssuingAuthority',
+                'formname',
+                'lictypename',
+                'filename',
+                'isplaccepted',
+                'isplaccepteddt',
+                'placcrejremarks',
+                'editRet'
    
               ]"></tr>
               </table>
@@ -442,9 +452,13 @@ Please upload the document.
   
           <!-- Submit -->
           <div class="col-12 text-center mt-3 mb-1 ">
-            <button type="submit" class="btn btn-primary px-4" [disabled]="!retForm.valid">
+            <button *ngIf="!isEditRetention" type="submit" class="btn btn-primary px-4" [disabled]="!retForm.valid">
               Save
             </button>
+            <div *ngIf="isEditRetention">
+              <button type="button" class="btn btn-success px-4 me-2" (click)="updateRetention()" [disabled]="!retForm.valid">Update</button>
+              <button type="button" class="btn btn-secondary px-4" (click)="cancelEditRetention()">Cancel</button>
+            </div>
           </div>
         </div>
       </form>

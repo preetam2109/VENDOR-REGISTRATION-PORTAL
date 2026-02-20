@@ -1,6 +1,6 @@
 <div class="w-100 " style="background-color: #e2e3e5">
     <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
-      <!-- <strong style="text-align: center;">CME Lifting Status  </strong> -->
+      <strong style="text-align: center;">{{vname}}</strong>
     </h1>
     </div>
    
@@ -35,11 +35,11 @@
         <app-approval-capaity-of-production *ngIf="selectedTabIndex === 3"></app-approval-capaity-of-production>
       </ng-template>
     </mat-tab>
-    <!-- <mat-tab label="Confirmation">
+    <mat-tab label="Technical Documents">
       <ng-template matTabContent>
-        <app-confirmation *ngIf="selectedTabIndex === 4"></app-confirmation>
+        <app-vendor-registration-approved *ngIf="selectedTabIndex === 4"></app-vendor-registration-approved>
       </ng-template>
-    </mat-tab> -->
+    </mat-tab>
     <!-- <mat-tab label="CME Without Ai ">
       <ng-template matTabContent>
         <app-cgmscstock-details-ayush *ngIf="selectedTabIndex === 3"></app-cgmscstock-details-ayush>

@@ -307,7 +307,11 @@ export class VendorRegistrationCompleted {
 //   // VendorRegistrationApproved
 //   this.router.navigate(['VendorRegistrationApproved'])
 //   }
-  onButtonClickT(vregid: any, supid: any) {
+  onButtonClickT(vregid: any, supid: any,supname:any) {
+    sessionStorage.setItem('vname',supname)
+    sessionStorage.setItem('vregid',vregid)
+    sessionStorage.setItem('facilityid',supid)
+
     this.router.navigate(
       ['ApprovalTechnicalCrt'],
       { 
@@ -318,7 +322,45 @@ export class VendorRegistrationCompleted {
       }
     );
   }
-  onButtonClick(vregid: any, supid: any) {
+  onButtonClick(vregid: any, supid: any,supname:any) {
+    sessionStorage.setItem('vname',supname)
+    sessionStorage.setItem('vregid',vregid)
+    sessionStorage.setItem('facilityid',supid)
+
+    
+    // this.router.navigate(
+    //   ['VendorRegistrationApproved'],
+    //   { 
+    //     queryParams: {
+    //       vregid: vregid,
+    //       supid: supid
+    //     }
+    //   }
+    // );
+    this.router.navigate(
+      ['ApprovalTechnicalCrt'],
+      { 
+        queryParams: {
+          vregid: vregid,
+          supid: supid
+        }
+      }
+    );
+  }
+  onButtonClickFinance(vregid: any, supid: any,supname:any) {
+    sessionStorage.setItem('vname',supname)
+    sessionStorage.setItem('vregid',vregid)
+    sessionStorage.setItem('facilityid',supid)
+    
+    // this.router.navigate(
+    //   ['VendorRegistrationApproved'],
+    //   { 
+    //     queryParams: {
+    //       vregid: vregid,
+    //       supid: supid
+    //     }
+    //   }
+    // );
     this.router.navigate(
       ['VendorRegistrationApproved'],
       { 
@@ -329,5 +371,6 @@ export class VendorRegistrationCompleted {
       }
     );
   }
+
   
 }

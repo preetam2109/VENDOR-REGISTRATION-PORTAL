@@ -765,6 +765,12 @@ formatDate(dateString: string): string {
           ...item,
           sno: index + 1
         }));
+
+        // If navigated via Update button, show only rejected rows (ismfaccepted === 'N')
+        if (sessionStorage.getItem('filterRejected') === 'true') {
+          this.PPCertificateList = this.PPCertificateList.filter((r: any) => r.ismfaccepted === 'N');
+        }
+
         console.log('DDWith S.No:', this.PPCertificateList);
         this.dataSource.data = this.PPCertificateList;
         this.dataSource.paginator = this.paginator;
