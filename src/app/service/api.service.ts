@@ -1578,6 +1578,23 @@ DeleteTechnicalFile(mVregid: any, mFileID: any) {
       { params, responseType: 'text' }
     );
   }
+  UpdateGCP(data: any, formData: FormData): Observable<any> {
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateGCP?GCPID=0&mVergID=0&mGCpNo=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0
+    debugger;
+    let params = new HttpParams()
+      .set('GCPID', data.GCPID)
+      .set('mVergID', data.mVergID)
+      .set('mGCpNo', data.mGCpNo)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate);
+  
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateGCP`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
   //#endregion
 
   GetLiveTenderDetails(){

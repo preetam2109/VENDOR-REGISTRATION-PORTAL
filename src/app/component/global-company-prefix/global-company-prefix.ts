@@ -150,7 +150,7 @@ this.loadingSectionA=true;
         if (this.fileSelected) {
           formData.append('PanCardDocument', this.fileSelected);
         } else {
-          this.toastr.error('Please select a Compliance Certificate file.', 'Error');
+          this.toastr.error('Please select a GLOBAL COMPANY PREFIX Certificate file.', 'Error');
           return;
         }
         const formValues = GCPForm.value;
@@ -198,7 +198,7 @@ this.loadingSectionA=true;
               error: (err: any) => {
                 console.error('Error:', err);
                 this.loadingSectionA=false;
-                this.toastr.error('Failed to upload Compliance Certificate', 'Error');
+                this.toastr.error('Failed to upload GLOBAL COMPANY PREFIX Certificate', 'Error');
               },
             }); 
       } catch (error) {
@@ -256,7 +256,7 @@ this.loadingSectionA=true;
     
       }
       validateDates() {
-        // ;
+      
           const start = new Date(this.mstartdate);
           const issue = new Date(this.ISSUEDATE);
           const validity = new Date(this.mEXPDate);
