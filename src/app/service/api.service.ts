@@ -718,7 +718,7 @@ export class ApiService {
     );
   }
   InsertGSTCertificate(data: any, formData: FormData): Observable<any> {
-    //post := https://localhost:7053/api/Registration/c?mVergID=50&msupplierid=1936&mstateID=44&gstno=gdtdhnj
+    //post := https://localhost:7053/api/Registration/InsertGSTCertificate?mVergID=50&msupplierid=1936&mstateID=44&gstno=gdtdhnj
 
     let params = new HttpParams()
       .set('mVergID', data.mVergID)
@@ -1591,6 +1591,23 @@ DeleteTechnicalFile(mVregid: any, mFileID: any) {
   
     return this.http.post(
       `${this.VREGAPI}/Registration/UpdateGCP`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  UpdateGSTRETURN(data: any, formData: FormData): Observable<any> {
+    //https://dpdmis.in/VREGAPI/api/Registration/UpdateMASGSTRETURNFILES?RETID=0&mGSTID=0&mVergID=0&mACCYRSETID=0&mGSTQTRID=0&mSupplierID=0
+    debugger;
+    let params = new HttpParams()
+      .set('RETID', data.RETID)
+      .set('mGSTID', data.mGSTID)
+      .set('mVergID', data.mVergID)
+      .set('mACCYRSETID', data.mACCYRSETID)
+      .set('mGSTQTRID', data.mGSTQTRID)
+      .set('mSupplierID', data.mSupplierID);
+  
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateMASGSTRETURNFILES`,
       formData,
       { params, responseType: 'text' }
     );
