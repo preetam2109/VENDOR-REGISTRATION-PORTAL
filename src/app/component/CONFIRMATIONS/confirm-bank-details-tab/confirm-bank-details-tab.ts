@@ -121,9 +121,7 @@ export class ConfirmBankDetailsTab {
      ];
      displayedColumns6: string[] = [
       'sno','gcpno','issuedate','startdate',
-      'expdate','filename','isgcpaccepted','isgcpaccepteddt','gcpaccrejremarks'
-   
-      // 'action'
+      'expdate','filename','isgcpaccepted','isgcpaccepteddt','gcpaccrejremarks','action'
       // 'gcpid','vregid','entrydate'
       // sno:any;
       // : number
@@ -1668,41 +1666,106 @@ this.vregid=vregid;
     this.selecteditemtypeid = [...this.selecteditemtypeid, id];
   }
 }
-// PUT_GCPVerification(element:any){
-//   // 
-// // if(element.Iaccept == undefined && element.Remark  == undefined){
-// //   this.toastr.error('Please Fill this Data before uploading.', 'Error');
-// //   return;
-// // }
-// if (!element.gcpiaccept || !element.gcpremark?.trim()) {
-//   this.toastr.error('Please fill all required fields before Update.', 'Error');
-//   return;
-// }
-
-// // https://localhost:7053/api/Registration/GCPVerification?mGCPID=11&Iaccept=N&Remarks=sdgfsg&userID=12365
-//       const data = {
-//         userID: sessionStorage.getItem('userid') || '',
-//         mGCPID: element.gcpid.toString(),
-//         Iaccept: element.gcpiaccept,    // Y or N
-//         Remarks: element.gcpremark      // row-wise remark
-//       };
-    
-//       const formData = new FormData();
-
-//     // return;
-//       this.api.PUT_GCPVerification(data, formData).subscribe({
-//         next: (res: any) => {
-//           this.toastr.success(res.message || 'Data Update successfully!','Success'
-//           );
-//           // this.toastr.success(res.message || 'Success', 'Success');
-//          this. GetGCPDetails();
-//         },
-//         error: (err: any) => {
-//           this.toastr.error('Failed!', 'Error');
-//         }
-//       });
-//     }
-
  //#endregion 
+  //#region GCP
+  mGCpNo:any;
+  // ISSUEDATE:any;
+  // mstartdate:any;
+  // mEXPDate:any;
+  GCPID:any;
+onGCPUpdate(gcpid:any,vregid:any,gcpno:any,issuedate:any,startdate:any,expdate:any){
+  this.onshow = true;
+  this.mGCpNo=gcpno;
+  this.GCPID=gcpid;
+  // this.ISSUEDATE=issuedate;
+  // this.mstartdate=startdate;
+  // this.mEXPDate=expdate;
+  // this.supplierid=supplierid;
+this.vregid=vregid;
+  this.ISSUEDATE = this.formatDateForInput(issuedate);
+  this.mstartdate = this.formatDateForInput(startdate);
+  this.mEXPDate = this.formatDateForInput(expdate);
+  }
+  InsertGCP(GCPForm: NgForm) {
+debugger;
+    this.loadingSectionA=true;
+        const formData = new FormData();
+           if (GCPForm.invalid) {
+          this.toastr.error('Please fill all required fields.', 'Error');
+          return;
+        }
+            if (this.fileSelected) {
+              formData.append('PanCardDocument', this.fileSelected);
+            } else {
+              this.toastr.error('Please select a GLOBAL COMPANY PREFIX Certificate file.', 'Error');
+              return;
+            }
+            const formValues = GCPForm.value;
+            const data = {
+            
+              // mSupplierid: sessionStorage.getItem('facilityid') || '',
+        // post:= // https://localhost:7053/api/Registration/
+       
+    
+              // mstateID: this.stateid?.toString() || '',
+              // mGCpNo: this.mGCpNo,
+              // mComid: this.comid,
+              // mWHONO: this.mWHONO,
+              // ISSUEDATE: this.ISSUEDATE,
+              // mstartdate: this.mstartdate,
+              // mEXPDate: this.mEXPDate,
+              // ISSUEDATE: this.formatDate(this.ISSUEDATE),
+              // mstartdate: this.formatDate(this.mstartdate),
+              // mEXPDate: this.formatDate(this.mEXPDate),
+              // mRemarks: this.mRemarks
+               // InsertGCP?mVergID=50&mGCpNo=65987&ISSUEDATE=01-10-2025&mstartdate=01-10-2025&mEXPDate=01-10-2027
+              //  mVergID: sessionStorage.getItem('vregid') || '',
+               mVergID: this.vregid,
+               GCPID: this.GCPID,
+               mGCpNo: formValues.mGCpNo|| this.mGCpNo,
+              ISSUEDATE: this.formatDate(formValues.ISSUEDATE),
+              mstartdate: this.formatDate(formValues.mstartdate),
+              mEXPDate: this.formatDate(formValues.mEXPDate),
+
+
+               // https://dpdmis.in/VREGAPI/api/Registration/UpdateGCP?GCPID=0&mVergID=0&mGCpNo=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0
+              // ISSUEDATE: formValues.ISSUEDATE,
+              // mstartdate: formValues.mstartdate,
+              // mEXPDate: formValues.mEXPDate
+            };
+            console.log('data=:',data);
+            // return;
+          try {
+            this.api.UpdateGCP(data, formData).subscribe
+            ({
+                  next: (res: any) => {
+                    console.log('res=',res);
+                     this.toastr.success(res.message || 'Certificate uploaded successfully!', 'Success');
+                     GCPForm.resetForm();
+                    this.fileSelected = null;
+                    this.GetGCPDetails();
+                    this.onshow=false;
+                    this.loadingSectionA=false;
+                  },
+                  error: (err: any) => {
+                    console.error('Error:', err);
+                    this.loadingSectionA=false;
+                    this.toastr.error('Failed to upload GLOBAL COMPANY PREFIX Certificate', 'Error');
+                  },
+                }); 
+          } catch (error) {
+            console.error('Exception:', error);
+            this.toastr.error('Unexpected error occurred!');
+          }
+        }
+        onFileSelected1(event: any) {
+          const file = event.target.files[0];
+          if (file) {
+            this.fileSelected = file;
+            // console.log('Selected file :', file.name);
+          }
+        }
+ //#endregion 
+
 }
 
