@@ -2303,7 +2303,7 @@ export class ConfirmBankDetailsTab {
 
   //#endregion
   //#region bank mandate
-  acnoo: any;
+  // acnoo: any;
   SupplierBankAccDetail: any = {};
   isNewBank: boolean = false;
   statusText: any;
@@ -2312,8 +2312,16 @@ export class ConfirmBankDetailsTab {
    isCheckingIFSC = false;
      ifsccodeDetails:any;
      acno:any;
-     VendorBankDetail: any[] = [];
+    //  VendorBankDetail: any[] = [];
+    onshowFINANCIAL=false;
      BankModal:any;
+  acnoo: any = null;
+  accountname:any;
+VendorBankDetail: any[] = [];
+
+selectedBank: any;
+supplieridbbb:any;
+
        UpdateBankMandate(
     bankaccountid: any,
     supplierid: any,
@@ -2321,14 +2329,33 @@ export class ConfirmBankDetailsTab {
     bankname: any,
     accountno: any,
     accountname: any,
+    acno:any,
+    ifsccode:any
   ) {
+    // this.acnoo=bankaccountid;
+// this.acnoo = Number(bankaccountid);
+// this.onshowFINANCIAL=true
 
-   // ✅ modal open after patch
+this.accountname=accountname
+this.supplieridbbb=supplierid
+
+this.acnoo = null;
     setTimeout(() => {
       this.openBankModal();
+        this.acnoo = bankaccountid.toString();
+          this.SupplierBankAccDetail.accountname = accountname;
+  this.SupplierBankAccDetail.accountno = accountno;
+  this.SupplierBankAccDetail.bankname = bankname;
+  this.SupplierBankAccDetail.branch = branch;
+  this.SupplierBankAccDetail.ifsccode = ifsccode;
+   this.isNewBank = true;
     });
 
-
+// setTimeout(() => {
+//   // this.acnoo = Number(bankaccountid);
+//   this.acnoo = bankaccountid.toString();
+//    this.isNewBank = true;
+// }, 0);
 
   }
   onFileSelected(event: any) {
@@ -2352,6 +2379,7 @@ export class ConfirmBankDetailsTab {
         // } else {
         //   this.toastr.error('Invalid IFSC Code!', 'Error');
         // }
+    
       },
       error: (err:any) => {
         // this.statusText= err.statusText;
@@ -2363,7 +2391,7 @@ export class ConfirmBankDetailsTab {
     });
   }
   onIFSCChange() {
-    //
+  
     const ifsc = this.SupplierBankAccDetail.ifsccode;
 
     // if (ifsc === this.existingIFSC) {
@@ -2432,50 +2460,65 @@ export class ConfirmBankDetailsTab {
     });
   }
   onSubmit(bankForm: NgForm) {
-    this.loadingSectionA = true;
-    const bankaccountID = this.dispatchData1.find(
-      (f: any) => f.bankaccountid == this.acno,
-    )?.bankaccountid;
+    // debugger;
+    // this.loadingSectionA = true;
+    // const bankaccountID = this.dispatchData1.find(
+    //   (f: any) => f.bankaccountid == this.acno,
+    // )?.bankaccountid;
 
-    if (bankaccountID) {
-      this.toastr.error('Bank AC No already exist.', 'Error');
-      this.loadingSectionA = false;
-      return;
-    }
+    // if (bankaccountID) {
+    //   this.toastr.error('Bank AC No already exist.', 'Error');
+    //   this.loadingSectionA = false;
+    //   return;
+    // }
 
-    // const ifsc = this.SupplierBankAccDetail.ifsccode;
-    if (this.statusText == 'Invalid IFSC Code') {
-      this.toastr.error('Please fill valid IFSC Code.', 'Error');
-      this.loadingSectionA = false;
-      return;
-    }
-    if (bankForm.invalid) {
-      this.toastr.error('Please fill all required fields.', 'Error');
-      this.loadingSectionA = false;
-      return;
-    }
+    // // const ifsc = this.SupplierBankAccDetail.ifsccode;
+    // if (this.statusText == 'Invalid IFSC Code') {
+    //   this.toastr.error('Please fill valid IFSC Code.', 'Error');
+    //   this.loadingSectionA = false;
+    //   return;
+    // }
+    // if (bankForm.invalid) {
+    //   this.toastr.error('Please fill all required fields.', 'Error');
+    //   this.loadingSectionA = false;
+    //   return;
+    // }
+    // const formData = new FormData();
+    // formData.append(
+    //   'VendorRegistrationId',
+    //   sessionStorage.getItem('vregid') || '',
+    // );
+    // formData.append('SelectedBankAccountId', this.acno.toString());
+    // formData.append(
+    //   'AccountNumber',
+    //   this.SupplierBankAccDetail.accountno || '',
+    // );
+    // formData.append(
+    //   'AccountHolderName',
+    //   this.SupplierBankAccDetail.accountname || '',
+    // );
+    // formData.append('BankName', this.SupplierBankAccDetail.bankname || '');
+    // formData.append('BranchName', this.SupplierBankAccDetail.branch || '');
+    // formData.append('IFSCCode', this.SupplierBankAccDetail.ifsccode || '');
+    // formData.append('supplierid', sessionStorage.getItem('facilityid') || '');
+    // if (this.selectedFileBank) {
+    //   formData.append('BankDetailDocument', this.selectedFileBank);
+    // }
     const formData = new FormData();
+    formData.append('SelectedBankAccountId', bankForm.value.acno.toString());
+    formData.append('BankName',bankForm.value.bankname);
+    formData.append('BranchName',bankForm.value.branch);
+    formData.append('IFSCCode',bankForm.value.ifsccode);
+    formData.append('supplierid',this.supplieridbbb);
+    formData.append('AccountHolderName',bankForm.value.accountname);
+    formData.append('AccountNumber',bankForm.value.accountno);
     formData.append(
       'VendorRegistrationId',
       sessionStorage.getItem('vregid') || '',
     );
-    formData.append('SelectedBankAccountId', this.acno.toString());
-    formData.append(
-      'AccountNumber',
-      this.SupplierBankAccDetail.accountno || '',
-    );
-    formData.append(
-      'AccountHolderName',
-      this.SupplierBankAccDetail.accountname || '',
-    );
-    formData.append('BankName', this.SupplierBankAccDetail.bankname || '');
-    formData.append('BranchName', this.SupplierBankAccDetail.branch || '');
-    formData.append('IFSCCode', this.SupplierBankAccDetail.ifsccode || '');
-    formData.append('supplierid', sessionStorage.getItem('facilityid') || '');
-    if (this.selectedFileBank) {
+  if (this.selectedFileBank) {
       formData.append('BankDetailDocument', this.selectedFileBank);
     }
-    console.log();
     // return;
     this.api.post('/Registration/UpdateBankDetails', formData).subscribe({
       next: (res: any) => {
