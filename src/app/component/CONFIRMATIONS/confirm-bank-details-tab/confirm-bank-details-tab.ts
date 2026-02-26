@@ -1825,7 +1825,7 @@ export class ConfirmBankDetailsTab {
     this.mEXPDate = this.formatDateForInput(expdate);
   }
   InsertGCP(GCPForm: NgForm) {
-    // debugger;
+     this.spinner.show();
     this.loadingSectionA = true;
     const formData = new FormData();
     if (GCPForm.invalid) {
@@ -1884,12 +1884,14 @@ export class ConfirmBankDetailsTab {
           GCPForm.resetForm();
           this.fileSelected = null;
           this.GetGCPDetails();
+             this.spinner.hide();
           this.onshow = false;
           this.loadingSectionA = false;
         },
         error: (err: any) => {
           console.error('Error:', err);
           this.loadingSectionA = false;
+             this.spinner.hide();
           this.toastr.error(
             'Failed to upload GLOBAL COMPANY PREFIX Certificate',
             'Error',
@@ -1898,6 +1900,7 @@ export class ConfirmBankDetailsTab {
       });
     } catch (error) {
       console.error('Exception:', error);
+         this.spinner.hide();
       this.toastr.error('Unexpected error occurred!');
     }
   }
@@ -1922,14 +1925,22 @@ export class ConfirmBankDetailsTab {
   GSTreturnCertificate: File | null = null;
   accyrsetid: any;
   gstqtrid: any;
-  UpdateGSTRETURN(retid: any, gstid: any, gstqtrid: any, accyrsetid: any) {
+  UpdateGSTRETURN(retid: any, gstid: any, gstqtrid: any, accyear: any,accyrsetid:any) {
+    // debugger;
     this.onshowGSTR = true;
     this.retid = retid;
     this.gstno = gstid;
     this.quartername = gstqtrid;
-    this.accyear = accyrsetid;
+    this.accyear =  Number(accyrsetid);
+    this.accyrsetid =accyrsetid;
+    // this.accyrsetid = Number(accyrsetid);
+    // this.accyear = accyear;
+  //     setTimeout(() => {
+  //   this.accyrsetid = accyrsetid;
+  // });
   }
   InsertMASGSTRETURNFILES(GSTRETURNForm: NgForm) {
+       this.spinner.show();
     const formData = new FormData();
     if (GSTRETURNForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
@@ -1947,7 +1958,7 @@ export class ConfirmBankDetailsTab {
       RETID: this.retid,
       mGSTID: this.gstid ?? this.gstno,
       mVergID: sessionStorage.getItem('vregid') || '',
-      mACCYRSETID: this.accyrsetid ?? this.accyear,
+      mACCYRSETID: this.accyrsetid ?? this.accyrsetid,
       mGSTQTRID: this.gstqtrid ?? this.quartername,
       mSupplierID: sessionStorage.getItem('facilityid') || '',
     };
@@ -1959,6 +1970,7 @@ export class ConfirmBankDetailsTab {
             'Success',
           );
           this.GstReturnDetails();
+             this.spinner.hide();
           GSTRETURNForm.resetForm();
           this.GSTreturnCertificate = null;
 
@@ -1966,12 +1978,13 @@ export class ConfirmBankDetailsTab {
         },
         error: (err: any) => {
           console.error('Error:', err);
-
+           this.spinner.hide();
           this.toastr.error('Failed to upload GST Return certificate', 'Error');
         },
       });
     } catch (error) {
       console.error('Exception:', error);
+         this.spinner.hide();
       this.toastr.error('Unexpected error occurred!');
     }
   }
@@ -2049,20 +2062,24 @@ export class ConfirmBankDetailsTab {
   // });
 
   //   }
+gstidd:any;
 
   UpdateGST(gstid: any, gstno: any, vregid: any, stateid: any) {
     this.vregid = vregid;
     this.gstno = gstno;
     this.selectedStateId = stateid?.toString();
-
-    setTimeout(() => {
-      this.openGSTModal();
-    });
+     this.gstidd =gstid;
+     this.onshowGST=true;
+    // setTimeout(() => {
+    //   this.openGSTModal();
+    // });
   }
 
-
   InsertGSTCertificate(GSTForm: NgForm) {
+    // debugger;
+       this.spinner.show();
     const formData = new FormData();
+    // public async Task<IActionResult> UpdateGSTCertificate(int mVergID,string GSTID, string msupplierid, int mstateID, string gstno, [FromForm] PancardUpdateDTO request)
     if (GSTForm.invalid) {
       this.toastr.error('Please fill all required fields.', 'Error');
       return;
@@ -2077,30 +2094,54 @@ export class ConfirmBankDetailsTab {
       mVergID: sessionStorage.getItem('vregid') || '',
       msupplierid: sessionStorage.getItem('facilityid') || '',
       mstateID: this.stateid?.toString() || '',
+      GSTID: this.gstidd,
       gstno: this.gstno,
     };
+//     const formValue = bankForm.value;
+
+// const bankAccountId =
+//   formValue.acno ?? this.acnoo ?? '';
+
+// const bankName =
+//   formValue.bankname ?? this.SupplierBankAccDetail.bankname ?? '';
+
+// const branch =
+//   formValue.branch ?? this.SupplierBankAccDetail.branch ?? '';
+
+// const ifsc =
+//   formValue.ifsccode ?? this.SupplierBankAccDetail.ifsccode ?? '';
+
+// const accountName =
+//   formValue.accountname ?? this.SupplierBankAccDetail.accountname ?? '';
+
+// const accountNo =
+//   formValue.accountno ?? this.SupplierBankAccDetail.accountno ?? '';
+
+// const vregid = sessionStorage.getItem('vregid') || '';
     try {
-      this.api.InsertGSTCertificate(data, formData).subscribe({
+      this.api.UpdateGSTCertificate(data, formData).subscribe({
         next: (res: any) => {
           this.toastr.success(
             res.message || 'GST Certificate uploaded successfully!',
             'Success',
           );
           GSTForm.resetForm();
+             this.spinner.hide();
           this.GSTCertificate = null;
           this.GETMassuppliergstDetails();
 
           this.onshowGST = false;
-          this.GSTCmodal.close();
+          // this.GSTCmodal.close();
         },
         error: (err: any) => {
           console.error('Error:', err);
-
+          this.spinner.hide();
           this.toastr.error('Failed to upload GST certificate', 'Error');
         },
       });
     } catch (error) {
       console.error('Exception:', error);
+         this.spinner.hide();
       this.toastr.error('Unexpected error occurred!');
     }
   }
@@ -2145,13 +2186,14 @@ export class ConfirmBankDetailsTab {
   }
 
   //#endregion
+  // public async Task<IActionResult> UpdateGSTCertificate(int mVergID,string GSTID, string msupplierid, int mstateID, string gstno, [FromForm] PancardUpdateDTO request)
   //#region
   AnnualTurnoverForm!: FormGroup;
   Years: any;
   fileError: string = '';
   selectedAnuvFile: File | null = null;
   ATCCModal: any;
-
+onshowANUVAL=false;
   openATCModal(): void {
     document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
 
@@ -2220,6 +2262,11 @@ export class ConfirmBankDetailsTab {
   //   });
   //   }
   // ATCModal
+  atidd:any;
+  accyrsetidd:any;
+  slno:any;
+  turnoveramtt:any;
+  udinno:any;
   UpdateANNUALTURNOVER(
     atid: any,
     accyrsetid: any,
@@ -2227,57 +2274,101 @@ export class ConfirmBankDetailsTab {
     turnoveramt: any,
     udinno: any,
   ) {
-    debugger;
+this.atidd=atid;
+this.accyrsetidd=accyrsetid;
+this.slno=slno;
+this.turnoveramtt=turnoveramt;
+this.udinno=udinno;
 
-    // ✅ form auto fill
     this.AnnualTurnoverForm.patchValue({
       AccYrSetId: accyrsetid,
       TurnOverAmt: turnoveramt,
       UDINNO: udinno,
       TurnOverDocument: null, // file usually reset hoti hai
     });
-
-    // ✅ modal open after patch
-    setTimeout(() => {
-      this.openATCModal();
-    });
+this.onshowANUVAL=true;
+    // setTimeout(() => {
+    //   this.openATCModal();
+    // });
   }
   OnSubmmit(): void {
+    // debugger;
+       this.spinner.show();
     this.submitted = true;
 
     if (this.AnnualTurnoverForm.invalid) {
       this.toastr.error('Please fill all required fields!', 'Error');
       return;
     }
+    // (string VregId, string Atid, string AccYrSetId,string TurnOverAmt,string UDINNO,string SupplierId, [FromForm] PancardUpdateDTO request)
+const formValue = this.AnnualTurnoverForm.value;
 
+const AccYrSetId =
+  formValue.AccYrSetId ?? this.accyrsetidd ?? '';
+
+const TurnOverAmt =
+  formValue.TurnOverAmt ?? this.turnoveramtt ?? '';
+
+const UDINNO =
+  formValue.UDINNO ?? this.udinno ?? '';
+
+// const ifsc =
+//   formValue.ifsccode ?? this.SupplierBankAccDetail.ifsccode ?? '';
+
+// const accountName =
+//   formValue.accountname ?? this.SupplierBankAccDetail.accountname ?? '';
+
+// const accountNo =
+//   formValue.accountno ?? this.SupplierBankAccDetail.accountno ?? '';
+
+const vregid = sessionStorage.getItem('vregid') || '';
+const SupplierId= sessionStorage.getItem('facilityid') || '';
     const formData = new FormData();
     // formData.append('AccYrSetId', this.AnnualTurnoverForm.value.AccYrSetId);
-    formData.append('AccYrSetId', this.AnnualTurnoverForm.value.AccYrSetId);
-    formData.append('TurnOverAmt', this.AnnualTurnoverForm.value.TurnOverAmt);
-    formData.append('UDINNO', this.AnnualTurnoverForm.value.UDINNO);
-    formData.append('Atid', '0');
-    formData.append('VregId', sessionStorage.getItem('vregid') || '');
-    formData.append('SupplierId', sessionStorage.getItem('facilityid') || '');
+    // formData.append('AccYrSetId', this.AnnualTurnoverForm.value.AccYrSetId);
+    // formData.append('TurnOverAmt', this.AnnualTurnoverForm.value.TurnOverAmt);
+    // formData.append('UDINNO', this.AnnualTurnoverForm.value.UDINNO);
+    // formData.append('Atid', '0');
+    // formData.append('VregId', sessionStorage.getItem('vregid') || '');
+    // formData.append('SupplierId', sessionStorage.getItem('facilityid') || '');
 
+    // if (this.selectedAnuvFile) {
+    //   formData.append(
+    //     'TurnOverDocument',
+    //     this.selectedAnuvFile,
+    //     this.selectedAnuvFile.name,
+    //   );
+    // }
     if (this.selectedAnuvFile) {
-      formData.append(
-        'TurnOverDocument',
-        this.selectedAnuvFile,
-        this.selectedAnuvFile.name,
-      );
-    }
-
-    this.api.post('/Registration/UpdateAnnualTurnover', formData).subscribe(
+  formData.append('PanCardDocument', this.selectedAnuvFile);
+}
+    // formData.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
+    // '/Registration/UpdateSupplierAnnualTurnover'
+    const url =
+  `/Registration/UpdateSupplierAnnualTurnover` +
+  `?VregId=${vregid}` +
+  `&Atid=${this.atidd}` +
+  `&AccYrSetId=${AccYrSetId}` +
+  `&TurnOverAmt=${TurnOverAmt}` +
+  `&UDINNO=${UDINNO}` +
+  `&SupplierId=${SupplierId}` 
+// public async Task<IActionResult> UpdateSupplierAnnualTurnover(string VregId, string Atid, string AccYrSetId,string TurnOverAmt,string UDINNO,string SupplierId, [FromForm] PancardUpdateDTO request)
+    this.api.postValue(url, formData).subscribe(
       (res: any) => {
         this.toastr.success(res.message, 'Success');
         this.AnnualTurnoverForm.reset();
         this.submitted = false;
         this.selectedAnuvFile = null;
+           this.spinner.hide();
         this.GetAnnualTurnover();
-        this.ATCCModal.close();
+        this.onshowANUVAL=false;
+        // this.ATCCModal.close();
       },
       (err) => {
         this.toastr.error('Submission failed', 'Error');
+           this.spinner.hide();
         console.error(err);
       },
     );
@@ -2308,55 +2399,55 @@ export class ConfirmBankDetailsTab {
   isNewBank: boolean = false;
   statusText: any;
   onshowPP = false;
-  selectedFileBank:File | null = null;
-   isCheckingIFSC = false;
-     ifsccodeDetails:any;
-     acno:any;
-    //  VendorBankDetail: any[] = [];
-    onshowFINANCIAL=false;
-     BankModal:any;
+  selectedFileBank: File | null = null;
+  isCheckingIFSC = false;
+  ifsccodeDetails: any;
+  acno: any;
+  //  VendorBankDetail: any[] = [];
+  onshowFINANCIAL = false;
+  BankModal: any;
   acnoo: any = null;
-  accountname:any;
-VendorBankDetail: any[] = [];
+  accountname: any;
+  VendorBankDetail: any[] = [];
 
-selectedBank: any;
-supplieridbbb:any;
+  selectedBank: any;
+  supplieridbbb: any;
 
-       UpdateBankMandate(
+  UpdateBankMandate(
     bankaccountid: any,
     supplierid: any,
     branch: any,
     bankname: any,
     accountno: any,
     accountname: any,
-    acno:any,
-    ifsccode:any
+    acno: any,
+    ifsccode: any,
   ) {
     // this.acnoo=bankaccountid;
-// this.acnoo = Number(bankaccountid);
-// this.onshowFINANCIAL=true
+    // this.acnoo = Number(bankaccountid);
+    // this.onshowFINANCIAL=true
 
-this.accountname=accountname
-this.supplieridbbb=supplierid
+    this.accountname = accountname;
+    this.supplieridbbb = supplierid;
 
-this.acnoo = null;
+    this.acnoo = null;
     setTimeout(() => {
-      this.openBankModal();
-        this.acnoo = bankaccountid.toString();
-          this.SupplierBankAccDetail.accountname = accountname;
-  this.SupplierBankAccDetail.accountno = accountno;
-  this.SupplierBankAccDetail.bankname = bankname;
-  this.SupplierBankAccDetail.branch = branch;
-  this.SupplierBankAccDetail.ifsccode = ifsccode;
-   this.isNewBank = true;
+      // this.openBankModal();
+      this.onshowFINANCIAL=true;
+      this.acnoo = bankaccountid.toString();
+      this.SupplierBankAccDetail.accountname = accountname;
+      this.SupplierBankAccDetail.accountno = accountno;
+      this.SupplierBankAccDetail.bankname = bankname;
+      this.SupplierBankAccDetail.branch = branch;
+      this.SupplierBankAccDetail.ifsccode = ifsccode;
+      this.isNewBank = true;
     });
 
-// setTimeout(() => {
-//   // this.acnoo = Number(bankaccountid);
-//   this.acnoo = bankaccountid.toString();
-//    this.isNewBank = true;
-// }, 0);
-
+    // setTimeout(() => {
+    //   // this.acnoo = Number(bankaccountid);
+    //   this.acnoo = bankaccountid.toString();
+    //    this.isNewBank = true;
+    // }, 0);
   }
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -2364,34 +2455,32 @@ this.acnoo = null;
       this.selectedFileBank = file;
     }
   }
-    validateIFSC(ifsc: string) {
+  validateIFSC(ifsc: string) {
     // this.isCheckingIFSC = true;
-  
+
     this.api.GETIFSCCODE(ifsc).subscribe({
       next: (res: any) => {
         this.isCheckingIFSC = true;
         this.onshowPP = true;
-        this.ifsccodeDetails=res;
-        this.statusText = "";
+        this.ifsccodeDetails = res;
+        this.statusText = '';
         // console.log("ifsccode:", this.ifsccodeDetails);
         // if (res) {
         //   this.toastr.success('Valid IFSC Code!', 'Success');
         // } else {
         //   this.toastr.error('Invalid IFSC Code!', 'Error');
         // }
-    
       },
-      error: (err:any) => {
+      error: (err: any) => {
         // this.statusText= err.statusText;
-        this.statusText = "Invalid IFSC Code";
+        this.statusText = 'Invalid IFSC Code';
         this.isCheckingIFSC = false;
         this.onshowPP = false;
         // this.toastr.error('Unable to verify IFSC Code!', 'Error');
-      }
+      },
     });
   }
   onIFSCChange() {
-  
     const ifsc = this.SupplierBankAccDetail.ifsccode;
 
     // if (ifsc === this.existingIFSC) {
@@ -2407,18 +2496,20 @@ this.acnoo = null;
     //   this.validateIFSC(ifsc);
     // }
   }
-  GETSupplierBankAccDetail(sid:any,acno:any) {
-  this.api.SupplierBankAccDetail(sessionStorage.getItem('facilityid'),acno).subscribe({
-    next: (res: any) => {
-      if (res && res.length > 0) {
-        this.SupplierBankAccDetail = res[0];
-      }
-    },
-    error: (err: any) => {
-      console.error("Error loading vendor details:", err);
-    }
-  });
-}
+  GETSupplierBankAccDetail(sid: any, acno: any) {
+    this.api
+      .SupplierBankAccDetail(sessionStorage.getItem('facilityid'), acno)
+      .subscribe({
+        next: (res: any) => {
+          if (res && res.length > 0) {
+            this.SupplierBankAccDetail = res[0];
+          }
+        },
+        error: (err: any) => {
+          console.error('Error loading vendor details:', err);
+        },
+      });
+  }
   onselectacno(event: any): void {
     const bankaccountid = event.bankaccountid;
     this.acno = bankaccountid;
@@ -2451,7 +2542,7 @@ this.acnoo = null;
             { bankaccountid: 0, acno: 'Add new Bank Account' },
           ];
         }
-        console.log('bank ditails',res)
+        console.log('bank ditails', res);
       },
       error: (err: any) => {
         console.error('Error loading vendor details:', err);
@@ -2460,6 +2551,7 @@ this.acnoo = null;
     });
   }
   onSubmit(bankForm: NgForm) {
+       this.spinner.show();
     // debugger;
     // this.loadingSectionA = true;
     // const bankaccountID = this.dispatchData1.find(
@@ -2478,11 +2570,11 @@ this.acnoo = null;
     //   this.loadingSectionA = false;
     //   return;
     // }
-    // if (bankForm.invalid) {
-    //   this.toastr.error('Please fill all required fields.', 'Error');
-    //   this.loadingSectionA = false;
-    //   return;
-    // }
+    if (bankForm.invalid) {
+      this.toastr.error('Please fill all required fields.', 'Error');
+      this.loadingSectionA = false;
+      return;
+    }
     // const formData = new FormData();
     // formData.append(
     //   'VendorRegistrationId',
@@ -2504,41 +2596,107 @@ this.acnoo = null;
     // if (this.selectedFileBank) {
     //   formData.append('BankDetailDocument', this.selectedFileBank);
     // }
-    const formData = new FormData();
-    formData.append('SelectedBankAccountId', bankForm.value.acno.toString());
-    formData.append('BankName',bankForm.value.bankname);
-    formData.append('BranchName',bankForm.value.branch);
-    formData.append('IFSCCode',bankForm.value.ifsccode);
-    formData.append('supplierid',this.supplieridbbb);
-    formData.append('AccountHolderName',bankForm.value.accountname);
-    formData.append('AccountNumber',bankForm.value.accountno);
-    formData.append(
-      'VendorRegistrationId',
-      sessionStorage.getItem('vregid') || '',
-    );
-  if (this.selectedFileBank) {
-      formData.append('BankDetailDocument', this.selectedFileBank);
-    }
+const formValue = bankForm.value;
+
+const bankAccountId =
+  formValue.acno ?? this.acnoo ?? '';
+
+const bankName =
+  formValue.bankname ?? this.SupplierBankAccDetail.bankname ?? '';
+
+const branch =
+  formValue.branch ?? this.SupplierBankAccDetail.branch ?? '';
+
+const ifsc =
+  formValue.ifsccode ?? this.SupplierBankAccDetail.ifsccode ?? '';
+
+const accountName =
+  formValue.accountname ?? this.SupplierBankAccDetail.accountname ?? '';
+
+const accountNo =
+  formValue.accountno ?? this.SupplierBankAccDetail.accountno ?? '';
+
+const vregid = sessionStorage.getItem('vregid') || '';
+// const formData = new FormData();
+
+// formData.append('BANKACCOUNTID', bankAccountId.toString());
+// formData.append('BANKNAME', bankName);
+// formData.append('BRANCH', branch);
+// formData.append('IFSCCODE', ifsc);
+// formData.append('supplierid', this.supplieridbbb);
+// formData.append('ACCOUNTNAME', accountName);
+// formData.append('ACCOUNTNO', accountNo);
+
+// formData.append(
+//   'vregid',
+//   sessionStorage.getItem('vregid') || ''
+// );
+
+// if (this.selectedFileBank) {
+//   formData.append('PancardUpdateDTO', this.selectedFileBank);
+// }
+
+    // const formData = new FormData();
+    // formData.append('BANKACCOUNTID', bankForm.value.acno.toString());
+    // formData.append('BANKNAME', bankForm.value.bankname);
+    // formData.append('BRANCH', bankForm.value.branch);
+    // formData.append('IFSCCODE', bankForm.value.ifsccode);
+    // formData.append('supplierid', this.supplieridbbb);
+    // formData.append('ACCOUNTNAME', bankForm.value.accountname);
+    // formData.append('ACCOUNTNO', bankForm.value.accountno);
+    // formData.append(
+    //   'VendorRegistrationId',
+    //   sessionStorage.getItem('vregid') || '',
+    // );
+    // if (this.selectedFileBank) {
+    //   formData.append('PancardUpdateDTO', this.selectedFileBank);
+    // }
     // return;
-    this.api.post('/Registration/UpdateBankDetails', formData).subscribe({
-      next: (res: any) => {
-        this.toastr.success(res.message, 'Success');
-        bankForm.resetForm();
-        this.selectedFileBank = null;
-        this.SupplierBankAccDetail = {}; // clear data
-        // bankForm.resetForm();
-        this.GETBankMandateDetail();
-               this.BankModal.close();
-      },
-      error: (err: any) => {
-        console.error('Error updating bank details:', err);
-        this.loadingSectionA = false;
-        // alert('Failed to update bank details');
-      },
-    });
+    //     public async Task<IActionResult> UpdateSupplierAccounDetails(string vregid,string BANKACCOUNTID, string ACCOUNTNO,
+    //  string ACCOUNTNAME, string BANKNAME, string BRANCH, string IFSCCODE, [FromForm] PancardUpdateDTO request)
+    //  {https://dpdmis.in/VREGAPI/api/Registration/UpdateSupplierAccounDetails?vregid=84&BANKACCOUNTID=1651&ACCOUNTNO=0&ACCOUNTNAME=xyz&BANKNAME=xyz&BRANCH=kf&IFSCCODE=0
+    const formData = new FormData();
+
+if (this.selectedFileBank) {
+  formData.append('PanCardDocument', this.selectedFileBank);
+}
+    // formData.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
+    // '/Registration/UpdateSupplierAccounDetails'
+    const url =
+  `/Registration/UpdateSupplierAccounDetails` +
+  `?vregid=${vregid}` +
+  `&BANKACCOUNTID=${bankAccountId}` +
+  `&ACCOUNTNO=${accountNo}` +
+  `&ACCOUNTNAME=${accountName}` +
+  `&BANKNAME=${bankName}` +
+  `&BRANCH=${branch}` +
+  `&IFSCCODE=${ifsc}`;
+    this.api
+      .postValue(url, formData)
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.success(res.message, 'Success');
+          bankForm.resetForm();
+          this.selectedFileBank = null;
+          this.SupplierBankAccDetail = {}; // clear data
+       
+             this.spinner.hide();
+          this.GETBankMandateDetail();
+            this.onshowFINANCIAL=true;
+          // this.BankModal.close();
+        },
+        error: (err: any) => {
+          console.error('Error updating bank details:', err);
+             this.spinner.hide();
+          this.loadingSectionA = false;
+          // alert('Failed to update bank details');
+        },
+      });
   }
-  // 
-    openBankModal(): void {
+  //
+  openBankModal(): void {
     document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
 
     const modalEl = document.getElementById('BankModal')!;
