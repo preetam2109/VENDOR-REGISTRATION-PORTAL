@@ -1612,6 +1612,26 @@ DeleteTechnicalFile(mVregid: any, mFileID: any) {
       { params, responseType: 'text' }
     );
   }
+  postValue(url: string, data: any) {
+  return this.http.post(this.VREGAPI + url, data, {
+    responseType: 'text'
+  });
+}
+  UpdateGSTCertificate(data: any, formData: FormData): Observable<any> {
+    //post :=     // public async Task<IActionResult> UpdateGSTCertificate(int mVergID,string GSTID, string msupplierid, int mstateID, string gstno, [FromForm] PancardUpdateDTO request)
+
+    let params = new HttpParams()
+      .set('mVergID', data.mVergID)
+      .set('GSTID', data.GSTID)
+      .set('msupplierid', data.msupplierid)
+      .set('mstateID', data.mstateID)
+      .set('gstno', data.gstno);
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateGSTCertificate`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
   //#endregion
 
   GetLiveTenderDetails(){
