@@ -137,8 +137,8 @@ export class ProductPermission {
 
 
     ngAfterViewChecked() {
-    console.log('Form valid:', this.productPerForm.valid);
-    console.log('Form values:', this.productPerForm.value);
+    // console.log('Form valid:', this.productPerForm.valid);
+    // console.log('Form values:', this.productPerForm.value);
   }
 
   onshowButtonClick(){
@@ -397,7 +397,7 @@ formatDate(dateString: string): string {
 
 
   DownloadFileWithName(mFilePath: string, mFileName: string) {
-    ;
+    
   
     // Encode file path and file name to handle special characters (like spaces, \ etc.)
     const encodedPath = encodeURIComponent(mFilePath);
@@ -503,6 +503,7 @@ formatDate(dateString: string): string {
       mVALIDITYDATE: this.formatDate(this.productPerForm.value.mVALIDITYDATE),
       mISSUINGAUTHORITY: this.productPerForm.value.mISSUINGAUTHORITY
     };
+  debugger
   
     this.api.postPPCertificate(data, formData).subscribe({
       next: (res) => {
@@ -591,6 +592,7 @@ formatDate(dateString: string): string {
     }));
   
     console.log('Items to send:', itemsToInsert);
+  debugger
   
     this.api.insertMasVregPPCItems(sessionStorage.getItem('vregid'), itemsToInsert).subscribe({
       next: (res) => {

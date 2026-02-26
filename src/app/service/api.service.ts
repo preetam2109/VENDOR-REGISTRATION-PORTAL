@@ -1239,6 +1239,29 @@ export class ApiService {
     );
   }
 
+  /**
+   * Update product permission certificate (optionally accepts a file via FormData)
+   * Server signature:
+   * public async Task<IActionResult> UpdatePPCertificate(int FILEID, int mVergID, string mIssueDate, string mStartDate, string mVALIDITYDATE, string mISSUINGAUTHORITY, int licID, [FromForm] PancardUpdateDTO request)
+   */
+  updatePPCertificate(data: any, formData?: FormData): Observable<any> {
+    debugger
+    const params = new HttpParams()
+      .set('FILEID', data.FILEID)
+      .set('mVergID', data.mVergID)
+      .set('mIssueDate', data.mIssueDate)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mISSUINGAUTHORITY', data.mISSUINGAUTHORITY || '')
+      .set('licID', data.licID);
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdatePPCertificate`,
+      formData || null,
+      { params, responseType: 'text' }
+    );
+  }
+
   insertMasVregPPCItems(vregid: any, items: any[]): Observable<any> {
     debugger
     const params = new HttpParams().set('vregid', vregid.toString());
@@ -1403,6 +1426,31 @@ export class ApiService {
     );
   }
 
+  /**
+ * Update market standing certificate (file optional)
+ * Server signature:
+ * public async Task<IActionResult> UpdateMakrketStanding(Int32 MSCID, Int32 mlicid, string mVergID,
+ *     string ISSUEDATE, string mstartdate, string mEXPDate, string mMSCISSUINGAUTHORITY,
+ *     [FromForm] PancardUpdateDTO request)
+ */
+updateMakrketStanding(data: any, formData?: FormData): Observable<any> {
+  debugger
+  const params = new HttpParams()
+    .set('MSCID', data.MSCID)
+    .set('mlicid', data.mlicid)
+    .set('mVergID', data.mVregid)
+    .set('ISSUEDATE', data.ISSUEDATE)
+    .set('mstartdate', data.mstartdate)
+    .set('mEXPDate', data.mEXPDate)
+    .set('mMSCISSUINGAUTHORITY', data.MSCissuingauthority || '');
+
+  return this.http.post(
+    `${this.VREGAPI}/Registration/UpdateMakrketStanding`,
+    formData || null,
+    { params, responseType: 'text' }
+  );
+}
+
   GETMCCFillItems(VregID: any, MCID: any, mItemTypeID: any, mGroupID: any) {
     return this.http.get<any[]>(
       `${this.VREGAPI}/Registration/MCCFillItems?VregID=${VregID}&MCID=${MCID}&mItemTypeID=${mItemTypeID}&mGroupID=${mGroupID}`
@@ -1461,6 +1509,30 @@ export class ApiService {
       responseType: 'text',
     });
   }
+
+  /**
+   * Update Capacity of Production Certificate (optionally accepts a file via FormData)
+   * Server signature:
+   * public async Task<IActionResult> UpdateCOP(Int32 COPID, Int32 mlicid, string mVergID, string mCopno, string ISSUEDATE, string mstartdate, string mEXPDate, string mCOPISSUINGAUTHORITY, [FromForm] PancardUpdateDTO request)
+   */
+  updateCOP(data: any, formData?: FormData): Observable<any> {
+    debugger
+    const params = new HttpParams()
+      .set('COPID', data.COPID)
+      .set('mlicid', data.mlicid)
+      .set('mVergID', data.mVregid)
+      .set('mCopno', data.mCopno)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate)
+      .set('mCOPISSUINGAUTHORITY', data.copissuingauthority || '');
+
+    return this.http.post(`${this.VREGAPI}/Registration/UpdateCOP`, formData || null, {
+      params,
+      responseType: 'text',
+    });
+  }
+  
 
   UpdaetCOPItems(PPCID: any, COPID: any, COPPAGENO: any) {
     return this.http.put(

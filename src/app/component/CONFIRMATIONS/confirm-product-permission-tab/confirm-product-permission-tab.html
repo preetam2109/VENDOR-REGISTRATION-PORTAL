@@ -117,6 +117,16 @@
     <td mat-cell *matCellDef="let row">{{ row.mfaccrejremarks }}</td>
   </ng-container>
 
+  <!-- EDIT COLUMN -->
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef style="width:80px;">Edit</th>
+    <td mat-cell *matCellDef="let row" class="text-center p-0">
+      <button class="btn btn-outline-secondary btn-sm py-0 px-2" (click)="editPPCertificate(row)">
+        Edit
+      </button>
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="ismfaccepteddt">
     <th mat-header-cell *matHeaderCellDef>Accepted Date</th>
     <td mat-cell *matCellDef="let row">{{ row.ismfaccepteddt }}</td>
@@ -200,11 +210,11 @@
                   
                 <!-- Header & Row Definition -->
                 <tr mat-header-row *matHeaderRowDef="[
-    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename','ismfaccepted','ismfaccepteddt','mfaccrejremarks'
+    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename','ismfaccepted','ismfaccepteddt','mfaccrejremarks','edit'
               ]"></tr>
   
                 <tr mat-row *matRowDef="let row; columns: [
-    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename','ismfaccepted','ismfaccepteddt','mfaccrejremarks'
+    'sno','licno','unitname','issuingauthority','entrydate','startdate','issuedate','validitydate','noofitemppc','filename','ismfaccepted','ismfaccepteddt','mfaccrejremarks','edit'
               ]"></tr>
                     
                 </table>
@@ -228,14 +238,19 @@
       <div class="mb-3 Fon-family" style="text-align: justify;">
     <form [formGroup]="productPerForm" (ngSubmit)="onSubmit()" >
       <div class="row text-start ">
+        <!-- hide category/item selectors when editing certificate -->
+        <ng-container *ngIf="isEditPP">
+          <!-- when editing, we do not show the category/item portion; fields stay disabled above -->
+        </ng-container>
         <!-- category -->
-        <div class="col-md-6 mb-3">
+        <div *ngIf="!isEditPP" class="col-md-6 mb-3">
           <label class="form-label fw-bold">Category<span class="text-danger">*</span></label>
           <div class="form-group" style="position: relative;">
 
           <ng-select class="form-select w-auto" [items]="DDLcategory" bindLabel="mcategory" bindValue="mcid"
             formControlName="mcid" [placeholder]="!productPerForm.get('mcid')?.value ? 'Choose Category' : ''"
             [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onCategorySelectChange($event)" 
+            [disabled]="isEditPP"
             [ngStyle]="{
               'border': (productPerForm.get('mcid')?.invalid && (productPerForm.get('mcid')?.dirty || productPerForm.get('mcid')?.touched))
                 ? '1px solid #dc3545'
@@ -259,13 +274,13 @@
         </div>
         </div>
         <!-- ItemType -->
-        <div class="col-md-6 mb-3">
+        <div *ngIf="!isEditPP" class="col-md-6 mb-3">
           <label class="form-label fw-bold">Item Type<span class="text-danger">*</span></label>
           <div class="form-group" style="position: relative;">
 
           <ng-select class="form-select w-auto" [items]="DDLItemtype" bindLabel="itemtypename" bindValue="itemtypeid"
             formControlName="itemtypeid" [placeholder]="productPerForm.get('itemtypeid')?.value ? '': 'Select Item Type' "
-            [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onItemTypeChange($event)"  [ngStyle]="{
+            [searchable]="true" [clearable]="true" appendTo=".form-group"(change)="onItemTypeChange($event)"  [disabled]="isEditPP" [ngStyle]="{
               'border': (productPerForm.get('itemtypeid')?.invalid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
                 ? '1px solid #dc3545'
                 : (productPerForm.get('itemtypeid')?.valid && (productPerForm.get('itemtypeid')?.dirty || productPerForm.get('itemtypeid')?.touched))
@@ -288,13 +303,13 @@
         </div>
         </div>
         <!-- ItemGroup -->
-        <div class="col-md-6 mb-3">
+        <div *ngIf="!isEditPP" class="col-md-6 mb-3">
           <label class="form-label fw-bold">Item Group</label>
           <div class="form-group" style="position: relative;">
 
           <ng-select class="form-select w-auto" [items]="DDLItemGroup" bindLabel="groupname" bindValue="groupid"
             formControlName="groupid" [placeholder]="productPerForm.get('groupid')?.value ? '': 'Select Item Group' "
-            [searchable]="true" [clearable]="true" appendTo=".form-group"  [ngStyle]="{
+            [searchable]="true" [clearable]="true" appendTo=".form-group" [disabled]="isEditPP" [ngStyle]="{
               'border': (productPerForm.get('groupid')?.invalid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
                 ? '1px solid #dc3545'
                 : (productPerForm.get('groupid')?.valid && (productPerForm.get('groupid')?.dirty || productPerForm.get('groupid')?.touched))
@@ -501,8 +516,8 @@
       </span>
             </div>
           
-        <!-- Submit -->
-        <div class="text-center mt-4 mb-1">
+        <!-- Submit (only for new entry) -->
+        <div *ngIf="!isEditPP" class="text-center mt-4 mb-1">
           <button type="submit" class="btn btn-primary px-4" [disabled]="!productPerForm.valid">
             Show
           </button>
@@ -516,25 +531,28 @@
     <div class="d-flex flex-wrap align-items-center justify-content-between mt-4 p-3 rounded shadow-sm bg-light border" *ngIf="onshowPP==true" >
 
       <!-- 📝 Instruction Box -->
-      <div class="alert alert-warning mb-2 mb-md-0 flex-grow-1 me-md-3 p-3 small" style="max-width: 650px;">
+      <!-- <div class="alert alert-warning mb-2 mb-md-0 flex-grow-1 me-md-3 p-3 small" style="max-width: 650px;">
         <strong>Note:</strong> Please ensure the <b>Item Code</b> is clearly written and highlighted in 
         <span class="fw-bold text-warning">Yellow</span> or 
         <span class="fw-bold text-danger">Pink</span> on the Product Permission Document. 
         The uploaded document must be mapped with the corresponding 
         <b>CGMSC Item Code</b> shown in the table below.
-      </div>
+      </div> -->
     
-      <!-- ✅ Save Button -->
+      <!-- ✅ Save/Update Button -->
       <div class="text-end">
         <button type="button" class="btn btn-success fw-semibold shadow-sm px-4 py-2" (click)="saveAndUpdate()">
-          💾 Save & Update
+            {{ isEditPP ? '✏️ Update Certificate' : '💾 Save & Update' }}
+        </button>
+        <button *ngIf="isEditPP" type="button" class="btn btn-secondary ms-2" (click)="resetEditState()">
+          Cancel
         </button>
       </div>
     </div>
     
     
 
-    <div class="card shadow rounded bg-light mx-auto mt-5" *ngIf="onshowPP==true">
+    <div class="card shadow rounded bg-light mx-auto mt-5" *ngIf="onshowPP==true && showItemsSection">
       <div class="card-body p-3">
     
         <!-- 🔍 Search -->
