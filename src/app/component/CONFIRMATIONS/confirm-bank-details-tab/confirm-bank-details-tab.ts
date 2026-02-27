@@ -2710,6 +2710,10 @@ if (this.selectedFileBank) {
     });
     this.BankModal.show();
   }
+ 
+  oncancel(){
+this.onshowFINANCIAL = false;
+  }
   //#endregion
 }
 
