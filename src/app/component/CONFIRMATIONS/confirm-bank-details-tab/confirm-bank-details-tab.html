@@ -141,46 +141,18 @@
                                                                 </td>
                                                             </ng-container>
                                                             <ng-container matColumnDef="action">
-                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved
-                                                                </th>
-        
-                                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
-                                                                <td mat-cell *matCellDef="let element" class="text-center">
-                                                                    <span class="d-flex  flex-row-reverse align-items-center">
-                                                                        <div class="form-check text-center">
-                                                                            <input class="form-check-input " type="radio"
-                                                                                name="flexRadioDefault" id="iaccept1"
-                                                                                [name]="'status-' + element.bankaccountid"
-                                                                                [id]="'status-yes-' + element.bankaccountid"
-                                                                                value="Y" [(ngModel)]="element.ISAPPROVE">
-                                                                            <label class="form-check-label"
-                                                                                [for]="'status-yes-' + element.bankaccountid">Yes</label>
-                                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                                    Accept
-                                                                </label> -->
-                                                                        </div>
-                                                                        <div class="form-check text-center">
-                                                                            <input class="form-check-input" type="radio"
-                                                                                name="flexRadioDefault" id="iaccept2"
-                                                                                [name]="'status-' + element.bankaccountid"
-                                                                                [id]="'status-no-' + element.bankaccountid"
-                                                                                value="N" [(ngModel)]="element.ISAPPROVE">
-                                                                            <label class="form-check-label"
-                                                                                [for]="'status-no-' + element.bankaccountid">No</label>
-                                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                                 NO
-                                                                </label> -->
-                                                                        </div>
-                                                                        <!-- <button
-                                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                                        mat-button>
-                                                                        <i class="bi bi-check2-circle text-success"></i>
-                                                                    </button> -->
-                                                                        <!-- (click)="onButtonClick(element.atid)" -->
-                                                                    </span>
-                                                                </td>
-                                                            </ng-container>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                            
+                                                    <button class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button (click)="UpdateBankMandate(element.bankaccountid,element.supplierid,element.branch,element.bankname,
+                                                        element.accountno,element.accountname,element.acno,element.ifsccode)"
+                                                        *ngIf="element.isapprove=='N'">
+                                                        <i class="bi bi-pencil-square text-primary"></i>
+                                                    </button>
+                                            
+                                                </td>
+                                            </ng-container>
                                                             <ng-container matColumnDef="Remark">
                                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark
                                                                 </th>
@@ -226,8 +198,172 @@
                                         </div>
                                     </div>
                                     <!-- END DATA TABLE -->
+                                                            <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowFINANCIAL == true">
+                                                                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                                                    style="height: auto; overflow: hidden; position: relative;">
+                                                                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                                                                        <form class="p-2" #bankForm="ngForm" (ngSubmit)="onSubmit(bankForm)">
+                                                                            <div class="row pb-3">
+                                                                                <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                            
+                                                                                    <label for="inputName">Select Bank Account <span class="text-danger">*</span></label>
+                                                                                    <ng-select appendTo=".form-group" class="form-control" [items]="VendorBankDetail"
+                                                                                        bindLabel="acno" bindValue="bankaccountid" [(ngModel)]="acnoo" name="acno"
+                                                                                        (change)="onselectacno($event)" [placeholder]="!acnoo ? 'Select Bank Account :' : ''"
+                                                                                        [searchable]="true" [clearable]="true" #acno="ngModel" required [ngStyle]="{
+                                                                                                            'border': acno.invalid && (acno.dirty || acno.touched) ? '1px solid #dc3545' :
+                                                                                                            acno.valid && (acno.dirty || acno.touched) ? '1px solid #198754' : '',
+                                                                                                            'box-shadow': acno.invalid && (acno.dirty || accountno.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                                                                            acno.valid && (acno.dirty || acno.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                                                                          }">
+                                                                                    </ng-select>
+                                                            
+                                                            
+                                                                                    <div class="text-danger mt-1"
+                                                                                        *ngIf="(acno.touched || bankForm.submitted) && acno.errors?.['required']">
+                                                                                        Your selection is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group col-md-6  pt-3">
+                                                                                    <label for="inputPassword4">Name In Account: <span class="text-danger">*</span></label>
+                                                                                    <input type="text" class="form-control" [(ngModel)]="SupplierBankAccDetail.accountname"
+                                                                                        [disabled]="!isNewBank" [ngModelOptions]="{standalone: true}"
+                                                                                        placeholder="Type your Name In Account" id="inputPassword4" #accountname="ngModel" required
+                                                                                        [ngClass]="{
+                                                                                                                                                  'is-invalid': (accountname.touched || bankForm.submitted) && accountname.invalid,
+                                                                                                                                                  'is-valid': accountname.valid && (accountname.touched || bankForm.submitted)
+                                                                                                                                                }" />
+                                                                                    <div class="text-danger mt-1"
+                                                                                        *ngIf="(accountname.touched || bankForm.submitted) && accountname.errors?.['required']">
+                                                                                        Account name is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                            
+                                                                            <div class="row pb-3">
+                                                                                <div class="form-group col-md-6 pt-3">
+                                                                                    <label for="inputEmail4">Bank Name: <span class="text-danger">*</span></label>
+                                                                                    <input type="text" class="form-control" placeholder="Bank Name:*"
+                                                                                        [(ngModel)]="SupplierBankAccDetail.bankname" [disabled]="!isNewBank"
+                                                                                        [ngModelOptions]="{standalone: true}" id="inputEmail4" #bankname="ngModel" required
+                                                                                        [ngClass]="{
+                                                                                          'is-invalid': (bankname.touched || bankForm.submitted) && bankname.invalid,
+                                                                                           'is-valid': bankname.valid && (bankname.touched || bankForm.submitted)
+                                                                                             }" />
+                                                                                    <div class="text-danger mt-1"
+                                                                                        *ngIf="(bankname.touched || bankForm.submitted) && bankname.errors?.['required']">
+                                                                                        Bank name is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group col-md-6 pt-3">
+                                                                                    <label for="inputAddress">IFSC Code: <span class="text-danger">*</span></label>
+                                                                                    <input type="text" class="form-control" (keyup)="onIFSCChange()" [disabled]="!isNewBank"
+                                                                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="SupplierBankAccDetail.ifsccode"
+                                                                                        placeholder="Type your IFSC Code" id="inputAddress" pattern="^[A-Z]{4}0[A-Z0-9]{6}$"
+                                                                                        #ifsccode="ngModel" required [ngClass]="{
+                                                                                            'is-invalid': 
+                                                                                               (ifsccode.touched || bankForm.submitted) &&
+                                                                                               (ifsccode.invalid || statusText),
+                                                                                    
+                                                                                            'is-valid': 
+                                                                                               ifsccode.valid && 
+                                                                                               (ifsccode.touched || bankForm.submitted) &&
+                                                                                               !statusText
+                                                                                         }" />
+                                                                                    <div class="text-danger mt-1"
+                                                                                        *ngIf="(ifsccode.touched || bankForm.submitted) && ifsccode.errors?.['required']">
+                                                                                        IFSC code is required.
+                                                                                    </div>
+                                                                                    <div class="text-danger mt-1" *ngIf="ifsccode.errors?.['pattern']">
+                                                                                        Enter a valid IFSC code (e.g. SBUN0001234).
+                                                                                    </div>
+                                                                                    <div class="text-danger mt-1" *ngIf="onshowPP==false">
+                                                                                        {{statusText}}
+                                                                                    </div>
+                                                            
+                                                                                </div>
+                                                                            </div>
+                                                            
+                                                                            <div class="row pb-3">
+                                                                                <div class="form-group col-md-6 pt-3">
+                                                                                    <label for="inputnumber">Account No: <span class="text-danger">*</span></label>
+                                                                                    <input type="number" class="form-control" [disabled]="!isNewBank"
+                                                                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="SupplierBankAccDetail.accountno"
+                                                                                        placeholder="Type your Account No" id="inputnumber" minlength="9" maxlength="18"
+                                                                                        #accountno="ngModel" required [ngClass]="{
+                                                                                                                                                'is-invalid': (accountno.touched || bankForm.submitted) && accountno.invalid,
+                                                                                                                                                'is-valid': accountno.valid && (accountno.touched || bankForm.submitted)
+                                                                                                                                              }" />
+                                                                                    <div class="text-danger mt-1"
+                                                                                        *ngIf="(accountno.touched || bankForm.submitted) && accountno.errors?.['required']">
+                                                                                        Account number is required.
+                                                                                    </div>
+                                                                                    <div class="text-danger mt-1"
+                                                                                        *ngIf="accountno.errors?.['minlength'] || accountno.errors?.['maxlength']">
+                                                                                        Account number must be between 9 and 18 digits.
+                                                                                    </div>
+                                                            
+                                                                                </div>
+                                                                                <div class="form-group col-md-6 pt-3">
+                                                                                    <label for="inputAddress">Branch Address: <span class="text-danger">*</span></label>
+                                                                                    <input type="text" class="form-control" [disabled]="!isNewBank"
+                                                                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="SupplierBankAccDetail.branch"
+                                                                                        placeholder="Type your Branch Address" id="inputAddress" #branch="ngModel" required
+                                                                                        [ngClass]="{
+                                                                                                                                                'is-invalid': (branch.touched || bankForm.submitted) && branch.invalid,
+                                                                                                                                                'is-valid': branch.valid && (branch.touched || bankForm.submitted)
+                                                                                                                                              }" />
+                                                                                    <div class="text-danger mt-1"
+                                                                                        *ngIf="(branch.touched || bankForm.submitted) && branch.errors?.['required']">
+                                                                                        Branch address is required.
+                                                                                    </div>
+                                                            
+                                                                                </div>
+                                                                            </div>
+                                                            
+                                                                            <div class="row pb-3">
+                                                                                <div class="form-group col-md-6 pt-3">
+                                                                                    <label for="inputnumber"> Upload Bank Mandate: <span class="text-danger">*</span></label>
+                                                                                    <input type="file" accept=".pdf" class="form-control" [disabled]="!isNewBank"
+                                                                                        (change)="onFileSelected($event)" name="bankmandatefile" placeholder="Type your Account No"
+                                                                                        id="files" required #selectedFile="ngModel" ngModel [ngClass]="{
+                                                                                                             'is-invalid': selectedFile.invalid && selectedFile.touched,
+                                                                                                             'is-valid': selectedFile.valid && selectedFile.touched
+                                                                                                           }">
+                                                                                    <div *ngIf="selectedFile.invalid && selectedFile.touched">
+                                                                                        <small class="text-danger">
+                                                                                            Please upload the Upload Bank Mandate Certificate (PDF).
+                                                                                        </small>
+                                                                                    </div>
+                                                            
+                                                                                </div>
+                                                                                <div class="form-group col-md-6 pt-3">
+                                                            
+                                                                                    <div class="alert alert-warning mb-2 mb-md-0 flex-grow-1 me-md-3 p-3 small"
+                                                                                        *ngIf="isCheckingIFSC == true">
+                                                                                        <b>Bank Details:-BANK:</b>{{ifsccodeDetails.BANK}},
+                                                                                        <b>Branch:</b>{{ifsccodeDetails.BRANCH}},
+                                                                                        <b>BranchCode:</b>{{ifsccodeDetails.BANKCODE}},
+                                                                                        <b>IFSCCode:</b>{{ifsccodeDetails.IFSC}}
+                                                                                        <b>Address:</b>{{ifsccodeDetails.ADDRESS}},
+                                                                                        {{ifsccodeDetails.CITY}},
+                                                                                        {{ifsccodeDetails.DISTRICT}},
+                                                                                        {{ifsccodeDetails.STATE}},
+                                                                                        <b>MICRCode:</b>{{ifsccodeDetails.MICR}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="d-flex justify-content-center mt-3">
+                                                                                <button type="submit" class="btn btn-primary" [disabled]="!bankForm.valid">Save</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            
+                                                            </div>
                                 </div>
                             </div>
+                
                         </div>
         
                         <!--  ANNUAL TURNOVER CERTIFICATE Tab -->
@@ -349,45 +485,17 @@
                                                     </ng-container>
         
                                                     <ng-container matColumnDef="action">
-                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
-        
-                                                        <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
-                                                        <td mat-cell *matCellDef="let element" class="text-center">
-                                                            <span class="d-flex  flex-row-reverse align-items-center">
-                                                                <div class="form-check text-center">
-                                                                    <input class="form-check-input " type="radio"
-                                                                        name="flexRadioDefault" id="iaccept1"
-                                                                        [name]="'status-' + element.atid"
-                                                                        [id]="'status-yes-' + element.atid" value="Y"
-                                                                        [(ngModel)]="element.ATISAPPROVE">
-                                                                    <label class="form-check-label"
-                                                                        [for]="'status-yes-' + element.atid">Yes</label>
-                                                                    <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                            Accept
-                                                        </label> -->
-                                                                </div>
-                                                                <div class="form-check text-center">
-                                                                    <input class="form-check-input" type="radio"
-                                                                        name="flexRadioDefault" id="iaccept2"
-                                                                        [name]="'status-' + element.atid"
-                                                                        [id]="'status-no-' + element.atid" value="N"
-                                                                        [(ngModel)]="element.ATISAPPROVE">
-                                                                    <label class="form-check-label"
-                                                                        [for]="'status-no-' + element.atid">No</label>
-                                                                    <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                         NO
-                                                        </label> -->
-                                                                </div>
-                                                                <!-- <button
-                                                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                                mat-button>
-                                                                <i class="bi bi-check2-circle text-success"></i>
-                                                            </button> -->
-                                                                <!-- (click)="onButtonClick(element.atid)" -->
-                                                            </span>
-                                                        </td>
-                                                    </ng-container>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                                                <td mat-cell *matCellDef="let element" class="text-center">
+                                            
+                                                    <button class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button (click)="UpdateANNUALTURNOVER(element.atid,element.accyrsetid,element.slno,element.turnoveramt,element.udinno)"
+                                                        *ngIf="element.isapprove=='N'">
+                                                        <i class="bi bi-pencil-square text-primary"></i>
+                                                    </button>
+                                            
+                                                </td>
+                                            </ng-container>
                                                     <ng-container matColumnDef="Remark">
                                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
                                                         <td mat-cell *matCellDef="let element" class="text-center">
@@ -430,7 +538,92 @@
                                 </div>
                             </div>
                             <!-- END DATA TABLE -->
-        
+                            <div class="card shadow-lg p-4 border-0 bg-white rounded" *ngIf="onshowANUVAL == true">
+                                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                    style="height: auto; overflow: hidden; position: relative;">
+                                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                            
+                                        <form class="p-2" [formGroup]="AnnualTurnoverForm" (ngSubmit)="OnSubmmit()">
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label>Select Year <span class="text-danger">*</span></label>
+                                                    <select id="AccYrSetId" class="form-select" formControlName="AccYrSetId"
+                                                        (change)="Onselectyear($event)" [ngClass]="{
+                                                                        'is-invalid': (AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted) && AnnualTurnoverForm.get('AccYrSetId')?.invalid,
+                                                                            'is-valid': AnnualTurnoverForm.get('AccYrSetId')?.valid && (AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted)
+                                                                            }">
+                                                        <option value="" disabled selected>Select Year</option>
+                                                        <option *ngFor="let year of Years" [value]="year.accyrsetid">
+                                                            {{ year.accyear }}
+                                                        </option>
+                                                    </select>
+                                                    <span class="text-danger"
+                                                        *ngIf="(AnnualTurnoverForm.get('AccYrSetId')?.touched || submitted) && AnnualTurnoverForm.get('AccYrSetId')?.errors?.['required']">
+                                                        Year selection is required.
+                                                    </span>
+                                                </div>
+                            
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label>Turn Over Amount (Rs): <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" formControlName="TurnOverAmt"
+                                                        placeholder="Enter Turnover Amount" [ngClass]="{
+                                                                                                            'is-invalid': (AnnualTurnoverForm.get('TurnOverAmt')?.touched || submitted) && AnnualTurnoverForm.get('TurnOverAmt')?.invalid,
+                                                                                                            'is-valid': AnnualTurnoverForm.get('TurnOverAmt')?.valid && (AnnualTurnoverForm.get('TurnOverAmt')?.touched || submitted)
+                                                                                                        }" />
+                                                    <span class="text-danger"
+                                                        *ngIf="(AnnualTurnoverForm.get('TurnOverAmt')?.touched || submitted) && AnnualTurnoverForm.get('TurnOverAmt')?.errors?.['required']">
+                                                        Turnover amount is required.
+                                                    </span>
+                                                </div>
+                                            </div>
+                            
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label>UDIN No: <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" formControlName="UDINNO"
+                                                        placeholder="Enter 18-digit UDIN No." maxlength="18" [ngClass]="{
+                                                                                                            'is-invalid': (AnnualTurnoverForm.get('UDINNO')?.touched || submitted) && AnnualTurnoverForm.get('UDINNO')?.invalid,
+                                                                                                            'is-valid': AnnualTurnoverForm.get('UDINNO')?.valid && (AnnualTurnoverForm.get('UDINNO')?.touched || submitted)
+                                                                                                        }" />
+                            
+                                                    <span class="text-danger" *ngIf="(AnnualTurnoverForm.get('UDINNO')?.touched || submitted)">
+                            
+                                                        <!-- Required field -->
+                                                        <span *ngIf="AnnualTurnoverForm.get('UDINNO')?.errors?.['required']">
+                                                            UDIN No. is required
+                                                        </span>
+                            
+                                                        <!-- Invalid pattern -->
+                                                        <span *ngIf="AnnualTurnoverForm.get('UDINNO')?.errors?.['pattern']">
+                                                            Enter a valid 18-character alphanumeric UDIN (A–Z, a–z, 0–9 only)
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label>Upload Annual Turnover Certificate: <span class="text-danger">*</span></label>
+                                                    <input type="file" class="form-control" formControlName="TurnOverDocument" accept=".pdf"
+                                                        (change)="onFileSelectedanudocument($event)" [ngClass]="{
+                                                                                                            'is-invalid': (AnnualTurnoverForm.get('TurnOverDocument')?.touched || submitted) && AnnualTurnoverForm.get('TurnOverDocument')?.invalid,
+                                                                                                            'is-valid': AnnualTurnoverForm.get('TurnOverDocument')?.valid && (AnnualTurnoverForm.get('TurnOverDocument')?.touched || submitted)
+                                                                                                        }" />
+                                                    <span class="text-danger"
+                                                        *ngIf="(AnnualTurnoverForm.get('TurnOverDocument')?.touched || submitted) && AnnualTurnoverForm.get('TurnOverDocument')?.errors?.['required']">
+                                                        Please upload the document.
+                                                    </span>
+                                                    <span class="text-danger" *ngIf="fileError">{{ fileError }}</span>
+                            
+                                                </div>
+                                            </div>
+                            
+                                            <div class="d-flex justify-content-center mt-3">
+                                                <button type="submit" class="btn btn-primary mt-3"
+                                                    [disabled]="!AnnualTurnoverForm.valid">Save</button>
+                            
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- GST CERTIFICATE Tab -->
                         <!-- <strong class="text-lg">GST CERTIFICATE</strong> -->
@@ -532,43 +725,16 @@
                                                 </td>
                                             </ng-container>
         
-                                            <ng-container matColumnDef="action">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
-        
-                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
+                                           <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
                                                 <td mat-cell *matCellDef="let element" class="text-center">
-                                                    <span class="d-flex  flex-row-reverse align-items-center">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input " type="radio"
-                                                                name="flexRadioDefault" id="iaccept1"
-                                                                [name]="'status-' + element.gstid"
-                                                                [id]="'status-yes-' + element.gstid" value="Y"
-                                                                [(ngModel)]="element.gstISAPPROVE ">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-yes-' + element.gstid">Yes</label>
-                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                    Accept
-                                                </label> -->
-                                                        </div>
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                                id="iaccept2" [name]="'status-' + element.gstid"
-                                                                [id]="'status-no-' + element.gstid" value="N"
-                                                                [(ngModel)]="element.gstISAPPROVE">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-no-' + element.gstid">No</label>
-                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                 NO
-                                                </label> -->
-                                                        </div>
-                                                        <!-- <button
-                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                        mat-button>
-                                                        <i class="bi bi-check2-circle text-success"></i>
-                                                    </button> -->
-                                                        <!-- (click)="onButtonClick(element.atid)" -->
-                                                    </span>
+                                            
+                                                    <button class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button (click)="UpdateGST(element.gstid,element.gstno,element.vregid,element.stateid)"
+                                                        *ngIf="element.isapprove=='N'">
+                                                        <i class="bi bi-pencil-square text-primary"></i>
+                                                    </button>
+                                            
                                                 </td>
                                             </ng-container>
                                             <ng-container matColumnDef="Remark">
@@ -606,6 +772,82 @@
                                         </table>
                                         <mat-paginator #paginator2 [pageSizeOptions]="[5,10, 15, 30]"
                                             showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowGST == true">
+                            
+                                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                    style="height: auto; overflow: hidden; position: relative;">
+                                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                                        <form class="p-2 " #GSTForm="ngForm" (ngSubmit)="InsertGSTCertificate(GSTForm)">
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                    <label for="inputName">Select State <span class="text-danger">*</span></label>
+                                                    <ng-select class="form-control" appendTo=".form-group" [items]="States" bindLabel="statename"
+                                                        bindValue="stateid" [(ngModel)]="selectedStateId" name="statename"
+                                                        (change)="OnselectStates($event)" [placeholder]="!selectedStateId ? 'Select State :' : ''"
+                                                        [searchable]="true" [clearable]="true" #stateid="ngModel" required [ngStyle]="{
+                                                                  'border': stateid.invalid && (stateid.dirty || stateid.touched) ? '1px solid #dc3545' :
+                                                                  stateid.valid && (stateid.dirty || stateid.touched) ? '1px solid #198754' : '',
+                                                                  'box-shadow': stateid.invalid && (stateid.dirty || stateid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                                  stateid.valid && (stateid.dirty || stateid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                                  }">
+                            
+                                                    </ng-select>
+                                                    <!-- <ng-select class="form-control" appendTo=".form-group" [items]="States" bindLabel="statename" bindValue="stateid"
+                                                                [(ngModel)]="selectedStateId" name="statename" (change)="OnselectStates($event)"
+                                                                [placeholder]="!selectedStateId ? 'Select State :' : ''" [searchable]="true" [clearable]="true" #stateid="ngModel"
+                                                                required>
+                                                            </ng-select> -->
+                                                    <div class="text-danger mt-1"
+                                                        *ngIf="(stateid.touched || GSTForm.submitted) && stateid.errors?.['required']">
+                                                        Year selection is required.
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6  pt-3">
+                                                    <label for="inputPassword4">GST No.: <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="turnoveran" name="gstno" placeholder="Type GST No."
+                                                        [(ngModel)]="gstno" #gstnoc="ngModel" minlength="15" maxlength="15" pattern="^[0-9A-Z]{15}$"
+                                                        required [ngClass]="{
+                                                                                  'is-invalid': (gstnoc.touched || GSTForm.submitted) && gstnoc.invalid,
+                                                                                  'is-valid': gstnoc.valid && (gstnoc.touched || GSTForm.submitted)
+                                                                                }">
+                            
+                            
+                            
+                                                    <div *ngIf="gstnoc.invalid && (gstnoc.touched || GSTForm.submitted)" class="text-danger small">
+                                                        <div *ngIf="gstnoc.errors?.['required']">GST number is required</div>
+                                                        <div *ngIf="gstnoc.errors?.['minlength'] || gstnoc.errors?.['maxlength']">
+                                                            Must be 15
+                                                            characters</div>
+                                                        <div *ngIf="gstnoc.errors?.['pattern']">Invalid GST format (Use uppercase
+                                                            letters & numbers)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label for="inputnumber">Upload Document</label>
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputnumber"> Upload GST Certificate: <span class="text-danger">*</span></label>
+                                                    <input type="file" class="form-control" id="filrs2" name="GSTCertificate" accept=".pdf"
+                                                        (change)="onFileSelectedanuGSTCertificate($event)" ngModel #GSTCertificateCtrl="ngModel"
+                                                        required [ngClass]="{
+                                                                'is-invalid': GSTCertificateCtrl.invalid && (GSTCertificateCtrl.touched || GSTForm.submitted),
+                                                                'is-valid': GSTCertificateCtrl.valid && (GSTCertificateCtrl.touched || GSTForm.submitted)
+                                                                 }">
+                                                    <div *ngIf="GSTCertificateCtrl.invalid && (GSTCertificateCtrl.touched || GSTForm.submitted)">
+                                                        <small class="text-danger">Please upload the GST Certificate (PDF
+                                                            only).</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-center mt-3">
+                                                <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTForm.valid">Save</button>
+                            
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -672,11 +914,6 @@
                                                     {{element.startmonth}}
                                                 </td>
                                             </ng-container>
-                                            <!-- <ng-container matColumnDef="isgcpaccepted">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IS Accepted</th>
-                                            <td mat-cell *matCellDef="let element" class="text-center"> {{element.isgcpaccepted}}
-                                            </td>
-                                        </ng-container> -->
                                             <ng-container matColumnDef="isapprove">
                                                 <th mat-header-cell *matHeaderCellDef>Accepted</th>
         
@@ -724,42 +961,15 @@
                                             </ng-container>
         
                                             <ng-container matColumnDef="action">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
-        
-                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
                                                 <td mat-cell *matCellDef="let element" class="text-center">
-                                                    <span class="d-flex  flex-row-reverse align-items-center">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input " type="radio"
-                                                                name="flexRadioDefault" id="iaccept1"
-                                                                [name]="'status-' + element.retid"
-                                                                [id]="'status-yes-' + element.retid" value="Y"
-                                                                [(ngModel)]="element.gstrISAPPROVE ">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-yes-' + element.retid">Yes</label>
-                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                    Accept
-                                                </label> -->
-                                                        </div>
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                                id="iaccept2" [name]="'status-' + element.retid"
-                                                                [id]="'status-no-' + element.retid" value="N"
-                                                                [(ngModel)]="element.gstrISAPPROVE">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-no-' + element.retid">No</label>
-                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                 NO
-                                                </label> -->
-                                                        </div>
-                                                        <!-- <button
-                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                        mat-button>
-                                                        <i class="bi bi-check2-circle text-success"></i>
-                                                    </button> -->
-                                                        <!-- (click)="onButtonClick(element.atid)" -->
-                                                    </span>
+                                            
+                                                    <button class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button (click)="UpdateGSTRETURN(element.retid,element.gstid,element.gstqtrid,element.accyear,element.accyrsetid)"
+                                                        *ngIf="element.isapprove=='N'">
+                                                        <i class="bi bi-pencil-square text-primary"></i>
+                                                    </button>
+                                            
                                                 </td>
                                             </ng-container>
                                             <ng-container matColumnDef="Remark">
@@ -800,6 +1010,116 @@
                                     </div>
                                 </div>
                             </div>
+                             <div class="card shadow-lg p-4 border-0 bg-white rounded "*ngIf="onshowGSTR == true">
+                                        <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                            style="height: auto; overflow: hidden; position: relative;">
+                                            <div class="mb-3 Fon-family" style="text-align: justify;">
+                                                <form class="p-2" #GSTRETURNForm="ngForm" (ngSubmit)="InsertMASGSTRETURNFILES(GSTRETURNForm)">
+                                                    <div class="row pb-3">
+                                                      <!-- GST NO -->
+                                                      <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                        <label>Select GST No<span class="text-danger">*</span></label>
+                                                        <ng-select class="form-control"
+                                                          [items]="dispatchData2"
+                                                          bindLabel="gstno"
+                                                          bindValue="gstid"
+                                                          [(ngModel)]="gstno"
+                                                          name="gstno"
+                                                          (change)="Onselectgstno($event)"
+                                                          [placeholder]="!gstno ? 'GST NO is selected :' : ''"
+                                                        
+                                                          [searchable]="true"
+                                                          [clearable]="true" #gstid="ngModel"  appendTo=".form-group"  required [ngStyle]="{
+                                                            'border': gstid.invalid && (gstid.dirty || gstid.touched) ? '1px solid #dc3545' :
+                                                            gstid.valid && (gstid.dirty || gstid.touched) ? '1px solid #198754' : '',
+                                                            'box-shadow': gstid.invalid && (gstid.dirty || gstid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                            gstid.valid && (gstid.dirty || gstid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                            }">
+                                                        </ng-select>
+                                                        <div class="text-danger mt-1"
+                                                        *ngIf="(gstid.touched || GSTRETURNForm.submitted) && gstid.errors?.['required']">
+                                                        GST No is required.
+                                                      </div>
+                                                      </div>
+                                                  
+                                                      <!-- Month / Quarter -->
+                                                      <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                        <label>Select Month: <span class="text-danger">*</span></label>
+                                                        <ng-select class="form-control" [items]="MASGSTQUARTER"
+                                                        bindLabel="quartername" bindValue="gstqtrid" [(ngModel)]="quartername"
+                                                        name="quartername" (change)="OnselectMASGSTQUARTER($event)"
+                                                        [placeholder]="!quartername ? 'Show Months :' : ''" 
+                                                         [searchable]="true"
+                                                        [clearable]="true"  appendTo=".form-group" #gstqtrid="ngModel"   required [ngStyle]="{
+                                                          'border': gstqtrid.invalid && (gstqtrid.dirty || gstqtrid.touched) ? '1px solid #dc3545' :
+                                                          gstqtrid.valid && (gstqtrid.dirty || gstqtrid.touched) ? '1px solid #198754' : '',
+                                                          'box-shadow': gstqtrid.invalid && (gstqtrid.dirty || gstqtrid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                          gstqtrid.valid && (gstqtrid.dirty || gstqtrid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                          }">
+                                                      </ng-select>
+                                                      <div class="text-danger mt-1"
+                                                      *ngIf="(gstqtrid.touched || GSTRETURNForm.submitted) && gstqtrid.errors?.['required']">
+                                                      Month / Quarter is required.
+                                                    </div>
+                                                      </div>
+                                                    </div>
+                                                  
+                                                    <!-- Financial Year -->
+                                                    <div class="row pb-3">
+                                                      <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                        <label>Select Financial Year <span class="text-danger">*</span></label>
+                                                        <ng-select class="form-control" [items]="AccYearSettings"
+                                                        bindLabel="accyear" bindValue="accyrsetid" [(ngModel)]="accyear"
+                                                        name="accyrsetid" (change)="OnselectAccYearSettings($event)"
+                                                        [placeholder]="!accyear ? 'year is selected:' : ''"  [searchable]="true"
+                                                        [clearable]="true"  #accyrsetid="ngModel"  appendTo=".form-group"  required [ngStyle]="{
+                                                          'border': accyrsetid.invalid && (accyrsetid.dirty || accyrsetid.touched) ? '1px solid #dc3545' :
+                                                          accyrsetid.valid && (accyrsetid.dirty || accyrsetid.touched) ? '1px solid #198754' : '',
+                                                          'box-shadow': accyrsetid.invalid && (accyrsetid.dirty || accyrsetid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                          accyrsetid.valid && (accyrsetid.dirty || accyrsetid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                          }">
+                                                      </ng-select>
+                                                      <div class="text-danger mt-1"
+                                                      *ngIf="(accyrsetid.touched || GSTRETURNForm.submitted) && accyrsetid.errors?.['required']">
+                                                      Financial Year is required.
+                                                    </div>
+                                                      </div>
+                                                    </div>
+                                                  
+                                                    <!-- File Upload -->
+                                                    <label>Upload Document</label>
+                                                    <div class="row pb-3">
+                                                        <div class="form-group col-md-6 pt-3">
+                                                            <label for="inputnumber"> Upload GST returns of at least 1 month of last 3 month: <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input type="file" class="form-control" 
+                                                                placeholder="Type your PDF file" id="inputnumber" name="GSTreturnCertificate"
+                                                                accept=".pdf"
+                                                                (change)="onFileSelectedGSTReturn($event)"
+                                                                required
+                                                                ngModel #GSTreturnCertificate="ngModel"
+                                                                [ngClass]="{
+                                                                'is-invalid': GSTreturnCertificate.invalid && (GSTreturnCertificate.touched || GSTRETURNForm.submitted),
+                                                                'is-valid': GSTreturnCertificate.valid && (GSTreturnCertificate.touched || GSTRETURNForm.submitted)
+                                                                 }">
+                                                                  <div *ngIf="GSTreturnCertificate.invalid && (GSTreturnCertificate.touched || GSTRETURNForm.submitted)">
+                                                                    <small class="text-danger">Please upload the GST returns Certificate (PDF only).</small>
+                                                                  </div>
+                                                        </div>
+                                                        <!-- <div class="form-group col-md-6 pt-3">
+                                                            <button type="button" class="btn btn-primary m-3">Upload</button>
+                                                            <button type="submit" class="btn btn-primary m-3">Download Bank
+                                                                Mandate</button>
+                                                        </div> -->
+                                                    </div>
+                                                      <div class="d-flex justify-content-center mt-3">
+                                                        <button type="submit" class="btn btn-primary mt-3" [disabled]="!GSTRETURNForm.valid">Save</button>
+                                              
+                                                      </div>
+                                                  </form>
+                                            </div>
+                                        </div>
+                                    </div>
                         </div>
                     </div>
 
@@ -818,10 +1138,10 @@
                                                 (keyup)="applyTextFilter4($event)">
                                         </div>
                                         <!-- <div class="export-menu-container m-2">
-                    <button type="button" class="btn border rounded mr-1 text-light"
-                    style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
-                      class="bi bi-folder-plus"></i></button>
-                  </div> -->
+                                        <button type="button" class="btn border rounded mr-1 text-light"
+                                                style="background-color: rgb(21, 184, 0);" (click)="onButtonClick1()">Add <i
+                                             class="bi bi-folder-plus"></i></button>
+                                     </div> -->
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped border rounded " mat-table
@@ -909,47 +1229,20 @@
                                                     </button>
                                                 </td>
                                             </ng-container>
-        
-                                            <ng-container matColumnDef="action">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
-        
-                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
-                                                <td mat-cell *matCellDef="let element" class="text-center">
-                                                    <span class="d-flex  flex-row-reverse align-items-center">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input " type="radio"
-                                                                name="flexRadioDefault" id="flexRadioDefault1"
-                                                                [name]="'status-' + element.sno"
-                                                                [id]="'status-yes-' + element.sno" value="Y"
-                                                                [(ngModel)]="element.Iaccept">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-yes-' + element.sno">Yes</label>
-                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                    Accept
-                                                </label> -->
-                                                        </div>
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                                id="flexRadioDefault2" [name]="'status-' + element.sno"
-                                                                [id]="'status-no-' + element.sno" value="N"
-                                                                [(ngModel)]="element.Iaccept">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-no-' + element.sno">No</label>
-                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                 NO
-                                                </label> -->
-                                                        </div>
-                                                        <!-- <button
-                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                        mat-button>
-                                                        <i class="bi bi-check2-circle text-success"></i>
-                                                    </button> -->
-                                                        <!-- (click)="onButtonClick(element.atid)" -->
-                                                    </span>
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="Remark">
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                                        <td mat-cell *matCellDef="let element" class="text-center">
+                                          <!-- <span class="d-flex  flex-row-reverse p-2 "> -->
+                                            <button
+                                              class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                              mat-button (click)="onDeleteClick(element.vregid,element.fileid,element.mscid)"  *ngIf="element.ismfaccepted=='N'"> 
+                                              <i class="bi bi-pencil-square text-primary"></i>
+                                            </button>
+                                          <!-- </span> -->
+                                        </td>
+                                      </ng-container>
+                                           
+                                            <ng-container matColumnDef="remarks">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
                                                 <td mat-cell *matCellDef="let element" class="text-center">
                                                     <span class="d-flex  flex-row-reverse p-2 ">
@@ -988,6 +1281,182 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- submiit -->
+                           <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshow == true">
+                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                    style="height: auto; overflow: hidden; position: relative;">
+                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                      <form class="p-2">
+                        <label for="inputnumber">Upload Document </label>
+                        <div class="row pb-3" *ngIf="mscid==41">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber"> Upload Non Conviction certificate Issued by Concern FDA: <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control" accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber1" name="NonConvcerCertificate"
+                                  
+                                     (change)="onFileSelect($event, 0)" required
+                                     #NonConvcerCertificate="ngModel"
+                                     ngModel
+                                     [ngClass]="{
+                                        'is-invalid': NonConvcerCertificate.invalid && NonConvcerCertificate.touched,
+                                        'is-valid': NonConvcerCertificate.valid && NonConvcerCertificate.touched
+                                      }">
+                                         <!-- Validation Message -->
+                                         <div *ngIf="NonConvcerCertificate.invalid && NonConvcerCertificate.touched">
+                                            <small class="text-danger">
+                                              Please upload the Non Conviction Certificate (PDF).
+                                            </small>
+                                          </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(41)"
+                                [disabled]="!NonConvcerCertificate.valid"  >Upload</button>
+                            </div>
+                          </div>
+                        <div class="row  pb-3" *ngIf="mscid==9">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber"> Notary attested copy of Power of Attorney/Resolution of Board : 
+                                    <span  class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber2" (change)="onFileSelect($event, 1)" required
+                                    #PowerofAttorney="ngModel" name="PowerofAttorney"
+                                    
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': PowerofAttorney.invalid && PowerofAttorney.touched,
+                                       'is-valid': PowerofAttorney.valid && PowerofAttorney.touched
+                                     }">
+                                        <div *ngIf="PowerofAttorney.invalid && PowerofAttorney.touched">
+                                           <small class="text-danger">
+                                             Please upload the Notary attested copy of Power of Attorney/Resolution of Board Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3" (click)="InsertTechnicalDetails(9)" [disabled]="!PowerofAttorney.valid"  >Upload</button>
+                            </div>
+                        </div>
+                        <div class="row  pb-3"*ngIf="mscid==141">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Affidavit for Strict Compliance : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber3"  (change)="onFileSelect($event, 2)" required
+                                    #AffidavitforStrict_Compliance="ngModel" name="AffidavitforStrict_Compliance"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': AffidavitforStrict_Compliance.invalid && AffidavitforStrict_Compliance.touched,
+                                       'is-valid': AffidavitforStrict_Compliance.valid && AffidavitforStrict_Compliance.touched
+                                     }">
+                                        <div *ngIf="AffidavitforStrict_Compliance.invalid && AffidavitforStrict_Compliance.touched">
+                                           <small class="text-danger">
+                                             Please upload the Affidavit for Strict Compliance Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(141)" [disabled]="!AffidavitforStrict_Compliance.valid" >Upload</button>
+                            </div>
+                        </div>
+                        <div class="row  pb-3" *ngIf="mscid==142">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Declaration Regarding blacklisting  : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber4" (change)="onFileSelect($event, 3)" required
+                                    #blacklisting="ngModel" name="blacklisting" 
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': blacklisting.invalid && blacklisting.touched,
+                                       'is-valid': blacklisting.valid && blacklisting.touched
+                                     }">
+                                        <div *ngIf="blacklisting.invalid && blacklisting.touched">
+                                           <small class="text-danger">
+                                             Please upload the Declaration Regarding blacklisting Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(142)" [disabled]="!blacklisting.valid">Upload</button>
+                               </div>
+                             </div>
+                        <div class="row  pb-3"*ngIf="mscid==7">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Upload SSI Certificate  : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber5" (change)="onFileSelect($event, 6)" required
+                                    #SSICertificate="ngModel" name="SSICertificate"
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': SSICertificate.invalid && SSICertificate.touched,
+                                       'is-valid': SSICertificate.valid && SSICertificate.touched
+                                     }">
+                                        
+                                        <div *ngIf="SSICertificate.invalid && SSICertificate.touched">
+                                           <small class="text-danger">
+                                             Please upload the SSI Certificate  (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(7)" [disabled]="!SSICertificate.valid">Upload</button>
+                            </div>
+                        </div> 
+                        <div class="row  pb-3"*ngIf="mscid==19">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Other Document  1: <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber6"(change)="onFileSelect($event, 4)" required
+                                    #Other_Document1="ngModel" name="Other_Document1" 
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': Other_Document1.invalid && Other_Document1.touched,
+                                       'is-valid': Other_Document1.valid && Other_Document1.touched
+                                     }">
+                                        <div *ngIf="Other_Document1.invalid && Other_Document1.touched">
+                                           <small class="text-danger">
+                                             Please upload the Other Document Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(19)" [disabled]="!Other_Document1.valid">Upload</button>
+                            </div>
+                        </div>
+                        <div class="row  pb-3" *ngIf="mscid==122">
+                            <div class="form-group col-md-6 pt-3">
+                                <label for="inputnumber">Other Document 2 : <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control"  accept=".pdf"
+                                    placeholder="Type your Account No" id="inputnumber7" (change)="onFileSelect($event, 5)"  required
+                                    #Other_Document2="ngModel" name="Other_Document2" 
+                                    ngModel
+                                    [ngClass]="{
+                                       'is-invalid': Other_Document2.invalid && Other_Document2.touched,
+                                       'is-valid': Other_Document2.valid && Other_Document2.touched
+                                     }">
+                                        <div *ngIf="Other_Document2.invalid && Other_Document2.touched">
+                                           <small class="text-danger">
+                                             Please upload the Other Document Certificate (PDF).
+                                           </small>
+                                         </div>
+                            </div>
+                           
+                            <div class="form-group col-md-6 pt-3">
+                                <button type="button" class="btn btn-primary m-3"(click)="InsertTechnicalDetails(122)" [disabled]="!Other_Document2.valid">Upload</button>
+                            </div>
+                        </div> 
+                    </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+
                     </div>
 
                 </ng-template>
@@ -1154,45 +1623,20 @@
                                                 </td>
                                             </ng-container>
         
-                                            <ng-container matColumnDef="action">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
-        
-                                                <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
-                                                <td mat-cell *matCellDef="let element" class="text-center">
-                                                    <span class="d-flex  flex-row-reverse align-items-center">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input " type="radio"
-                                                                name="flexRadioDefault" id="iaccept1"
-                                                                [name]="'status-' + element.whoid"
-                                                                [id]="'status-yes-' + element.whoid" value="Y"
-                                                                [(ngModel)]="element.iaccept">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-yes-' + element.whoid">Yes</label>
-                                                            <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                    Accept
-                                                </label> -->
-                                                        </div>
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                                id="iaccept2" [name]="'status-' + element.whoid"
-                                                                [id]="'status-no-' + element.whoid" value="N"
-                                                                [(ngModel)]="element.iaccept">
-                                                            <label class="form-check-label"
-                                                                [for]="'status-no-' + element.whoid">No</label>
-                                                            <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                 NO
-                                                </label> -->
-                                                        </div>
-                                                        <!-- <button
-                                                        class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                        mat-button>
-                                                        <i class="bi bi-check2-circle text-success"></i>
-                                                    </button> -->
-                                                        <!-- (click)="onButtonClick(element.atid)" -->
-                                                    </span>
-                                                </td>
-                                            </ng-container>
+                                             <ng-container matColumnDef="action">
+                                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+                                                  <td mat-cell *matCellDef="let element" class="text-center">
+                                                    <!-- <span class="d-flex  flex-row-reverse p-2 "> -->
+                                                      <button
+                                                        class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                                        mat-button (click)="onCOMPLIANCEUpdate(element.whoid,element.licid,element.whono,element.comid,element.vregid
+                                                            ,element.issuedate,element.startdate,element.validitydate,element.remarks,element.supplierid,element.filename
+                                                        )"*ngIf="element.iswhoaccepted=='N'">
+                                                        <i class="bi bi-pencil-square text-primary"></i>
+                                                      </button>
+                                                    <!-- </span> -->
+                                                  </td>
+                                                </ng-container>
                                             <ng-container matColumnDef="Remark">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
                                                 <td mat-cell *matCellDef="let element" class="text-center">
@@ -1231,6 +1675,200 @@
                                         <mat-paginator #paginator5 [pageSizeOptions]="[5,10, 15, 30]"
                                             showFirstLastButtons></mat-paginator>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshow == true">
+                            <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                style="height: auto; overflow: hidden; position: relative;">
+                                <div class="mb-3 Fon-family" style="text-align: justify;">
+                                    <form class="p-2" #COMCForm="ngForm" (ngSubmit)="InsertComplianceCertificate1(COMCForm)">
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                <label for="inputName">Select License NO<span class="text-danger">*</span></label>
+                                                <ng-select class="form-control" [items]="license" bindValue="licid" bindLabel="unitname"
+                                                    [(ngModel)]="selectedLicense" name="unitname" (change)="Onselectlicense($event)"
+                                                    [placeholder]="!selectedLicense ? 'Select License NO :' : ''" [searchable]="true"
+                                                    [clearable]="true" appendTo=".form-group" #licid="ngModel" required [ngStyle]="{
+                                                                  'border': licid.invalid && (licid.dirty || licid.touched) ? '1px solid #dc3545' :
+                                                                  licid.valid && (licid.dirty || licid.touched) ? '1px solid #198754' : '',
+                                                                  'box-shadow': licid.invalid && (licid.dirty || licid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                                  licid.valid && (licid.dirty || licid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                                  }">
+                        
+                                                    <ng-template ng-option-tmp let-item="item">
+                                                        {{ item.licid }} - {{ item.unitname }}
+                                                    </ng-template>
+                        
+                                                </ng-select>
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(licid.touched || COMCForm.submitted) && licid.errors?.['required']">
+                                                    License NO is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6  pt-3" style="position: relative;">
+                                                <label for="inputPassword4">Select Compliance Type: <span class="text-danger">*</span></label>
+                                                <ng-select class="form-control" [items]="MAScomplianceType" bindValue="comid"
+                                                    bindLabel="comname" [(ngModel)]="comname" name="comname"
+                                                    (change)="OnselectlicensecomplianceType($event)"
+                                                    [placeholder]="!comname ? 'Select Compliance Type:' : ''" [searchable]="true"
+                                                    [clearable]="true" appendTo=".form-group" #comid="ngModel" required [ngStyle]="{
+                                                                  'border': comid.invalid && (comid.dirty || comid.touched) ? '1px solid #dc3545' :
+                                                                  comid.valid && (comid.dirty || comid.touched) ? '1px solid #198754' : '',
+                                                                  'box-shadow': comid.invalid && (comid.dirty || comid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                                  comid.valid && (comid.dirty || comid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                                  }">
+                                                </ng-select>
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(comid.touched || COMCForm.submitted) && comid.errors?.['required']">
+                                                    Compliance Type is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputEmail4">Certificate No: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Type your Certificate No:" id="inputEmail4"
+                                                    name="mWHONO" [(ngModel)]="mWHONO" #mWHONOe="ngModel" required [ngClass]="{
+                                                                  'is-invalid': (mWHONOe.touched || COMCForm.submitted) && mWHONOe.invalid,
+                                                                  'is-valid': mWHONOe.valid && (mWHONOe.touched || COMCForm.submitted)
+                                                                }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(mWHONOe.touched || COMCForm.submitted) && mWHONOe.errors?.['required']">
+                                                    Certificate No is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputAddress">Issuing Authority: <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Type your Approved Sections"
+                                                    id="inputAddress" name="mRemarks" [(ngModel)]="mRemarks" #mRemarkss="ngModel" required
+                                                    [ngClass]="{
+                                                                  'is-invalid': (mRemarkss.touched || COMCForm.submitted) && mRemarkss.invalid,
+                                                                  'is-valid': mRemarkss.valid && (mRemarkss.touched || COMCForm.submitted)
+                                                                }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(mRemarkss.touched || COMCForm.submitted) && mRemarkss.errors?.['required']">
+                                                    Issuing Authority is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputAddress">Issue Date: <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" placeholder="Type your Issue Date" id="inputAddress"
+                                                    name="ISSUEDATE" (change)="validateDates()" [max]="today" [(ngModel)]="ISSUEDATE"
+                                                    #ISSUEDATEee="ngModel" required [ngClass]="{
+                                                              'is-invalid': (ISSUEDATEee.touched || COMCForm.submitted) && ISSUEDATEee.invalid,
+                                                              'is-valid': ISSUEDATEee.valid && (ISSUEDATEee.touched || COMCForm.submitted)
+                                                            }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(ISSUEDATEee.touched || COMCForm.submitted) && ISSUEDATEee.errors?.['required']">
+                                                    Issue Date is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputnumber">Start Date: <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" placeholder="Type your Validity Date" id="inputnumber"
+                                                    name="mstartdate" (change)="validateDates()" [(ngModel)]="mstartdate" [max]="today"
+                                                    #mstartdatee="ngModel" required [ngClass]="{
+                                                                  'is-invalid': 
+                                                                     (mEXPDateee.touched || COMCForm.submitted) && (mEXPDateee.invalid || starterrorMsg),
+                                                          
+                                                                  'is-valid': 
+                                                                  mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted) && !starterrorMsg
+                                                               }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(mstartdatee.touched || COMCForm.submitted) && mstartdatee.errors?.['required']">
+                                                    Start Date is required.
+                                                </div>
+                                                <div class="text-danger mt-1">
+                                                    <p class="text-danger">{{ starterrorMsg }}</p>
+                                                </div>
+                                            </div>
+                        
+                        
+                        
+                                        </div>
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputnumber">Validity Date: <span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" placeholder="Type your Validity Date" id="inputnumber"
+                                                    name="mEXPDate" (change)="validateDates()" [(ngModel)]="mEXPDate" #mEXPDateee="ngModel"
+                                                    required [ngClass]="{
+                                                                  'is-invalid': 
+                                                                     (mEXPDateee.touched || COMCForm.submitted) && (mEXPDateee.invalid || validityerrorMsg),
+                                                          
+                                                                  'is-valid': 
+                                                                  mEXPDateee.valid && (mEXPDateee.touched || COMCForm.submitted) && !validityerrorMsg
+                                                               }" />
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(mEXPDateee.touched || COMCForm.submitted) && mEXPDateee.errors?.['required']">
+                                                    Validity Date is required.
+                                                </div>
+                                                <div class="text-danger mt-1">
+                                                    <p class="text-danger">{{ validityerrorMsg }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6 pt-3">
+                                                <label for="inputnumber"> Upload Compliance Certificate: <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" placeholder="Upload Compliance Certificate"
+                                                    accept=".pdf" id="inputnumber" name="files" (change)="onFileSelectedCertificate($event)"
+                                                    required #files="ngModel" ngModel [ngClass]="{
+                                                                  'is-invalid': (files.touched || COMCForm.submitted) && files.invalid,
+                                                                  'is-valid': files.valid && (files.touched || COMCForm.submitted)
+                                                                }">
+                                                <div class="text-danger mt-1"
+                                                    *ngIf="(files.touched || COMCForm.submitted) && files.errors?.['required']">
+                                                    File upload is required.
+                                                </div>
+                                                    <!-- <p *ngIf="filename">
+                                                        Current File: {{ filename }}
+                                                    </p> -->
+                                            </div>
+                        
+                                        </div>
+                                        <div class="row pb-3">
+                                            <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                                <label for="inputnumber">Select multiple Item Type: <span class="text-danger">*</span></label>
+                        
+                                                <div class="select-wrapper" style="position: relative;">
+                                                    <ng-select class="form-control" [items]="masitemtypes" bindLabel="itemtypename"
+                                                        bindValue="itemtypeid" [(ngModel)]="selecteditemtypeid" name="selecteditemtypeid"
+                                                        [multiple]="true" [closeOnSelect]="false" [hideSelected]="false" [clearable]="true"
+                                                        [searchable]="true" appendTo=".form-group"
+                                                        [placeholder]="selecteditemtypeid?.length ? '' : 'Select Item Types...'"
+                                                        #itemtypeidss="ngModel" required [ngStyle]="{
+                                                            'border': itemtypeidss.invalid && (itemtypeidss.dirty || itemtypeidss.touched) ? '1px solid #dc3545' :
+                                                                      itemtypeidss.valid && (itemtypeidss.dirty || itemtypeidss.touched) ? '1px solid #198754' : '',
+                                                            'box-shadow': itemtypeidss.invalid && (itemtypeidss.dirty || itemtypeidss.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                                                          itemtypeidss.valid && (itemtypeidss.dirty || itemtypeidss.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                                          }">
+                        
+                                                        <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                            <input type="checkbox" [checked]="selecteditemtypeid?.includes(item.itemtypeid)"
+                                                                (click)="$event.stopPropagation()" (change)="onCheckboxChange(item)"
+                                                                style="margin-right: 8px;" />
+                                                            {{ item.itemtypename }}
+                                                        </ng-template>
+                        
+                                                    </ng-select>
+                                                    <div class="text-danger mt-1"
+                                                        *ngIf="(itemtypeidss.touched || COMCForm.submitted) && itemtypeidss.errors?.['required']">
+                                                        Your selection is required.
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>  `
+                                        </div>
+                        
+                                        <div class="d-flex justify-content-center mt-3">
+                                            <button type="submit" class="btn btn-primary m-3" [disabled]="COMCForm.invalid">Save</button>
+                        
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -1285,8 +1923,6 @@
                                                         <td mat-cell *matCellDef="let element" class="text-center">
                                                             {{element.gcpid}} </td>
                                                     </ng-container>
-                                                    <!-- 'sno','gcpid','vregid','gcpno','issuedate','startdate','issuedate',
-                                     'expdate','filename','filepath','entrydate','action' -->
                                                     <ng-container matColumnDef="vregid">
                                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>VRE Id</th>
                                                         <td mat-cell *matCellDef="let element" class="text-center">
@@ -1318,11 +1954,6 @@
                                                         <td mat-cell *matCellDef="let element" class="text-center">
                                                             {{element.entrydate}} </td>
                                                     </ng-container>
-                                                    <!-- <ng-container matColumnDef="isgcpaccepted">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>IS Accepted</th>
-                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.isgcpaccepted}}
-                                                    </td>
-                                                </ng-container> -->
                                                     <ng-container matColumnDef="isgcpaccepted">
                                                         <th mat-header-cell *matHeaderCellDef>Accepted</th>
         
@@ -1367,45 +1998,18 @@
                                                         </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="action">
-                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
-        
-                                                        <!-- <th mat-header-cell *matHeaderCellDef mat-sort-header>Accept</th> -->
-        
+                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
                                                         <td mat-cell *matCellDef="let element" class="text-center">
-                                                            <span class="d-flex  flex-row-reverse align-items-center">
-                                                                <div class="form-check text-center">
-                                                                    <input class="form-check-input " type="radio"
-                                                                        name="flexRadioDefault" id="iaccept1"
-                                                                        [name]="'status-' + element.gcpid"
-                                                                        [id]="'status-yes-' + element.gcpid" value="Y"
-                                                                        [(ngModel)]="element.gcpiaccept">
-                                                                    <label class="form-check-label"
-                                                                        [for]="'status-yes-' + element.gcpid">Yes</label>
-                                                                    <!-- <label class="form-check-label " for="flexRadioDefault1">
-                                                            Accept
-                                                        </label> -->
-                                                                </div>
-                                                                <div class="form-check text-center">
-                                                                    <input class="form-check-input" type="radio"
-                                                                        name="flexRadioDefault" id="iaccept2"
-                                                                        [name]="'status-' + element.gcpid"
-                                                                        [id]="'status-no-' + element.gcpid" value="N"
-                                                                        [(ngModel)]="element.gcpiaccept">
-                                                                    <label class="form-check-label"
-                                                                        [for]="'status-no-' + element.gcpid">No</label>
-                                                                    <!-- <label class="form-check-label m-1" for="flexRadioDefault2">
-                                                         NO
-                                                        </label> -->
-                                                                </div>
-                                                                <!-- <button
-                                                                class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
-                                                                mat-button>
-                                                                <i class="bi bi-check2-circle text-success"></i>
-                                                            </button> -->
-                                                                <!-- (click)="onButtonClick(element.atid)" -->
-                                                            </span>
+                                                         
+                                                            <button
+                                                              class="btn btn-sm text-light align-items-center border rounded btn-outline-info-subtle  bg-info-subtle"
+                                                              mat-button (click)="onGCPUpdate(element.gcpid,element.vregid,element.gcpno,element.issuedate,element.startdate
+                                                                  ,element.expdate)"*ngIf="element.isgcpaccepted=='N'">
+                                                              <i class="bi bi-pencil-square text-primary"></i>
+                                                            </button>
+                                                         
                                                         </td>
-                                                    </ng-container>
+                                                      </ng-container>
                                                     <ng-container matColumnDef="Remark">
                                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
                                                         <td mat-cell *matCellDef="let element" class="text-center">
@@ -1448,7 +2052,125 @@
                                 </div>
                             </div>
                             <!-- END DATA TABLE -->
-        
+                            <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshow == true">
+                                <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                                    style="height: auto; overflow: hidden; position: relative;">
+                                    <div class="mb-3 Fon-family" style="text-align: justify;">
+                                        <form class="p-2"  #GCPForm="ngForm" (ngSubmit)="InsertGCP(GCPForm)">
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6  pt-3">
+                                                    <label for="inputPassword4">Global Company Prefix No: <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" placeholder="Type your GCP No"
+                                                    id="mGCpNo"
+                                                    name="mGCpNo"
+                                                    [(ngModel)]="mGCpNo" #mGCpNoee="ngModel"
+                                                    required
+                                                    [ngClass]="{
+                                                      'is-invalid': (mGCpNoee.touched || GCPForm.submitted) && mGCpNoee.invalid,
+                                                      'is-valid': mGCpNoee.valid && (mGCpNoee.touched || GCPForm.submitted)
+                                                    }" />
+                                                      <div class="text-danger mt-1"
+                                                      *ngIf="(mGCpNoee.touched || GCPForm.submitted) && mGCpNoee.errors?.['required']">
+                                                      Global Company Prefix No is required.
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputEmail4">Issue Date.: <span class="text-danger">*</span></label>
+                                                    <input  type="date" class="form-control" placeholder="Type your Issue Date"
+                                                    id="ISSUEDATE"
+                                                    name="ISSUEDATE"
+                                                    [(ngModel)]="ISSUEDATE"
+                                                    #ISSUEDATEee="ngModel"  required (change)="validateDates()" [max]="today" 
+                                                        [ngClass]="{
+                                                          'is-invalid': (ISSUEDATEee.touched || GCPForm.submitted) && ISSUEDATEee.invalid,
+                                                          'is-valid': ISSUEDATEee.valid && (ISSUEDATEee.touched || GCPForm.submitted)
+                                                        }" />
+                                                           <div class="text-danger mt-1"
+                                                           *ngIf="(ISSUEDATEee.touched || GCPForm.submitted) && ISSUEDATEee.errors?.['required']">
+                                                           Issue Date is required.
+                                                      </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputAddress">Start Date: <span class="text-danger">*</span></label>
+                                                    <input  type="date" class="form-control" placeholder="Type your Start Date"
+                                                    id="mstartdate"
+                                                    name="mstartdate"
+                                                    [(ngModel)]="mstartdate"
+                                                    #mstartdatee="ngModel"  required (change)="validateDates()" [max]="today" 
+                                                    [ngClass]="{
+                                                      'is-invalid': 
+                                                         (mEXPDateee.touched || GCPForm.submitted) && (mEXPDateee.invalid || starterrorMsg),
+                                              
+                                                      'is-valid': 
+                                                      mEXPDateee.valid && (mEXPDateee.touched || GCPForm.submitted) && !starterrorMsg
+                                                   }">
+                                                          <div class="text-danger mt-1"
+                                                          *ngIf="(mstartdatee.touched || GCPForm.submitted) && mstartdatee.errors?.['required']">
+                                                       Start Date is required.
+                                                     </div>
+                                                     <div class="text-danger mt-1">
+                                                      <p class="text-danger">{{ starterrorMsg }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6 pt-3">
+                                                    <label for="inputAddress">Validity Date: <span class="text-danger">*</span></label>
+                                                    <input  type="date" class="form-control" placeholder="Type your Validity Date"
+                                                    id="mEXPDate"
+                                                    name="mEXPDate"(change)="validateDates()"
+                                                    [(ngModel)]="mEXPDate"
+                                                    #mEXPDateee="ngModel"  required 
+                                                    [ngClass]="{
+                                                      'is-invalid': 
+                                                         (mEXPDateee.touched || GCPForm.submitted) && (mEXPDateee.invalid || validityerrorMsg),
+                                              
+                                                      'is-valid': 
+                                                      mEXPDateee.valid && (mEXPDateee.touched || GCPForm.submitted) && !validityerrorMsg
+                                                   }"  />
+                                                       <div class="text-danger mt-1"
+                                                       *ngIf="(mEXPDateee.touched || GCPForm.submitted) && mEXPDateee.errors?.['required']">
+                                                       Validity Date is required.
+                                                  </div>
+                                                  <div class="text-danger mt-1">
+                                                  <p class="text-danger">{{ validityerrorMsg }}</p>
+                                                  </div>
+                                                </div>
+                                                
+                                                </div>
+                
+                                            <!-- </div> -->
+                
+                                            <div class="row pb-3">
+                                                <div class="form-group col-md-12 pt-3">
+                                                    <label for="inputnumber">Upload GCP Certificate: <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="file" class="form-control"   id="fileInput" accept=".pdf"
+                                                    (change)="onFileSelected1($event)" name="files" 
+                                                    required
+                                                        #files="ngModel"
+                                                        ngModel
+                                                        [ngClass]="{
+                                                          'is-invalid': (files.touched || GCPForm.submitted) && files.invalid,
+                                                          'is-valid': files.valid && (files.touched || GCPForm.submitted)
+                                                        }">
+                                                        <div class="text-danger mt-1"
+                                                        *ngIf="(files.touched || GCPForm.submitted) && files.errors?.['required']">
+                                                     File upload is required.
+                                                   </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-center mt-3">
+                                                <button type="submit" class="btn btn-primary" [disabled]="GCPForm.invalid">Submit</button>
+                                                <!-- <button type="submit" class="btn btn-primary mt-3" [disabled]="!AnnualTurnoverForm.valid">Submit</button> -->
+                
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </ng-template>
@@ -1477,3 +2199,137 @@
         </div>
     </div>
 </div>
+<div class="modal fade custom-transparent-modal" id="GSTModal" tabindex="-1" aria-labelledby="GSTModalLabel"
+    aria-hidden="true">
+    <!-- modal-lg -->
+    <!-- <div class="modal-dialog modal-dialog-centered modal-fullscreen"> -->
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-none">
+            <div class="modal-header bg-dark text-white py-2 px-3">
+                <h5 class="modal-title" id="GSTModalLabel">Update GST CERTIFICATE </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <!-- *ngIf="onshowGST == true" -->
+                <div class="card shadow-lg p-4 border-0 bg-white rounded " *ngIf="onshowGST == true" >
+
+                    <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                        style="height: auto; overflow: hidden; position: relative;">
+                        <div class="mb-3 Fon-family" style="text-align: justify;">
+                            <form class="p-2 " #GSTForm="ngForm" (ngSubmit)="InsertGSTCertificate(GSTForm)">
+                                <div class="row pb-3">
+                                    <div class="form-group col-md-6 pt-3" style="position: relative;">
+                                        <label for="inputName">Select State <span class="text-danger">*</span></label>
+                                        <ng-select class="form-control" appendTo=".form-group" [items]="States"
+                                            bindLabel="statename" bindValue="stateid" [(ngModel)]="selectedStateId"
+                                            name="statename" (change)="OnselectStates($event)"
+                                            [placeholder]="!selectedStateId ? 'Select State :' : ''" [searchable]="true"
+                                            [clearable]="true" #stateid="ngModel" required [ngStyle]="{
+                                      'border': stateid.invalid && (stateid.dirty || stateid.touched) ? '1px solid #dc3545' :
+                                      stateid.valid && (stateid.dirty || stateid.touched) ? '1px solid #198754' : '',
+                                      'box-shadow': stateid.invalid && (stateid.dirty || stateid.touched) ? '0 0 0 0.1rem rgba(220,53,69,0.25)' :
+                                      stateid.valid && (stateid.dirty || stateid.touched) ? '0 0 0 0.1rem rgba(25,135,84,0.25)' : ''
+                                      }">
+
+                                        </ng-select>
+                                        <!-- <ng-select class="form-control" appendTo=".form-group" [items]="States" bindLabel="statename" bindValue="stateid"
+                                    [(ngModel)]="selectedStateId" name="statename" (change)="OnselectStates($event)"
+                                    [placeholder]="!selectedStateId ? 'Select State :' : ''" [searchable]="true" [clearable]="true" #stateid="ngModel"
+                                    required>
+                                </ng-select> -->
+                                        <div class="text-danger mt-1"
+                                            *ngIf="(stateid.touched || GSTForm.submitted) && stateid.errors?.['required']">
+                                            Year selection is required.
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6  pt-3">
+                                        <label for="inputPassword4">GST No.: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="turnoveran" name="gstno"
+                                            placeholder="Type GST No." [(ngModel)]="gstno" #gstnoc="ngModel"
+                                            minlength="15" maxlength="15" pattern="^[0-9A-Z]{15}$" required [ngClass]="{
+                                                      'is-invalid': (gstnoc.touched || GSTForm.submitted) && gstnoc.invalid,
+                                                      'is-valid': gstnoc.valid && (gstnoc.touched || GSTForm.submitted)
+                                                    }">
+
+
+
+                                        <div *ngIf="gstnoc.invalid && (gstnoc.touched || GSTForm.submitted)"
+                                            class="text-danger small">
+                                            <div *ngIf="gstnoc.errors?.['required']">GST number is required</div>
+                                            <div *ngIf="gstnoc.errors?.['minlength'] || gstnoc.errors?.['maxlength']">
+                                                Must be 15
+                                                characters</div>
+                                            <div *ngIf="gstnoc.errors?.['pattern']">Invalid GST format (Use uppercase
+                                                letters & numbers)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label for="inputnumber">Upload Document</label>
+                                <div class="row pb-3">
+                                    <div class="form-group col-md-6 pt-3">
+                                        <label for="inputnumber"> Upload GST Certificate: <span
+                                                class="text-danger">*</span></label>
+                                        <input type="file" class="form-control" id="filrs2" name="GSTCertificate"
+                                            accept=".pdf" (change)="onFileSelectedanuGSTCertificate($event)" ngModel
+                                            #GSTCertificateCtrl="ngModel" required [ngClass]="{
+                                    'is-invalid': GSTCertificateCtrl.invalid && (GSTCertificateCtrl.touched || GSTForm.submitted),
+                                    'is-valid': GSTCertificateCtrl.valid && (GSTCertificateCtrl.touched || GSTForm.submitted)
+                                     }">
+                                        <div
+                                            *ngIf="GSTCertificateCtrl.invalid && (GSTCertificateCtrl.touched || GSTForm.submitted)">
+                                            <small class="text-danger">Please upload the GST Certificate (PDF
+                                                only).</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center mt-3">
+                                    <button type="submit" class="btn btn-primary mt-3"
+                                        [disabled]="!GSTForm.valid">Save</button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- ANNUAL TURNOVER CERTIFICATE -->
+    <div class="modal fade custom-transparent-modal" id="ATCModal" tabindex="-1" aria-labelledby="ATCModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-none">
+                <div class="modal-header bg-dark text-white py-2 px-3">
+                    <h5 class="modal-title" id="ATCModalLabel">Update ANNUAL TURNOVER CERTIFICATE </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  BANK DETAILS-->
+        <div class="modal fade custom-transparent-modal" id="BankModal" tabindex="-1" aria-labelledby="BankModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0 shadow-none">
+                    <div class="modal-header bg-dark text-white py-2 px-3">
+                        <h5 class="modal-title" id="BankModalLabel">Update BANK DETAILS </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <!-- *ngIf="onshowFINANCIAL == true" -->
+                    <div class="modal-body p-0">
+            
+        
+                    </div>
+                </div>
+            </div>
+        </div>

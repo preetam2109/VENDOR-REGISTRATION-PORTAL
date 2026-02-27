@@ -718,7 +718,7 @@ export class ApiService {
     );
   }
   InsertGSTCertificate(data: any, formData: FormData): Observable<any> {
-    //post := https://localhost:7053/api/Registration/c?mVergID=50&msupplierid=1936&mstateID=44&gstno=gdtdhnj
+    //post := https://localhost:7053/api/Registration/InsertGSTCertificate?mVergID=50&msupplierid=1936&mstateID=44&gstno=gdtdhnj
 
     let params = new HttpParams()
       .set('mVergID', data.mVergID)
@@ -887,8 +887,7 @@ export class ApiService {
     );
   }
 
-  //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?
-  // mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
+  //post := https://dpdmis.in/VREGAPI/api/Registration/InsertComplianceCertificate?mlicid=53&mWHONO=65&mComid=2&mVergID=50&ISSUEDATE=01-02-2025&mstartdate=01-02-2025&mEXPDate=01-02-2027&mRemarks=dxzcv&mSupplierid=1936
   InsertComplianceCertificate1(data: any, formData: FormData): Observable<any> {
     let params = new HttpParams()
       .set('mlicid', data.mlicid)
@@ -974,6 +973,7 @@ export class ApiService {
   }
   public post(url: string, data: FormData, options?: any) {
     //https://dpdmis.in/VREGAPI/api/Registration/UpdateBankDetails
+  
     return this.http.post(this.VREGAPI + url, data, options);
   }
 
@@ -1606,6 +1606,106 @@ updateMakrketStanding(data: any, formData?: FormData): Observable<any> {
     );
   }
 
+//#region update apis
+DeleteTechnicalFile(mVregid: any, mFileID: any) {
+  return this.http.put(
+    `${this.VREGAPI}/Registration/DeleteTechnicalFile`,
+    {},
+    {
+      params: {
+        mVregid: mVregid,
+        mFileID: mFileID
+      },
+      responseType: 'text' 
+    }
+  );
+}
+
+
+  // https://dpdmis.in/VREGAPI/api/Registration/UpdateComplianceCertificate?WHOID=0& mlicid=0&mWHONO=0& mComid=0& mVergID=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0& mRemarks=0&mSupplierid=0
+
+  // UpdateComplianceCertificate
+  // (WHOID:any,mlicid:any,mWHONO:any,mComid:any,mVergID:any,
+  // ISSUEDATE:any,mstartdate:any,mEXPDate:any,mRemarks:any,mSupplierid:any){
+
+  // }
+    UpdateComplianceCertificate(data: any, formData: FormData): Observable<any> {
+ 
+    let params = new HttpParams()
+      .set('WHOID', data.WHOID)
+      .set('mlicid', data.mlicid)
+      .set('mWHONO', data.mWHONO)
+      .set('mComid', data.mComid)
+      .set('mVergID', data.mVergID)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate)
+      .set('mRemarks', data.mRemarks)
+      .set('mSupplierid', data.mSupplierid);
+    // return;
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateComplianceCertificate
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateComplianceCertificate`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  UpdateGCP(data: any, formData: FormData): Observable<any> {
+    // https://dpdmis.in/VREGAPI/api/Registration/UpdateGCP?GCPID=0&mVergID=0&mGCpNo=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0
+    debugger;
+    let params = new HttpParams()
+      .set('GCPID', data.GCPID)
+      .set('mVergID', data.mVergID)
+      .set('mGCpNo', data.mGCpNo)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate);
+  
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateGCP`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  UpdateGSTRETURN(data: any, formData: FormData): Observable<any> {
+    //https://dpdmis.in/VREGAPI/api/Registration/UpdateMASGSTRETURNFILES?RETID=0&mGSTID=0&mVergID=0&mACCYRSETID=0&mGSTQTRID=0&mSupplierID=0
+    debugger;
+    let params = new HttpParams()
+      .set('RETID', data.RETID)
+      .set('mGSTID', data.mGSTID)
+      .set('mVergID', data.mVergID)
+      .set('mACCYRSETID', data.mACCYRSETID)
+      .set('mGSTQTRID', data.mGSTQTRID)
+      .set('mSupplierID', data.mSupplierID);
+  
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateMASGSTRETURNFILES`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  postValue(url: string, data: any) {
+  return this.http.post(this.VREGAPI + url, data, {
+    responseType: 'text'
+  });
+}
+  UpdateGSTCertificate(data: any, formData: FormData): Observable<any> {
+    //post :=     // public async Task<IActionResult> UpdateGSTCertificate(int mVergID,string GSTID, string msupplierid, int mstateID, string gstno, [FromForm] PancardUpdateDTO request)
+
+    let params = new HttpParams()
+      .set('mVergID', data.mVergID)
+      .set('GSTID', data.GSTID)
+      .set('msupplierid', data.msupplierid)
+      .set('mstateID', data.mstateID)
+      .set('gstno', data.gstno);
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdateGSTCertificate`,
+      formData,
+      { params, responseType: 'text' }
+    );
+  }
+  //#endregion
+
   GetLiveTenderDetails(){
     return this.http.get<any[]>(`${this.VREGAPI}/Registration/GetLiveTenderDetails`
     );
@@ -1625,5 +1725,6 @@ updateMakrketStanding(data: any, formData?: FormData): Observable<any> {
       { responseType: 'text' } // options, not body
     );
   }
+
 
 }

@@ -168,7 +168,8 @@ export class Registration {
     return this.api.getMasCheckSupDetails(mPanNo, mEmail, mMobNo, mSUpName);
   }
   onSubmit() {
-    // ;
+    
+      
     this.isSubmitting = true;
 
     if (this.registerForm.invalid) {
@@ -254,6 +255,7 @@ export class Registration {
   }
 
   saveVendor() {
+       this.spinner.show();
     const formData = new FormData();
 
     this.api.Signup(this.registerForm.value, formData).subscribe({
@@ -268,11 +270,13 @@ export class Registration {
         this.registerForm.reset();
         this.isOtpSent = false;
         this.serverOtp = '';
+           this.spinner.hide();
         this.isSubmitting = false;
       },
       error: (err) => {
         console.error(err);
         this.toastr.error('Registration failed on server', 'Error');
+           this.spinner.hide();
         this.isSubmitting = false;
       },
     });
