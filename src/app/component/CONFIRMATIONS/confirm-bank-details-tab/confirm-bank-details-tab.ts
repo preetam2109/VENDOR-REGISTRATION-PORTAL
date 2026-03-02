@@ -2712,7 +2712,13 @@ if (this.selectedFileBank) {
   }
  
   oncancel(){
+    debugger;
+    this.onshow = false;
 this.onshowFINANCIAL = false;
+this.onshowANUVAL=false;
+this.onshowGST=false;
+this.onshowGSTR=false;
+
   }
   //#endregion
 }
