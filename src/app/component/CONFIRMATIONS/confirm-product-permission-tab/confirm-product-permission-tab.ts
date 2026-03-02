@@ -144,7 +144,7 @@ export class ConfirmProductPermissionTab {
   }
   
   saveRow(element: any) {
-    debugger
+    
   
     const mFileID = element.fileid;     // file id from row
     const Iaccept = element.approval;   // 'Y' or 'N'
@@ -675,7 +675,7 @@ formatDate(dateString: string): string {
       entrydate: new Date().toLocaleDateString('en-GB'),
       pharmaid: item.pharmaid
     }));
-  debugger
+  
   
     console.log('Items to send:', itemsToInsert);
   

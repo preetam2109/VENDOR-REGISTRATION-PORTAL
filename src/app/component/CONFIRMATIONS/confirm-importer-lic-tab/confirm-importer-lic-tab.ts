@@ -420,7 +420,7 @@ parseToInputDate(dateStr: string): string {
     
 
   GETImporterLicenceDetails() {
-    debugger
+    
     this.spinner.show();
     this.api.GetImporterLicenceDetails(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
         this.importerLicenceList = res.map((item: any, index: number) => ({
@@ -433,7 +433,7 @@ parseToInputDate(dateStr: string): string {
         if (sessionStorage.getItem('filterRejected') === 'true') {
           this.importerLicenceList = this.importerLicenceList.filter((r: any) => r.impisaccepted === 'N');
         }
-        debugger
+        
         console.log('With S.No:importerLicenceList status after ', this.importerLicenceList);
         this.dataSource.data = this.importerLicenceList;
         this.dataSource.paginator = this.paginator;
@@ -665,7 +665,7 @@ parseToInputDate(dateStr: string): string {
 
   // Edit Importer Licence Row
   editImporterRow(element: any) {
-    debugger  
+      
 
     this.onshowRetentionForm = true;
     this.isEditImporter = true;
@@ -687,14 +687,14 @@ parseToInputDate(dateStr: string): string {
       mVregid: this.vregid,
       mIMPIssuingAuthority: element.impIssuingAuthority || element.mIMPIssuingAuthority || ''
     });
-    debugger
+    
 
     this.selectedPanFile = null;
   }
 
   // Edit Import Provider Row
   editImportProviderRow(element: any) {
-    debugger
+    
     this.onshowRetentionForm2 = true;
     this.isEditProvider = true;
     this.currentProvId = element.impRetId || null;
@@ -713,7 +713,7 @@ parseToInputDate(dateStr: string): string {
       mVregid: this.vregid,
       mIMPRETIssuingAuthority: element.impretIssuingAuthority || element.mIMPRETIssuingAuthority || ''
     });
-debugger
+
     this.selectedPanFile2 = null;
   }
 
@@ -740,7 +740,7 @@ debugger
       mVregid: this.vregid,
       mIMPIssuingAuthority: this.RetentionForm.value.mIMPIssuingAuthority
     };
-debugger
+
     this.api.updateMasimporterdocument(params, formData).subscribe({
       next: (res) => {
         this.toastr.success(res,'Importer Licence updated successfully!');
@@ -769,7 +769,7 @@ debugger
 
   // Update Import Provider Certificate
   updateImportProvider() {
-    debugger
+    
     if (this.RetentionForm2.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;
