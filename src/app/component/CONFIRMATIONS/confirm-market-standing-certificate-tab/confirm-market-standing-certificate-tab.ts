@@ -600,7 +600,7 @@ export class ConfirmMarketStandingCertificateTab {
       mstartdate: this.formatDate(this.marketStandingCForm.value.mstartdate),
       mEXPDate: this.formatDate(this.marketStandingCForm.value.mEXPDate)
     };
-debugger
+
 
     this.api.updateMakrketStanding(params, payloadForm).subscribe({
       next: (res) => {

@@ -215,6 +215,7 @@ export class VendorRegistrationCompleted {
               
         this.dispatchData = filteredData;
         this.dataSource.data = filteredData;
+              // console.log('registeredVendorsdata=:', this.dispatchData);
 
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

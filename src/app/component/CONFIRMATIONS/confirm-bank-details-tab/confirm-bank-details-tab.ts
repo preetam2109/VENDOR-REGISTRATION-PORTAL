@@ -1352,12 +1352,12 @@ export class ConfirmBankDetailsTab {
   // https://dpdmis.in/VREGAPI/api/Registration/DeleteTechnicalFile?mVregid=108&mFileID=00◘
 
   onDeleteClick(mVregid: any, mFileID: any, mscid: any) {
-    // debugger;
+    // ;
     this.fileid = mFileID;
     this.mscid = mscid;
     console.log(this.fileid);
     console.log('mscid:', mscid);
-    // debugger;
+    // ;
     // Professional Confirmation Box
     // return  this.onshow=true;
     Swal.fire({
@@ -1521,7 +1521,7 @@ export class ConfirmBankDetailsTab {
     }
   }
   // onCOMPLIANCEUpdate(whoid:any,licid:any,whono:any,comid:any,vregid:any,issuedate:any,startdate:any,validitydate:any,remarks:any,supplierid:any){
-  //   debugger;
+  //   ;
   //   this.onshow = true;
   //   this.selectedLicense=licid;
   //   this.comname=comid;
@@ -1555,7 +1555,7 @@ export class ConfirmBankDetailsTab {
     supplierid: any,
     filename: any,
   ) {
-    // debugger;
+    // ;
     this.filename = filename;
     this.onshow = true;
     this.WHOID = whoid;
@@ -1575,7 +1575,7 @@ export class ConfirmBankDetailsTab {
   }
   // https://dpdmis.in/VREGAPI/api/Registration/UpdateComplianceCertificate?WHOID=0& mlicid=0&mWHONO=0& mComid=0& mVergID=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0& mRemarks=0&mSupplierid=0
   InsertComplianceCertificate1(COMCForm: NgForm) {
-    debugger;
+    ;
     this.loadingSectionA = true;
     this.submitted = true;
     const formData = new FormData();
@@ -1926,7 +1926,7 @@ export class ConfirmBankDetailsTab {
   accyrsetid: any;
   gstqtrid: any;
   UpdateGSTRETURN(retid: any, gstid: any, gstqtrid: any, accyear: any,accyrsetid:any) {
-    // debugger;
+    // ;
     this.onshowGSTR = true;
     this.retid = retid;
     this.gstno = gstid;
@@ -2051,7 +2051,7 @@ export class ConfirmBankDetailsTab {
   selectedStateId: any;
   GSTCmodal: any;
   //   UpdateGST(gstid:any,vregid:any,stateid:any,){
-  // debugger;
+  // ;
   //   // this.statename=stateid;
   //     this.selectedStateId =     Number(stateid);
 
@@ -2076,7 +2076,7 @@ gstidd:any;
   }
 
   InsertGSTCertificate(GSTForm: NgForm) {
-    // debugger;
+    // ;
        this.spinner.show();
     const formData = new FormData();
     // public async Task<IActionResult> UpdateGSTCertificate(int mVergID,string GSTID, string msupplierid, int mstateID, string gstno, [FromForm] PancardUpdateDTO request)
@@ -2292,7 +2292,7 @@ this.onshowANUVAL=true;
     // });
   }
   OnSubmmit(): void {
-    // debugger;
+    // ;
        this.spinner.show();
     this.submitted = true;
 
@@ -2552,7 +2552,7 @@ const SupplierId= sessionStorage.getItem('facilityid') || '';
   }
   onSubmit(bankForm: NgForm) {
        this.spinner.show();
-    // debugger;
+    // ;
     // this.loadingSectionA = true;
     // const bankaccountID = this.dispatchData1.find(
     //   (f: any) => f.bankaccountid == this.acno,

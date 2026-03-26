@@ -460,7 +460,7 @@ formatDate(dateString: string): string {
 
 
   saveAndUpdate(): void {
-    debugger
+    
     // Step 1: Validate form and file before anything
     if (this.productPerForm.invalid) {
       this.toastr.warning('Please fill all required fields in the form correctly!');
@@ -503,7 +503,7 @@ formatDate(dateString: string): string {
       mVALIDITYDATE: this.formatDate(this.productPerForm.value.mVALIDITYDATE),
       mISSUINGAUTHORITY: this.productPerForm.value.mISSUINGAUTHORITY
     };
-  debugger
+  
   
     this.api.postPPCertificate(data, formData).subscribe({
       next: (res) => {
@@ -592,7 +592,7 @@ formatDate(dateString: string): string {
     }));
   
     console.log('Items to send:', itemsToInsert);
-  debugger
+  
   
     this.api.insertMasVregPPCItems(sessionStorage.getItem('vregid'), itemsToInsert).subscribe({
       next: (res) => {
