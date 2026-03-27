@@ -420,7 +420,7 @@ parseToInputDate(dateStr: string): string {
     
 
   GETImporterLicenceDetails() {
-    debugger
+    
     this.spinner.show();
     this.api.GetImporterLicenceDetails(sessionStorage.getItem('vregid'),sessionStorage.getItem('facilityid')).subscribe((res: any) => {
         this.importerLicenceList = res.map((item: any, index: number) => ({
@@ -433,7 +433,7 @@ parseToInputDate(dateStr: string): string {
         if (sessionStorage.getItem('filterRejected') === 'true') {
           this.importerLicenceList = this.importerLicenceList.filter((r: any) => r.impisaccepted === 'N');
         }
-        debugger
+        
         console.log('With S.No:importerLicenceList status after ', this.importerLicenceList);
         this.dataSource.data = this.importerLicenceList;
         this.dataSource.paginator = this.paginator;
@@ -462,7 +462,7 @@ parseToInputDate(dateStr: string): string {
           // NOTE: do not remove the sessionStorage flag here (per request)
         }
 
-        console.log('With S.No:status ', this.ImportRetentionList);
+        console.log('With S.No:status 2 ', this.ImportRetentionList);
         this.dataSource2.data = this.ImportRetentionList;
         this.dataSource2.paginator = this.paginator1;
         this.dataSource2.sort = this.sort1;
@@ -665,9 +665,11 @@ parseToInputDate(dateStr: string): string {
 
   // Edit Importer Licence Row
   editImporterRow(element: any) {
+      
+
     this.onshowRetentionForm = true;
     this.isEditImporter = true;
-    this.currentImpId = element.licid || element.mLICID || null;
+    this.currentImpId = element.impid ||  null;
     this.currentEditingImpRow = element;
 
     // Parse dates from dd-MM-yyyy to yyyy-MM-dd for form prefill
@@ -685,15 +687,17 @@ parseToInputDate(dateStr: string): string {
       mVregid: this.vregid,
       mIMPIssuingAuthority: element.impIssuingAuthority || element.mIMPIssuingAuthority || ''
     });
+    
 
     this.selectedPanFile = null;
   }
 
   // Edit Import Provider Row
   editImportProviderRow(element: any) {
+    
     this.onshowRetentionForm2 = true;
     this.isEditProvider = true;
-    this.currentProvId = element.impRetId || element.mIMPID || null;
+    this.currentProvId = element.impRetId || null;
     this.currentEditingProvRow = element;
 
     // Parse dates from dd-MM-yyyy to yyyy-MM-dd for form prefill
@@ -739,7 +743,7 @@ parseToInputDate(dateStr: string): string {
 
     this.api.updateMasimporterdocument(params, formData).subscribe({
       next: (res) => {
-        this.toastr.success('Importer Licence updated successfully!');
+        this.toastr.success(res,'Importer Licence updated successfully!');
         this.cancelEditImporter();
         this.GETImporterLicenceDetails();
         this.loadingSectionA = false;
@@ -765,6 +769,7 @@ parseToInputDate(dateStr: string): string {
 
   // Update Import Provider Certificate
   updateImportProvider() {
+    
     if (this.RetentionForm2.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;

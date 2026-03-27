@@ -70,6 +70,13 @@ export class ConfirmCapaityOfProductionTab {
 
   selectedPanFile: File | null = null;
 
+  // edit/update state for COP
+  isEditCOP: boolean = false;
+  currentCOPId: any = null;
+  isSaving: boolean = false;
+  // control display of the item-selection/pagination section
+  showItemsSection: boolean = false;
+
  
 
   
@@ -206,6 +213,13 @@ export class ConfirmCapaityOfProductionTab {
 
   onshowButtonClick(){
     this.onshowMSC = true;
+    // reset any edit state when opening for a new entry
+    this.isEditCOP = false;
+    this.currentCOPId = null;
+    this.selectedPanFile = null;
+    this.marketStandingCForm.reset();
+    this.marketStandingCForm.patchValue({ mVregid: this.vregid });
+    this.showItemsSection = false;
 }
 
   DownloadFileWithName(mFilePath: string, mFileName: string) {
@@ -429,6 +443,12 @@ export class ConfirmCapaityOfProductionTab {
 
 
   onSubmit() {
+    // if editing, delegate to update
+    if (this.isEditCOP) {
+      this.updateCOP();
+      return;
+    }
+
     this.submitted = true;
   
     if (this.marketStandingCForm.invalid) {
@@ -499,6 +519,7 @@ export class ConfirmCapaityOfProductionTab {
     }
   }
   
+  
   private performUpdates(copId: string) {
     let completedUpdates = 0;
     const totalUpdates = this.selectedItems.length;
@@ -538,6 +559,133 @@ export class ConfirmCapaityOfProductionTab {
         }
       });
     });
+  }
+
+  /**
+   * Convert dd-MM-yyyy (or other) to yyyy-MM-dd for input[type=date]
+   */
+  private parseToInputDate(dateStr: string): string {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    try {
+      const d = new Date(dateStr);
+      if (!isNaN(d.getTime())) return d.toISOString().slice(0,10);
+    } catch {}
+    return '';
+  }
+
+  /**
+   * Start editing an existing COP entry
+   */
+  editCOP(row: any) {
+    this.onshowMSC = true;
+    this.isEditCOP = true;
+    this.currentCOPId = row.copId || row.COPID || null;
+
+    this.marketStandingCForm.patchValue({
+      mlicid: row.licId || row.mlicid,
+      mCopno: row.copNo || row.mCopno || '',
+      copissuingauthority: row.copissuingauthority || '',
+      ISSUEDATE: this.parseToInputDate(row.issueDate || row.ISSUEDATE),
+      mstartdate: this.parseToInputDate(row.startDate || row.mstartdate),
+      mEXPDate: this.parseToInputDate(row.validityDate || row.mEXPDate),
+      mVregid: this.vregid
+    });
+    // hide items section when editing
+    this.showItemsSection = false;
+
+    // open modal programmatically so the edit form is visible
+    try {
+      const modalEl = document.getElementById('marketStandingModal');
+      if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl, { backdrop: false, keyboard: true });
+        modal.show();
+      }
+    } catch (err) {
+      console.warn('Could not open marketStandingModal programmatically:', err);
+    }
+  }
+
+  /**
+   * Perform update call for COP using ApiService
+   */
+  private updateCOP(): void {
+    // Validate only the certificate fields required for update so unrelated form fields
+    // (like item-selection fields) don't block updating the certificate.
+    const copno = this.marketStandingCForm.get('mCopno')?.value;
+    const issue = this.marketStandingCForm.get('ISSUEDATE')?.value;
+    const start = this.marketStandingCForm.get('mstartdate')?.value;
+    const valid = this.marketStandingCForm.get('mEXPDate')?.value;
+    const issuingAuth = this.marketStandingCForm.get('copissuingauthority')?.value;
+
+    if (!copno || !issue || !start || !valid || !issuingAuth) {
+      this.toastr.warning('Please fill COP No, Issue Date, Start Date, Validity Date and Issuing Authority to update.');
+      return;
+    }
+    if (this.isSaving) {
+      this.toastr.warning('Update in progress. Please wait.');
+      return;
+    }
+
+    this.isSaving = true;
+    this.submitted = true;
+
+    const formData = new FormData();
+    if (this.selectedPanFile) {
+      formData.append('PanCardDocument', this.selectedPanFile);
+    }
+    const payloadForm = formData.has('PanCardDocument') ? formData : undefined;
+
+    const params: any = {
+      ...this.marketStandingCForm.value,
+      COPID: this.currentCOPId,
+      ISSUEDATE: this.formatDate(this.marketStandingCForm.value.ISSUEDATE),
+      mstartdate: this.formatDate(this.marketStandingCForm.value.mstartdate),
+      mEXPDate: this.formatDate(this.marketStandingCForm.value.mEXPDate)
+    };
+
+    this.api.updateCOP(params, payloadForm).subscribe({
+      next: (res) => {
+        this.toastr.success('Capacity of Production certificate updated successfully!');
+        console.log('Update API Response:', res);
+        // hide modal programmatically then reset state and refresh list
+        try {
+          const modalEl = document.getElementById('marketStandingModal');
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          if (modal) modal.hide();
+        } catch (err) {
+          console.warn('Could not hide marketStandingModal programmatically:', err);
+        }
+        this.resetEditState();
+        // Ensure the category/items UI remains closed after update
+        this.showItemsSection = false;
+        this.onshowMSC = false;
+        this.GetmSCDetailsList();
+      },
+      error: (err) => {
+        console.error('Update error:', err);
+        this.toastr.error('Failed to update certificate.');
+        this.resetSaveState();
+      }
+    });
+  }
+
+  // expose to template
+  public resetEditState(): void {
+    this.isEditCOP = false;
+    this.currentCOPId = null;
+    this.selectedPanFile = null;
+    this.marketStandingCForm.reset();
+    this.marketStandingCForm.patchValue({ mVregid: this.vregid });
+    this.resetSaveState();
+  }
+
+  private resetSaveState(): void {
+    this.submitted = false;
+    this.isSaving = false;
   }
   
   private finalizeSubmit() {
@@ -706,16 +854,20 @@ export class ConfirmCapaityOfProductionTab {
   
           this.filteredItems = [...this.MCCFillItemsLIst];
           this.updatePagination();
+          // show the item table only after successful fetch
+          this.showItemsSection = true;
           console.log('✅ Fetched MCC Fill Items (preserving selections):', this.MCCFillItemsLIst);
         } else {
           this.MCCFillItemsLIst = [];
           this.toastr.warning('⚠️ No items found for given parameters');
 
           console.warn('⚠️ No items found for given parameters');
+          this.showItemsSection = false;
         }
       },
       error: (err) => {
         console.error('❌ Error fetching MCC Fill Items:', err);
+        this.showItemsSection = false;
       }
     });
   }
@@ -764,7 +916,7 @@ GetmSCDetailsList() {
         // leave the session flag intact per request
       }
 
-      console.log('With S.No:', this.mSCDetailsList);
+      console.log('cop   With S.No:', this.mSCDetailsList);
       this.dataSource.data = this.mSCDetailsList;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

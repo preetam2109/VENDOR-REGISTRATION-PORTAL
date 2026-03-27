@@ -1090,7 +1090,7 @@ export class ApiService {
 
   // Update existing manufacturing licence (supports optional FormData)
   updateManufacturingLic(data: any, formData?: FormData): Observable<any> {
-    debugger  
+      
     const params = new HttpParams()
       .set('LICID', data.LICID)
       .set('mUNITID', data.mUNITID)
@@ -1112,7 +1112,7 @@ export class ApiService {
   }
 
   postRetentionCertificate(data: any, formData: FormData): Observable<any> {
-    // debugger
+
     const params = new HttpParams()
       .set('mLICID', data.mLICID)
       .set('mISSUEDATE', data.mISSUEDATE)
@@ -1136,7 +1136,6 @@ export class ApiService {
    * public async Task<IActionResult> UpdatePROVCERTIFICATE(int PROVID, int mLICID, string mISSUEDATE, string mStartDate, string mVALIDITYDATE, int mVregid, string mretid, string mFormID, string mProIssuingAuthority, [FromForm] PancardUpdateDTO request)
    */
   updatePROVCERTIFICATE(data: any, formData?: FormData): Observable<any> {
-    // debugger
     const params = new HttpParams()
       .set('PROVID', data.PROVID)
       .set('mLICID', data.mLICID)
@@ -1224,7 +1223,7 @@ export class ApiService {
   // }
 
   postPPCertificate(data: any, formData: FormData): Observable<any> {
-    debugger
+    
     const params = new HttpParams()
       .set('mVergID', data.mVergID) // ✅ matches API param exactly
       .set('mIssueDate', data.mIssueDate)
@@ -1239,8 +1238,31 @@ export class ApiService {
     );
   }
 
+  /**
+   * Update product permission certificate (optionally accepts a file via FormData)
+   * Server signature:
+   * public async Task<IActionResult> UpdatePPCertificate(int FILEID, int mVergID, string mIssueDate, string mStartDate, string mVALIDITYDATE, string mISSUINGAUTHORITY, int licID, [FromForm] PancardUpdateDTO request)
+   */
+  updatePPCertificate(data: any, formData?: FormData): Observable<any> {
+    
+    const params = new HttpParams()
+      .set('FILEID', data.FILEID)
+      .set('mVergID', data.mVergID)
+      .set('mIssueDate', data.mIssueDate)
+      .set('mStartDate', data.mStartDate)
+      .set('mVALIDITYDATE', data.mVALIDITYDATE)
+      .set('mISSUINGAUTHORITY', data.mISSUINGAUTHORITY || '')
+      .set('licID', data.licID);
+
+    return this.http.post(
+      `${this.VREGAPI}/Registration/UpdatePPCertificate`,
+      formData || null,
+      { params, responseType: 'text' }
+    );
+  }
+
   insertMasVregPPCItems(vregid: any, items: any[]): Observable<any> {
-    debugger
+    
     const params = new HttpParams().set('vregid', vregid.toString());
 
     return this.http.post(
@@ -1296,7 +1318,7 @@ export class ApiService {
    * public async Task<IActionResult> Updatemasimporterdocument(int IMPID, int mLICID, string mImptypeid, string mIMPLICNO, string mISSUEDATE, string mStartDate, string mVALIDITYDATE, int mVregid, string mIMPIssuingAuthority, [FromForm] PancardUpdateDTO request)
    */
   updateMasimporterdocument(data: any, formData?: FormData): Observable<any> {
-    debugger
+    
     const params = new HttpParams()
       .set('IMPID', data.IMPID)
       .set('mLICID', data.mLICID)
@@ -1319,7 +1341,7 @@ export class ApiService {
    * public async Task<IActionResult> UpdateimporterProvCertificate(int IMPRETID, int mIMPID, string mISSUEDATE, string mStartDate, string mVALIDITYDATE, int mVregid, string mIMPRETIssuingAuthority, [FromForm] PancardUpdateDTO request)
    */
   UpdateimporterProvCertificate(data: any, formData?: FormData): Observable<any> {
-    debugger
+    
     const params = new HttpParams()
       .set('IMPRETID', data.IMPRETID)
       .set('mIMPID', data.mIMPID)
@@ -1403,6 +1425,31 @@ export class ApiService {
     );
   }
 
+  /**
+ * Update market standing certificate (file optional)
+ * Server signature:
+ * public async Task<IActionResult> UpdateMakrketStanding(Int32 MSCID, Int32 mlicid, string mVergID,
+ *     string ISSUEDATE, string mstartdate, string mEXPDate, string mMSCISSUINGAUTHORITY,
+ *     [FromForm] PancardUpdateDTO request)
+ */
+updateMakrketStanding(data: any, formData?: FormData): Observable<any> {
+  
+  const params = new HttpParams()
+    .set('MSCID', data.MSCID)
+    .set('mlicid', data.mlicid)
+    .set('mVergID', data.mVregid)
+    .set('ISSUEDATE', data.ISSUEDATE)
+    .set('mstartdate', data.mstartdate)
+    .set('mEXPDate', data.mEXPDate)
+    .set('mMSCISSUINGAUTHORITY', data.MSCissuingauthority || '');
+
+  return this.http.post(
+    `${this.VREGAPI}/Registration/UpdateMakrketStanding`,
+    formData || null,
+    { params, responseType: 'text' }
+  );
+}
+
   GETMCCFillItems(VregID: any, MCID: any, mItemTypeID: any, mGroupID: any) {
     return this.http.get<any[]>(
       `${this.VREGAPI}/Registration/MCCFillItems?VregID=${VregID}&MCID=${MCID}&mItemTypeID=${mItemTypeID}&mGroupID=${mGroupID}`
@@ -1461,6 +1508,30 @@ export class ApiService {
       responseType: 'text',
     });
   }
+
+  /**
+   * Update Capacity of Production Certificate (optionally accepts a file via FormData)
+   * Server signature:
+   * public async Task<IActionResult> UpdateCOP(Int32 COPID, Int32 mlicid, string mVergID, string mCopno, string ISSUEDATE, string mstartdate, string mEXPDate, string mCOPISSUINGAUTHORITY, [FromForm] PancardUpdateDTO request)
+   */
+  updateCOP(data: any, formData?: FormData): Observable<any> {
+    
+    const params = new HttpParams()
+      .set('COPID', data.COPID)
+      .set('mlicid', data.mlicid)
+      .set('mVergID', data.mVregid)
+      .set('mCopno', data.mCopno)
+      .set('ISSUEDATE', data.ISSUEDATE)
+      .set('mstartdate', data.mstartdate)
+      .set('mEXPDate', data.mEXPDate)
+      .set('mCOPISSUINGAUTHORITY', data.copissuingauthority || '');
+
+    return this.http.post(`${this.VREGAPI}/Registration/UpdateCOP`, formData || null, {
+      params,
+      responseType: 'text',
+    });
+  }
+  
 
   UpdaetCOPItems(PPCID: any, COPID: any, COPPAGENO: any) {
     return this.http.put(
@@ -1580,7 +1651,7 @@ DeleteTechnicalFile(mVregid: any, mFileID: any) {
   }
   UpdateGCP(data: any, formData: FormData): Observable<any> {
     // https://dpdmis.in/VREGAPI/api/Registration/UpdateGCP?GCPID=0&mVergID=0&mGCpNo=0&ISSUEDATE=0&mstartdate=0&mEXPDate=0
-    debugger;
+    ;
     let params = new HttpParams()
       .set('GCPID', data.GCPID)
       .set('mVergID', data.mVergID)
@@ -1597,7 +1668,7 @@ DeleteTechnicalFile(mVregid: any, mFileID: any) {
   }
   UpdateGSTRETURN(data: any, formData: FormData): Observable<any> {
     //https://dpdmis.in/VREGAPI/api/Registration/UpdateMASGSTRETURNFILES?RETID=0&mGSTID=0&mVergID=0&mACCYRSETID=0&mGSTQTRID=0&mSupplierID=0
-    debugger;
+    ;
     let params = new HttpParams()
       .set('RETID', data.RETID)
       .set('mGSTID', data.mGSTID)

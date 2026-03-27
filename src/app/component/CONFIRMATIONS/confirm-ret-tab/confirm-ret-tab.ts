@@ -819,7 +819,7 @@ onFileSelectedRetention(event: any) {
   }
 
   updateRetention() {
-    debugger
+    
     if (this.retForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
       return;

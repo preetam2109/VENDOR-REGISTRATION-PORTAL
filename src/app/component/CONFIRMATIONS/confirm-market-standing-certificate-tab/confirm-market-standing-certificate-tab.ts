@@ -68,6 +68,12 @@ export class ConfirmMarketStandingCertificateTab {
   licid: any;
 
   selectedPanFile: File | null = null;
+  // edit/update state
+  isEditMSC: boolean = false;
+  currentMSCId: any = null;
+  isSaving: boolean = false;
+  // control display of the item-selection/pagination section
+  showItemsSection: boolean = false;
 
  
 
@@ -206,6 +212,13 @@ export class ConfirmMarketStandingCertificateTab {
 
   onshowButtonClick(){
         this.onshowMSC = true;
+        // reset any previous edit state
+        this.isEditMSC = false;
+        this.currentMSCId = null;
+        this.selectedPanFile = null;
+        this.marketStandingCForm.reset();
+        this.marketStandingCForm.patchValue({ mVregid: this.vregid });
+      this.showItemsSection = false;
     }
 
   DownloadFileWithName(mFilePath: string, mFileName: string) {
@@ -428,8 +441,12 @@ export class ConfirmMarketStandingCertificateTab {
 
 
   onSubmit() {
-    
-    this.submitted = true;
+    // if we're editing, delegate to update
+    if (this.isEditMSC) {
+      this.updateMarketStanding();
+      return;
+    }
+
   
     if (this.marketStandingCForm.invalid) {
       this.toastr.warning('Please fill all required fields correctly!');
@@ -498,6 +515,132 @@ export class ConfirmMarketStandingCertificateTab {
       this.resetSubmitState();
     }
   }
+
+  /**
+   * Helper to convert dd-MM-yyyy to yyyy-MM-dd for input[type=date]
+   */
+  private parseToInputDate(dateStr: string): string {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    try {
+      const d = new Date(dateStr);
+      if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+    } catch {}
+    return '';
+  }
+
+  /**
+   * Start editing an existing MSC entry
+   */
+  editMarketStanding(row: any) {
+    this.onshowMSC = true;
+    this.isEditMSC = true;
+    this.currentMSCId = row.mscid;
+
+    // patch basic fields
+    this.marketStandingCForm.patchValue({
+      mlicid: row.mlicid,
+      MSCissuingauthority: row.mscissuingauthority || '',
+      ISSUEDATE: this.parseToInputDate(row.issuedate || row.ISSUEDATE),
+      mstartdate: this.parseToInputDate(row.startdate || row.mstartdate),
+      mEXPDate: this.parseToInputDate(row.validitydate || row.mEXPDate),
+      mVregid: this.vregid
+    });
+    // hide items section when editing
+    this.showItemsSection = false;
+
+    // open the modal so user can see/edit certificate fields
+    try {
+      const modalEl = document.getElementById('marketStandingModal');
+      if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl, { backdrop: false, keyboard: true });
+        modal.show();
+      }
+    } catch (err) {
+      console.warn('Could not open marketStandingModal programmatically:', err);
+    }
+  }
+
+  /**
+   * Perform update call using API service
+   */
+  private updateMarketStanding(): void {
+    // Validate only the certificate fields required for update so unrelated form fields
+    // (like item-selection fields) don't block updating the certificate.
+    const issue = this.marketStandingCForm.get('ISSUEDATE')?.value;
+    const start = this.marketStandingCForm.get('mstartdate')?.value;
+    const valid = this.marketStandingCForm.get('mEXPDate')?.value;
+    const issuingAuth = this.marketStandingCForm.get('MSCissuingauthority')?.value;
+
+    if (!issue || !start || !valid || !issuingAuth) {
+      this.toastr.warning('Please fill Issue Date, Start Date, Validity Date and Issuing Authority to update.');
+      return;
+    }
+    if (this.isSaving) {
+      this.toastr.warning('Update in progress. Please wait.');
+      return;
+    }
+
+    this.isSaving = true;
+    this.submitted = true;
+
+    const formData = new FormData();
+    if (this.selectedPanFile) {
+      formData.append('PanCardDocument', this.selectedPanFile);
+    }
+    const payloadForm = formData.has('PanCardDocument') ? formData : undefined;
+
+    const params: any = {
+      ...this.marketStandingCForm.value,
+      MSCID: this.currentMSCId,
+      ISSUEDATE: this.formatDate(this.marketStandingCForm.value.ISSUEDATE),
+      mstartdate: this.formatDate(this.marketStandingCForm.value.mstartdate),
+      mEXPDate: this.formatDate(this.marketStandingCForm.value.mEXPDate)
+    };
+
+
+    this.api.updateMakrketStanding(params, payloadForm).subscribe({
+      next: (res) => {
+        this.toastr.success('Market standing certificate updated successfully!');
+        console.log('Update API Response:', res);
+        // close the edit form and hide items section
+        try {
+          const modalEl = document.getElementById('marketStandingModal');
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          if (modal) modal.hide();
+        } catch (err) {
+          console.warn('Could not hide marketStandingModal programmatically:', err);
+        }
+        this.resetEditState();
+        this.GetmSCDetailsList();
+      },
+      error: (err) => {
+        console.error('Update error:', err);
+        this.toastr.error('Failed to update certificate.');
+        this.resetSaveState();
+      }
+    });
+  }
+
+  public resetEditState(): void {
+    this.isEditMSC = false;
+    this.currentMSCId = null;
+    this.selectedPanFile = null;
+    this.marketStandingCForm.reset();
+    this.marketStandingCForm.patchValue({ mVregid: this.vregid });
+    this.resetSaveState();
+    this.onshowMSC = false;
+    this.showItemsSection = false;
+  }
+
+  private resetSaveState(): void {
+    this.submitted = false;
+    this.isSaving = false;
+  }
+
   
   private performUpdates(mscId: string) {
     let completedUpdates = 0;
@@ -706,15 +849,19 @@ export class ConfirmMarketStandingCertificateTab {
   
           this.filteredItems = [...this.MCCFillItemsLIst];
           this.updatePagination();
+          // show the item table only after successful fetch
+          this.showItemsSection = true;
           console.log('✅ Fetched MCC Fill Items (preserving selections):', this.MCCFillItemsLIst);
         } else {
           this.MCCFillItemsLIst = [];
           this.toastr.warning('⚠️ No items found for given parameters');
           console.warn('⚠️ No items found for given parameters');
+          this.showItemsSection = false;
         }
       },
       error: (err) => {
         console.error('❌ Error fetching MCC Fill Items:', err);
+        this.showItemsSection = false;
       }
     });
   }

@@ -59,6 +59,13 @@ export class ConfirmProductPermissionTab {
   userid:any
   selectedPanFile: File | null = null;
 
+  // editing state for product permission certificate
+  isEditPP: boolean = false;
+  currentFileId: any = null;
+
+  // control display of the item-selection/pagination section
+  showItemsSection: boolean = false;
+
   masItemsList: any[] = [];
   selectedItems: any[] = [];
 
@@ -137,7 +144,7 @@ export class ConfirmProductPermissionTab {
   }
   
   saveRow(element: any) {
-    ;
+    
   
     const mFileID = element.fileid;     // file id from row
     const Iaccept = element.approval;   // 'Y' or 'N'
@@ -201,12 +208,21 @@ export class ConfirmProductPermissionTab {
 
 
     ngAfterViewChecked() {
-    console.log('Form valid:', this.productPerForm.valid);
-    console.log('Form values:', this.productPerForm.value);
+    // console.log('Form valid:', this.productPerForm.valid);
+    // console.log('Form values:', this.productPerForm.value);
   }
 
   onshowButtonClick(){
+    // show form for new record, reset any edit state
     this.onshowPP = true;
+    this.isEditPP = false;
+    this.currentFileId = null;
+    this.selectedPanFile = null;
+    this.productPerForm.reset();
+    this.productPerForm.patchValue({ mVregid: this.vregid });
+
+    // clearing any previous item table display
+    this.showItemsSection = false;
   }
 
   //    ngAfterViewChecked() {
@@ -525,6 +541,12 @@ formatDate(dateString: string): string {
 
 
   saveAndUpdate(): void {
+    // when edit flag is set we route to the update logic
+    if (this.isEditPP) {
+      this.updateCertificate();
+      return;
+    }
+
     // Step 1: Validate form and file before anything
     if (this.productPerForm.invalid) {
       this.toastr.warning('Please fill all required fields in the form correctly!');
@@ -654,6 +676,7 @@ formatDate(dateString: string): string {
       pharmaid: item.pharmaid
     }));
   
+  
     console.log('Items to send:', itemsToInsert);
   
     this.api.insertMasVregPPCItems(sessionStorage.getItem('vregid'), itemsToInsert).subscribe({
@@ -714,6 +737,140 @@ formatDate(dateString: string): string {
     this.filteredItems = [...this.masItemsList];
     this.updatePagination();
   }
+
+  // fetch list of certificates for table
+  GETtPPCertificate() {
+    this.spinner.show();
+    this.api.GetPPCertificate(this.vregid).subscribe((res: any) => {
+        this.PPCertificateList = res.map((item: any, index: number) => ({
+          ...item,
+          sno: index + 1
+        }));
+        console.log('DDWith S.No: check fileid', this.PPCertificateList);
+        this.dataSource.data = this.PPCertificateList;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.spinner.hide();
+        this.cdr.detectChanges();
+      },
+      (error) => {
+        console.error('API error:', error);
+        this.spinner.hide();
+      }
+    );
+  }
+
+  /**
+   * Convert `dd-MM-yyyy` string or other input to yyyy-MM-dd for date input
+   */
+  private parseToInputDate(dateStr: any): string {
+    return this.formatToInputDate(dateStr || '');
+  }
+
+  /**
+   * Start editing an existing certificate; autofill form and store FILEID
+   */
+  editPPCertificate(row: any) {
+    this.onshowPP = true;
+    this.isEditPP = true;
+    this.currentFileId = row.fileid;
+
+    // reset any item table that might be visible
+    this.showItemsSection = false;
+
+    // patch licence id and update local variable
+    if (row.licid) {
+      this.licid = row.licid;
+      this.productPerForm.patchValue({ licid: row.licid });
+      // do not fetch licence dates when editing; we want saved certificate dates
+    }
+
+    // ensure hidden field remains populated
+    this.productPerForm.patchValue({ mVregid: this.vregid });
+
+    // patch date fields and issuing authority
+    this.productPerForm.patchValue({
+      mIssueDate: this.parseToInputDate(row.issuedate || row.mIssueDate),
+      mStartDate: this.parseToInputDate(row.startdate || row.mStartDate),
+      mVALIDITYDATE: this.parseToInputDate(row.validitydate || row.mVALIDITYDATE),
+      mISSUINGAUTHORITY: row.issuingauthority || row.mISSUINGAUTHORITY || ''
+    });
+  }
+
+  /**
+   * Perform update call to API using stored FILEID
+   */
+  private updateCertificate(): void {
+    // Only clear controls that are not part of certificate update UI
+    ['mcid','itemtypeid','groupid','mlictypeid','Files'].forEach(ctrl => {
+      this.productPerForm.get(ctrl)?.clearValidators();
+      this.productPerForm.get(ctrl)?.updateValueAndValidity({ onlySelf: true });
+    });
+
+    // Validate only the certificate fields required for update (so existing auto-filled or unrelated
+    // form values don't block the update action)
+    const issue = this.productPerForm.get('mIssueDate')?.value;
+    const start = this.productPerForm.get('mStartDate')?.value;
+    const valid = this.productPerForm.get('mVALIDITYDATE')?.value;
+    const issuingAuth = this.productPerForm.get('mISSUINGAUTHORITY')?.value;
+
+    if (!issue || !start || !valid || !issuingAuth) {
+      this.toastr.warning('Please fill Issue Date, Start Date, Validity Date and Issuing Authority to update.');
+      return;
+    }
+
+    if (this.isSaving) {
+      this.toastr.warning('Update in progress. Please wait.');
+      return;
+    }
+
+    this.isSaving = true;
+    this.submitted = true;
+
+    const formData = new FormData();
+    if (this.selectedPanFile) {
+      formData.append('PanCardDocument', this.selectedPanFile);
+    }
+    const payloadForm = formData.has('PanCardDocument') ? formData : undefined;
+
+    const data: any = {
+      FILEID: this.currentFileId,
+      mVergID: this.vregid,
+      licID: this.licid,
+      mIssueDate: this.formatDate(issue),
+      mStartDate: this.formatDate(start),
+      mVALIDITYDATE: this.formatDate(valid),
+      mISSUINGAUTHORITY: issuingAuth
+    };
+
+    this.api.updatePPCertificate(data, payloadForm).subscribe({
+      next: (res) => {
+        this.toastr.success('Product Permission Certificate updated successfully!');
+        console.log('Update response', res);
+        // close the form and hide item-section after successful update
+        this.resetEditState();
+        this.onshowPP = false;
+        this.GETtPPCertificate();
+      },
+      error: (err) => {
+        console.error('Update error', err);
+        this.toastr.error('Failed to update certificate.');
+        this.resetSaveState();
+      }
+    });
+  }
+
+  // expose to template so cancel button can call it
+  resetEditState(): void {
+    this.isEditPP = false;
+    this.currentFileId = null;
+    this.selectedPanFile = null;
+    this.productPerForm.reset();
+    this.productPerForm.patchValue({ mVregid: this.vregid });
+    this.resetSaveState();
+    this.showItemsSection = false;
+    this.onshowPP = false;
+  }
   
   private resetSaveState(): void {
     this.submitted = false;
@@ -744,45 +901,24 @@ formatDate(dateString: string): string {
           console.log('Fetched Mas Items:', this.masItemsList);
           this.filteredItems = [...this.masItemsList];
           this.updatePagination();
+          // show the section only after successful fetch
+          this.showItemsSection = true;
         } else {
           this.masItemsList = [];
           this.toastr.warning('⚠️ No items found for given parameters');
           console.warn('No items found for given mcid and mTypeID');
+          this.showItemsSection = false;
         }
+        this.spinner.hide();
       },
       error: (err) => {
         console.error('Error fetching Mas Items:', err);
         this.toastr.error('Failed to load items. Please try again.');
+        this.showItemsSection = false;
+        this.cdr.detectChanges();
+        this.spinner.hide();
       }
     });
-  }
-
-
-  GETtPPCertificate() {
-    this.spinner.show();
-    this.api.GetPPCertificate(this.vregid).subscribe((res: any) => {
-        this.PPCertificateList = res.map((item: any, index: number) => ({
-          ...item,
-          sno: index + 1
-        }));
-
-        // If navigated via Update button, show only rejected rows (ismfaccepted === 'N')
-        if (sessionStorage.getItem('filterRejected') === 'true') {
-          this.PPCertificateList = this.PPCertificateList.filter((r: any) => r.ismfaccepted === 'N');
-        }
-
-        console.log('DDWith S.No:', this.PPCertificateList);
-        this.dataSource.data = this.PPCertificateList;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.spinner.hide();
-        this.cdr.detectChanges();
-      },
-      (error) => {
-        console.error('API error:', error);
-        this.spinner.hide();
-      }
-    );
     
   }
   PPCErtificateItemDetails(fileid:any) {

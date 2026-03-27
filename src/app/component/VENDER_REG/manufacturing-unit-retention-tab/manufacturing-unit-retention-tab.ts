@@ -609,7 +609,7 @@ this.GetPovLicenceDetails();
   }
 
   onSubmitRetention() {
-    debugger
+    
     this.loadingSectionA = true;
     
     this.submitted=true;
