@@ -611,7 +611,7 @@ export class ApiService {
   }
   // ---Signup----
   Signup(data: any, formData: FormData): Observable<any> {
-  // 
+
 
     // https://localhost:7053/api/Registration/InsertSupplier?mpanno=BKDPR05Ld543
     // &mSUPPLIERNAME=Kaushal&mSUPPLIERTYPE=1&mADDRESS1=krishna%20nagar&mADDRESS2=Raipur&
@@ -1112,7 +1112,7 @@ export class ApiService {
   }
 
   postRetentionCertificate(data: any, formData: FormData): Observable<any> {
-    
+
     const params = new HttpParams()
       .set('mLICID', data.mLICID)
       .set('mISSUEDATE', data.mISSUEDATE)
@@ -1136,7 +1136,6 @@ export class ApiService {
    * public async Task<IActionResult> UpdatePROVCERTIFICATE(int PROVID, int mLICID, string mISSUEDATE, string mStartDate, string mVALIDITYDATE, int mVregid, string mretid, string mFormID, string mProIssuingAuthority, [FromForm] PancardUpdateDTO request)
    */
   updatePROVCERTIFICATE(data: any, formData?: FormData): Observable<any> {
-    
     const params = new HttpParams()
       .set('PROVID', data.PROVID)
       .set('mLICID', data.mLICID)
